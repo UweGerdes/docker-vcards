@@ -10,11 +10,13 @@ If you have proxy servers or other settings you might want to build the docker i
 
 See my projects [docker-baseimage](https://github.com/UweGerdes/docker-baseimage) and [docker-nodejs](https://github.com/UweGerdes/docker-nodejs).
 
-## Start app server
+## Start web app server
 
 ```bash
 docker-compose up -d
 ```
+
+Open [http://localhost:3146/](http://localhost:3146/).
 
 ## Start dev environment
 
@@ -22,9 +24,11 @@ docker-compose up -d
 docker build -t uwegerdes/vcard-gulp ./gulp/
 
 docker run -it \
-	-p 8083:80 \
+	-p 3148:80 \
 	--name vcard-gulp \
 	uwegerdes/vcard-gulp bash
 ```
 
 Start `gulp` in the container.
+
+Open [http://localhost:3148/](http://localhost:3148/).
