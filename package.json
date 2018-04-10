@@ -1,6 +1,6 @@
 {
   "name": "docker-vcard",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Project vCard Docker Webapp",
   "author": "Uwe Gerdes <entwicklung@uwegerdes.de>",
   "license": "ISC",
