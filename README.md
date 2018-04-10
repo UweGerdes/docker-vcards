@@ -18,6 +18,20 @@ If you have proxy servers or other settings you might want to build the docker i
 
 See my projects [docker-baseimage](https://github.com/UweGerdes/docker-baseimage) and [docker-nodejs](https://github.com/UweGerdes/docker-nodejs).
 
+```bash
+$ docker build -t uwegerdes/baseimage \
+	--build-arg APT_PROXY="http://$(hostname -i):3142" \
+	--build-arg TZ="Europe/Berlin" \
+	--build-arg TERM="${TERM}" \
+	https://github.com/UweGerdes/docker-baseimage.git
+$ docker build -t uwegerdes/nodejs \
+	 -t uwegerdes/nodejs:8.x \
+	--build-arg NODE_VERSION="8.x" \
+	--build-arg NPM_PROXY="http://$(hostname -i):3143" \
+	--build-arg NPM_LOGLEVEL="warn" \
+	https://github.com/UweGerdes/docker-nodejs.git
+```
+
 ## Start web app server
 
 ```bash
@@ -32,17 +46,17 @@ Open [http://localhost:3146/](http://localhost:3146/).
 $ docker build -t uwegerdes/vcard-gulp ./docker/gulp/
 
 $ docker run -it \
-	-p 3148:80 \
+	-p 3148:5381 \
+	-v $(pwd):/home/node/app \
 	--name vcard-gulp \
 	uwegerdes/vcard-gulp bash
 ```
 
+### Ignition sequence
+
 Start `gulp` in the container.
 
 Open [http://localhost:3148/](http://localhost:3148/).
-
-
-### Ignition sequence
 
 ## Development
 
