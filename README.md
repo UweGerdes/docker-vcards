@@ -50,6 +50,14 @@ $ docker run -it \
 	-v $(pwd):/home/node/app \
 	--name vcard-gulp \
 	uwegerdes/vcard-gulp bash
+
+$ docker run -it \
+	-p 3148:5381 \
+	-v $(pwd):/home/node/app \
+	--network="$(docker inspect --format='{{.HostConfig.NetworkMode}}' vcardserver)" \
+	--add-host apphost:$(docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}} {{end}}' vcardserver) \
+	--name vcard-gulp \
+	uwegerdes/vcard-gulp bash
 ```
 
 ### Ignition sequence
@@ -58,15 +66,25 @@ Start `gulp` in the container.
 
 Open [http://localhost:3148/](http://localhost:3148/).
 
+Stop gulp with CTRL-C. Stop the container with CTRL-D.
+
 ## Development
 
-Run the gulpfile
+Restart the vcard-gulp container with:
+
+```bash
+$ docker start -ai vcard-gulp
+```
 
 ### HTML / [Pug](https://pugjs.org/)
 
 ### Less / CSS
 
 ### ES6 / JavaScript
+
+### Iconfont
+
+### Graphviz
 
 ### Docker
 

@@ -1,6 +1,6 @@
 version: '2'
 services:
-  webserver:
+  vcardserver:
     build: ./docker/webserver/
     ports:
      - "3146:80"
