@@ -1,7 +1,7 @@
 version: '2'
 services:
   webserver:
-    build: ./webserver/
+    build: ./docker/webserver/
     ports:
      - "3146:80"
      - "3147:35729"
@@ -17,3 +17,4 @@ services:
     image: mongo
     volumes:
       - /srv/docker/meanjs/vcard:/data/db
+
