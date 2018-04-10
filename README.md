@@ -43,7 +43,7 @@ Open [http://localhost:3146/](http://localhost:3146/).
 ## Start dev environment
 
 ```bash
-$ docker build -t uwegerdes/vcard-gulp ./docker/gulp/
+$ docker build -t uwegerdes/vcard-gulp .
 
 $ docker run -it \
 	-p 3148:5381 \

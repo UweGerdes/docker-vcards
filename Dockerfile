@@ -45,7 +45,7 @@ RUN apt-get update && \
 	npm install && \
 	chown -R ${USER_NAME}:${USER_NAME} ${NODE_HOME}
 
-COPY entrypoint.sh /usr/local/bin/
+COPY docker/gulp/entrypoint.sh /usr/local/bin/
 RUN chmod 755 /usr/local/bin/entrypoint.sh
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 

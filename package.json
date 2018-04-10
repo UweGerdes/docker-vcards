@@ -1,14 +1,61 @@
 {
-  "name": "docker-vcard",
+  "name": "vcard-gulp",
+  "description": "Gulp and other packages for vcard webapp development and testing",
   "version": "0.0.2",
-  "description": "Project vCard Docker Webapp",
-  "author": "Uwe Gerdes <entwicklung@uwegerdes.de>",
-  "license": "ISC",
-  "main": "index.js",
-  "directories": {
-    "test": "tests"
+  "keywords": [
+    "gulp",
+    "frontend",
+    "development",
+    "livereload",
+    "test"
+  ],
+  "license": "MIT",
+  "author": {
+    "name": "Uwe Gerdes",
+    "email": "entwicklung@uwegerdes.de"
+  },
+  "engines": {
+    "node": ">=8.11.0"
+  },
+  "devDependencies": {
+    "body-parser": "^1.17.2",
+    "dateformat": "^3.0.3",
+    "del": "^3.0.0",
+    "ejs": "^2.5.7",
+    "eval": "^0.1.2",
+    "express": "^4.15.3",
+    "fs-tools": "^0.3.0",
+    "glob": "^7.1.2",
+    "gulp-autoprefixer": "^5.0.0",
+    "gulp-changed": "^3.1.0",
+    "gulp-develop-server": "^0.5.2",
+    "gulp-iconfont": "^9.0.0",
+    "gulp-iconfont-css": "^2.1.0",
+    "gulp-iconfont-template": "0.0.3",
+    "gulp-ignore": "^2.0.2",
+    "gulp-imagemin": "^4.1.0",
+    "gulp-jshint": "^2.0.4",
+    "gulp-less": "^4.0.0",
+    "gulp-less-changed": "^1.2.1",
+    "gulp-lesshint": "^5.0.0",
+    "gulp-livereload": "^3.8.1",
+    "gulp-notify": "^3.0.0",
+    "gulp-postmortem": "^1.0.5",
+    "gulp-shell": "^0.6.3",
+    "gulp-uglify": "^3.0.0",
+    "gulp-util": "^3.0.8",
+    "imagemin": "^5.3.1",
+    "jshint": "^2.9.5",
+    "morgan": "^1.8.2",
+    "rename": "^1.0.4",
+    "run-sequence": "^2.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/uwegerdes/docker-vcard"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "gulp",
+    "test": "echo no tests defined"
   }
 }
