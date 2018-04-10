@@ -1,0 +1,8 @@
+# ignore generated files
+**/*.css
+
+# ignore downloaded files
+
+# ignore system files
+**/core
+
