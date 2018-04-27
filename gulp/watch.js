@@ -3,10 +3,10 @@
  */
 'use strict';
 
-const dateFormat = require('dateformat'),
-  gulp = require('gulp'),
+const gulp = require('gulp'),
   paths = require('./lib/paths'),
-  loadTasks = require('./lib/load-tasks')
+  loadTasks = require('./lib/load-tasks'),
+  log = require('../lib/log')
   ;
 
 /**
@@ -30,8 +30,7 @@ const tasks = {
       if (paths.for.watch.hasOwnProperty(task)) {
         if (tasks.indexOf(task) >= 0) {
           gulp.watch(paths.forWatch(task), [task]);
-          console.log('[' + dateFormat(new Date(), 'HH:MM:ss') + '] ' +
-            'Task "' + task + '" is watching: ', paths.for.watch[task]);
+          log.info('Task "' + task + '" is watching: [ ' + paths.for.watch[task].join(', ') + ' ]');
         }
       }
     }

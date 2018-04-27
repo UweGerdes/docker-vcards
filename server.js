@@ -6,12 +6,14 @@
 'use strict';
 
 const bodyParser = require('body-parser'),
+  chalk = require('chalk'),
   dateFormat = require('dateformat'),
   express = require('express'),
   morgan = require('morgan'),
   path = require('path'),
   config = require('./lib/config').config,
   ipv4addresses = require('./lib/ipv4addresses.js'),
+  log = require('./lib/log'),
   app = express();
 
 const httpPort = config.webserver.httpPort,
@@ -26,7 +28,8 @@ if (process.env.VERBOSE !== 'false') {
   morgan.token('time', () => { // jscs:ignore jsDoc
     return dateFormat(new Date(), 'HH:MM:ss');
   });
-  app.use(morgan('[:time] :method :status :url :res[content-length] - :response-time ms'));
+  app.use(morgan('[' + chalk.gray(':time') + '] ' +
+    ':method :status :url :res[content-length] - :response-time ms'));
 }
 
 // work on post requests
@@ -57,8 +60,8 @@ app.get('*', (req, res) => {
 });
 
 // Fire it up!
-console.log('[' + dateFormat(new Date(), 'HH:MM:ss') + '] ' +
-  'webserver listening on http://' + ipv4addresses.get()[0] + ':' + httpPort);
+log.info('webserver listening on ' +
+  chalk.greenBright('http://' + ipv4addresses.get()[0] + ':' + httpPort));
 app.listen(httpPort);
 
 // Model //

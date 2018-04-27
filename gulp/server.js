@@ -3,19 +3,15 @@
  */
 'use strict';
 
-const dateFormat = require('dateformat'),
-  gulp = require('gulp'),
+const gulp = require('gulp'),
   server = require('gulp-develop-server'),
   livereload = require('gulp-livereload'),
   sequence = require('gulp-sequence'),
   config = require('../lib/config').config,
-  ipv4addresses = require('./lib/ipv4addresses.js'),
-  loadTasks = require('./lib/load-tasks')
+  ipv4addresses = require('../lib/ipv4addresses.js'),
+  loadTasks = require('./lib/load-tasks'),
+  log = require('../lib/log')
   ;
-
-function log(msg) { // jscs:ignore jsDoc
-  console.log('[' + dateFormat(new Date(), 'HH:MM:ss') + '] ' + msg);
-}
 
 /**
  * ### Overview
@@ -49,7 +45,7 @@ const tasks = {
   'webserver:start': (callback) => {
     server.listen({
         path: config.webserver.server,
-        env: { VERBOSE: true }
+        env: { VERBOSE: true, FORCE_COLOR: 1 }
       },
       callback
     );
@@ -63,9 +59,7 @@ const tasks = {
    */
   'webserver:restart': (callback) => {
     server.changed((error) => { // jscs:ignore jsDoc
-      if (error) {
-        log('server.js restart error: ' + JSON.stringify(error, null, 4));
-      } else {
+      if (!error) {
         livereload.changed({ path: '/', quiet: true });
       }
       callback();
@@ -78,8 +72,8 @@ const tasks = {
    * @namespace tasks
    */
   'webserver:livereload:start': () => {
-    livereload.listen({ port: config.webserver.livereloadPort, delay: 2000 });
-    log('livereload listening on http://' +
+    livereload.listen({ port: config.webserver.livereloadPort, delay: 2000, quiet: true });
+    log.info('livereload listening on http://' +
       ipv4addresses.get()[0] + ':' + config.webserver.livereloadPort);
   },
   /**
@@ -89,9 +83,9 @@ const tasks = {
    * @namespace tasks
    */
   'webserver:livereload': () => {
-    log('webserver:livereload started');
+    log.info('webserver:livereload triggered');
     return gulp.src(config.paths.watch['webserver:livereload'])
-      .pipe(livereload({ quiet: true }))
+      .pipe(livereload())
       ;
   }
 };
