@@ -9,15 +9,23 @@
 paths:
 
   watch:
-    'jshint': './**/*.js'
-    'lesshint': './src/less/**/*.less'
+    jshint:
+      - './**/*.js'
+    lesshint:
+      - './src/less/**/*.less'
+    less:
+      - './src/less/app.less'
+      - './src/less/**/*.less'
 #    fonts: '/fonts'
 #    server: '/src'
 #    images: '/images'
 #    scripts: '/scripts'
 #    templates: '/templates'
 #    stylesheets: '/stylesheets'
-#  build:
+  build:
+    less:
+      src: './src/less/app.less'
+      dest: './htdocs/css'
 #    root: './.build'
 #    server: '/'
 #    templates: '/templates'

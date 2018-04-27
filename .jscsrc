@@ -4,7 +4,6 @@
     "disallowQuotedKeysInObjects": false,
     "extract": ["*.htm", "*.html"],
     "jsDoc": {
-        "checkAnnotations": true,
         "checkParamExistence": true,
         "checkParamNames": true,
         "checkReturnTypes": true,

@@ -20,7 +20,7 @@ const tasks = {
    * @task watch
    * @namespace tasks
    */
-  'watch-dev' : function() {
+  'watch-dev' : () => {
     /**
      * Will watch and execute tasks when files changed in these folders
      */
@@ -28,8 +28,8 @@ const tasks = {
     for (let task in paths.for.watch) {
       if (paths.for.watch.hasOwnProperty(task)) {
         if (tasks.indexOf(task) >= 0) {
-          gulp.watch( [ paths.forWatch(task) ], [task] );
-          console.log('Task "' + task + '" is watching: ' + paths.for.watch[task]);
+          gulp.watch(paths.forWatch(task), [task]);
+          console.log('Task "' + task + '" is watching: ', paths.for.watch[task]);
         }
       }
     }

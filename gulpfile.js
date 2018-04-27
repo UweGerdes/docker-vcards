@@ -1,4 +1,4 @@
- /**
+/**
  * gulpfile for project vCard
  *
  * (c) Uwe Gerdes, entwicklung@uwegerdes.de
@@ -34,31 +34,27 @@
  */
 'use strict';
 
-// require( "./gulp/development" );
-require( "./gulp/build" );
-require( "./gulp/watch" );
-// ... more, such as "./gulp/package", "./gulp/deploy", etc.
+/* jscs:disable jsDoc */
+
+// require('./gulp/development');
+require('./gulp/build');
+require('./gulp/watch');
+// ... more, such as './gulp/package', './gulp/deploy', etc.
 
 const fs = require('fs'),
   glob = require('glob'),
   gulp = require('gulp'),
-  gutil = require('gulp-util'), // TODO: deprecated
-  autoprefixer = require('gulp-autoprefixer'),
   changed = require('gulp-changed'),
   iconfont = require('gulp-iconfont'),
   iconfontCss = require('gulp-iconfont-css'),
   iconfontTemplate = require('gulp-iconfont-template'),
   gulpIgnore = require('gulp-ignore'),
   imagemin = require('gulp-imagemin'),
-  lessChanged = require('gulp-less-changed'),
-  less = require('gulp-less'),
   gulpLivereload = require('gulp-livereload'),
   notify = require('gulp-notify'),
   sequence = require('gulp-sequence'),
   shell = require('gulp-shell'),
-  uglify = require('gulp-uglify'),
   path = require('path'),
-  rename = require('rename'),
   ipv4addresses = require('./lib/ipv4addresses.js')
   ;
 
@@ -71,46 +67,17 @@ const lifereloadPort = process.env.GULP_LIVERELOAD || 5081;
 /*
  * log only to console, not GUI
  */
-const log = notify.withReporter(function (options, callback) {
+const log = notify.withReporter((options, callback) => {
   callback();
-});
-
-/*
- * less task watching all less files, only writing sources without **,
- * includes (path with **) filtered, change check by gulp-less-changed
- */
-watchFilesFor.less = [
-  path.join(srcDir, 'less', '*.less')
-];
-gulp.task('less', function () {
-  const dest = function(filename) {
-    const srcBase = path.join(srcDir, 'less');
-    return path.join(path.dirname(filename).replace(srcBase, destDir), 'css');
-  };
-  const src = watchFilesFor.less.filter(function(el){return el.indexOf('/**/') == -1; });
-  return gulp.src( src )
-    .pipe(lessChanged({
-      getOutputFileName: function(file) {
-        return rename( file, { dirname: dest(file), extname: '.css' } );
-      }
-    }))
-    .pipe(less())
-    .on('error', log.onError({ message:  'Error: <%= error.message %>' , title: 'LESS Error'}))
-    .pipe(autoprefixer('last 3 version', 'safari 5', 'ie 8', 'ie 9', 'ios 6', 'android 4'))
-    .pipe(gutil.env.type === 'production' ? uglify() : gutil.noop())
-//    .pipe(gulpif(options.env === 'production', uglify()))
-    .pipe(gulp.dest(function(file) { return dest(file.path); }))
-    .pipe(log({ message: 'written: <%= file.path %>', title: 'Gulp less' }))
-    ;
 });
 
 /*
  * graphviz image generation
  */
 watchFilesFor.graphviz = [
-  path.join(srcDir, 'graphviz', '*.gv')
+//  path.join(srcDir, 'graphviz', '*.gv')
 ];
-gulp.task('graphviz', function () {
+gulp.task('graphviz', () => {
   const destPng = path.join(srcDir, 'img', 'gv');
   const destMap = path.join(destDir, 'img', 'gv');
   if (!fs.existsSync(path.join(srcDir, 'img'))) {
@@ -125,8 +92,8 @@ gulp.task('graphviz', function () {
   if (!fs.existsSync(path.join(destDir, 'img', 'gv'))) {
     fs.mkdirSync(path.join(destDir, 'img', 'gv'));
   }
-  return gulp.src(watchFilesFor.graphviz, {read: false})
-    .pipe(changed(destPng, {extension: '.png'}))
+  return gulp.src(watchFilesFor.graphviz, { read: false })
+    .pipe(changed(destPng, { extension: '.png' }))
     .pipe(shell('dot <%= params(file.path) %> "<%= file.path %>"', {
       templateData: {
         params: (s) => {
@@ -139,7 +106,7 @@ gulp.task('graphviz', function () {
         }
       }
     }))
-    .on('error', log.onError({ message:  'Error: <%= error.message %>', title: 'Graphviz Error'}))
+    .on('error', log.onError({ message:  'Error: <%= error.message %>', title: 'Graphviz Error' }))
     .pipe(log({ message: 'processed: <%= file.path %>', title: 'Gulp graphviz' }))
     ;
 });
@@ -174,7 +141,7 @@ gulp.task('imagemin', () => {
 watchFilesFor.iconfont = [
   path.join(srcDir, 'iconfont', 'template.*')
 ];
-gulp.task('iconfont', function(callback) {
+gulp.task('iconfont', (callback) => {
   sequence('iconfont-build',
     'iconfont-preview',
     callback);
@@ -182,26 +149,26 @@ gulp.task('iconfont', function(callback) {
 watchFilesFor['iconfont-build'] = [
   path.join(srcDir, 'iconfont', '*.svg')
 ];
-gulp.task('iconfont-build', function(){
+gulp.task('iconfont-build', () => {
   const fontName = 'iconfont';
   const destDirFont = path.join(destDir, 'css', 'fonts');
   gulp.src(watchFilesFor['iconfont-build'])
     .pipe(iconfontCss({
       fontName: fontName,
       path: path.join(srcDir, 'iconfont', 'template.less'),
-      targetPath: path.join('..', '..', '..', 'src', 'less', 'iconfont.less'), // must be relative to the path used in gulp.dest()
+      targetPath: path.join('..', '..', '..', 'src', 'less', 'iconfont.less'),
       fontPath: 'fonts/'
     }))
     .pipe(iconfont({
       fontName: fontName,
       fontHeight: 1001,
       formats: ['ttf', 'eot', 'woff', 'woff2', 'svg'],
-      log: function(){},
+      log: () => { },
       normalize: true,
       prependUnicode: true,
       timestamp: Date.now(),
     }))
-    .on('glyphs', function(glyphs, options) {
+    .on('glyphs', (glyphs, options) => {
       // CSS templating, e.g.
       console.log(glyphs, options);
     })
@@ -216,7 +183,7 @@ gulp.task('iconfont-build', function(){
 watchFilesFor['iconfont-preview'] = [
   path.join(srcDir, 'iconfont', '*.svg')
 ];
-gulp.task('iconfont-preview', function(){
+gulp.task('iconfont-preview', () => {
   const fontName = 'iconfont';
   const destDirFont = path.join(destDir, 'css', 'fonts');
   gulp.src(watchFilesFor['iconfont-preview'])
@@ -234,10 +201,10 @@ gulp.task('iconfont-preview', function(){
 /*
  * watch task
  */
-gulp.task('watch', function() {
-  Object.keys(watchFilesFor).forEach(function(task) {
-    watchFilesFor[task].forEach(function(filename) {
-      glob(filename, function(err, files) {
+gulp.task('watch', () => {
+  Object.keys(watchFilesFor).forEach((task) => {
+    watchFilesFor[task].forEach((filename) => {
+      glob(filename, (err, files) => {
         if (err) {
           console.log(filename + ' error: ' + JSON.stringify(err, null, 4));
         }
@@ -246,16 +213,17 @@ gulp.task('watch', function() {
         }
       });
     });
-    gulp.watch( watchFilesFor[task], [ task ] );
+    gulp.watch(watchFilesFor[task], [task]);
   });
-  gulpLivereload.listen( { port: lifereloadPort, delay: 2000 } );
-  log({ message: 'livereload listening on http://' + ipv4addresses.get()[0] + ':' + lifereloadPort, title: 'Gulp' });
+  gulpLivereload.listen({ port: lifereloadPort, delay: 2000 });
+  log({ message: 'livereload listening on http://' + ipv4addresses.get()[0] + ':' + lifereloadPort,
+    title: 'Gulp' });
 });
 
 /*
  * default task:init with build and watch
  */
-gulp.task('default', function(callback) {
+gulp.task('default', (callback) => {
   sequence('build',
     'watch',
     'watch-dev',

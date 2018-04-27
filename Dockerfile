@@ -28,7 +28,10 @@ RUN apt-get update && \
 	rm -rf /var/lib/apt/lists/* && \
 	npm -g config set user ${USER_NAME} && \
 	npm install -g \
-				gulp && \
+				gifsicle \
+				gulp \
+				jpegtran-bin \
+				optipng-bin && \
 	export NODE_TLS_REJECT_UNAUTHORIZED=0 && \
 	npm install
 
