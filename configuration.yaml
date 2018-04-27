@@ -15,7 +15,7 @@ paths:
 #    scripts: '/scripts'
 #    templates: '/templates'
 #    stylesheets: '/stylesheets'
-    build_jshint: '/**/*.js'
+    'build-jshint': '/**/*.js'
   build:
     root: './.build'
     server: '/'

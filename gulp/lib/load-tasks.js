@@ -5,6 +5,7 @@
 'use strict';
 
 const gulp = require('gulp');
+let list = [];
 
 module.exports = {
     /**
@@ -15,8 +16,17 @@ module.exports = {
     importTasks : (tasks) => {
         Object
           .keys(tasks)
-          .forEach((key) => {
-            gulp.task(key, tasks[key]);
+          .forEach((task) => {
+            gulp.task(task, tasks[task]);
+            list.push(task);
           });
+    },
+    /**
+     * get the task list
+     *
+     * @param tasks {object}
+     */
+    tasks : () => {
+        return list;
     }
 };

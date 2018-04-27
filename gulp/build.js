@@ -30,11 +30,11 @@ const tasks = {
      * @namespace tasks:build
      */
     sequence(
-      'lesshint',
-      'less',
-      'graphviz',
-      'imagemin',
-      'iconfont',
+//      'lesshint',
+//      'less',
+//      'graphviz',
+//      'imagemin',
+//      'iconfont',
       'build-jshint',
       callback
     );
@@ -48,7 +48,7 @@ const tasks = {
    * @namespace tasks
    */
   'build-jshint': () => {
-    return gulp.src([paths.forSource('build_jshint')])
+    return gulp.src([paths.forSource('build-jshint')])
       .pipe(jshint())
       .pipe(jshint.reporter('default'))
       ;
