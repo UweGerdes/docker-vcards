@@ -3,6 +3,42 @@
  *
  * (c) Uwe Gerdes, entwicklung@uwegerdes.de
  */
+ /**
+ *
+ * ### Overview
+ *
+ * We are using [gulp](http://gulpjs.com/) as a build system. Gulp in
+ * MyAwesomeProject is responsible for a couple of things :
+ *
+ * 1. Compiles the project ( written in TypeScript ) to Javascript ;
+ * 2. Helps during the development by watching for changes and
+ *    compiles automatically.
+ *
+ * ### Structure
+ *
+ * Our gulp configuration starts in the root `./gulpfile.js`, which
+ * loads all tasks in the directory `./gulp`.
+ *
+ * The gulp-task files itself are written according to JSDoc specs
+ * to make generating the future documentation flawless.
+ *
+ * There is another special directory, called `./gulp/lib`, which
+ * purpose is to store all non-gulptask files that have helpers
+ * for the tasks ( e.g. configuration options )
+ *
+ * ### External Configuration
+ *
+ * Gulp uses configuration variables stored in `./configuration.yaml`
+ *
+ * @name gulp
+ * @module
+ *
+ */
+
+// require( "./gulp/development" );
+require( ".../../gulp/build" );
+// ... more, such as "./gulp/package", "./gulp/deploy", etc.
+
 'use strict';
 
 const glob = require('glob'),
@@ -21,20 +57,6 @@ const htdocsDir = path.join(baseDir, 'htdocs');
 let watchFilesFor = {};
 const lifereloadPort = process.env.LIVERELOAD_PORT || 8081;
 const exitCode = 0;
-
-/*
- * lint javascript files
- */
-watchFilesFor.lint = [
-	path.join(baseDir, 'package.json'),
-	path.join(baseDir, '**', '*.js')
-];
-gulp.task('lint', function() {
-	return gulp.src(watchFilesFor.lint)
-		.pipe(jshint())
-		.pipe(jshint.reporter('default'))
-		;
-});
 
 // start webserver server
 gulp.task('webserver:start', function() {
@@ -88,7 +110,7 @@ gulp.task('livereload', function() {
 /*
  * run all build tasks
  */
-gulp.task('build', function(callback) {
+gulp.task('build1', function(callback) {
 		runSequence('lint',
 		callback);
 });

@@ -25,46 +25,31 @@ $ docker build -t uwegerdes/baseimage \
 	--build-arg TERM="${TERM}" \
 	https://github.com/UweGerdes/docker-baseimage.git
 $ docker build -t uwegerdes/nodejs \
-	 -t uwegerdes/nodejs:8.x \
+	-t uwegerdes/nodejs:8.x \
 	--build-arg NODE_VERSION="8.x" \
 	--build-arg NPM_PROXY="http://$(hostname -i):3143" \
 	--build-arg NPM_LOGLEVEL="warn" \
 	https://github.com/UweGerdes/docker-nodejs.git
 ```
 
-## Start web app server
-
-```bash
-docker-compose up -d
-```
-
-Open [http://localhost:3146/](http://localhost:3146/).
-
 ## Start dev environment
 
 ```bash
-$ docker build -t uwegerdes/vcard-gulp .
+$ docker build -t uwegerdes/vcard .
 
 $ docker run -it \
-	-p 3148:5381 \
-	-v $(pwd):/home/node/app \
-	--name vcard-gulp \
-	uwegerdes/vcard-gulp bash
-
-$ docker run -it \
-	-p 3148:5381 \
-	-v $(pwd):/home/node/app \
-	--network="$(docker inspect --format='{{.HostConfig.NetworkMode}}' vcardserver)" \
-	--add-host apphost:$(docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}} {{end}}' vcardserver) \
-	--name vcard-gulp \
-	uwegerdes/vcard-gulp bash
+	--name vcard-dev \
+	--volume $(pwd):/home/node/app \
+	uwegerdes/vcard bash
 ```
 
 ### Ignition sequence
 
+Use docker-compose or have a running mongo docker and build/run with the following command:
+
 Start `gulp` in the container.
 
-Open [http://localhost:3148/](http://localhost:3148/).
+Open [http://localhost:5381/](http://localhost:5381/).
 
 Stop gulp with CTRL-C. Stop the container with CTRL-D.
 
@@ -87,4 +72,33 @@ $ docker start -ai vcard-gulp
 ### Graphviz
 
 ### Docker
+
+#### Testing environment
+
+Start testing environment from another terminal
+
+```bash
+docker-compose up -d
+```
+
+#### compare-layouts
+
+```bash
+$ docker run -it \
+	--name vcard-compare-layouts \
+	--volume $(pwd)/tests/dev/compare-layouts:/home/node/app/config \
+	uwegerdes/compare-layouts bash
+```
+
+#### responsive-check
+
+```bash
+$ docker run -it \
+	--name responsive-check-vcard \
+	---volume $(pwd)/tests/dev/responsive-check:/home/node/app/config \
+	--network="$(docker inspect --format='{{.HostConfig.NetworkMode}}' vcard-webserver)" \
+	--add-host webserver:$(docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}} {{end}}' vcard-webserver) \
+	uwegerdes/responsive-check
+```
+
 

@@ -1,18 +1,17 @@
 #
-# Dockerfile for vCard development gulp app
+# Dockerfile for vCard development
 #
-# docker build -t uwegerdes/vcard-gulp .
+# docker build -t uwegerdes/vcard .
 
-FROM uwegerdes/nodejs:8.x
+FROM uwegerdes/nodejs
 
 MAINTAINER Uwe Gerdes <entwicklung@uwegerdes.de>
 
-ARG GULP_LIVERELOAD='5381'
+ARG SERVER_HTTP='8080'
+ARG LIVERELOAD_PORT='8081'
 
-ENV NODE_ENV development
-ENV HOME ${NODE_HOME}
-ENV APP_HOME ${NODE_HOME}/app
-ENV GULP_LIVERELOAD ${GULP_LIVERELOAD}
+ENV SERVER_HTTP ${SERVER_HTTP}
+ENV LIVERELOAD_PORT ${LIVERELOAD_PORT}
 
 USER root
 
@@ -23,35 +22,23 @@ WORKDIR ${NODE_HOME}
 RUN apt-get update && \
 	apt-get dist-upgrade -y && \
 	apt-get install -y \
-					firefox \
 					graphviz \
-					imagemagick \
-					php-cli \
-					xvfb && \
+					imagemagick && \
 	apt-get clean && \
 	rm -rf /var/lib/apt/lists/* && \
 	npm -g config set user ${USER_NAME} && \
 	npm install -g \
-				casperjs \
-				gulp \
-				marked \
-				node-gyp \
-				npm-check-updates \
-				phplint \
-				varstream && \
-	npm install -g git+https://github.com/laurentj/slimerjs.git && \
-	chown ${USER_NAME}:${USER_NAME} ${NODE_HOME}/package.json && \
+				gulp && \
 	export NODE_TLS_REJECT_UNAUTHORIZED=0 && \
-	npm install && \
-	chown -R ${USER_NAME}:${USER_NAME} ${NODE_HOME}
+	npm install
 
-COPY docker/gulp/entrypoint.sh /usr/local/bin/
+COPY entrypoint.sh /usr/local/bin/
 RUN chmod 755 /usr/local/bin/entrypoint.sh
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 
 COPY . ${APP_HOME}
 
-RUN chown -R ${USER_NAME}:${USER_NAME} ${APP_HOME}
+RUN chown -R ${USER_NAME}:${USER_NAME} ${NODE_HOME}
 
 WORKDIR ${APP_HOME}
 
@@ -59,7 +46,7 @@ USER ${USER_NAME}
 
 VOLUME [ "${APP_HOME}" ]
 
-EXPOSE ${GULP_LIVERELOAD}
+EXPOSE ${SERVER_HTTP} ${LIVERELOAD_PORT}
 
 CMD [ "npm", "start" ]
 

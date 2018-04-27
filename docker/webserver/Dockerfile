@@ -2,7 +2,7 @@
 # Dockerfile for webserver
 #
 
-FROM uwegerdes/nodejs:8.x
+FROM uwegerdes/nodejs
 
 MAINTAINER Uwe Gerdes <entwicklung@uwegerdes.de>
 
@@ -27,8 +27,7 @@ RUN apt-get update && \
 	rm -rf /var/lib/apt/lists/* && \
 	npm -g config set user ${USER_NAME} && \
 	npm install -g \
-				gulp \
-				npm-check-updates && \
+				gulp && \
 	npm install
 
 COPY . ${APP_HOME}

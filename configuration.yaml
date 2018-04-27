@@ -1,0 +1,33 @@
+#
+#  Configuration for vcard webserver
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#
+#  The `paths` section is used by Gulp to provide fine grain control and DRY
+#  principle in the configuration files
+#
+
+paths:
+  source:
+    root: '.'
+#    fonts: '/fonts'
+#    server: '/src'
+#    images: '/images'
+#    scripts: '/scripts'
+#    templates: '/templates'
+#    stylesheets: '/stylesheets'
+    build_jshint: '/**/*.js'
+  build:
+    root: './.build'
+    server: '/'
+    templates: '/templates'
+    package: '/../.packages'
+    www:
+      root: '/htdocs'
+      fonts: '/htdocs/css/fonts'
+      images: '/htdocs/img'
+      scripts: '/htdocs/js'
+      stylesheets: '/htdocs/css'
+
+# Other notable variables also can exist here
+port: 8080
+livereload: 8081

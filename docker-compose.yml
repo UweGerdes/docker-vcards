@@ -1,17 +1,12 @@
 version: '2'
+
 services:
-  vcardserver:
-    build: ./docker/webserver/
-    ports:
-     - "3146:80"
-     - "3147:35729"
+  vcard-compare-layouts:
+    image: uwegerdes/compare-layouts
     environment:
      - NODE_ENV=development
-     - DB_1_PORT_27017_TCP_ADDR=db
-    depends_on:
-     - db
     volumes:
-     - ./:/home/node/app
+     - ./tests/compare-layouts:/home/node/app/config
 
   db:
     image: mongo
