@@ -6,6 +6,11 @@ paths:
   watch:
     jshint:
       - './**/*.js'
+    jsonlint:
+      - './**/*.json'
+      - './.jscsrc'
+      - './.jshintrc'
+      - './.lesshintrc'
     lesshint:
       - './src/less/**/*.less'
     less:

@@ -9,6 +9,7 @@ const gulp = require('gulp'),
   jscs = require('gulp-jscs'),
   jscsStylish = require('gulp-jscs-stylish'),
   jshint = require('gulp-jshint'),
+  jsonlint = require('gulp-jsonlint'),
   less = require('gulp-less'),
   lessChanged = require('gulp-less-changed'),
   lesshint = require('gulp-lesshint'),
@@ -53,6 +54,7 @@ const tasks = {
      */
     sequence(
       'jshint',
+      'jsonlint',
       'lesshint',
       'less',
       callback
@@ -77,9 +79,23 @@ const tasks = {
       ;
   },
   /**
+   * #### Lint json files
+   *
+   * apply lesshint json files
+   *
+   * @task jsonlint
+   * @namespace tasks
+   */
+  'jsonlint': () => {
+    return gulp.src(paths.forWatch('jsonlint'))
+      .pipe(jsonlint())
+      .pipe(jsonlint.reporter())
+      ;
+  },
+  /**
    * #### Lint less files
    *
-   * apply lesshint less files
+   * apply lesshint to less files
    *
    * @task lesshint
    * @namespace tasks
