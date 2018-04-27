@@ -51,7 +51,6 @@ const fs = require('fs'),
   gulpIgnore = require('gulp-ignore'),
   imagemin = require('gulp-imagemin'),
   lessChanged = require('gulp-less-changed'),
-  lesshint = require('gulp-lesshint'),
   less = require('gulp-less'),
   gulpLivereload = require('gulp-livereload'),
   notify = require('gulp-notify'),
@@ -74,20 +73,6 @@ const lifereloadPort = process.env.GULP_LIVERELOAD || 5081;
  */
 const log = notify.withReporter(function (options, callback) {
   callback();
-});
-
-/*
- * less files lint and style check
- */
-watchFilesFor.lesshint = [
-  path.join(srcDir, 'less', '*.less')
-];
-gulp.task('lesshint', function () {
-  return gulp.src( watchFilesFor.lesshint )
-    .pipe(lesshint())  // enforce style guide
-    .on('error', function () {})
-    .pipe(lesshint.reporter())
-    ;
 });
 
 /*

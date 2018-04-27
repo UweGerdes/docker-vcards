@@ -5,6 +5,7 @@
 
 const gulp = require('gulp'),
   jshint = require('gulp-jshint'),
+  lesshint = require('gulp-lesshint'),
   sequence = require('gulp-sequence'),
   paths = require('./lib/paths'),
   loadTasks = require('./lib/load-tasks')
@@ -30,12 +31,12 @@ const tasks = {
      * @namespace tasks:build
      */
     sequence(
-//      'lesshint',
+      'jshint',
+      'lesshint',
 //      'less',
 //      'graphviz',
 //      'imagemin',
 //      'iconfont',
-      'jshint',
       callback
     );
   },
@@ -44,13 +45,28 @@ const tasks = {
    *
    * apply jshint and jscs to js files
    *
-   * @task build-clean
+   * @task jshint
    * @namespace tasks
    */
   'jshint': () => {
     return gulp.src([paths.forWatch('jshint')])
       .pipe(jshint())
       .pipe(jshint.reporter('default'))
+      ;
+  },
+  /**
+   * #### Lint less files
+   *
+   * apply lesshint less files
+   *
+   * @task build-clean
+   * @namespace tasks
+   */
+  'lesshint': () => {
+    return gulp.src([paths.forWatch('lesshint')])
+      .pipe(lesshint())  // enforce style guide
+      .on('error', function () {})
+      .pipe(lesshint.reporter())
       ;
   }
 };
