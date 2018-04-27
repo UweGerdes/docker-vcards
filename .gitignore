@@ -1,5 +1,5 @@
 # ignore generated files
-htdocs/*.css
+htdocs/css
 
 # ignore downloaded files
 

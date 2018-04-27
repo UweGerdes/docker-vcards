@@ -1,13 +1,8 @@
 #
 #  Configuration for vcard webserver
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#
-#  The `paths` section is used by Gulp to provide fine grain control and DRY
-#  principle in the configuration files
 #
 
 paths:
-
   watch:
     jshint:
       - './**/*.js'
@@ -16,27 +11,21 @@ paths:
     less:
       - './src/less/app.less'
       - './src/less/**/*.less'
-#    fonts: '/fonts'
-#    server: '/src'
-#    images: '/images'
-#    scripts: '/scripts'
-#    templates: '/templates'
-#    stylesheets: '/stylesheets'
+    'webserver:restart':
+      - './server.js'
+      - './gulp/server.js'
+    'webserver:livereload':
+      - './htdocs/**/*.html'
+#      - './htdocs/views/**/*.ejs'
+#      - './htdocs/img/**/*.*'
+      - './htdocs/css/app.css'
   build:
     less:
       src: './src/less/app.less'
       dest: './htdocs/css'
-#    root: './.build'
-#    server: '/'
-#    templates: '/templates'
-#    package: '/../.packages'
-#    www:
-#      root: '/htdocs'
-#      fonts: '/htdocs/css/fonts'
-#      images: '/htdocs/img'
-#      scripts: '/htdocs/js'
-#      stylesheets: '/htdocs/css'
 
-# Other notable variables also can exist here
-port: 8080
-livereload: 8081
+webserver:
+  server: './server.js'
+  docroot: './htdocs'
+  httpPort: 8080
+  livereloadPort: 8081

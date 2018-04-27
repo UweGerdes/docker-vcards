@@ -1,7 +1,7 @@
 {
   "name": "vCard",
   "description": "Gulp and other packages for vCard webapp development and testing",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "keywords": [
     "gulp",
     "frontend",
@@ -18,28 +18,35 @@
     "node": ">=8.11.0"
   },
   "devDependencies": {
+    "dateformat": "^3.0.3",
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^5.0.0",
     "gulp-changed-in-place": "^2.3.0",
+    "gulp-develop-server": "^0.5.2",
     "gulp-jscs": "^4.1.0",
     "gulp-jscs-stylish": "^1.4.0",
     "gulp-jshint": "^2.0.4",
     "gulp-less": "^3.5.0",
     "gulp-less-changed": "^1.2.1",
     "gulp-lesshint": "^5.0.0",
+    "gulp-livereload": "^3.8.1",
     "gulp-notify": "^3.0.0",
+    "gulp-postmortem": "^1.0.5",
     "gulp-sequence": "^1.0.0",
     "js-yaml": "^3.11.0",
     "jshint": "^2.9.5",
     "rename": "^1.0.4"
   },
-  "unusedDependencies": {
+  "dependencies": {
     "body-parser": "^1.17.2",
+    "ejs": "^2.5.7",
+    "express": "^4.15.3",
+    "morgan": "^1.8.2"
+  },
+  "unusedDependencies": {
     "dateformat": "^3.0.3",
     "del": "^3.0.0",
-    "ejs": "^2.5.7",
     "eval": "^0.1.2",
-    "express": "^4.15.3",
     "fs-tools": "^0.3.0",
     "glob": "^7.1.2",
     "gulp-changed": "^3.1.0",
@@ -50,12 +57,10 @@
     "gulp-ignore": "^2.0.2",
     "gulp-imagemin": "^4.1.0",
     "gulp-livereload": "^3.8.1",
-    "gulp-postmortem": "^1.0.5",
     "gulp-shell": "^0.6.3",
     "gulp-uglify": "^3.0.0",
     "imagemin": "^5.3.1",
-    "lodash": "^4.17.5",
-    "morgan": "^1.8.2"
+    "lodash": "^4.17.5"
   },
   "repository": {
     "type": "git",

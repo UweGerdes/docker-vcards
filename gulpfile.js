@@ -34,10 +34,9 @@
  */
 'use strict';
 
-// require('./gulp/development');
 require('./gulp/build');
+require('./gulp/server');
 require('./gulp/watch');
-// ... more, such as './gulp/package', './gulp/deploy', etc.
 
 const gulp = require('gulp'),
   sequence = require('gulp-sequence')
@@ -53,5 +52,6 @@ const gulp = require('gulp'),
 gulp.task('default', (callback) => {
   sequence('build',
     'watch',
+    'webserver:init',
     callback);
 });
