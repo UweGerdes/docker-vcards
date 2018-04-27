@@ -3,7 +3,7 @@
  */
 'use strict';
 
-const gulp = require( 'gulp' ),
+const gulp = require('gulp'),
   paths = require('./lib/paths'),
   loadTasks = require('./lib/load-tasks')
   ;
@@ -20,7 +20,7 @@ const tasks = {
    * @task watch
    * @namespace tasks
    */
-  'watch-dev' : () => {
+  'watch': () => {
     /**
      * Will watch and execute tasks when files changed in these folders
      */
@@ -36,4 +36,4 @@ const tasks = {
   }
 };
 
-loadTasks.importTasks( tasks );
+loadTasks.importTasks(tasks);

@@ -14,9 +14,9 @@ const gulp = require('gulp'),
   lesshint = require('gulp-lesshint'),
   notify = require('gulp-notify'),
   sequence = require('gulp-sequence'),
+  rename = require('rename'),
   paths = require('./lib/paths'),
-  loadTasks = require('./lib/load-tasks'),
-  rename = require('rename')
+  loadTasks = require('./lib/load-tasks')
   ;
 
 /**
@@ -55,9 +55,6 @@ const tasks = {
       'jshint',
       'lesshint',
       'less',
-//      'graphviz',
-//      'imagemin',
-//      'iconfont',
       callback
     );
   },
@@ -112,7 +109,7 @@ const tasks = {
       .pipe(less())
       .on('error', log.onError({ message:  'Error: <%= error.message %>', title: 'LESS Error' }))
       .pipe(autoprefixer('last 3 version', 'safari 5', 'ie 8', 'ie 9', 'ios 6', 'android 4'))
-  //    .pipe(gulpif(options.env === 'production', uglify()))
+      // .pipe(gulpif(options.env === 'production', uglify()))
       .pipe(gulp.dest(paths.for.build.less.dest))
       .pipe(log({ message: 'written: <%= file.path %>', title: 'Gulp less' }))
       ;

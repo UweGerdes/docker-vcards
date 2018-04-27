@@ -2,6 +2,9 @@
 
 ## latest
 
+0.0.4
+refactoring gulpfile.js and others
+
 0.0.3
 updated npm package versions
 

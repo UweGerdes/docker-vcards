@@ -34,198 +34,24 @@
  */
 'use strict';
 
-/* jscs:disable jsDoc */
-
 // require('./gulp/development');
 require('./gulp/build');
 require('./gulp/watch');
 // ... more, such as './gulp/package', './gulp/deploy', etc.
 
-const fs = require('fs'),
-  glob = require('glob'),
-  gulp = require('gulp'),
-  changed = require('gulp-changed'),
-  iconfont = require('gulp-iconfont'),
-  iconfontCss = require('gulp-iconfont-css'),
-  iconfontTemplate = require('gulp-iconfont-template'),
-  gulpIgnore = require('gulp-ignore'),
-  imagemin = require('gulp-imagemin'),
-  gulpLivereload = require('gulp-livereload'),
-  notify = require('gulp-notify'),
-  sequence = require('gulp-sequence'),
-  shell = require('gulp-shell'),
-  path = require('path'),
-  ipv4addresses = require('./lib/ipv4addresses.js')
+const gulp = require('gulp'),
+  sequence = require('gulp-sequence')
   ;
 
-const baseDir = __dirname;
-const srcDir = path.join(baseDir, 'src');
-const destDir = path.join(baseDir, 'htdocs');
-let watchFilesFor = {};
-const lifereloadPort = process.env.GULP_LIVERELOAD || 5081;
-
-/*
- * log only to console, not GUI
- */
-const log = notify.withReporter((options, callback) => {
-  callback();
-});
-
-/*
- * graphviz image generation
- */
-watchFilesFor.graphviz = [
-//  path.join(srcDir, 'graphviz', '*.gv')
-];
-gulp.task('graphviz', () => {
-  const destPng = path.join(srcDir, 'img', 'gv');
-  const destMap = path.join(destDir, 'img', 'gv');
-  if (!fs.existsSync(path.join(srcDir, 'img'))) {
-    fs.mkdirSync(path.join(srcDir, 'img'));
-  }
-  if (!fs.existsSync(path.join(srcDir, 'img', 'gv'))) {
-    fs.mkdirSync(path.join(srcDir, 'img', 'gv'));
-  }
-  if (!fs.existsSync(path.join(destDir, 'img'))) {
-    fs.mkdirSync(path.join(destDir, 'img'));
-  }
-  if (!fs.existsSync(path.join(destDir, 'img', 'gv'))) {
-    fs.mkdirSync(path.join(destDir, 'img', 'gv'));
-  }
-  return gulp.src(watchFilesFor.graphviz, { read: false })
-    .pipe(changed(destPng, { extension: '.png' }))
-    .pipe(shell('dot <%= params(file.path) %> "<%= file.path %>"', {
-      templateData: {
-        params: (s) => {
-          let m = '';
-          if (s.indexOf('docker') >= 0) {
-            m = '-Tcmapx -o "' + s.replace(/^.+\/([^\/]+)\.gv$/, destMap + '/$1.map') + '" ' +
-                '-Tsvg -o "' + s.replace(/^.+\/([^\/]+)\.gv$/, destMap + '/$1.svg') + '" ';
-          }
-          return m + '-Tpng -o "' + s.replace(/^.+\/([^\/]+)\.gv$/, destPng + '/$1.png') + '"';
-        }
-      }
-    }))
-    .on('error', log.onError({ message:  'Error: <%= error.message %>', title: 'Graphviz Error' }))
-    .pipe(log({ message: 'processed: <%= file.path %>', title: 'Gulp graphviz' }))
-    ;
-});
-
-/*
- * prepare images
- */
-watchFilesFor.imagemin = [
-  path.join(srcDir, 'img', '**', '*.png')
-];
-gulp.task('imagemin', () => {
-  const IMAGE_OPTION = [
-    imagemin.gifsicle({ interlaced: true }),
-    imagemin.jpegtran({ progressive: true }),
-    imagemin.optipng({ optimizationLevel: 5 }),
-    imagemin.svgo({ plugins: [{ removeViewBox: true }] }),
-  ];
-  if (!fs.existsSync(path.join(destDir, 'img'))) {
-    fs.mkdirSync(path.join(destDir, 'img'));
-  }
-  gulp.src(watchFilesFor.imagemin)
-    .pipe(changed(path.join(destDir, 'img')))
-    .pipe(imagemin(IMAGE_OPTION))
-    .pipe(gulp.dest(path.join(destDir, 'img')))
-    .pipe(log({ message: 'saved: <%= file.path %>', title: 'Gulp images' }))
-  ;
-});
-
-/*
- * make iconfont
- */
-watchFilesFor.iconfont = [
-  path.join(srcDir, 'iconfont', 'template.*')
-];
-gulp.task('iconfont', (callback) => {
-  sequence('iconfont-build',
-    'iconfont-preview',
-    callback);
-});
-watchFilesFor['iconfont-build'] = [
-  path.join(srcDir, 'iconfont', '*.svg')
-];
-gulp.task('iconfont-build', () => {
-  const fontName = 'iconfont';
-  const destDirFont = path.join(destDir, 'css', 'fonts');
-  gulp.src(watchFilesFor['iconfont-build'])
-    .pipe(iconfontCss({
-      fontName: fontName,
-      path: path.join(srcDir, 'iconfont', 'template.less'),
-      targetPath: path.join('..', '..', '..', 'src', 'less', 'iconfont.less'),
-      fontPath: 'fonts/'
-    }))
-    .pipe(iconfont({
-      fontName: fontName,
-      fontHeight: 1001,
-      formats: ['ttf', 'eot', 'woff', 'woff2', 'svg'],
-      log: () => { },
-      normalize: true,
-      prependUnicode: true,
-      timestamp: Date.now(),
-    }))
-    .on('glyphs', (glyphs, options) => {
-      // CSS templating, e.g.
-      console.log(glyphs, options);
-    })
-    .pipe(gulp.dest(destDirFont))
-    .pipe(log({ message: 'saved: <%= file.path %>', title: 'Gulp iconfont' }))
-    ;
-});
-
-/*
- * make iconfont preview
- */
-watchFilesFor['iconfont-preview'] = [
-  path.join(srcDir, 'iconfont', '*.svg')
-];
-gulp.task('iconfont-preview', () => {
-  const fontName = 'iconfont';
-  const destDirFont = path.join(destDir, 'css', 'fonts');
-  gulp.src(watchFilesFor['iconfont-preview'])
-    .pipe(iconfontTemplate({
-      fontName: fontName,
-      path: path.join(srcDir, 'iconfont', 'template.html'),
-      targetPath: fontName + '.html',
-    }))
-    .pipe(gulpIgnore.exclude('*.svg'))
-    .pipe(gulp.dest(destDirFont))
-    .pipe(log({ message: 'saved: <%= file.path %>', title: 'Gulp iconfont-preview' }))
-    ;
-});
-
-/*
- * watch task
- */
-gulp.task('watch', () => {
-  Object.keys(watchFilesFor).forEach((task) => {
-    watchFilesFor[task].forEach((filename) => {
-      glob(filename, (err, files) => {
-        if (err) {
-          console.log(filename + ' error: ' + JSON.stringify(err, null, 4));
-        }
-        if (files.length === 0) {
-          console.log(filename + ' not found');
-        }
-      });
-    });
-    gulp.watch(watchFilesFor[task], [task]);
-  });
-  gulpLivereload.listen({ port: lifereloadPort, delay: 2000 });
-  log({ message: 'livereload listening on http://' + ipv4addresses.get()[0] + ':' + lifereloadPort,
-    title: 'Gulp' });
-});
-
-/*
- * default task:init with build and watch
+/**
+ * #### default task
+ *
+ * start build and watch
+ *
+ * @param {function} callback - gulp callback
  */
 gulp.task('default', (callback) => {
   sequence('build',
     'watch',
-    'watch-dev',
     callback);
 });
