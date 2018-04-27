@@ -25,15 +25,14 @@ const tasks = {
      * Will watch and execute tasks when files changed in these folders
      */
     const tasks = loadTasks.tasks();
-    for (let task in paths.for.source) {
-      if (paths.for.source.hasOwnProperty(task)) {
+    for (let task in paths.for.watch) {
+      if (paths.for.watch.hasOwnProperty(task)) {
         if (tasks.indexOf(task) >= 0) {
-          gulp.watch( [ paths.forSource(task) ], [task] );
-          console.log('Task "' + task + '" is watching: ' + paths.for.source[task]);
+          gulp.watch( [ paths.forWatch(task) ], [task] );
+          console.log('Task "' + task + '" is watching: ' + paths.for.watch[task]);
         }
       }
     }
-    gulp.watch( [ paths.forSource( 'build-jshint' ) ], ["build-jshint"] );
   }
 };
 

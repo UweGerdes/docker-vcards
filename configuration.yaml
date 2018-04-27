@@ -7,26 +7,26 @@
 #
 
 paths:
-  source:
-    root: '.'
+
+  watch:
+    'jshint': './**/*.js'
 #    fonts: '/fonts'
 #    server: '/src'
 #    images: '/images'
 #    scripts: '/scripts'
 #    templates: '/templates'
 #    stylesheets: '/stylesheets'
-    'build-jshint': '/**/*.js'
-  build:
-    root: './.build'
-    server: '/'
-    templates: '/templates'
-    package: '/../.packages'
-    www:
-      root: '/htdocs'
-      fonts: '/htdocs/css/fonts'
-      images: '/htdocs/img'
-      scripts: '/htdocs/js'
-      stylesheets: '/htdocs/css'
+#  build:
+#    root: './.build'
+#    server: '/'
+#    templates: '/templates'
+#    package: '/../.packages'
+#    www:
+#      root: '/htdocs'
+#      fonts: '/htdocs/css/fonts'
+#      images: '/htdocs/img'
+#      scripts: '/htdocs/js'
+#      stylesheets: '/htdocs/css'
 
 # Other notable variables also can exist here
 port: 8080

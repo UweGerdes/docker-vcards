@@ -35,20 +35,20 @@ const tasks = {
 //      'graphviz',
 //      'imagemin',
 //      'iconfont',
-      'build-jshint',
+      'jshint',
       callback
     );
   },
   /**
-   * #### Cleans the build target folder
+   * #### Lint js files
    *
-   * Cleans the folder, which is the root of the compiled app ( `./.build` )
+   * apply jshint and jscs to js files
    *
    * @task build-clean
    * @namespace tasks
    */
-  'build-jshint': () => {
-    return gulp.src([paths.forSource('build-jshint')])
+  'jshint': () => {
+    return gulp.src([paths.forWatch('jshint')])
       .pipe(jshint())
       .pipe(jshint.reporter('default'))
       ;

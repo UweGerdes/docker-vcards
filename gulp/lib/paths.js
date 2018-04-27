@@ -5,14 +5,15 @@
 'use strict';
 
 const yaml = require('js-yaml'),
-    fs   = require('fs'),
-    _    = require('lodash');
+    fs = require('fs')
+    ;
 
 /**
  * Parse all paths and populate the directories with their roots if any.
  *
  * @private
  */
+/*
 const normalizePaths = (paths) => {
     let result  = {};
     const recurse = (cursor, adder, prop) => {
@@ -42,6 +43,7 @@ const normalizePaths = (paths) => {
     recurse(paths, '', '');
     return result;
 };
+*/
 
 /**
  * Parse paths for all modules
@@ -51,8 +53,7 @@ const normalizePaths = (paths) => {
 const paths = yaml.safeLoad(
       fs.readFileSync(__dirname + '/../../configuration.yaml', 'utf8')
    ).paths,
-    source = normalizePaths(paths.source),
-    build  = normalizePaths(paths.build);
+    watch  = paths.watch;
 
 /**
  * Export helpers
@@ -63,21 +64,12 @@ module.exports = {
      */
     for: paths,
     /**
-     * Returns path for source
+     * Returns path for watch
      *
      * @param [path] {string}
      * @returns {string}
      */
-    forSource: (path) => {
-      return source[path ? path : 'root'];
-    },
-    /**
-     * Returns path for build
-     *
-     * @param [path] {string}
-     * @returns {string}
-     */
-    forBuild: (path) => {
-      return build[path ? path : 'root'];
+    forWatch: (path) => {
+      return watch[path] || '.';
     }
 };
