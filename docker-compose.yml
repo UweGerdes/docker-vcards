@@ -1,15 +1,17 @@
 version: '2'
 
 services:
-  vcard-compare-layouts:
-    image: uwegerdes/compare-layouts
-    environment:
-     - NODE_ENV=development
+  webserver:
+    container_name: webserver
+    image: uwegerdes/vcard
     volumes:
-     - ./tests/compare-layouts:/home/node/app/config
+    - .:/home/node/app
 
-  db:
-    image: mongo
+  vcard-compare-layouts:
+    container_name: vcard-compare-layouts
+    image: uwegerdes/compare-layouts
+    links:
+      - webserver
     volumes:
-      - /srv/docker/meanjs/vcard:/data/db
+     - ./tests/dev/compare-layouts:/home/node/app/config
 
