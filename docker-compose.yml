@@ -2,16 +2,20 @@ version: '2'
 
 services:
   webserver:
+    build:
+      context: .
     container_name: webserver
     image: uwegerdes/vcard
     volumes:
     - .:/home/node/app
 
   vcard-compare-layouts:
+    build:
+      context: ../../docker-compare-layouts
     container_name: vcard-compare-layouts
     image: uwegerdes/compare-layouts
     links:
       - webserver
     volumes:
+     - ../../docker-compare-layouts:/home/node/app
      - ./tests/dev/compare-layouts:/home/node/app/config
-
