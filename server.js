@@ -17,7 +17,10 @@ const bodyParser = require('body-parser'),
   app = express();
 
 const httpPort = config.webserver.httpPort,
-  docRoot = config.webserver.docroot;
+  livereloadPort = config.webserver.livereloadPort,
+  docRoot = config.webserver.docroot,
+  modulesRoot = config.webserver.modules
+  ;
 
 /**
  * Weberver logging
@@ -32,6 +35,12 @@ if (process.env.VERBOSE !== 'false') {
     ':method :status :url :res[content-length] - :response-time ms'));
 }
 
+// no subdirectory for views
+app.set('views', __dirname);
+
+// render html files
+app.set('view engine', 'ejs');
+
 // work on post requests
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -43,26 +52,76 @@ app.use(express.static(docRoot));
  * Route for root dir
  *
  * @param {Object} req - request
- * @param {Object} res - result
+ * @param {Object} res - response
  */
 app.get('/', (req, res) => {
   res.sendFile(path.join(docRoot, 'index.html'));
 });
 
 /**
- * Route for everything else.
+ * Route for app main page
  *
  * @param {Object} req - request
- * @param {Object} res - result
+ * @param {Object} res - response
+ */
+app.get('/app', (req, res) => {
+  res.render(viewPath('app'), {
+    hostname: req.hostname,
+    livereloadPort: livereloadPort,
+    httpPort: httpPort
+  });
+});
+
+/**
+ * Route for everything else
+ *
+ * @param {Object} req - request
+ * @param {Object} res - response
  */
 app.get('*', (req, res) => {
-  res.status(404).send('Sorry cant find that: ' + req.url);
+  res.status(404).render(viewPath('404'), {
+    livereloadPort: livereloadPort,
+    httpPort: httpPort
+  });
 });
 
 // Fire it up!
 log.info('webserver listening on ' +
   chalk.greenBright('http://' + ipv4addresses.get()[0] + ':' + httpPort));
 app.listen(httpPort);
+
+/**
+ * Handle requests for app view
+ *
+ * @param {Object} req - request
+ * @param {Object} res - response
+ */
+/*
+app.get('/app/:param?', (req, res) => {
+  const list = getList(res);
+  let config = { };
+  let action = 'show';
+  if (req.params.config) {
+    if (fs.existsSync(path.join(configDir, req.params.config + '.js'))) {
+      config = getConfig(req.params.config);
+    } else {
+      config.error = 'config file not found: ./config/' + req.params.config + '.js';
+      logConsole.info('config file not found: ./config/' + req.params.config + '.js');
+    }
+    if (req.params.action) {
+      action = req.params.action;
+    }
+  }
+  res.render('appView.ejs', {
+    list: list,
+    config: config,
+    action: action,
+    livereloadPort: livereloadPort,
+    httpPort: httpPort,
+    running: running
+  });
+});
+*/
 
 // Model //
 /**
@@ -82,3 +141,13 @@ function getList() {
   return configs;
 }
 */
+
+/**
+ * get the path for file to render
+ *
+ * @param {String} page - page type
+ * @param {String} page - file type (ejs, TODO jade, pug, html)
+ */
+function viewPath(page = '404', type = 'ejs') {
+  return modulesRoot + '/pages/' + page + '/views/index.' + type;
+}
