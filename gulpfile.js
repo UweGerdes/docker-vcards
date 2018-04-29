@@ -35,6 +35,7 @@
 'use strict';
 
 require('./gulp/build');
+require('./gulp/lint');
 require('./gulp/server');
 require('./gulp/watch');
 
@@ -50,7 +51,8 @@ const gulp = require('gulp'),
  * @param {function} callback - gulp callback
  */
 gulp.task('default', (callback) => {
-  sequence('build',
+  sequence('lint',
+    'build',
     'watch',
     'webserver:init',
     callback);

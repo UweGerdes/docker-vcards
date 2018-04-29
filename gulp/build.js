@@ -5,14 +5,8 @@
 
 const gulp = require('gulp'),
   autoprefixer = require('gulp-autoprefixer'),
-  changedInPlace = require('gulp-changed-in-place'),
-  jscs = require('gulp-jscs'),
-  jscsStylish = require('gulp-jscs-stylish'),
-  jshint = require('gulp-jshint'),
-  jsonlint = require('gulp-jsonlint'),
   less = require('gulp-less'),
   lessChanged = require('gulp-less-changed'),
-  lesshint = require('gulp-lesshint'),
   notify = require('gulp-notify'),
   sequence = require('gulp-sequence'),
   rename = require('rename'),
@@ -40,72 +34,14 @@ const tasks = {
    */
   'build': (callback) => {
     /**
-     * It is a composite task that runs the following tasks in sequence
-     *
-     * 1. `build-clean`
-     * 2. `build-compile`
-     * 3. `build-scripts`
-     * 4. `build-stylesheets`
-     * 5. `build-assets`
-     *
-     * The different tasks are found below:
+     * Default gulp build task
      *
      * @namespace tasks:build
      */
     sequence(
-      'jshint',
-      'jsonlint',
-      'lesshint',
       'less',
       callback
     );
-  },
-  /**
-   * #### Lint js files
-   *
-   * apply jshint and jscs to js files
-   *
-   * @task jshint
-   * @namespace tasks
-   */
-  'jshint': () => {
-    return gulp.src(paths.forWatch('jshint'))
-      .pipe(changedInPlace({ howToDetermineDifference: 'modification-time' }))
-      .pipe(jshint())
-      .pipe(jscs())
-      .pipe(jscsStylish.combineWithHintResults())
-      .pipe(jshint.reporter('default'))
-//      .pipe(jshint.reporter('jshint-stylish'))
-      ;
-  },
-  /**
-   * #### Lint json files
-   *
-   * apply lesshint json files
-   *
-   * @task jsonlint
-   * @namespace tasks
-   */
-  'jsonlint': () => {
-    return gulp.src(paths.forWatch('jsonlint'))
-      .pipe(jsonlint())
-      .pipe(jsonlint.reporter())
-      ;
-  },
-  /**
-   * #### Lint less files
-   *
-   * apply lesshint to less files
-   *
-   * @task lesshint
-   * @namespace tasks
-   */
-  'lesshint': () => {
-    return gulp.src(paths.forWatch('lesshint'))
-      .pipe(lesshint())
-      .on('error', function () {})
-      .pipe(lesshint.reporter())
-      ;
   },
   /**
    * #### Compile less files

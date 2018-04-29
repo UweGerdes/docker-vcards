@@ -15,21 +15,21 @@ module.exports = {
   },
   pages: {
     'app-phantomjs-cached': {
-      'url': server,
+      'url': url,
       'selector': 'body',
-      'engine': phantomjs,
+      'engine': 'phantomjs',
       'cache': true
     },
     'app-phantomjs': {
-      'url': server,
+      'url': url,
       'selector': 'body',
-      'engine': phantomjs,
+      'engine': 'phantomjs',
       'cache': false
     },
     'app-slimerjs': {
-      'url': server,
+      'url': url,
       'selector': 'body',
-      'engine': slimerjs,
+      'engine': 'slimerjs',
       'cache': false
     }
   },

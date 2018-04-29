@@ -2,9 +2,7 @@
  * default configuration for compare-layouts
  */
 
-const slimerjs = 'slimerjs';
-const phantomjs = 'phantomjs';
-const server = 'http://webserver:8080/';
+const url = 'http://webserver:8080/';
 
 module.exports = {
   destDir: 'default',
@@ -17,21 +15,21 @@ module.exports = {
   },
   pages: {
     'index-phantomjs-cached': {
-      'url': server,
+      'url': url,
       'selector': 'body',
-      'engine': phantomjs,
+      'engine': 'phantomjs',
       'cache': true
     },
     'index-phantomjs': {
-      'url': server,
+      'url': url,
       'selector': 'body',
-      'engine': phantomjs,
+      'engine': 'phantomjs',
       'cache': false
     },
     'index-slimerjs': {
-      'url': server,
+      'url': url,
       'selector': 'body',
-      'engine': slimerjs,
+      'engine': 'slimerjs',
       'cache': false
     }
   },

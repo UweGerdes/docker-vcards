@@ -19,6 +19,7 @@
   },
   "devDependencies": {
     "dateformat": "^3.0.3",
+    "glob": "^7.1.2",
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^5.0.0",
     "gulp-changed-in-place": "^2.3.0",
@@ -34,6 +35,7 @@
     "gulp-notify": "^3.0.0",
     "gulp-postmortem": "^1.0.5",
     "gulp-sequence": "^1.0.0",
+    "gulp-yaml-validate": "^1.0.2",
     "js-yaml": "^3.11.0",
     "jshint": "^2.9.5",
     "rename": "^1.0.4"
@@ -53,6 +55,7 @@
     "glob": "^7.1.2",
     "gulp-changed": "^3.1.0",
     "gulp-develop-server": "^0.5.2",
+    "gulp-ejs": "3.1.2",
     "gulp-iconfont": "^9.0.0",
     "gulp-iconfont-css": "^2.1.0",
     "gulp-iconfont-template": "0.0.3",

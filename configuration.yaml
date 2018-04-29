@@ -17,6 +17,11 @@ paths:
       - './.lesshintrc'
     lesshint:
       - './src/less/**/*.less'
+    yamllint:
+      - './**/*.yaml'
+      - './**/*.yml'
+    ejslint:
+      - './**/*.ejs'
     less:
       - './src/less/app.less'
       - './src/less/**/*.less'

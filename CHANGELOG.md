@@ -3,7 +3,7 @@
 ## latest
 
 0.0.5
-added gulp webserver tasks, server.js for static files in ./htdocs, livereload
+added gulp webserver tasks, server.js for static files in ./htdocs, livereload, linters
 
 0.0.4
 refactoring gulpfile.js and others
