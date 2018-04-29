@@ -32,7 +32,7 @@ if (process.env.VERBOSE !== 'false') {
     return dateFormat(new Date(), 'HH:MM:ss');
   });
   app.use(morgan('[' + chalk.gray(':time') + '] ' +
-    ':method :status :url :res[content-length] - :response-time ms'));
+    ':method :status :url :res[content-length] Bytes - :response-time ms'));
 }
 
 // no subdirectory for views
@@ -80,6 +80,7 @@ app.get('/app', (req, res) => {
  */
 app.get('*', (req, res) => {
   res.status(404).render(viewPath('404'), {
+    hostname: req.hostname,
     livereloadPort: livereloadPort,
     httpPort: httpPort
   });
@@ -146,7 +147,7 @@ function getList() {
  * get the path for file to render
  *
  * @param {String} page - page type
- * @param {String} page - file type (ejs, TODO jade, pug, html)
+ * @param {String} type - file type (ejs, TODO jade, pug, html)
  */
 function viewPath(page = '404', type = 'ejs') {
   return modulesRoot + '/pages/' + page + '/views/index.' + type;

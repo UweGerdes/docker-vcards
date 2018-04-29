@@ -8,7 +8,7 @@ services:
     image: uwegerdes/vcard
     volumes:
     - .:/home/node/app
-    command: gulp --silent
+#    command: gulp --silent
 
   compare-layouts:
     build:
@@ -20,4 +20,4 @@ services:
     volumes:
      - ../../docker-compare-layouts:/home/node/app
      - ./tests/dev/compare-layouts:/home/node/app/config
-    command: gulp --silent
+#    command: gulp --silent

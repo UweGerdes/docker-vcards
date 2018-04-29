@@ -5,7 +5,11 @@
 paths:
   watch:
     jshint:
-      - './**/*.js'
+      - './*.js'
+      - './gulp/**/*.js'
+      - './lib/**/*.js'
+      - './modules/**/*.js'
+      - './src/**/*.js'
     jsonlint:
       - './**/*.json'
       - './.jscsrc'

@@ -1,13 +1,11 @@
 /**
- * default configuration for compare-layouts
+ * test app page
  */
 
-const slimerjs = 'slimerjs';
-const phantomjs = 'phantomjs';
-const server = 'http://webserver:8080/';
+const url = 'http://webserver:8080/app';
 
 module.exports = {
-  destDir: 'default',
+  destDir: 'app',
   viewports: {
     'iPhone-5':        { width:  320, height:  568 },
     'iPhone-6':        { width:  375, height:  667 },
@@ -16,19 +14,19 @@ module.exports = {
     'Desktop':         { width: 1280, height: 1024 }
   },
   pages: {
-    'index-phantomjs-cached': {
+    'app-phantomjs-cached': {
       'url': server,
       'selector': 'body',
       'engine': phantomjs,
       'cache': true
     },
-    'index-phantomjs': {
+    'app-phantomjs': {
       'url': server,
       'selector': 'body',
       'engine': phantomjs,
       'cache': false
     },
-    'index-slimerjs': {
+    'app-slimerjs': {
       'url': server,
       'selector': 'body',
       'engine': slimerjs,
@@ -36,16 +34,16 @@ module.exports = {
     }
   },
   compares: {
-    'index-phantomjs-cached-phantomjs': {
+    'app-phantomjs-cached-phantomjs': {
       compare: ['tagName', 'type', 'textContent', 'name', 'value'],
-      page1: 'index-phantomjs-cached',
-      page2: 'index-phantomjs',
+      page1: 'app-phantomjs-cached',
+      page2: 'app-phantomjs',
       showHTML: true
     },
-    'index-phantomjs-slimerjs': {
+    'app-phantomjs-slimerjs': {
       compare: ['tagName', 'type', 'textContent', 'name', 'value'],
-      page1: 'index-phantomjs',
-      page2: 'index-slimerjs',
+      page1: 'app-phantomjs',
+      page2: 'app-slimerjs',
       showHTML: true
     }
   }

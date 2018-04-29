@@ -1,13 +1,11 @@
 /**
- * default configuration for compare-layouts
+ * test 404 page
  */
 
-const slimerjs = 'slimerjs';
-const phantomjs = 'phantomjs';
-const server = 'http://webserver:8080/';
+const url = 'http://webserver:8080/invalid-path';
 
 module.exports = {
-  destDir: 'default',
+  destDir: '404',
   viewports: {
     'iPhone-5':        { width:  320, height:  568 },
     'iPhone-6':        { width:  375, height:  667 },
@@ -16,19 +14,19 @@ module.exports = {
     'Desktop':         { width: 1280, height: 1024 }
   },
   pages: {
-    'index-phantomjs-cached': {
+    '404-phantomjs-cached': {
       'url': server,
       'selector': 'body',
       'engine': phantomjs,
       'cache': true
     },
-    'index-phantomjs': {
+    '404-phantomjs': {
       'url': server,
       'selector': 'body',
       'engine': phantomjs,
       'cache': false
     },
-    'index-slimerjs': {
+    '404-slimerjs': {
       'url': server,
       'selector': 'body',
       'engine': slimerjs,
@@ -36,16 +34,16 @@ module.exports = {
     }
   },
   compares: {
-    'index-phantomjs-cached-phantomjs': {
+    '404-phantomjs-cached-phantomjs': {
       compare: ['tagName', 'type', 'textContent', 'name', 'value'],
-      page1: 'index-phantomjs-cached',
-      page2: 'index-phantomjs',
+      page1: '404-phantomjs-cached',
+      page2: '404-phantomjs',
       showHTML: true
     },
-    'index-phantomjs-slimerjs': {
+    '404-phantomjs-slimerjs': {
       compare: ['tagName', 'type', 'textContent', 'name', 'value'],
-      page1: 'index-phantomjs',
-      page2: 'index-slimerjs',
+      page1: '404-phantomjs',
+      page2: '404-slimerjs',
       showHTML: true
     }
   }
