@@ -73,6 +73,8 @@
   },
   "scripts": {
     "start": "gulp",
+    "dev": "nodemon --watch gulpfile.js --watch gulp --exitcrash --delay 2 --exec gulp",
+    "dev-quiet": "nodemon --watch gulpfile.js --watch gulp --quiet --exitcrash --delay 2 --exec gulp",
     "test": "echo \"Error: no test specified\" && exit 1"
   }
 }

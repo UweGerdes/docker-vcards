@@ -4,20 +4,36 @@ services:
   webserver:
     build:
       context: .
-    container_name: vcard-webserver
+    container_name: vcard-dev
+    hostname: vcard-dev
     image: uwegerdes/vcard
+    networks:
+      - vcard-bridge
+    ports:
+      - '8080'
     volumes:
     - .:/home/node/app
 #    command: gulp --silent
+    command: npm run dev
 
   compare-layouts:
     build:
       context: ../../docker-compare-layouts
     container_name: vcard-compare-layouts
+    hostname: vcard-compare-layouts
     image: uwegerdes/compare-layouts
-    links:
-      - webserver
+#    links:
+#      - webserver
+    networks:
+      - vcard-bridge
+    ports:
+      - '8080'
     volumes:
      - ../../docker-compare-layouts:/home/node/app
      - ./tests/dev/compare-layouts:/home/node/app/config
 #    command: gulp --silent
+    command: npm run dev
+
+networks:
+  vcard-bridge:
+    driver: bridge

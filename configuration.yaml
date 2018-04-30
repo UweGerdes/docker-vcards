@@ -25,6 +25,8 @@ paths:
     less:
       - './src/less/app.less'
       - './src/less/**/*.less'
+    'test-compare-layouts':
+      - './modules/**/*.ejs'
     'webserver:restart':
       - './server.js'
       - './gulp/server.js'
@@ -37,6 +39,7 @@ paths:
     less:
       src: './src/less/app.less'
       dest: './htdocs/css'
+
 
 webserver:
   server: './server.js'

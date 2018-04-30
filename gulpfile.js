@@ -37,6 +37,7 @@
 require('./gulp/build');
 require('./gulp/lint');
 require('./gulp/server');
+require('./gulp/test');
 require('./gulp/watch');
 
 const gulp = require('gulp'),
@@ -46,13 +47,14 @@ const gulp = require('gulp'),
 /**
  * #### default task
  *
- * start build and watch
+ * start build, test and watch, some needed for changedInPlace dryrun
  *
  * @param {function} callback - gulp callback
  */
 gulp.task('default', (callback) => {
   sequence('lint',
     'build',
+    'test',
     'watch',
     'webserver:init',
     callback);
