@@ -7,9 +7,12 @@ const gulp = require('gulp'),
   changedInPlace = require('gulp-changed-in-place'),
   notify = require('gulp-notify'),
   sequence = require('gulp-sequence'),
+  request = require('request'),
   paths = require('./lib/paths'),
   loadTasks = require('./lib/load-tasks')
   ;
+
+let runningTests = { };
 
 /**
  * log only to console, not GUI
@@ -36,9 +39,7 @@ const tasks = {
     );
   },
   /**
-   * #### Execute compare-layouts tests
-   *
-   * executes a request to compare-layouts server
+   * #### testing
    *
    * @task test-compare-layouts
    * @namespace tasks
@@ -50,14 +51,31 @@ const tasks = {
         title: 'Gulp test-compare-layouts' }))
       ;
   },
-  /*
-  'default-test': () => {
-    const url = request.get(paths.vendor[index++]).pipe(res);
-    request.get({ uri: paths.vendor })
-    return request(paths.for.test['compare-layouts'].src[0])
-      .pipe(fs.createWriteStream('doodle.png'));
+  /**
+   * #### Execute compare-layouts tests
+   *
+   * executes a request to compare-layouts server
+   *
+   * @task test-compare-layouts
+   * @namespace tasks
+   * @param {function} callback - gulp callback
+   */
+  'test-test': (callback) => {
+    if (!runningTests['test-test']) {
+      runningTests['test-test'] = true;
+      // const url = request.get('http://vcard-compare-layouts:8080/run/default').pipe(res);
+      // request.get({ uri: 'http://vcard-compare-layouts:8080/run/default' });
+      request('http://vcard-compare-layouts:8080/run/default',
+        (error, response, body) => { // jscs:ignore jsDoc
+          console.log('error:', error);
+          console.log('statusCode:', response && response.statusCode);
+          console.log(body);
+          runningTests['test-test'] = false;
+          callback();
+        }
+      );
+    }
   }
-  */
 };
 
 loadTasks.importTasks(tasks);
