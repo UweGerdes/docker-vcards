@@ -33,6 +33,7 @@ services:
     volumes:
      - ../../docker-compare-layouts:/home/node/app
      - ./tests/dev/compare-layouts:/home/node/app/config
+     - ./modules:/home/node/app/modules
 #    command: gulp --silent
     command: npm run dev
 

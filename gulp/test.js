@@ -3,9 +3,8 @@
  */
 'use strict';
 
-const gulp = require('gulp'),
-  changedInPlace = require('gulp-changed-in-place'),
-  notify = require('gulp-notify'),
+const fs = require('fs'),
+  glob = require('glob'),
   sequence = require('gulp-sequence'),
   request = require('request'),
   paths = require('./lib/paths'),
@@ -13,16 +12,6 @@ const gulp = require('gulp'),
   ;
 
 let runningTests = { };
-
-/**
- * log only to console, not GUI
- *
- * @param {pbject} options - setting options
- * @param {function} callback - gulp callback
- */
-const log = notify.withReporter((options, callback) => {
-  callback();
-});
 
 const tasks = {
   /**
@@ -34,7 +23,7 @@ const tasks = {
    */
   'test': (callback) => {
     sequence(
-      'test-compare-layouts',
+//      'test-compare-layouts',
       callback
     );
   },
@@ -43,13 +32,23 @@ const tasks = {
    *
    * @task test-compare-layouts
    * @namespace tasks
+   * @param {function} callback - gulp callback
    */
-  'test-compare-layouts': () => {
-    return gulp.src(paths.for.watch['test-compare-layouts'])
-      .pipe(changedInPlace({ howToDetermineDifference: 'modification-time' }))
-      .pipe(log({ message: 'compare-layouts: <%= file.path %>',
-        title: 'Gulp test-compare-layouts' }))
-      ;
+  'test-compare-layouts': (callback) => {
+    getFilenames(paths.for.watch['test-compare-layouts'])
+    .then(getRecentFile)
+    .then((filename) => { // jscs:ignore jsDoc
+      console.log('filename', filename);
+      return filename;
+    })
+    .then(getRequest)
+    .then((result) => { // jscs:ignore jsDoc
+      return result;
+    })
+    .then(() => { // jscs:ignore jsDoc
+      callback();
+    })
+    ;
   },
   /**
    * #### Execute compare-layouts tests
@@ -61,8 +60,9 @@ const tasks = {
    * @param {function} callback - gulp callback
    */
   'test-test': (callback) => {
-    if (!runningTests['test-test']) {
-      runningTests['test-test'] = true;
+    const taskName = 'test-compare-layouts';
+    if (!runningTests[taskName]) {
+      runningTests[taskName] = true;
       // const url = request.get('http://vcard-compare-layouts:8080/run/default').pipe(res);
       // request.get({ uri: 'http://vcard-compare-layouts:8080/run/default' });
       request('http://vcard-compare-layouts:8080/run/default',
@@ -70,12 +70,68 @@ const tasks = {
           console.log('error:', error);
           console.log('statusCode:', response && response.statusCode);
           console.log(body);
-          runningTests['test-test'] = false;
+          runningTests[taskName] = false;
           callback();
         }
       );
     }
   }
 };
+/**
+ * get list of files for glob pattern
+ *
+ * @private
+ * @param {function} paths - patterns for paths
+ */
+const getFilenames = (paths) => {
+  return new Promise((resolve, reject) => { // jscs:ignore jsDoc
+    paths.forEach((path) => { // jscs:ignore jsDoc
+      glob(path, (error, files) => { // jscs:ignore jsDoc
+        if (error) {
+          reject(error);
+        } else {
+          resolve(files);
+        }
+      });
+    });
+  });
+};
+
+/**
+ * get newest file from glob list - synchronous
+ *
+ * @param {array} files - list with glob paths
+ */
+function getRecentFile(files) {
+  let newest = null;
+  let bestTime = 0;
+  for (let i = 0; i < files.length; i++) {
+    const fileTime = fs.statSync(files[i]).mtime.getTime();
+    if (fileTime > bestTime) {
+      newest = files[i];
+      bestTime = fileTime;
+    }
+  }
+  return new Promise((resolve) => { // jscs:ignore jsDoc
+    resolve(newest);
+  });
+}
+
+/**
+ * get request with
+ *
+ * @param {array} file - list with glob paths
+ */
+function getRequest(file) {
+  return new Promise((resolve) => { // jscs:ignore jsDoc
+    const testPath = file.replace(/(.+)\/views\/.+/, '$1');
+    /*
+     request('http://vcard-compare-layouts:8080/run/default',
+      (error, response, body) => { // jscs:ignore jsDoc
+      });
+    */
+    resolve(testPath);
+  });
+}
 
 loadTasks.importTasks(tasks);

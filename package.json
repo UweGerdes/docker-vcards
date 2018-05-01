@@ -53,7 +53,6 @@
     "del": "^3.0.0",
     "eval": "^0.1.2",
     "fs-tools": "^0.3.0",
-    "glob": "^7.1.2",
     "gulp-changed": "^3.1.0",
     "gulp-develop-server": "^0.5.2",
     "gulp-ejs": "3.1.2",
@@ -74,7 +73,7 @@
   },
   "scripts": {
     "start": "gulp",
-    "dev": "nodemon --watch gulpfile.js --watch gulp --exitcrash --delay 2 --exec gulp",
+    "dev": "nodemon --watch gulpfile.js --watch gulp --delay 2 --exec gulp",
     "dev-quiet": "nodemon --watch gulpfile.js --watch gulp --quiet --exitcrash --delay 2 --exec gulp",
     "test": "echo \"Error: no test specified\" && exit 1"
   }
