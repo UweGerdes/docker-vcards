@@ -8,7 +8,8 @@ services:
     hostname: vcard-dev
     image: uwegerdes/vcard
     networks:
-      - vcard-bridge
+      vcard-bridge:
+        ipv4_address: 172.25.0.2
     ports:
       - '8080'
     volumes:
@@ -25,7 +26,8 @@ services:
 #    links:
 #      - webserver
     networks:
-      - vcard-bridge
+      vcard-bridge:
+        ipv4_address: 172.25.0.3
     ports:
       - '8080'
     volumes:
@@ -37,3 +39,8 @@ services:
 networks:
   vcard-bridge:
     driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.25.0.0/16
+          gateway: 172.25.0.1
