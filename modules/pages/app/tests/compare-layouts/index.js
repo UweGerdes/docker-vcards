@@ -5,7 +5,7 @@
 const url = 'http://webserver:8080/app';
 
 module.exports = {
-  destDir: 'pages/app',
+  destDir: 'pages/app/index',
   viewports: {
     'iPhone-5':        { width:  320, height:  568 },
     'iPhone-6':        { width:  375, height:  667 },
