@@ -16,19 +16,19 @@ module.exports = {
   pages: {
     'app-phantomjs-cached': {
       'url': url,
-      'selector': 'h1',
+      'selector': 'body',
       'engine': 'phantomjs',
       'cache': true
     },
     'app-phantomjs': {
       'url': url,
-      'selector': 'h1',
+      'selector': 'body',
       'engine': 'phantomjs',
       'cache': false
     },
     'app-slimerjs': {
       'url': url,
-      'selector': 'h1',
+      'selector': 'body',
       'engine': 'slimerjs',
       'cache': false
     }
