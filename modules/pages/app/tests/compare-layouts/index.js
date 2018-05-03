@@ -5,7 +5,7 @@
 const url = 'http://webserver:8080/app';
 
 module.exports = {
-  destDir: 'app',
+  destDir: 'pages/app',
   viewports: {
     'iPhone-5':        { width:  320, height:  568 },
     'iPhone-6':        { width:  375, height:  667 },
@@ -16,19 +16,19 @@ module.exports = {
   pages: {
     'app-phantomjs-cached': {
       'url': url,
-      'selector': 'body',
+      'selector': 'h1',
       'engine': 'phantomjs',
       'cache': true
     },
     'app-phantomjs': {
       'url': url,
-      'selector': 'body',
+      'selector': 'h1',
       'engine': 'phantomjs',
       'cache': false
     },
     'app-slimerjs': {
       'url': url,
-      'selector': 'body',
+      'selector': 'h1',
       'engine': 'slimerjs',
       'cache': false
     }
