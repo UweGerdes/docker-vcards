@@ -37,7 +37,6 @@ const tasks = {
    * @namespace tasks
    */
   'test-mocha': () => {
-    console.log('test-mocha:', paths.for.tests.mocha.vcard);
     gulp.src(paths.for.tests.mocha.vcard, { read: false })
       // `gulp-mocha` needs filepaths so you can't have any plugins before it
       .pipe(mocha({ reporter: 'list' }))
