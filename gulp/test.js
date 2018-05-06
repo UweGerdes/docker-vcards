@@ -5,6 +5,8 @@
 
 const fs = require('fs'),
   glob = require('glob'),
+  gulp = require('gulp'),
+  mocha = require('gulp-mocha'),
   sequence = require('gulp-sequence'),
   request = require('request'),
   paths = require('./lib/paths'),
@@ -23,9 +25,24 @@ const tasks = {
    */
   'test': (callback) => {
     sequence(
+      'test-mocha',
 //      'test-compare-layouts',
       callback
     );
+  },
+  /**
+   * ### test mocha
+   *
+   * @task test-mocha
+   * @namespace tasks
+   */
+  'test-mocha': () => {
+    console.log('test-mocha:', paths.for.tests.mocha.vcard);
+    gulp.src(paths.for.tests.mocha.vcard, { read: false })
+      // `gulp-mocha` needs filepaths so you can't have any plugins before it
+      .pipe(mocha({ reporter: 'list' }))
+      .on('error', () => { }) // jscs:ignore jsDoc
+    ;
   },
   /**
    * #### testing
