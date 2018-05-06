@@ -2,6 +2,9 @@
 
 ## latest
 
+0.0.6
+added module vcard with mocha testing
+
 0.0.5
 added gulp webserver tasks, server.js for static files in ./htdocs, livereload, linters
 

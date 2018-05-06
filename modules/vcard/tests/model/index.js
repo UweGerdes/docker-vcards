@@ -5,13 +5,16 @@
 
 const assert = require('assert');
 
+const vcards = require('../../model/vcard.js');
+
 /* jshint mocha: true */
 /* jscs:disable jsDoc */
 
-describe('Array', () => {
-  describe('#indexOf()', () => {
-    it('should return -1 when the value is not present', () => {
-      assert.equal([1, 2, 3].indexOf(4), -1);
+describe('vcard', () => {
+  describe('get()', () => {
+    it('should return Array with at least one entry', () => {
+      assert.equal(vcards.get().length > 0, true);
+      assert.equal(vcards.get()[0].name, 'Gerdes');
     });
   });
 });
