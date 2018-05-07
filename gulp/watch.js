@@ -4,7 +4,7 @@
 'use strict';
 
 const gulp = require('gulp'),
-  config = require('./lib/config'),
+  config = require('../lib/config'),
   loadTasks = require('./lib/load-tasks'),
   log = require('../lib/log')
   ;

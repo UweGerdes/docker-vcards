@@ -9,7 +9,7 @@ const fs = require('fs'),
   mocha = require('gulp-mocha'),
   sequence = require('gulp-sequence'),
   request = require('request'),
-  config = require('./lib/config'),
+  config = require('../lib/config'),
   loadTasks = require('./lib/load-tasks')
   ;
 

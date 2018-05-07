@@ -6,7 +6,7 @@
 const gulp = require('gulp'),
   server = require('gulp-develop-server'),
   livereload = require('gulp-livereload'),
-  config = require('./lib/config'),
+  config = require('../lib/config'),
   ipv4addresses = require('../lib/ipv4addresses.js'),
   loadTasks = require('./lib/load-tasks'),
   log = require('../lib/log')

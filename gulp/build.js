@@ -10,7 +10,7 @@ const gulp = require('gulp'),
   notify = require('gulp-notify'),
   sequence = require('gulp-sequence'),
   rename = require('rename'),
-  paths = require('./lib/paths'),
+  config = require('../lib/config'),
   loadTasks = require('./lib/load-tasks')
   ;
 
@@ -52,16 +52,16 @@ const tasks = {
    * @namespace tasks
    */
   'less': () => {
-    return gulp.src(paths.for.build.less.src)
+    return gulp.src(config.gulp.build.less.src)
       .pipe(lessChanged({
         getOutputFileName: (file) => { // jscs:ignore jsDoc
-          return rename(file, { dirname: paths.for.build.less.dest, extname: '.css' });
+          return rename(file, { dirname: config.gulp.build.less.dest, extname: '.css' });
         }
       }))
       .pipe(less())
       .on('error', log.onError({ message:  'Error: <%= error.message %>', title: 'LESS Error' }))
       .pipe(autoprefixer('last 3 version', 'safari 5', 'ie 8', 'ie 9', 'ios 6', 'android 4'))
-      .pipe(gulp.dest(paths.for.build.less.dest))
+      .pipe(gulp.dest(config.gulp.build.less.dest))
       .pipe(log({ message: 'written: <%= file.path %>', title: 'Gulp less' }))
       ;
   }

@@ -15,7 +15,7 @@ const fs = require('fs'),
   sequence = require('gulp-sequence'),
   yamlValidate = require('gulp-yaml-validate'),
   jshint = require('jshint').JSHINT,
-  paths = require('./lib/paths'),
+  config = require('../lib/config'),
   loadTasks = require('./lib/load-tasks')
   ;
 
@@ -51,7 +51,7 @@ const tasks = {
    * @namespace tasks
    */
   'jshint': () => {
-    return gulp.src(paths.forWatch('jshint'))
+    return gulp.src(config.gulp.watch.jshint)
       .pipe(changedInPlace({ howToDetermineDifference: 'modification-time' }))
       .pipe(gulpJshint())
       .pipe(jscs())
@@ -70,7 +70,7 @@ const tasks = {
    * @namespace tasks
    */
   'jsonlint': () => {
-    return gulp.src(paths.forWatch('jsonlint'))
+    return gulp.src(config.gulp.watch.jsonlint)
       .pipe(jsonlint())
       .pipe(jsonlint.reporter())
       ;
@@ -84,7 +84,7 @@ const tasks = {
    * @namespace tasks
    */
   'lesshint': () => {
-    return gulp.src(paths.forWatch('lesshint'))
+    return gulp.src(config.gulp.watch.lesshint)
       .pipe(lesshint())
       .on('error', function () {})
       .pipe(lesshint.reporter())
@@ -99,7 +99,7 @@ const tasks = {
    * @namespace tasks
    */
   'yamllint': () => {
-    return gulp.src(paths.forWatch('yamllint'))
+    return gulp.src(config.gulp.watch.yamllint)
       .pipe(yamlValidate({ space: 2 }))
       .on('error', (msg) => { // jscs:ignore jsDoc
         console.log(msg);
@@ -121,7 +121,7 @@ const tasks = {
    * @param {function} callback - gulp callback
    */
   'ejslint': (callback) => {
-    getFilenames(paths.forWatch('ejslint'))
+    getFilenames(config.gulp.watch.ejslint)
     .then((filenames) => { // jscs:ignore jsDoc
       return Promise.all(
         filenames.map(getFileContent)

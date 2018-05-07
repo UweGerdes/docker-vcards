@@ -11,8 +11,8 @@ const bodyParser = require('body-parser'),
   express = require('express'),
   morgan = require('morgan'),
   path = require('path'),
-  config = require('./lib/config').config,
-  ipv4addresses = require('./lib/ipv4addresses.js'),
+  config = require('./lib/config'),
+  ipv4addresses = require('./lib/ipv4addresses'),
   log = require('./lib/log'),
   app = express();
 
