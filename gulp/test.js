@@ -9,7 +9,7 @@ const fs = require('fs'),
   mocha = require('gulp-mocha'),
   sequence = require('gulp-sequence'),
   request = require('request'),
-  paths = require('./lib/paths'),
+  config = require('./lib/config'),
   loadTasks = require('./lib/load-tasks')
   ;
 
@@ -37,7 +37,7 @@ const tasks = {
    * @namespace tasks
    */
   'test-mocha': [['jshint'], () => {
-      gulp.src(paths.for.tests.mocha.vcard, { read: false })
+      gulp.src(config.gulp.tests.mocha.vcard, { read: false })
         // `gulp-mocha` needs filepaths so you can't have any plugins before it
         .pipe(mocha({ reporter: 'tap' }))
         .on('error', () => { }) // jscs:ignore jsDoc
@@ -52,7 +52,7 @@ const tasks = {
    * @param {function} callback - gulp callback
    */
   'test-compare-layouts': (callback) => {
-    getFilenames(paths.for.watch['test-compare-layouts'])
+    getFilenames(config.gulp.watch['test-compare-layouts'])
     .then(getRecentFile)
     .then((filename) => { // jscs:ignore jsDoc
       console.log('filename', filename);

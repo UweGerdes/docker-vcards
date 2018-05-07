@@ -1,5 +1,5 @@
 #
-#  Configuration for vcard webserver
+#  Configuration for vcard
 #
 
 paths:
@@ -44,6 +44,47 @@ paths:
       src: ./src/less/app.less
       dest: ./htdocs/css
 
+gulp:
+  watch:
+    jshint:
+      - ./*.js
+      - ./gulp/**/*.js
+      - ./lib/**/*.js
+      - ./modules/**/*.js
+      - ./src/**/*.js
+    jsonlint:
+      - ./**/*.json
+      - ./.jscsrc
+      - ./.jshintrc
+      - ./.lesshintrc
+    lesshint:
+      - ./src/less/**/*.less
+    yamllint:
+      - ./**/*.yaml
+      - ./**/*.yml
+    ejslint:
+      - ./**/*.ejs
+    less:
+      - ./src/less/app.less
+      - ./src/less/**/*.less
+    test-mocha:
+      - ./modules/vcard/tests/model/*.*
+      - ./modules/vcard/model/*.js
+    webserver:restart:
+      - ./server.js
+      - ./gulp/server.js
+    webserver:livereload:
+      - ./htdocs/**/*.html
+#      - ./htdocs/views/**/*.ejs
+#      - ./htdocs/img/**/*.*
+      - ./htdocs/css/app.css
+  tests:
+    mocha:
+      vcard: ./modules/vcard/tests/model/index.js
+  build:
+    less:
+      src: ./src/less/app.less
+      dest: ./htdocs/css
 
 webserver:
   server: ./server.js
