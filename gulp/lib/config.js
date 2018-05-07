@@ -24,12 +24,17 @@ module.exports = {
   /**
    * Exports config
    */
-  for: config,
+  config: config,
 
   /**
-   * Exports config
+   * Exports gulp
    */
   gulp: config.gulp,
+
+  /**
+   * Exports webserver
+   */
+  webserver: config.webserver,
 
   /**
    * Returns path for watch task
@@ -37,11 +42,11 @@ module.exports = {
    * @param {string} task - name
    * @returns {array} - array with config
    */
-  forWatch: (task) => {
-    if (!watch[task]) {
+  gulpWatch: (task) => {
+    if (!config.gulp.watch[task]) {
       throw ('watch path for ' + task + ' not defined in configuration.yaml');
     }
-    return watch[task];
+    return config.gulp.watch[task];
   },
 
   /**
@@ -50,10 +55,10 @@ module.exports = {
    * @param {string} task - name
    * @returns {object} - src and dest config
    */
-  forBuild: (task) => {
-    if (!build[task]) {
+  gulpBuild: (task) => {
+    if (!config.gulp.build[task]) {
       throw ('build path for ' + task + ' not defined in configuration.yaml');
     }
-    return build[task];
+    return config.gulp.build[task];
   }
 };

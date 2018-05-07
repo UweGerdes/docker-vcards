@@ -4,7 +4,7 @@
 'use strict';
 
 const gulp = require('gulp'),
-  paths = require('./lib/paths'),
+  config = require('./lib/config'),
   loadTasks = require('./lib/load-tasks'),
   log = require('../lib/log')
   ;
@@ -26,11 +26,12 @@ const tasks = {
      * Will watch and execute tasks when files changed in these folders
      */
     const tasks = loadTasks.tasks();
-    for (let task in paths.for.watch) {
-      if (paths.for.watch.hasOwnProperty(task)) {
+    for (let task in config.gulp.watch) {
+      if (config.gulp.watch.hasOwnProperty(task)) {
         if (tasks.indexOf(task) >= 0) {
-          gulp.watch(paths.forWatch(task), [task]);
-          log.info('Task "' + task + '" is watching: [ ' + paths.for.watch[task].join(', ') + ' ]');
+          gulp.watch(config.gulpWatch(task), [task]);
+          log.info('Task "' + task + '" is watching: [ ' +
+            config.gulp.watch[task].join(', ') + ' ]');
         }
       }
     }

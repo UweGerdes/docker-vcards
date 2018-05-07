@@ -70,12 +70,11 @@ gulp:
     test-mocha:
       - ./modules/vcard/tests/model/*.*
       - ./modules/vcard/model/*.js
-    webserver:restart:
+    webserver:
       - ./server.js
-      - ./gulp/server.js
-    webserver:livereload:
-      - ./htdocs/**/*.html
-#      - ./htdocs/views/**/*.ejs
+    livereload:
+      - ./htdocs/**/*.xhtml
+      - ./modules/**/*.ejs
 #      - ./htdocs/img/**/*.*
       - ./htdocs/css/app.css
   tests:

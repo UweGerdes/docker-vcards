@@ -55,6 +55,7 @@ gulp.task('default', (callback) => {
   sequence('lint',
     'build',
     'watch',
-    'webserver:init',
+    'livereload-start',
+    'webserver-start',
     callback);
 });
