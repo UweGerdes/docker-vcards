@@ -8,25 +8,28 @@ const gulp = require('gulp');
 let list = [];
 
 module.exports = {
-    /**
-     * Import tasks provided as an object into gulp
-     *
-     * @param tasks {object}
-     */
-    importTasks : (tasks) => {
-        Object
-          .keys(tasks)
-          .forEach((task) => {
-            gulp.task(task, tasks[task]);
-            list.push(task);
-          });
+  /**
+   * Import tasks provided as an object into gulp
+   *
+   * @param {object} tasks - task list
+   */
+  importTasks: (tasks) => {
+      Object.keys(tasks)
+      .forEach((task) => { // jscs:ignore jsDoc
+        if (typeof tasks[task] == 'function') {
+          gulp.task(task, tasks[task]);
+        } else {
+          gulp.task(task, tasks[task][0], tasks[task][1]);
+        }
+        list.push(task);
+      });
     },
-    /**
-     * get the task list
-     *
-     * @param tasks {object}
-     */
-    tasks : () => {
-        return list;
+  /**
+   * get the task list
+   *
+   * @param {object} tasks - task list
+   */
+  tasks: () => {
+      return list;
     }
 };
