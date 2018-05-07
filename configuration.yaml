@@ -5,49 +5,49 @@
 paths:
   watch:
     jshint:
-      - './*.js'
-      - './gulp/**/*.js'
-      - './lib/**/*.js'
-      - './modules/**/*.js'
-      - './src/**/*.js'
+      - ./*.js
+      - ./gulp/**/*.js
+      - ./lib/**/*.js
+      - ./modules/**/*.js
+      - ./src/**/*.js
     jsonlint:
-      - './**/*.json'
-      - './.jscsrc'
-      - './.jshintrc'
-      - './.lesshintrc'
+      - ./**/*.json
+      - ./.jscsrc
+      - ./.jshintrc
+      - ./.lesshintrc
     lesshint:
-      - './src/less/**/*.less'
+      - ./src/less/**/*.less
     yamllint:
-      - './**/*.yaml'
-      - './**/*.yml'
+      - ./**/*.yaml
+      - ./**/*.yml
     ejslint:
-      - './**/*.ejs'
+      - ./**/*.ejs
     less:
-      - './src/less/app.less'
-      - './src/less/**/*.less'
-    'test-mocha':
-      - './modules/vcard/tests/model/*.*'
-      - './modules/vcard/model/*.js'
-    'webserver:restart':
-      - './server.js'
-      - './gulp/server.js'
-    'webserver:livereload':
-      - './htdocs/**/*.html'
-#      - './htdocs/views/**/*.ejs'
-#      - './htdocs/img/**/*.*'
-      - './htdocs/css/app.css'
+      - ./src/less/app.less
+      - ./src/less/**/*.less
+    test-mocha:
+      - ./modules/vcard/tests/model/*.*
+      - ./modules/vcard/model/*.js
+    webserver:restart:
+      - ./server.js
+      - ./gulp/server.js
+    webserver:livereload:
+      - ./htdocs/**/*.html
+#      - ./htdocs/views/**/*.ejs
+#      - ./htdocs/img/**/*.*
+      - ./htdocs/css/app.css
   tests:
     mocha:
-      vcard: './modules/vcard/tests/model/index.js'
+      vcard: ./modules/vcard/tests/model/index.js
   build:
     less:
-      src: './src/less/app.less'
-      dest: './htdocs/css'
+      src: ./src/less/app.less
+      dest: ./htdocs/css
 
 
 webserver:
-  server: './server.js'
-  docroot: './htdocs'
-  modules: './modules'
+  server: ./server.js
+  docroot: ./htdocs
+  modules: ./modules
   httpPort: 8080
   livereloadPort: 8081
