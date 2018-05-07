@@ -36,13 +36,14 @@ const tasks = {
    * @task test-mocha
    * @namespace tasks
    */
-  'test-mocha': () => {
-    gulp.src(paths.for.tests.mocha.vcard, { read: false })
-      // `gulp-mocha` needs filepaths so you can't have any plugins before it
-      .pipe(mocha({ reporter: 'list' }))
-      .on('error', () => { }) // jscs:ignore jsDoc
-    ;
-  },
+  'test-mocha': [['jshint'], () => {
+      gulp.src(paths.for.tests.mocha.vcard, { read: false })
+        // `gulp-mocha` needs filepaths so you can't have any plugins before it
+        .pipe(mocha({ reporter: 'tap' }))
+        .on('error', () => { }) // jscs:ignore jsDoc
+      ;
+    }
+  ],
   /**
    * #### testing
    *

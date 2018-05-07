@@ -57,6 +57,7 @@ const tasks = {
       .pipe(jscs())
       .pipe(jscsStylish.combineWithHintResults())
       .pipe(gulpJshint.reporter('default'))
+      .pipe(gulpJshint.reporter('fail'))
 //      .pipe(gulpJshint.reporter('jshint-stylish'))
       ;
   },
