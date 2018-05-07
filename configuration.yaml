@@ -26,7 +26,8 @@ paths:
       - './src/less/app.less'
       - './src/less/**/*.less'
     'test-mocha':
-      - './modules/vcard/tests/model/index.js'
+      - './modules/vcard/tests/model/*.*'
+      - './modules/vcard/model/*.js'
     'webserver:restart':
       - './server.js'
       - './gulp/server.js'
