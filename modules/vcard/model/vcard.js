@@ -3,7 +3,8 @@
  */
 'use strict';
 
-const vcf = require('vcf');
+const fs = require('fs'),
+  vcf = require('vcf');
 
 const testData = 'BEGIN:VCARD\n' +
   'VERSION:2.1\n' +
@@ -34,5 +35,26 @@ module.exports = {
   getTestData: () => {
     const data = vcf.parse(testData);
     return data;
+  },
+  /**
+   * read testData file
+   *
+   * @param {string} filename - file to open
+   */
+  open: (filename) => {
+    return new Promise(function (resolve, reject) {
+      try {
+        fs.readFile(filename, 'utf8', function (err, buffer) {
+          if (err) {
+            reject(err);
+          } else {
+            const data = vcf.parse(buffer);
+            resolve(data);
+          }
+        });
+      } catch (err) {
+        reject(err);
+      }
+    });
   }
 };
