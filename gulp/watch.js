@@ -1,5 +1,7 @@
 /**
- * @module watch
+ * ## Gulp watch task
+ *
+ * @module gulp/watch
  */
 'use strict';
 
@@ -9,22 +11,16 @@ const gulp = require('gulp'),
   log = require('../lib/log')
   ;
 
-/**
- * ### Overview
- *
- * Register watch tasks for all configured files
- *
- * @namespace tasks
- */
 const tasks = {
   /**
+   * ### watch
+   *
+   * watch and execute tasks when files changed
+   *
    * @task watch
    * @namespace tasks
    */
   'watch': () => {
-    /**
-     * Will watch and execute tasks when files changed in these folders
-     */
     const tasks = loadTasks.tasks();
     for (let task in config.gulp.watch) {
       if (config.gulp.watch.hasOwnProperty(task)) {

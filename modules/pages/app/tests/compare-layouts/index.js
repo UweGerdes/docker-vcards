@@ -1,5 +1,7 @@
 /**
  * test app page
+ *
+ * @module pages/app/tests/compare-layouts
  */
 
 const url = 'http://webserver:8080/app';

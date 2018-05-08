@@ -1,5 +1,7 @@
 /**
- * @module test
+ * ## Gulp test tasks
+ *
+ * @module gulp/test
  */
 'use strict';
 
@@ -8,16 +10,13 @@ const fs = require('fs'),
   gulp = require('gulp'),
   mocha = require('gulp-mocha'),
   sequence = require('gulp-sequence'),
-  request = require('request'),
   config = require('../lib/config'),
   loadTasks = require('./lib/load-tasks')
   ;
 
-let runningTests = { };
-
 const tasks = {
   /**
-   * ### Default gulp test task
+   * ### test
    *
    * @task test
    * @namespace tasks
@@ -31,7 +30,7 @@ const tasks = {
     );
   },
   /**
-   * ### test mocha
+   * ### test-mocha
    *
    * @task test-mocha
    * @namespace tasks
@@ -45,7 +44,7 @@ const tasks = {
     }
   ],
   /**
-   * #### testing
+   * ### test-compare-layouts
    *
    * @task test-compare-layouts
    * @namespace tasks
@@ -66,34 +65,9 @@ const tasks = {
       callback();
     })
     ;
-  },
-  /**
-   * #### Execute compare-layouts tests
-   *
-   * executes a request to compare-layouts server
-   *
-   * @task test-compare-layouts
-   * @namespace tasks
-   * @param {function} callback - gulp callback
-   */
-  'test-test': (callback) => {
-    const taskName = 'test-compare-layouts';
-    if (!runningTests[taskName]) {
-      runningTests[taskName] = true;
-      // const url = request.get('http://vcard-compare-layouts:8080/run/default').pipe(res);
-      // request.get({ uri: 'http://vcard-compare-layouts:8080/run/default' });
-      request('http://vcard-compare-layouts:8080/run/default',
-        (error, response, body) => { // jscs:ignore jsDoc
-          console.log('error:', error);
-          console.log('statusCode:', response && response.statusCode);
-          console.log(body);
-          runningTests[taskName] = false;
-          callback();
-        }
-      );
-    }
   }
 };
+
 /**
  * get list of files for glob pattern
  *

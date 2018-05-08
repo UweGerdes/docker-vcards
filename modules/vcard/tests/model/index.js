@@ -47,4 +47,18 @@ describe('vcard', () => {
       assert.equal(testData[1].get('n').valueOf(), 'Gerdes;Uwe');
     });
   });
+  describe('get field list', () => {
+    let testData;
+    before(function (done) {
+      vcards.open(path.join(__dirname, 'testdata.vcf'))
+      .then(function (data) {
+        testData = data;
+      })
+      .then(done);
+    });
+    it('should return Array with at least two entries', () => {
+      assert.equal(testData.length > 1, true);
+      assert.deepEqual(testData.getFieldList(0), ['n', 'fn']);
+    });
+  });
 });

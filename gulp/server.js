@@ -1,5 +1,7 @@
 /**
- * @module server: webserver and livereload
+ * ## Gulp server tasks
+ *
+ * @module gulp/server
  */
 'use strict';
 
@@ -12,18 +14,11 @@ const gulp = require('gulp'),
   log = require('../lib/log')
   ;
 
-/**
- * ### Overview
- *
- * Register watch tasks for all configured files
- *
- * @namespace tasks
- */
 const tasks = {
   /**
-   * #### webserver restart task
+   * ### webserver restart task
    *
-   * @task webserver:restart
+   * @task webserver
    * @namespace tasks
    * @param {function} callback - gulp callback
    */
@@ -36,9 +31,9 @@ const tasks = {
     });
   },
   /**
-   * #### webserver livereload task
+   * ### webserver livereload task
    *
-   * @task webserver:livereload
+   * @task livereload
    * @namespace tasks
    */
   'livereload': () => {
@@ -48,9 +43,9 @@ const tasks = {
       ;
   },
   /**
-   * #### webserver start task
+   * ### webserver start task
    *
-   * @task webserver:start
+   * @task webserver-start
    * @namespace tasks
    * @param {function} callback - gulp callback
    */
@@ -63,9 +58,9 @@ const tasks = {
     );
   },
   /**
-   * #### webserver livereload start task
+   * ### webserver livereload start task
    *
-   * @task webserver:livereload:start
+   * @task livereload-start
    * @namespace tasks
    */
   'livereload-start': () => {

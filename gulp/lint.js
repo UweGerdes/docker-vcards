@@ -1,5 +1,5 @@
 /**
- * @module lint
+ * @module gulp/lint
  */
 'use strict';
 
@@ -23,16 +23,11 @@ const tasks = {
   /**
    * ### Default gulp lint task
    *
-   * @task build
+   * @task lint
    * @namespace tasks
    * @param {function} callback - gulp callback
    */
   'lint': (callback) => {
-    /**
-     * Run all lint tasks
-     *
-     * @namespace tasks:build
-     */
     sequence(
       'yamllint',
       'jshint',

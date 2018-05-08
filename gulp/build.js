@@ -1,5 +1,5 @@
 /**
- * @module build
+ * @module gulp/build
  */
 'use strict';
 
@@ -34,13 +34,9 @@ const tasks = {
    * @param {function} callback - gulp callback
    */
   'build': (callback) => {
-    /**
-     * Default gulp build task
-     *
-     * @namespace tasks:build
-     */
     sequence(
       'less',
+      'jsdoc',
       callback
     );
   },
@@ -90,7 +86,7 @@ const tasks = {
         'cleverLinks': false,
         'monospaceLinks': false,
         'default': {
-          'outputSourceFiles': true
+          'outputSourceFiles': 'true'
         },
         'path': 'ink-docstrap',
         'theme': 'cerulean',

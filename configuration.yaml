@@ -4,6 +4,12 @@
 
 gulp:
   watch:
+    jsdoc:
+#      - ./*.js
+#      - ./gulp/**/*.js
+      - ./lib/**/*.js
+#      - ./modules/**/*.js
+#      - ./src/**/*.js
     jshint:
       - ./*.js
       - ./gulp/**/*.js
@@ -41,8 +47,11 @@ gulp:
   build:
     jsdoc:
       src:
-        - README.md
-        - ./gulp/**/*.js
+      - ./*.js
+      - ./gulp/**/*.js
+      - ./lib/**/*.js
+      - ./modules/**/*.js
+      - ./src/**/*.js
       dest: ./docs/jsdoc
     less:
       src: ./src/less/app.less
