@@ -14,7 +14,9 @@ const bodyParser = require('body-parser'),
   config = require('./lib/config'),
   ipv4addresses = require('./lib/ipv4addresses'),
   log = require('./lib/log'),
-  app = express();
+  vcardRoutes = require('./modules/vcard/server/routes'),
+  app = express()
+  ;
 
 const httpPort = config.webserver.httpPort,
   livereloadPort = config.webserver.livereloadPort,
@@ -47,6 +49,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Serve static files
 app.use(express.static(docRoot));
+
+// Serve modules
+app.use('/vcard', vcardRoutes);
 
 /**
  * Route for root dir

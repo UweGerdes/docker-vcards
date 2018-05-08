@@ -36,6 +36,7 @@ gulp:
       - ./modules/vcard/model/*.js
     webserver:
       - ./server.js
+      - ./modules/vcard/server/*.js
     livereload:
       - ./htdocs/**/*.xhtml
       - ./modules/**/*.ejs
