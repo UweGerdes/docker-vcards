@@ -48,17 +48,20 @@ describe('vcard', () => {
     });
   });
   describe('get field list', () => {
-    let testData;
+    let testData = [];
     before(function (done) {
       vcards.open(path.join(__dirname, 'testdata.vcf'))
       .then(function (data) {
-        testData = data;
+        data.forEach((card) => { // jscs:ignore jsDoc
+          testData.push(new vcards.Vcard(card));
+        });
       })
       .then(done);
     });
-    it('should return Array with at least two entries', () => {
-      assert.equal(testData.length > 1, true);
-      assert.deepEqual(testData.getFieldList(0), ['n', 'fn']);
+    it('should return Array with field names', () => {
+      assert.deepEqual(testData[0].getFields(), ['version', 'n', 'fn', 'tel', 'email', 'url']);
+      assert.deepEqual(testData[1].getFields(),
+        ['version', 'n', 'fn', 'tel', 'adr', 'email', 'rev']);
     });
   });
 });

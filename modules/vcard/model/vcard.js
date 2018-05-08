@@ -16,7 +16,24 @@ const testData = 'BEGIN:VCARD\n' +
   'URL:http://www.uwegerdes.de/\n' +
   'END:VCARD';
 
+class Vcard {
+  /**
+   * build a vcard
+   */
+  constructor(vcard) {
+    this.vcard = vcard;
+  }
+
+  /**
+   * get the field names
+   */
+  getFields() {
+    return Object.keys(this.vcard.data);
+  }
+}
+
 module.exports = {
+  Vcard: Vcard,
   /**
    * get static list
    */
