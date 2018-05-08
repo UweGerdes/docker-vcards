@@ -5,6 +5,7 @@
 
 const gulp = require('gulp'),
   autoprefixer = require('gulp-autoprefixer'),
+  jsdoc = require('gulp-jsdoc3'),
   less = require('gulp-less'),
   lessChanged = require('gulp-less-changed'),
   notify = require('gulp-notify'),
@@ -63,6 +64,43 @@ const tasks = {
       .pipe(autoprefixer('last 3 version', 'safari 5', 'ie 8', 'ie 9', 'ios 6', 'android 4'))
       .pipe(gulp.dest(config.gulp.build.less.dest))
       .pipe(log({ message: 'written: <%= file.path %>', title: 'Gulp less' }))
+      ;
+  },
+  /**
+   * #### Compile jsdoc
+   *
+   * compile jsdoc
+   *
+   * @task jsdoc
+   * @namespace tasks
+   * @param {function} callback - gulp callback
+   */
+  'jsdoc': (callback) => {
+    const jsdocConfig = {
+      'tags': {
+        'allowUnknownTags': true
+      },
+      'opts': {
+        'destination': config.gulp.build.jsdoc.dest
+      },
+      'plugins': [
+        'plugins/markdown'
+      ],
+      'templates': {
+        'cleverLinks': false,
+        'monospaceLinks': false,
+        'default': {
+          'outputSourceFiles': true
+        },
+        'path': 'ink-docstrap',
+        'theme': 'cerulean',
+        'navType': 'vertical',
+        'linenums': true,
+        'dateFormat': 'D.MM.YY, HH:mm:ss'
+      }
+    };
+    gulp.src(config.gulp.build.jsdoc.src, { read: false })
+      .pipe(jsdoc(jsdocConfig, callback))
       ;
   }
 };

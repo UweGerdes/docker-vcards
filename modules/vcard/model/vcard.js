@@ -1,5 +1,4 @@
-/**
- * Model for vCard
+/** Model for vCard
  */
 'use strict';
 
@@ -17,8 +16,7 @@ const testData = 'BEGIN:VCARD\n' +
   'END:VCARD';
 
 module.exports = {
-  /**
-   * get static list
+  /** get static list
    */
   get: () => {
     return [
@@ -36,9 +34,7 @@ module.exports = {
     const data = vcf.parse(testData);
     return data;
   },
-  /**
-   * read testData file
-   *
+  /** read testData file
    * @param {string} filename - file to open
    */
   open: (filename) => {
