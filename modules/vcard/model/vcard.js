@@ -30,6 +30,25 @@ class Vcard {
   getFields() {
     return Object.keys(this.vcard.data);
   }
+
+  /**
+   * get the field names
+   */
+  getValue(key) {
+    let value = this.vcard.get(key).valueOf();
+    if (typeof value == 'string') {
+      return value;
+    } else {
+      let result = [];
+      value.forEach((entry) => { // jscs:ignore jsDoc
+        result.push({
+          type: entry.type,
+          value: entry.valueOf()
+        });
+      });
+      return result;
+    }
+  }
 }
 
 module.exports = {

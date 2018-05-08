@@ -47,7 +47,7 @@ describe('vcard', () => {
       assert.equal(testData[1].get('n').valueOf(), 'Gerdes;Uwe');
     });
   });
-  describe('get field list', () => {
+  describe('read file, make Vcard list and', () => {
     let testData = [];
     before(function (done) {
       vcards.open(path.join(__dirname, 'testdata.vcf'))
@@ -58,10 +58,34 @@ describe('vcard', () => {
       })
       .then(done);
     });
-    it('should return Array with field names', () => {
-      assert.deepEqual(testData[0].getFields(), ['version', 'n', 'fn', 'tel', 'email', 'url']);
-      assert.deepEqual(testData[1].getFields(),
-        ['version', 'n', 'fn', 'tel', 'adr', 'email', 'rev']);
+    describe('get fields', () => {
+      it('should return Array with field names', () => {
+        assert.deepEqual(testData[0].getFields(), ['version', 'n', 'fn', 'tel', 'email', 'url']);
+        assert.deepEqual(testData[1].getFields(),
+          ['version', 'n', 'fn', 'tel', 'adr', 'email', 'rev']);
+      });
+    });
+    describe('get data', () => {
+      it('should return string for n', () => {
+        assert.deepEqual(testData[0].getValue('n'), 'Gerdes;Uwe;;;');
+        assert.deepEqual(testData[1].getValue('n'), 'Gerdes;Uwe');
+      });
+    });
+    describe('get data', () => {
+      it('should return Array for tel', () => {
+        assert.deepEqual(testData[0].getValue('tel'),
+          [
+            { type: ['work', 'voice'], value: '040 256486' },
+            { type: 'cell', value: '0179 3901008' }
+          ]
+        );
+        assert.deepEqual(testData[1].getValue('tel'),
+          [
+            { type: ['work', 'voice'], value: '+49 40 25178252' },
+            { type: 'cell', value: '01793901008' }
+          ]
+        );
+      });
     });
   });
 });
