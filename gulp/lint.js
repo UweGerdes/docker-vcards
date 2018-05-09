@@ -12,6 +12,7 @@ const fs = require('fs'),
   gulpJshint = require('gulp-jshint'),
   jsonlint = require('gulp-jsonlint'),
   lesshint = require('gulp-lesshint'),
+  pugLinter = require('gulp-pug-linter'),
   sequence = require('gulp-sequence'),
   yamlValidate = require('gulp-yaml-validate'),
   jshint = require('jshint').JSHINT,
@@ -99,6 +100,20 @@ const tasks = {
       .on('error', (msg) => { // jscs:ignore jsDoc
         console.log(msg);
       })
+      ;
+  },
+  /**
+   * #### Lint pug files
+   *
+   * apply pug-linter to pug files
+   *
+   * @task puglint
+   * @namespace tasks
+   */
+  'puglint': () => {
+    return gulp.src(config.gulp.watch.puglint)
+      .pipe(pugLinter())
+      .pipe(pugLinter.reporter('fail'))
       ;
   },
   /**

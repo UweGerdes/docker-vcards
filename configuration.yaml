@@ -31,6 +31,8 @@ gulp:
     less:
       - ./src/less/app.less
       - ./src/less/**/*.less
+    puglint:
+      - ./**/*.pug
     test-mocha:
       - ./modules/vcard/tests/model/*.*
       - ./modules/vcard/tests/server/*.*
