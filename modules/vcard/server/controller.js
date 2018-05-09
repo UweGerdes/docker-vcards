@@ -3,9 +3,10 @@
  */
 'use strict';
 
-const vcards = require('../model/vcard.js');
+const path = require('path'),
+  vcards = require('../model/vcard.js');
 
-let testData;
+let data;
 
 module.exports = {
   /**
@@ -15,8 +16,8 @@ module.exports = {
    */
   init: (filename) => {
     vcards.open(filename)
-    .then(function (data) {
-      testData = data;
+    .then(function (res) {
+      data = res;
       return data;
     });
   },
@@ -30,6 +31,9 @@ module.exports = {
    * @param {object} res - result
    */
   list: (req, res) => {
-    res.send('<ul id="list"><li>test</li><li>test2</li></ul>');
+    res.render(path.join(__dirname, '..', 'views', 'index.ejs'), {
+      vcards: data
+    });
+
   }
 };

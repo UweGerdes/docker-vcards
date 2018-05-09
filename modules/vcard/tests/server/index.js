@@ -24,9 +24,10 @@ describe('vcard server', function () {
           expect(err).to.be.null;
           expect(res).to.have.status(200);
           expect(res).to.be.html;
-          assert.equal(res.text, '<ul id="list"><li>test</li><li>test2</li></ul>');
           const { document } = (new JSDOM(res.text)).window;
-          assert.equal(document.getElementById('list').childNodes.length, 2);
+          const list = document.getElementById('list').getElementsByTagName('li');
+          assert.equal(list.length, 2);
+          assert.equal(list[0].textContent, 'Gerdes;Uwe;;;');
           done();
         });
     });

@@ -4,9 +4,12 @@
 'use strict';
 
 const express = require('express'),
+  path = require('path'),
   router = express.Router();
 
 const controller = require('./controller.js');
+
+controller.init(path.join(__dirname, '..', 'tests', 'model', 'testdata.vcf'));
 
 // Home page route.
 router.get('/', controller.list);
