@@ -30,10 +30,11 @@ const tasks = {
    */
   'lint': (callback) => {
     sequence(
-      'yamllint',
       'jshint',
       'jsonlint',
       'lesshint',
+      'yamllint',
+      'puglint',
       'ejslint',
       callback
     );

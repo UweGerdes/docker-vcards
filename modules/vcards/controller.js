@@ -23,6 +23,21 @@ module.exports = {
   },
 
   /**
+   * ### index page
+   *
+   * @task index
+   * @namespace vcard
+   * @param {object} req - request
+   * @param {object} res - result
+   */
+  index: (req, res) => {
+    res.render(path.join(__dirname, 'views', 'index.pug'), {
+      vcards: data,
+      title: 'vcard'
+    });
+  },
+
+  /**
    * ### list
    *
    * @task list
@@ -32,8 +47,8 @@ module.exports = {
    */
   list: (req, res) => {
     res.render(path.join(__dirname, 'views', 'list.pug'), {
-      vcards: data
+      vcards: data,
+      title: 'vcard'
     });
-
   }
 };

@@ -37,12 +37,11 @@ gulp:
       - ./modules/vcards/*/**/*.*
     webserver:
       - ./server.js
-      - ./modules/vcard/server/*.js
       - ./modules/vcards/*.js
     livereload:
       - ./htdocs/**/*.xhtml
       - ./modules/**/*.ejs
-#      - ./htdocs/img/**/*.*
+      - ./htdocs/img/**/*.*
       - ./htdocs/css/app.css
   tests:
     vcards:

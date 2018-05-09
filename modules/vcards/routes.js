@@ -12,7 +12,8 @@ const controller = require('./controller.js');
 controller.init(path.join(__dirname, 'tests', 'testdata.vcf'));
 
 // Home page route.
-router.get('/', controller.list);
+router.get('/', controller.index);
+router.get('/list/', controller.list);
 
 // About page route.
 router.get('/:id/', function (req, res) {
