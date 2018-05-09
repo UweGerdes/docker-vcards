@@ -22,21 +22,21 @@ const tasks = {
    * @namespace tasks
    * @param {function} callback - gulp callback
    */
-  'test': (callback) => {
+  'tests': (callback) => {
     sequence(
-      'test-mocha',
+      'test-vcards',
 //      'test-compare-layouts',
       callback
     );
   },
   /**
-   * ### test-mocha
+   * ### test-vcards
    *
-   * @task test-mocha
+   * @task test-vcards
    * @namespace tasks
    */
-  'test-mocha': [['jshint'], () => {
-      gulp.src(config.gulp.tests.mocha.vcard, { read: false })
+  'test-vcards': [['jshint'], () => {
+      return gulp.src(config.gulp.tests.vcards, { read: false })
         // `gulp-mocha` needs filepaths so you can't have any plugins before it
         .pipe(mocha({ reporter: 'tap' }))
         .on('error', () => { }) // jscs:ignore jsDoc

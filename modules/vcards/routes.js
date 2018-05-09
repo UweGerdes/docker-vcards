@@ -9,7 +9,7 @@ const express = require('express'),
 
 const controller = require('./controller.js');
 
-controller.init(path.join(__dirname, '..', 'tests', 'model', 'testdata.vcf'));
+controller.init(path.join(__dirname, 'tests', 'testdata.vcf'));
 
 // Home page route.
 router.get('/', controller.list);

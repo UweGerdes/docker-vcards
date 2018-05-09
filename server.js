@@ -14,7 +14,7 @@ const bodyParser = require('body-parser'),
   config = require('./lib/config'),
   ipv4addresses = require('./lib/ipv4addresses'),
   log = require('./lib/log'),
-  vcardRoutes = require('./modules/vcard/server/routes'),
+  vcardsRoutes = require('./modules/vcards/routes'),
   app = express()
   ;
 
@@ -51,7 +51,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(docRoot));
 
 // Serve modules
-app.use('/vcard', vcardRoutes);
+app.use('/vcards', vcardsRoutes);
 
 /**
  * Route for root dir

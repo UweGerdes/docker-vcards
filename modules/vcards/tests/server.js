@@ -16,10 +16,10 @@ const chai = require('chai'),
 chai.use(chaiHttp);
 
 describe('vcard server', function () {
-  describe('GET /vcard/', function () {
+  describe('GET /vcards/', function () {
     it('should list ALL vcards', function (done) {
       chai.request('http://172.25.0.2:8080')
-        .get('/vcard/')
+        .get('/vcards/')
         .end(function (err, res) {
           expect(err).to.be.null;
           expect(res).to.have.status(200);
@@ -32,10 +32,10 @@ describe('vcard server', function () {
         });
     });
   });
-  describe('GET /vcard/0/', function () {
+  describe('GET /vcards/0/', function () {
     it('should list list a SINGLE vcard', function (done) {
       chai.request('http://172.25.0.2:8080')
-        .get('/vcard/0/')
+        .get('/vcards/0/')
         .end(function (err, res) {
           expect(err).to.be.null;
           expect(res).to.have.status(200);

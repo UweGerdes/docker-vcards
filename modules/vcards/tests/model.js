@@ -6,7 +6,7 @@
 const assert = require('assert'),
   path = require('path');
 
-const vcards = require('../../model/vcard.js');
+const vcards = require('../model.js');
 
 /* jshint mocha: true */
 /* jscs:disable jsDoc */

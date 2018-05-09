@@ -8,6 +8,7 @@
 const gulp = require('gulp'),
   server = require('gulp-develop-server'),
   livereload = require('gulp-livereload'),
+  sequence = require('gulp-sequence'),
   config = require('../lib/config'),
   ipv4addresses = require('../lib/ipv4addresses.js'),
   loadTasks = require('./lib/load-tasks'),
@@ -16,19 +17,18 @@ const gulp = require('gulp'),
 
 const tasks = {
   /**
-   * ### webserver restart task
+   * ### webserver restart and run tests
    *
    * @task webserver
    * @namespace tasks
    * @param {function} callback - gulp callback
    */
   'webserver': (callback) => {
-    server.changed((error) => { // jscs:ignore jsDoc
-      if (!error) {
-        livereload.changed({ path: '/', quiet: true });
-      }
-      callback();
-    });
+    sequence(
+      'webserver-restart',
+      'tests',
+      callback
+    );
   },
   /**
    * ### webserver livereload task
@@ -56,6 +56,21 @@ const tasks = {
       },
       callback
     );
+  },
+  /**
+   * ### webserver restart task
+   *
+   * @task webserver-restart
+   * @namespace tasks
+   * @param {function} callback - gulp callback
+   */
+  'webserver-restart': (callback) => {
+    server.changed((error) => { // jscs:ignore jsDoc
+      if (!error) {
+        livereload.changed({ path: '/', quiet: true });
+      }
+      callback();
+    });
   },
   /**
    * ### webserver livereload start task

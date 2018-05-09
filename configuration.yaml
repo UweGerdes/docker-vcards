@@ -33,23 +33,20 @@ gulp:
       - ./src/less/**/*.less
     puglint:
       - ./**/*.pug
-    test-mocha:
-      - ./modules/vcard/tests/model/*.*
-      - ./modules/vcard/tests/server/*.*
-      - ./modules/vcard/model/*.js
+    test-vcards:
+      - ./modules/vcards/*/**/*.*
     webserver:
       - ./server.js
       - ./modules/vcard/server/*.js
+      - ./modules/vcards/*.js
     livereload:
       - ./htdocs/**/*.xhtml
       - ./modules/**/*.ejs
 #      - ./htdocs/img/**/*.*
       - ./htdocs/css/app.css
   tests:
-    mocha:
-      vcard:
-        - ./modules/vcard/tests/model/index.js
-        - ./modules/vcard/tests/server/index.js
+    vcards:
+      - ./modules/vcards/tests/*.js
   build:
     jsdoc:
       src:

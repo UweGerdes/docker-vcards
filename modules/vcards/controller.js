@@ -4,7 +4,7 @@
 'use strict';
 
 const path = require('path'),
-  vcards = require('../model/vcard.js');
+  vcards = require('./model.js');
 
 let data;
 
@@ -31,7 +31,7 @@ module.exports = {
    * @param {object} res - result
    */
   list: (req, res) => {
-    res.render(path.join(__dirname, '..', 'views', 'list.pug'), {
+    res.render(path.join(__dirname, 'views', 'list.pug'), {
       vcards: data
     });
 
