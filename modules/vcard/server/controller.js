@@ -31,7 +31,7 @@ module.exports = {
    * @param {object} res - result
    */
   list: (req, res) => {
-    res.render(path.join(__dirname, '..', 'views', 'index.ejs'), {
+    res.render(path.join(__dirname, '..', 'views', 'list.ejs'), {
       vcards: data
     });
 

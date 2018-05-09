@@ -232,7 +232,7 @@ const replaceEjsTags = (file) => {
  */
 const fileJsHint = (file) => {
   return new Promise((resolve) => { // jscs:ignore jsDoc
-    jshint(file.jsCode, { }, { });
+    jshint(file.jsCode, { esversion: 6, asi: true }, { });
     if (jshint.errors) {
       file.errors = jshint.errors;
     }
