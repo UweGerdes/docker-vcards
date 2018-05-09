@@ -1,0 +1,54 @@
+/**
+ * Test for vCard data model
+ */
+'use strict';
+
+/* jshint expr: true, mocha: true, browser: true */
+
+const chai = require('chai'),
+  chaiHttp = require('chai-http'),
+  jsdom = require('jsdom'),
+  assert = chai.assert,
+  expect = chai.expect,
+  { JSDOM } = jsdom
+  ;
+
+chai.use(chaiHttp);
+
+describe('vcard server', function () {
+  describe('GET /vcard/', function () {
+    it('should list ALL vcards', function (done) {
+      chai.request('http://172.25.0.2:8080')
+        .get('/vcard/')
+        .end(function (err, res) {
+          expect(err).to.be.null;
+          expect(res).to.have.status(200);
+          expect(res).to.be.html;
+          assert.equal(res.text, '<ul id="list"><li>test</li><li>test2</li></ul>');
+          const { document } = (new JSDOM(res.text)).window;
+          assert.equal(document.getElementById('list').childNodes.length, 2);
+          done();
+        });
+    });
+  });
+  describe('GET /vcard/0/', function () {
+    it('should list list a SINGLE vcard', function (done) {
+      chai.request('http://172.25.0.2:8080')
+        .get('/vcard/0/')
+        .end(function (err, res) {
+          expect(err).to.be.null;
+          expect(res).to.have.status(200);
+          expect(res).to.be.html;
+          assert.equal(res.text, 'vCard get 0');
+          /*
+          const { document } = (new JSDOM(res.text)).window;
+          assert.equal(document.body.innerHTML,
+            '<ul id="list"><li>test</li><li>test2</li></ul>');
+          assert.equal(document.getElementById('list').childNodes.length, 2);
+          console.log('list:', document.getElementById('list').childNodes.length);
+          */
+          done();
+        });
+    });
+  });
+});

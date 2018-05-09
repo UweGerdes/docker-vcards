@@ -1,7 +1,7 @@
 {
   "name": "vCard",
   "description": "Gulp and other packages for vCard webapp development and testing",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "keywords": [
     "gulp",
     "frontend",
@@ -18,6 +18,8 @@
     "node": ">=8.11.0"
   },
   "devDependencies": {
+    "chai": "^4.1.2",
+    "chai-http": "^4.0.0",
     "dateformat": "^3.0.3",
     "glob": "^7.1.2",
     "gulp": "^3.9.1",
@@ -39,6 +41,7 @@
     "gulp-sequence": "^1.0.0",
     "gulp-yaml-validate": "^1.0.2",
     "js-yaml": "^3.11.0",
+    "jsdom": "11.10.0",
     "jshint": "^2.9.5",
     "rename": "^1.0.4",
     "request": "^2.85.0"

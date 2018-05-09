@@ -11,7 +11,7 @@ const vcards = require('../../model/vcard.js');
 /* jshint mocha: true */
 /* jscs:disable jsDoc */
 
-describe('vcard', () => {
+describe('vcard model', () => {
   describe('get()', () => {
     it('should return Array with at least one entry', () => {
       assert.equal(vcards.get().length > 0, true);

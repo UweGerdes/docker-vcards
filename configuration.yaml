@@ -33,6 +33,7 @@ gulp:
       - ./src/less/**/*.less
     test-mocha:
       - ./modules/vcard/tests/model/*.*
+      - ./modules/vcard/tests/server/*.*
       - ./modules/vcard/model/*.js
     webserver:
       - ./server.js
@@ -44,7 +45,9 @@ gulp:
       - ./htdocs/css/app.css
   tests:
     mocha:
-      vcard: ./modules/vcard/tests/model/index.js
+      vcard:
+        - ./modules/vcard/tests/model/index.js
+        - ./modules/vcard/tests/server/index.js
   build:
     jsdoc:
       src:

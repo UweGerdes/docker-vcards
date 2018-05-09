@@ -2,6 +2,9 @@
 
 ## latest
 
+0.0.7
+added testing for vcard server
+
 0.0.6
 added module vcard with mocha testing
 
