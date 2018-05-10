@@ -49,7 +49,7 @@ describe('vcard server', function () {
           assert.equal(list.length, 2);
           assert.equal(list[0].textContent, 'Gerdes;Uwe;;;');
           const item = document.getElementById('item').getElementsByTagName('li');
-          assert.equal(item.length, 6);
+          assert.equal(item.length, 8);
           assert.equal(item[1].textContent, 'n: Gerdes;Uwe;;;');
           done();
         });
