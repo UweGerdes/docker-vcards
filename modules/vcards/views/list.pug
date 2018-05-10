@@ -1,3 +1,4 @@
 ul#list.list
-  each vcard in vcards
-    li.list-item= vcard.get('n').valueOf()
+  each vcard, id in vcards
+    li.list-item
+      a(href='/vcards/' + id + '/')= vcard.get('n').valueOf()
