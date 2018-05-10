@@ -3,4 +3,6 @@ extends ../../index.pug
 block content
   h1#headline= title
   include list.pug
+  if vcard
+    include item.pug
 

@@ -16,8 +16,6 @@ router.get('/', controller.index);
 router.get('/list/', controller.list);
 
 // About page route.
-router.get('/:id/', function (req, res) {
-  res.status(200).send(`vCard get ${req.params.id}`);
-});
+router.get('/:id/', controller.index);
 
 module.exports = router;

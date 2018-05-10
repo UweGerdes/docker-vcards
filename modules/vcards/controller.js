@@ -4,9 +4,12 @@
 'use strict';
 
 const path = require('path'),
-  vcards = require('./model.js');
+  vcards = require('./model.js')
+  ;
 
-let data;
+let data,
+  list = []
+  ;
 
 module.exports = {
   /**
@@ -18,6 +21,9 @@ module.exports = {
     vcards.open(filename)
     .then(function (res) {
       data = res;
+      data.forEach((card) => { // jscs:ignore jsDoc
+        list.push(new vcards.Vcard(card));
+      });
       return data;
     });
   },
@@ -33,6 +39,7 @@ module.exports = {
   index: (req, res) => {
     res.render(path.join(__dirname, 'views', 'index.pug'), {
       vcards: data,
+      vcard: req.params.id ? list[parseInt(req.params.id)] : null,
       title: 'vcard'
     });
   },

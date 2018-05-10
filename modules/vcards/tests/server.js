@@ -42,14 +42,15 @@ describe('vcard server', function () {
           expect(err).to.be.null;
           expect(res).to.have.status(200);
           expect(res).to.be.html;
-          assert.equal(res.text, 'vCard get 0');
-          /*
           const { document } = (new JSDOM(res.text)).window;
-          assert.equal(document.body.innerHTML,
-            '<ul id="list"><li>test</li><li>test2</li></ul>');
-          assert.equal(document.getElementById('list').childNodes.length, 2);
-          console.log('list:', document.getElementById('list').childNodes.length);
-          */
+          const headline = document.getElementById('headline');
+          assert.equal(headline.textContent, 'vcard');
+          const list = document.getElementById('list').getElementsByTagName('li');
+          assert.equal(list.length, 2);
+          assert.equal(list[0].textContent, 'Gerdes;Uwe;;;');
+          const item = document.getElementById('item').getElementsByTagName('li');
+          assert.equal(item.length, 6);
+          assert.equal(item[0].textContent, 'version');
           done();
         });
     });
