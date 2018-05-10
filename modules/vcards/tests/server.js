@@ -50,7 +50,7 @@ describe('vcard server', function () {
           assert.equal(list[0].textContent, 'Gerdes;Uwe;;;');
           const item = document.getElementById('item').getElementsByTagName('li');
           assert.equal(item.length, 6);
-          assert.equal(item[0].textContent, 'version');
+          assert.equal(item[1].textContent, 'n: Gerdes;Uwe;;;');
           done();
         });
     });
