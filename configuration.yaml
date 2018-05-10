@@ -42,6 +42,7 @@ gulp:
     livereload:
       - ./htdocs/**/*.xhtml
       - ./modules/**/*.ejs
+      - ./modules/**/*.pug
       - ./htdocs/img/**/*.*
       - ./htdocs/css/app.css
   tests:

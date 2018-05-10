@@ -40,7 +40,8 @@ module.exports = {
     res.render(path.join(__dirname, 'views', 'index.pug'), {
       vcards: data,
       vcard: req.params.id ? list[parseInt(req.params.id)] : null,
-      title: 'vcard'
+      title: 'vcard',
+      livereload: 'http://172.25.0.2:8081/livereload.js'
     });
   },
 

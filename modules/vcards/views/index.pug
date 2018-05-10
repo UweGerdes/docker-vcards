@@ -1,7 +1,11 @@
 extends ../../index.pug
 
 block content
-  h1#headline= title
+  h1#headline
+    = title
+    if vcard
+      = " "
+      = vcard.getValue('fn')
   include list.pug
   if vcard
     include item.pug
