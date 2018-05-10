@@ -1,3 +1,3 @@
-ul#list
+ul#list.list
   each vcard in vcards
-    li= vcard.get('n').valueOf()
+    li.list-item= vcard.get('n').valueOf()

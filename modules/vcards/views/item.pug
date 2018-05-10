@@ -1,3 +1,3 @@
-ul#item
+ul#item.item
   each field in vcard.getFields()
-    li #[span.field= field]: #[span.value= vcard.getValue(field)]
+    li.list-item #[span.field= field]: #[span.value= vcard.getValue(field)]
