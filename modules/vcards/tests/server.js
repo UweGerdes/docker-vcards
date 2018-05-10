@@ -25,6 +25,8 @@ describe('vcard server', function () {
           expect(res).to.have.status(200);
           expect(res).to.be.html;
           const { document } = (new JSDOM(res.text)).window;
+          const headline = document.getElementById('headline');
+          assert.equal(headline.textContent, 'vcard');
           const list = document.getElementById('list').getElementsByTagName('li');
           assert.equal(list.length, 2);
           assert.equal(list[0].textContent, 'Gerdes;Uwe;;;');
