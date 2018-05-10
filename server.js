@@ -148,6 +148,18 @@ function getList() {
 }
 */
 
+app.use(function(err, req, res, next) {
+  console.error(err.stack);
+  res.status(500)
+    .render(viewPath('500'), {
+      error: err,
+    hostname: req.hostname,
+    livereloadPort: livereloadPort,
+    httpPort: httpPort
+    }
+  );
+});
+
 /**
  * get the path for file to render
  *

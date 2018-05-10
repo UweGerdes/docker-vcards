@@ -8,5 +8,10 @@ ul#item.item
         div.value
           if typeof vcard.getValue(field) == "string"
             span.value= unCsv(vcard.getValue(field))
+            if vcard.getType(field)
+              span.type
+                = " ("
+                = vcard.getType(field)
+                = ")"
           else
             include valuelist.pug

@@ -1,0 +1,6 @@
+ul.values
+  each obj in vcard.getValue(field)
+    li.values-item
+      = obj.type
+      = ": "
+      = obj.value

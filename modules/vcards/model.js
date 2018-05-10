@@ -32,7 +32,7 @@ class Vcard {
   }
 
   /**
-   * get the field names
+   * get the field value
    */
   getValue(key) {
     let value = this.vcard.get(key).valueOf();
@@ -48,6 +48,14 @@ class Vcard {
       });
       return result;
     }
+  }
+
+  /**
+   * get the field type
+   */
+  getType(key) {
+    let value = this.vcard.get(key).type;
+    return value;
   }
 }
 
