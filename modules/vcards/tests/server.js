@@ -29,7 +29,7 @@ describe('vcard server', function () {
           assert.equal(headline.textContent, 'vcard');
           const list = document.getElementById('list').getElementsByTagName('li');
           assert.equal(list.length, 2);
-          assert.equal(list[0].textContent, 'Gerdes;Uwe;;;');
+          assert.equal(list[0].textContent, 'Gerdes, Uwe');
           done();
         });
     });
@@ -47,10 +47,11 @@ describe('vcard server', function () {
           assert.equal(headline.textContent, 'vcard Uwe Gerdes');
           const list = document.getElementById('list').getElementsByTagName('li');
           assert.equal(list.length, 2);
-          assert.equal(list[0].textContent, 'Gerdes;Uwe;;;');
+          assert.equal(list[0].textContent, 'Gerdes, Uwe');
           const item = document.getElementById('item').getElementsByTagName('li');
           assert.equal(item.length, 8);
-          assert.equal(item[1].textContent, 'n: Gerdes;Uwe;;;');
+          assert.equal(item[1].textContent, 'n: Gerdes, Uwe');
+          assert.equal(item[3].textContent, 'tel: work,voice: 040 256486cell: 0179 3901008');
           done();
         });
     });

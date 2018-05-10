@@ -41,7 +41,8 @@ module.exports = {
       vcards: data,
       vcard: req.params.id ? list[parseInt(req.params.id)] : null,
       title: 'vcard',
-      livereload: 'http://172.25.0.2:8081/livereload.js'
+      livereload: 'http://172.25.0.2:8081/livereload.js',
+      unCsv: unCsv
     });
   },
 
@@ -59,4 +60,19 @@ module.exports = {
       title: 'vcard'
     });
   }
+};
+
+/**
+ * ### unCsv
+ *
+ * trim ';', replace ';' with ', '
+ *
+ * @private
+ * @namespace vcard
+ * @param {string} value - to convert
+ */
+const unCsv = (value) => {
+  return value
+    .replace(/^;*(.+?);*$/, '$1')
+    .replace(/;+/g, ', ');
 };

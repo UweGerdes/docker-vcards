@@ -6,23 +6,35 @@
   margin: 0 0 10px;
   padding: 0;
 }
+
 .list {
   width: 150px;
+
   &-item {
-    margin: 0;
+    margin: 0 0 5px;
     padding: 0;
   }
 }
+
 .field {
   clear: both;
+
+  &::after {
+    clear: both;
+    content: '';
+    display: block;
+  }
 }
+
 .label {
   float:left;
   width: 60px;
 }
+
 .value {
   float:left;
 }
+
 .values {
   list-style: none;
   margin: 0;
