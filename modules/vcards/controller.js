@@ -42,6 +42,7 @@ module.exports = {
       vcard: req.params.id ? list[parseInt(req.params.id)] : null,
       title: 'vcard',
       livereload: 'http://172.25.0.2:8081/livereload.js',
+      label: label,
       unCsv: unCsv
     });
   },
@@ -60,6 +61,27 @@ module.exports = {
       title: 'vcard'
     });
   }
+};
+
+/**
+ * ### label
+ *
+ * make readable labels
+ *
+ * @private
+ * @namespace vcard
+ * @param {string} value - to convert
+ */
+const label = (value) => {
+  const labels = {
+    version: 'Version',
+    n: 'Name',
+    fn: 'Anzeigename',
+    tel: 'Telefon',
+    email: 'E-Mail',
+    url: 'Homepage'
+  }
+  return labels[value] || value;
 };
 
 /**
