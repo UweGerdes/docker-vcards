@@ -1,17 +1,14 @@
 ul#item.item
   each field in vcard.getFields()
     li.list-item
-      div.field
+      div(id=field).field
         div.label
           = label(field)
           =": "
         div.value
           if typeof vcard.getValue(field) == "string"
-            span.value= unCsv(vcard.getValue(field))
             if vcard.getType(field)
-              span.type
-                = " ("
-                = vcard.getType(field)
-                = ")"
+              div.itemvalue #[span.type= types(vcard.getType(field)).join(", ")]:&nbsp;
+            span.value= unCsv(vcard.getValue(field))
           else
             include valuelist.pug

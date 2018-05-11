@@ -43,6 +43,7 @@ module.exports = {
       title: 'vcard',
       livereload: 'http://172.25.0.2:8081/livereload.js',
       label: label,
+      types: types,
       unCsv: unCsv
     });
   },
@@ -78,10 +79,42 @@ const label = (value) => {
     n: 'Name',
     fn: 'Anzeigename',
     tel: 'Telefon',
+    adr: 'Adresse',
     email: 'E-Mail',
     url: 'Homepage'
+  };
+  return labels[value] || '- ' + value + ' -';
+};
+
+/**
+ * ### split types
+ *
+ * make readable types
+ *
+ * @private
+ * @namespace vcard
+ * @param {string} value - to convert
+ */
+const types = (value) => {
+  const labels = {
+    voice: 'Sprache',
+    cell: 'Mobil',
+    work: 'Arbeit',
+    home: 'privat',
+    pref: '!',
+    internet: 'Web'
+  };
+  let list = [];
+  if (value) {
+    if (typeof value == 'string' && value.length > 0) {
+      list.push(labels[value] || value);
+    } else {
+      value.forEach((item) => { // jscs:ignore jsDoc
+        list.push(labels[item] || item);
+      });
+    }
   }
-  return labels[value] || value;
+  return list;
 };
 
 /**
