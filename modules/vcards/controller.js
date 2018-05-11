@@ -44,6 +44,7 @@ module.exports = {
       livereload: 'http://172.25.0.2:8081/livereload.js',
       label: label,
       types: types,
+      timestamp: timestamp,
       unCsv: unCsv
     });
   },
@@ -81,7 +82,8 @@ const label = (value) => {
     tel: 'Telefon',
     adr: 'Adresse',
     email: 'E-Mail',
-    url: 'Homepage'
+    url: 'Homepage',
+    rev: 'Timestamp'
   };
   return labels[value] || '- ' + value + ' -';
 };
@@ -115,6 +117,20 @@ const types = (value) => {
     }
   }
   return list;
+};
+
+/**
+ * ### timestamp
+ *
+ * convert timestamp to local
+ *
+ * @private
+ * @namespace vcard
+ * @param {string} value - to convert
+ */
+const timestamp = (value) => {
+  const date = new Date(value);
+  return date.toLocaleString();
 };
 
 /**

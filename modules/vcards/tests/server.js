@@ -48,7 +48,7 @@ describe('vcard server', function () {
           assert.equal(headline.textContent, 'vcard Uwe Gerdes');
           const item = document.getElementById('item').getElementsByTagName('li');
           assert.equal(item.length, 8);
-          assert.equal(document.getElementById('n').textContent, 'Name: Gerdes, Uwe');
+          assert.equal(document.getElementById('n').textContent, 'Name:  Gerdes, Uwe');
           assert.equal(document.getElementById('tel').textContent,
             'Telefon: Arbeit, Sprache: 040 256486Mobil: 0179 3901008');
           done();
@@ -68,11 +68,13 @@ describe('vcard server', function () {
           assert.equal(headline.textContent, 'vcard Uwe Gerdes');
           const item = document.getElementById('item').getElementsByTagName('li');
           assert.equal(item.length, 9);
-          assert.equal(document.getElementById('n').textContent, 'Name: Gerdes, Uwe');
+          assert.equal(document.getElementById('n').textContent, 'Name:  Gerdes, Uwe');
           assert.equal(document.getElementById('tel').textContent,
             'Telefon: Arbeit, Sprache: +49 40 25178252Mobil: 01793901008');
           assert.equal(document.getElementById('adr').textContent,
-            'Adresse: privat: Klaus-Groth-Str. 22, Hamburg, 20535, Germany');
+            'Adresse: privat: Klaus-Groth-Str. 22, Hamburg, 20535, Germany');
+          assert.equal(document.getElementById('rev').textContent,
+            'Timestamp:  2014-8-24 20:50:00');
           done();
         });
     });

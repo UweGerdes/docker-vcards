@@ -1,14 +1,23 @@
-ul#item.item
+ul#item.item-list
   each field in vcard.getFields()
     li.list-item
       div(id=field).field
         div.label
           = label(field)
           =": "
-        div.value
+        div.itemvalue
           if typeof vcard.getValue(field) == "string"
-            if vcard.getType(field)
-              div.itemvalue #[span.type= types(vcard.getType(field)).join(", ")]:&nbsp;
-            span.value= unCsv(vcard.getValue(field))
+            span.type
+              if vcard.getType(field)
+                = types(vcard.getType(field)).join(", ")
+                | !{':'}
+            | !{' '}
+            span.value
+              if vcard.getValue(field).indexOf(';') > -1
+                = unCsv(vcard.getValue(field))
+              else if vcard.getValue(field).match(/^[0-9.-]+[T ][0-9:]+Z?$/)
+                = timestamp(vcard.getValue(field))
+              else
+                = vcard.getValue(field)
           else
             include valuelist.pug
