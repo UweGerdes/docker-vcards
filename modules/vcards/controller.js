@@ -43,6 +43,8 @@ module.exports = {
       title: 'vcard',
       livereload: 'http://172.25.0.2:8081/livereload.js',
       label: label,
+      labels: labels,
+      type: type,
       types: types,
       timestamp: timestamp,
       unCsv: unCsv
@@ -65,6 +67,16 @@ module.exports = {
   }
 };
 
+const labels = {
+  version: 'Version',
+  n: 'Name',
+  fn: 'Anzeigename',
+  tel: 'Telefon',
+  adr: 'Adresse',
+  email: 'E-Mail',
+  url: 'Homepage',
+  rev: 'Timestamp'
+};
 /**
  * ### label
  *
@@ -75,19 +87,17 @@ module.exports = {
  * @param {string} value - to convert
  */
 const label = (value) => {
-  const labels = {
-    version: 'Version',
-    n: 'Name',
-    fn: 'Anzeigename',
-    tel: 'Telefon',
-    adr: 'Adresse',
-    email: 'E-Mail',
-    url: 'Homepage',
-    rev: 'Timestamp'
-  };
   return labels[value] || '- ' + value + ' -';
 };
 
+const types = {
+  voice: 'Sprache',
+  cell: 'Mobil',
+  work: 'Arbeit',
+  home: 'privat',
+  pref: '!',
+  internet: 'Web'
+};
 /**
  * ### split types
  *
@@ -97,22 +107,14 @@ const label = (value) => {
  * @namespace vcard
  * @param {string} value - to convert
  */
-const types = (value) => {
-  const labels = {
-    voice: 'Sprache',
-    cell: 'Mobil',
-    work: 'Arbeit',
-    home: 'privat',
-    pref: '!',
-    internet: 'Web'
-  };
+const type = (value) => {
   let list = [];
   if (value) {
     if (typeof value == 'string' && value.length > 0) {
-      list.push(labels[value] || value);
+      list.push(types[value] || value);
     } else {
       value.forEach((item) => { // jscs:ignore jsDoc
-        list.push(labels[item] || item);
+        list.push(types[item] || item);
       });
     }
   }

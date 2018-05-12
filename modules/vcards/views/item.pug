@@ -9,7 +9,7 @@ ul#item.item-list
           if typeof vcard.getValue(field) == "string"
             span.type
               if vcard.getType(field)
-                = types(vcard.getType(field)).join(", ")
+                = type(vcard.getType(field)).join(", ")
                 | !{':'}
             | !{' '}
             span.value

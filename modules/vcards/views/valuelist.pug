@@ -1,6 +1,6 @@
 ul.values
   each obj in vcard.getValue(field)
     li.values-item
-      = types(obj.type).join(", ")
+      = type(obj.type).join(", ")
       = ": "
       = obj.value

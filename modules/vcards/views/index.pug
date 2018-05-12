@@ -1,12 +1,15 @@
 extends ../../index.pug
 
 block content
-  h1#headline
+  h1#headline.headline
     = title
     if vcard
       = " "
       = vcard.getValue('fn')
-  include list.pug
-  if vcard
-    include item.pug
+  div#searchButton.button.searchButton
+    a(href='javascript:toggleSuche()') suchen
+  div#content.content
+    include list.pug
+    if vcard
+      include item.pug
 
