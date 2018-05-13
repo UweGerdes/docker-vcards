@@ -2,15 +2,7 @@
 
 ## tl;dr
 
-Have a .vcf file ready, build Dockerfile, run it and open Browser.
-
-## Installation
-
-### Clone the Git repository
-
-## tl;dr
-
-Install Docker, build and run - open browser.
+Have a .vcf file ready, `docker-compose up` and open Browser.
 
 ## Build baseimage and nodejs docker images
 
@@ -35,35 +27,28 @@ $ docker build -t uwegerdes/nodejs \
 ## Start dev environment
 
 ```bash
-$ docker build -t uwegerdes/vcard .
-
-$ docker run -it \
-	--name vcard-dev \
-	--volume $(pwd):/home/node/app \
-	uwegerdes/vcard bash
+$ docker-compose up
 ```
-
-### Ignition sequence
-
-Use docker-compose or have a running mongo docker and build/run with the following command:
-
-Start `gulp` in the container.
-
-Open [http://localhost:5381/](http://localhost:5381/).
-
-Stop gulp with CTRL-C. Stop the container with CTRL-D.
 
 ## Development
 
-Restart the vcard-gulp container with:
+In the directory `modules` you should create subdirectories for your modules.
 
-```bash
-$ docker start -ai vcard-gulp
-```
+Reuse parts of other modules or make modules from often used parts.
 
-### HTML / [Pug](https://pugjs.org/)
+Each module contains everything for itself - views (templates, styles, scripts, assets), controller, model and tests
+
+At the moment you must include some paths in configuration.yaml to activate gulp watch and other tasks for your module
+
+If you add files to your module please restart the development container - otherwise gulp will not watch your file.
+
+### Templates: HTML / EJS / [Pug](https://pugjs.org/)
+
+You may combine different template languages.
 
 ### Less / CSS
+
+The project provides global styles so you should only add styles to your module that are specific for your module.
 
 ### ES6 / JavaScript
 
@@ -73,12 +58,10 @@ $ docker start -ai vcard-gulp
 
 ### Docker
 
-#### Testing environment
-
-Start testing environment from another terminal
+Start environment:
 
 ```bash
-docker-compose up -d
+docker-compose up
 ```
 
 #### compare-layouts
