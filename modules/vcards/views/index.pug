@@ -6,8 +6,7 @@ block content
     if vcard
       = " "
       = vcard.getValue('fn')
-  div#searchButton.button.searchButton
-    a(href='javascript:toggleSuche()') suchen
+  div#searchButton.button.searchButton&attributes({'data-toggle': 'search'}) suchen
   div#content.content
     include list.pug
     if vcard
