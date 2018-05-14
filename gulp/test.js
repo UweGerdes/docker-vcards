@@ -36,11 +36,15 @@ const tasks = {
    * @namespace tasks
    */
   'test-vcards': [['jshint'], () => {
-      return gulp.src(config.gulp.tests.vcards, { read: false })
+      const _this = gulp.src(config.gulp.tests.vcards, { read: false })
         // `gulp-mocha` needs filepaths so you can't have any plugins before it
         .pipe(mocha({ reporter: 'tap' }))
-        .on('error', () => { }) // jscs:ignore jsDoc
+        .on('error', function (err) { // jscs:ignore jsDoc
+          err = '';
+          _this.emit('end');
+        })
       ;
+      return _this;
     }
   ],
   /**
