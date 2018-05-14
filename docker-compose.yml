@@ -17,23 +17,23 @@ services:
 #    command: gulp --silent
     command: npm run dev
 
-  compare-layouts:
-    build:
-      context: ../../docker-compare-layouts
-    container_name: vcard-compare-layouts
-    hostname: vcard-compare-layouts
-    image: uwegerdes/compare-layouts
-    networks:
-      vcard-bridge:
-        ipv4_address: 172.25.0.3
-    ports:
-      - '8080'
-    volumes:
-     - ../../docker-compare-layouts:/home/node/app
-     - ./tests/dev/compare-layouts:/home/node/app/config
-     - ./modules:/home/node/app/config/modules
-#    command: gulp --silent
-    command: npm run dev
+#  compare-layouts:
+#    build:
+#      context: ../../docker-compare-layouts
+#    container_name: vcard-compare-layouts
+#    hostname: vcard-compare-layouts
+#    image: uwegerdes/compare-layouts
+#    networks:
+#      vcard-bridge:
+#        ipv4_address: 172.25.0.3
+#    ports:
+#      - '8080'
+#    volumes:
+#     - ../../docker-compare-layouts:/home/node/app
+#     - ./tests/dev/compare-layouts:/home/node/app/config
+#     - ./modules:/home/node/app/config/modules
+##    command: gulp --silent
+#    command: npm run dev
 
 networks:
   vcard-bridge:

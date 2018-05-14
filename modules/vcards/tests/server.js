@@ -1,5 +1,5 @@
 /**
- * Test for vCard data model
+ * Test for vCard webserver test results
  */
 'use strict';
 

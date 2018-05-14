@@ -1,11 +1,7 @@
 //- index.pug
 html
-  head
-    title Webserver - #{title}
-    link(rel='stylesheet', href='/css/app.css')
+  include page-elements/head.pug
   body
     block content
-    block footer
-      #footer.footer
-        p &nbsp;
     include page-elements/footer.pug
+    include page-elements/layer.pug
