@@ -38,7 +38,7 @@ const tasks = {
    */
   'livereload': () => {
     log.info('livereload triggered');
-    return gulp.src(config.gulp.watch.livereload)
+    return gulp.src(config.gulp.watch.livereload[0])
       .pipe(livereload())
       ;
   },

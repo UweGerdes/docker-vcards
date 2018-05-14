@@ -40,7 +40,7 @@ gulp:
       - ./server.js
       - ./modules/vcards/*.js
     livereload:
-      - ./htdocs/**/*.xhtml
+      - ./htdocs/**/*.html
       - ./modules/**/*.ejs
       - ./modules/**/*.pug
       - ./htdocs/img/**/*.*

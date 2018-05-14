@@ -1,13 +1,13 @@
 extends ../../index.pug
 
 block content
-  h1#headline.headline= title
-    if vcard
-      = " "
-      = vcard.getValue('fn')
-  div#searchButton.button.searchButton&attributes({'data-toggle': 'searchLayer'}) suchen
-  div#content.content
-    include list.pug
-    if vcard
-      include item.pug
-
+  div#vcardView.vcardView
+    h1#headline.headline= title
+      if vcard
+        = " "
+        = vcard.getValue('fn')
+    div#searchButton.button.searchButton&attributes({'data-toggle': 'searchLayer'}) suchen
+    div#content.content
+      include list.pug
+      if vcard
+        include item.pug

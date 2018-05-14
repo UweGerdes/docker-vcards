@@ -1,60 +1,62 @@
-.headline {
-  float: left;
-}
-.content {
-  clear: both;
-}
-.list,
-.item-list {
-  float:left;
-  list-style: none;
-  margin: 0 0 10px;
-  padding: 0;
-}
-
-.list {
-  width: 15em;
-
-  &-item {
-    margin: 0 0 5px;
+.vcardView {
+  .headline {
+    float: left;
   }
-}
-
-.field {
-  clear: both;
-
-  &::after {
+  .content {
     clear: both;
-    content: '';
-    display: block;
   }
-}
+  .list,
+  .item-list {
+    float:left;
+    list-style: none;
+    margin: 0 0 10px;
+    padding: 0;
+  }
 
-.label {
-  float:left;
-  width: 8em;
-}
+  .list {
+    width: 15em;
 
-.itemvalue {
-  float:left;
-  width: 30em;
-}
-
-.values {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-
-  &-item {
-    margin: 0 0 5px;
-
-    &:last-child {
-      margin: 0;
+    &-item {
+      margin: 0 0 5px;
     }
   }
-}
 
-.searchButton {
-  float: right;
-  margin: 3em 0 0;
+  .field {
+    clear: both;
+
+    &::after {
+      clear: both;
+      content: '';
+      display: block;
+    }
+  }
+
+  .label {
+    float:left;
+    width: 8em;
+  }
+
+  .itemvalue {
+    float:left;
+    width: 30em;
+  }
+
+  .values {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    &-item {
+      margin: 0 0 5px;
+
+      &:last-child {
+        margin: 0;
+      }
+    }
+  }
+
+  .searchButton {
+    float: right;
+    margin: 3em 0 0;
+  }
 }
