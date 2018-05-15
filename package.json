@@ -45,7 +45,8 @@
     "jsdom": "11.10.0",
     "jshint": "^2.9.5",
     "rename": "^1.0.4",
-    "request": "^2.85.0"
+    "request": "^2.85.0",
+    "stream-combiner2": "^1.1.1"
   },
   "dependencies": {
     "body-parser": "^1.17.2",

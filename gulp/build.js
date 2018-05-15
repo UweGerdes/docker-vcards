@@ -3,7 +3,8 @@
  */
 'use strict';
 
-const gulp = require('gulp'),
+const combiner = require('stream-combiner2'),
+  gulp = require('gulp'),
   autoprefixer = require('gulp-autoprefixer'),
   jsdoc = require('gulp-jsdoc3'),
   less = require('gulp-less'),
@@ -49,18 +50,15 @@ const tasks = {
    * @namespace tasks
    */
   'less': () => {
-    return gulp.src(config.gulp.build.less.src)
-      //.pipe(lessChanged({
-      //  getOutputFileName: (file) => { // jscs:ignore jsDoc
-      //    return rename(file, { dirname: config.gulp.build.less.dest, extname: '.css' });
-      //  }
-      //}))
-      .pipe(less())
-      .on('error', log.onError({ message:  'Error: <%= error.message %>', title: 'LESS Error' }))
-      .pipe(autoprefixer('last 3 version', 'safari 5', 'ie 8', 'ie 9', 'ios 6', 'android 4'))
-      .pipe(gulp.dest(config.gulp.build.less.dest))
-      .pipe(log({ message: 'written: <%= file.path %>', title: 'Gulp less' }))
-      ;
+    return combiner.obj([
+      gulp.src(config.gulp.build.less.src),
+      less(),
+      autoprefixer('last 3 version', 'safari 5', 'ie 8', 'ie 9', 'ios 6', 'android 4'),
+      gulp.dest(config.gulp.build.less.dest),
+      log({ message: 'written: <%= file.path %>', title: 'Gulp less' })
+    ])
+    .on('error', () => { }) // jscs:ignore jsDoc
+    ;
   },
   /**
    * #### Compile jsdoc
