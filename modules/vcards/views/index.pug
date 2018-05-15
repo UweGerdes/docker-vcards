@@ -6,8 +6,10 @@ block content
       if vcard
         = " "
         = vcard.getValue('fn')
-    div#searchButton.button.searchButton&attributes({'data-toggle': 'searchLayer'}) suchen
-    div#content.content
+    #searchButton.button.searchButton&attributes({'data-toggle': 'searchLayer'}) suchen
+    #content.content
       include list.pug
       if vcard
         include item.pug
+    #searchLayer.searchLayer
+      .searchLayerContent
