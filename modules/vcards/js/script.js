@@ -50,11 +50,18 @@ handlers.push({
     event.preventDefault();
     const form = document.getElementById('searchForm');
     const formData = new FormData(form);
-    console.log('formData', formData);
     const xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () { // jscs:ignore jsDoc
-      if (this.readyState == 4 && this.status == 200) {
-        document.getElementById('searchResult').innerHTML = this.responseText;
+      if (this.readyState == 4) {
+        document.getElementById('searchResult').innerHTML = '';
+        document.getElementById('searchErrors').innerHTML = '';
+        if (this.status == 200) {
+          document.getElementById('searchResult').innerHTML = this.responseText;
+          form.classList.add('hidden');
+        }
+        if (this.status == 404) {
+          document.getElementById('searchErrors').innerHTML = this.responseText;
+        }
       }
     };
     xhttp.open('POST', '/vcards/search/', true);

@@ -1,0 +1,4 @@
+ul#list.list
+  each vcard, id in vcards
+    li.list-item
+      a(href='/vcards/' + id + '/')= unCsv(vcard.get('n').valueOf())

@@ -3,7 +3,9 @@
  */
 'use strict';
 
-const path = require('path'),
+const { body, validationResult } = require('express-validator/check'),
+  { sanitizeBody } = require('express-validator/filter'),
+  path = require('path'),
   vcards = require('./model.js')
   ;
 
@@ -75,14 +77,40 @@ module.exports = {
    * @param {object} req - request
    * @param {object} res - result
    */
-  search: (req, res) => {
-    console.log('req', req.body);
-    res.render(path.join(__dirname, 'views', 'list.pug'), {
-      vcards: data,
-      title: 'vcard',
-      unCsv: unCsv
-    });
-  }
+  search: [
+    body('searchString', 'Suchwort eintragen').isLength({ min: 1 }).trim(),
+    body('searchFields', 'Feld auswählen').isLength({ min: 1 }).trim(),
+    sanitizeBody('searchString').trim().escape(),
+    (req, res) => { // jscs:ignore jsDoc
+      console.log('req body', req.body);
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        console.log('errors', errors.array());
+        res.status(404).render(path.join(__dirname, 'views', 'errors.pug'), { // jscs:ignore jsDoc
+          errors: errors.array()
+        });
+      } else {
+        const searchResult = [];
+        list.forEach((vcard) => { // jscs:ignore jsDoc
+          let hit = false;
+          req.body.searchFields.forEach((field) => { // jscs:ignore jsDoc
+            if (vcard.vcard.data[field] &&
+              vcard.vcard.data[field].valueOf().indexOf(req.body.searchString) >= 0) {
+                hit = true;
+            }
+          });
+          if (hit) {
+            searchResult.push(vcard.vcard);
+          }
+        });
+        res.render(path.join(__dirname, 'views', 'result.pug'), {
+          vcards: searchResult,
+          title: 'vcard',
+          unCsv: unCsv
+        });
+      }
+    }
+  ]
 };
 
 const labels = {

@@ -4,6 +4,8 @@
 'use strict';
 
 const express = require('express'),
+  multer  = require('multer'),
+  upload = multer(),
   path = require('path'),
   router = express.Router();
 
@@ -21,6 +23,6 @@ router.get('/list/', controller.list);
 router.get('/:id/', controller.index);
 
 // search vcards
-router.post('/search/', controller.search);
+router.post('/search/', upload.array(), controller.search);
 
 module.exports = router;
