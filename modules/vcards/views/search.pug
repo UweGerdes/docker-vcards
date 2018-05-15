@@ -1,0 +1,7 @@
+h2.subheadline Suchen
+form#searchForm.form
+  each label, name in labels
+    div.checkboxContainer
+      input.checkbox(type='checkbox', name='searchFields', value=name, id='search_' + name)
+      label(for='search_' + name)
+        = label

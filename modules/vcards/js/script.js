@@ -19,12 +19,10 @@ function dataToggle() {
     });
     toggleList.forEach((toggled) => { // jscs:ignore jsDoc
       toggled.addEventListener('click', () => { // jscs:ignore jsDoc
-        console.log('toggled clicked');
         toggled.classList.toggle('hidden');
       });
       toggled.childNodes.forEach((child) => { // jscs:ignore jsDoc
         child.addEventListener('click', (event) => { // jscs:ignore jsDoc
-          console.log('child clicked');
           event.stopPropagation();
         });
       });
