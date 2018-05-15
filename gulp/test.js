@@ -39,8 +39,7 @@ const tasks = {
       const _this = gulp.src(config.gulp.tests.vcards, { read: false })
         // `gulp-mocha` needs filepaths so you can't have any plugins before it
         .pipe(mocha({ reporter: 'tap' }))
-        .on('error', function (err) { // jscs:ignore jsDoc
-          err = '';
+        .on('error', function () { // jscs:ignore jsDoc
           _this.emit('end');
         })
       ;
