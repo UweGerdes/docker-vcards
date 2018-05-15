@@ -1,5 +1,5 @@
 h2.subheadline Suchen
-form#searchForm.form
+form#searchForm.form(method='POST', action='/vcards/search/')
   .searchFieldsContainer
     each label, name in labels
       div.checkboxContainer
@@ -7,5 +7,7 @@ form#searchForm.form
         label(for='search_' + name)
           = label
   .searchStringContainer
-    input.searchString(type='text', name='searchString', placeholder='Suchwort')
+    input.searchString(type='text', name='searchString', placeholder='Suchwort', value='test')
+    input.searchSubmit(type='button', value='suchen...', onclick='searchSubmit();')
     input.searchSubmit(type='submit', value='suchen...')
+#searchResult

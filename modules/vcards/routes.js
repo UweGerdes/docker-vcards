@@ -13,9 +13,14 @@ controller.init(path.join(__dirname, 'tests', 'testdata.vcf'));
 
 // Home page route.
 router.get('/', controller.index);
+
+// list vcards
 router.get('/list/', controller.list);
 
-// About page route.
+// view id route.
 router.get('/:id/', controller.index);
+
+// search vcards
+router.post('/search/', controller.search);
 
 module.exports = router;

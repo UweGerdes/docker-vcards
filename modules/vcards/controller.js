@@ -62,7 +62,25 @@ module.exports = {
   list: (req, res) => {
     res.render(path.join(__dirname, 'views', 'list.pug'), {
       vcards: data,
-      title: 'vcard'
+      title: 'vcard',
+      unCsv: unCsv
+    });
+  },
+
+  /**
+   * ### search
+   *
+   * @task search
+   * @namespace vcard
+   * @param {object} req - request
+   * @param {object} res - result
+   */
+  search: (req, res) => {
+    console.log('req', req.body);
+    res.render(path.join(__dirname, 'views', 'list.pug'), {
+      vcards: data,
+      title: 'vcard',
+      unCsv: unCsv
     });
   }
 };
