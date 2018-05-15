@@ -11,12 +11,18 @@
 function dataToggle() {
   const elements = document.querySelectorAll('[data-toggle]');
   elements.forEach((element) => { // jscs:ignore jsDoc
+    const toggleList = document.querySelectorAll(element.dataset.toggle);
     element.addEventListener('click', () => { // jscs:ignore jsDoc
-      const toggleList = document.querySelectorAll(element.dataset.toggle);
       toggleList.forEach((toggled) => { // jscs:ignore jsDoc
         toggled.classList.toggle('hidden');
       });
     });
+    toggleList.forEach((toggled) => { // jscs:ignore jsDoc
+      toggled.addEventListener('click', () => { // jscs:ignore jsDoc
+        toggled.classList.toggle('hidden');
+      })
+    });
+
   });
 }
 
