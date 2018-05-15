@@ -4,6 +4,8 @@
 
 gulp:
   watch:
+    js:
+      - ./modules/*/js/*.js
     jsdoc:
 #      - ./*.js
 #      - ./gulp/**/*.js
@@ -54,12 +56,17 @@ gulp:
   build:
     jsdoc:
       src:
-      - ./*.js
-      - ./gulp/**/*.js
-      - ./lib/**/*.js
-      - ./modules/**/*.js
-      - ./src/**/*.js
+        - ./*.js
+        - ./gulp/**/*.js
+        - ./lib/**/*.js
+        - ./modules/**/*.js
+        - ./src/**/*.js
       dest: ./docs/jsdoc
+    js:
+      src: ./modules/*/js/*.js
+      dest: ./htdocs/js
+      replace:
+        '/js': ''
     less:
       src: ./src/less/app.less
       dest: ./htdocs/css

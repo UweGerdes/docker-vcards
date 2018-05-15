@@ -1,3 +1,5 @@
-# dockerignore for gulp-frontend
+# dockerignore for docker-vcard
 .git/
-docs/
+htdocs/css
+htdocs/js
+docs/jsdoc

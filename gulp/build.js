@@ -10,8 +10,8 @@ const combiner = require('stream-combiner2'),
   less = require('gulp-less'),
   //lessChanged = require('gulp-less-changed'),
   notify = require('gulp-notify'),
+  rename = require('gulp-rename'),
   sequence = require('gulp-sequence'),
-  //rename = require('rename'),
   config = require('../lib/config'),
   loadTasks = require('./lib/load-tasks')
   ;
@@ -44,7 +44,7 @@ const tasks = {
   /**
    * #### Compile less files
    *
-   * compile less files to css
+   * compile less files to htdocs/css
    *
    * @task less
    * @namespace tasks
@@ -58,6 +58,25 @@ const tasks = {
       log({ message: 'written: <%= file.path %>', title: 'Gulp less' })
     ])
     .on('error', () => { }) // jscs:ignore jsDoc
+    ;
+  },
+  /**
+   * #### Compile js files
+   *
+   * compile js files to htdocs/js
+   *
+   * @task jsss
+   * @namespace tasks
+   */
+  'js': () => {
+    return gulp.src(config.gulp.build.js.src)
+      .pipe(rename(function (path) {
+        Object.keys(config.gulp.build.js.replace).forEach((key) => { // jscs:ignore jsDoc
+          path.dirname = path.dirname.replace(key, config.gulp.build.js.replace[key]);
+        });
+      }))
+      .pipe(gulp.dest(config.gulp.build.js.dest))
+      .pipe(log({ message: 'written: <%= file.path %>', title: 'Gulp js' }))
     ;
   },
   /**
