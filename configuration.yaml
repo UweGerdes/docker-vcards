@@ -50,6 +50,7 @@ gulp:
       - ./modules/**/*.pug
       - ./htdocs/img/**/*.*
       - ./htdocs/css/app.css
+      - ./htdocs/js/**/*.js
   tests:
     vcards:
       - ./modules/vcards/tests/*.js

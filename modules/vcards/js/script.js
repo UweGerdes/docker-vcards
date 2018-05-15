@@ -9,7 +9,15 @@
  * toggle element by id
  */
 function dataToggle() {
-  console.log('toggle init');
+  const elements = document.querySelectorAll('[data-toggle]');
+  elements.forEach((element) => { // jscs:ignore jsDoc
+    element.addEventListener('click', () => { // jscs:ignore jsDoc
+      const toggleList = document.querySelectorAll(element.dataset.toggle);
+      toggleList.forEach((toggled) => { // jscs:ignore jsDoc
+        toggled.classList.toggle('hidden');
+      });
+    });
+  });
 }
 
 if (window.attachEvent) {

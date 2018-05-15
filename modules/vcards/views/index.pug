@@ -6,12 +6,12 @@ block content
       if vcard
         = " "
         = vcard.getValue('fn')
-    #searchButton.button.searchButton&attributes({'data-toggle': 'searchLayer'}) suchen
+    #searchButton.button.searchButton&attributes({'data-toggle': '#searchLayer'}) suchen
     #content.content
       include list.pug
       if vcard
         include item.pug
-    #searchLayer.searchLayer
+    #searchLayer.searchLayer.hidden
       .searchLayerContent
 
 append footer
