@@ -41,7 +41,7 @@ gulp:
       - ./modules/vcards/tests/*.*
       - ./modules/vcards/views/*.*
       - ./htdocs/css/app.css
-    webserver:
+    webserver-restart:
       - ./server.js
       - ./modules/vcards/*.js
     livereload:

@@ -23,9 +23,9 @@ const tasks = {
    * @namespace tasks
    * @param {function} callback - gulp callback
    */
-  'webserver': (callback) => {
+  'webserver-restart': (callback) => {
     sequence(
-      'webserver-restart',
+      'webserver-changed',
       'tests',
       callback
     );
@@ -64,7 +64,7 @@ const tasks = {
    * @namespace tasks
    * @param {function} callback - gulp callback
    */
-  'webserver-restart': (callback) => {
+  'webserver-changed': (callback) => {
     server.changed((error) => { // jscs:ignore jsDoc
       if (!error) {
         livereload.changed({ path: '/', quiet: true });
