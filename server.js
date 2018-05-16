@@ -9,12 +9,12 @@ const bodyParser = require('body-parser'),
   chalk = require('chalk'),
   dateFormat = require('dateformat'),
   express = require('express'),
+  glob = require('glob'),
   morgan = require('morgan'),
   path = require('path'),
   config = require('./lib/config'),
   ipv4addresses = require('./lib/ipv4addresses'),
   log = require('./lib/log'),
-  vcardsRoutes = require('./modules/vcards/routes'),
   app = express()
   ;
 
@@ -22,6 +22,7 @@ const httpPort = config.webserver.httpPort,
   livereloadPort = config.webserver.livereloadPort,
   docRoot = config.webserver.docroot,
   modulesRoot = config.webserver.modules,
+  routesFiles = config.webserver.routes,
   verbose = config.webserver.verbose || false
   ;
 
@@ -38,10 +39,10 @@ if (verbose) {
     ':method :status :url :res[content-length] Bytes - :response-time ms'));
 }
 
-// no subdirectory for views
+// base directory for views
 app.set('views', __dirname);
 
-// render html files
+// render ejs files
 app.set('view engine', 'ejs');
 
 // work on post requests
@@ -50,9 +51,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Serve static files
 app.use(express.static(docRoot));
-
-// Serve modules
-app.use('/vcards', vcardsRoutes);
 
 /**
  * Route for root dir
@@ -79,6 +77,19 @@ app.get('/app', (req, res) => {
 });
 
 /**
+ * Routes from modules
+ */
+routesFiles.forEach((path) => { // jscs:ignore jsDoc
+  glob.sync(path)
+    .forEach((filename) => { // jscs:ignore jsDoc
+      const regex = new RegExp(modulesRoot + '(/.+)/routes.js');
+      const baseRoute = filename.replace(regex, '$1');
+      app.use(baseRoute, require(filename));
+    })
+  ;
+});
+
+/**
  * Route for everything else
  *
  * @param {Object} req - request
@@ -99,7 +110,7 @@ log.info('webserver listening on ' +
 app.listen(httpPort);
 
 /**
- * handle server errors
+ * Handle server errors
  *
  * @param {Object} err - error
  * @param {Object} req - request
@@ -118,7 +129,7 @@ app.use((err, req, res) => {
 });
 
 /**
- * get the path for file to render
+ * Get the path for file to render
  *
  * @param {String} page - page type
  * @param {String} type - file type (ejs, TODO jade, pug, html)

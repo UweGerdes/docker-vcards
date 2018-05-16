@@ -76,6 +76,8 @@ webserver:
   server: ./server.js
   docroot: ./htdocs
   modules: ./modules
+  routes:
+    - ./modules/**/routes.js
   httpPort: 8080
   livereloadPort: 8081
   verbose: false
