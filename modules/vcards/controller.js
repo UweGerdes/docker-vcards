@@ -78,8 +78,8 @@ module.exports = {
    * @param {object} res - result
    */
   search: [
-    body('searchString', 'Suchwort eintragen').isLength({ min: 1 }).trim(),
     body('searchFields', 'Feld auswählen').isLength({ min: 1 }).trim(),
+    body('searchString', 'Suchwort eintragen').isLength({ min: 1 }).trim(),
     sanitizeBody('searchString').trim().escape(),
     (req, res) => { // jscs:ignore jsDoc
       const errors = validationResult(req);
