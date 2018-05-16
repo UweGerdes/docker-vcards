@@ -78,3 +78,4 @@ webserver:
   modules: ./modules
   httpPort: 8080
   livereloadPort: 8081
+  verbose: false

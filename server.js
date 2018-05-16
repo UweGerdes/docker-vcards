@@ -21,7 +21,8 @@ const bodyParser = require('body-parser'),
 const httpPort = config.webserver.httpPort,
   livereloadPort = config.webserver.livereloadPort,
   docRoot = config.webserver.docroot,
-  modulesRoot = config.webserver.modules
+  modulesRoot = config.webserver.modules,
+  verbose = config.webserver.verbose || false
   ;
 
 /**
@@ -29,7 +30,7 @@ const httpPort = config.webserver.httpPort,
  *
  * using log format starting with [time]
  */
-if (process.env.VERBOSE !== 'false') {
+if (verbose) {
   morgan.token('time', () => { // jscs:ignore jsDoc
     return dateFormat(new Date(), 'HH:MM:ss');
   });
@@ -94,68 +95,24 @@ app.get('*', (req, res) => {
 // Fire it up!
 log.info('webserver listening on ' +
   chalk.greenBright('http://' + ipv4addresses.get()[0] + ':' + httpPort));
+
 app.listen(httpPort);
 
 /**
- * Handle requests for app view
+ * handle server errors
  *
+ * @param {Object} err - error
  * @param {Object} req - request
  * @param {Object} res - response
  */
-/*
-app.get('/app/:param?', (req, res) => {
-  const list = getList(res);
-  let config = { };
-  let action = 'show';
-  if (req.params.config) {
-    if (fs.existsSync(path.join(configDir, req.params.config + '.js'))) {
-      config = getConfig(req.params.config);
-    } else {
-      config.error = 'config file not found: ./config/' + req.params.config + '.js';
-      logConsole.info('config file not found: ./config/' + req.params.config + '.js');
-    }
-    if (req.params.action) {
-      action = req.params.action;
-    }
-  }
-  res.render('appView.ejs', {
-    list: list,
-    config: config,
-    action: action,
-    livereloadPort: livereloadPort,
-    httpPort: httpPort,
-    running: running
-  });
-});
-*/
-
-// Model //
-/**
- * get list of configurations and result status
- */
-/*
-function getList() {
-  configs = [];
-  fs.readdirSync(configDir).forEach((fileName) => { // jscs:ignore jsDoc
-    const configName = fileName.replace(/\.js/, '');
-    configs.push(getItem(configName));
-  });
-  configs.forEach((config) => { // jscs:ignore jsDoc
-    config.result = getResult(config.data.destDir);
-    getSummary(config);
-  });
-  return configs;
-}
-*/
-
-app.use(function(err, req, res, next) {
+app.use((err, req, res) => {
   console.error(err.stack);
   res.status(500)
     .render(viewPath('500'), {
       error: err,
-    hostname: req.hostname,
-    livereloadPort: livereloadPort,
-    httpPort: httpPort
+      hostname: req.hostname,
+      livereloadPort: livereloadPort,
+      httpPort: httpPort
     }
   );
 });
