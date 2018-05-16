@@ -10,41 +10,37 @@ let handlers = [];
 /**
  * toggle element by id
  */
-function dataToggle() {
-  const elements = document.querySelectorAll('[data-toggle]');
-  elements.forEach((element) => { // jscs:ignore jsDoc
-    const toggleList = document.querySelectorAll(element.dataset.toggle);
-    element.addEventListener('click', () => { // jscs:ignore jsDoc
+handlers.push({
+  elements: [window],
+  event: 'load',
+  func: () => { // jscs:ignore jsDoc
+    const elements = document.querySelectorAll('[data-toggle]');
+    elements.forEach((element) => { // jscs:ignore jsDoc
+      const toggleList = document.querySelectorAll(element.dataset.toggle);
+      element.addEventListener('click', () => { // jscs:ignore jsDoc
+        toggleList.forEach((toggled) => { // jscs:ignore jsDoc
+          toggled.classList.toggle('hidden');
+        });
+      });
       toggleList.forEach((toggled) => { // jscs:ignore jsDoc
-        toggled.classList.toggle('hidden');
-      });
-    });
-    toggleList.forEach((toggled) => { // jscs:ignore jsDoc
-      toggled.addEventListener('click', () => { // jscs:ignore jsDoc
-        toggled.classList.toggle('hidden');
-      });
-      toggled.childNodes.forEach((child) => { // jscs:ignore jsDoc
-        child.addEventListener('click', (event) => { // jscs:ignore jsDoc
-          event.stopPropagation();
+        toggled.addEventListener('click', () => { // jscs:ignore jsDoc
+          toggled.classList.toggle('hidden');
+        });
+        toggled.childNodes.forEach((child) => { // jscs:ignore jsDoc
+          child.addEventListener('click', (event) => { // jscs:ignore jsDoc
+            event.stopPropagation();
+          });
         });
       });
     });
-  });
-}
-
-if (window.attachEvent) {
-  window.attachEvent('onload', dataToggle);
-} else if (window.addEventListener) {
-  window.addEventListener('load', dataToggle, false);
-} else {
-  document.addEventListener('load', dataToggle, false);
-}
+  }
+});
 
 /**
  * searchSubmit
  */
 handlers.push({
-  selector: '#searchForm',
+  elements: document.querySelectorAll('#searchForm'),
   event: 'submit',
   func: (event) => { // jscs:ignore jsDoc
     event.preventDefault();
@@ -69,9 +65,18 @@ handlers.push({
   }
 });
 
+/**
+ * attach event handlers
+ */
 handlers.forEach((handler) => { // jscs:ignore jsDoc
-  const elements = document.querySelectorAll(handler.selector);
-  elements.forEach((element) => { // jscs:ignore jsDoc
-    element.addEventListener(handler.event, handler.func, false);
+  handler.elements.forEach((element) => { // jscs:ignore jsDoc
+    if (element.attachEvent) {
+      element.attachEvent('on' + handler.event, handler.func);
+    } else if (element.addEventListener) {
+      element.addEventListener(handler.event, handler.func, false);
+    } else {
+      element.addEventListener(handler.event, handler.func, false);
+    }
   });
 });
+
