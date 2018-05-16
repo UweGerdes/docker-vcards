@@ -93,10 +93,14 @@ module.exports = {
         const searchResult = [];
         list.forEach((vcard) => { // jscs:ignore jsDoc
           let hit = false;
-          req.body.searchFields.forEach((field) => { // jscs:ignore jsDoc
+          let searchFields = req.body.searchFields;
+          if (typeof searchFields == 'string') {
+            searchFields = [searchFields];
+          }
+          searchFields.forEach((field) => { // jscs:ignore jsDoc
             if (vcard.vcard.data[field] &&
               vcard.vcard.data[field].valueOf().indexOf(req.body.searchString) >= 0) {
-                hit = true;
+              hit = true;
             }
           });
           if (hit) {

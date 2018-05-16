@@ -32,25 +32,25 @@ describe('vcard page', function () {
           done();
         });
     });
-    /*
-    it('should have other things', function (done) {
+    it('should find elements by field and part of valaue', function (done) {
       chai.request('http://172.25.0.2:8080')
-        .get('/vcards/')
+        .post('/vcards/search/')
+        .type('form')
+        .send({
+          searchFields: 'n',
+          searchString: 'e'
+        })
         .end(function (err, res) {
+          expect(err).to.be.null;
+          expect(res).to.have.status(200);
+          expect(res).to.be.html;
           const { document } = (new JSDOM(res.text)).window;
-          assert.equal(document.title, 'Webserver - vcard');
-          assert.equal(document.head.getElementsByTagName('link').length, 1);
-          assert.equal(
-            document.head.getElementsByTagName('link')[0].attributes.href.nodeValue,
-            '/css/app.css');
-          const footer = document.getElementById('footer');
-          assert.equal(footer.textContent, '© 2018 Uwe Gerdes');
-          assert.equal(
-            document.body.getElementsByTagName('script')[0].attributes.src.nodeValue,
-            'http://172.25.0.2:8081/livereload.js');
+          const list = document.getElementById('list').getElementsByTagName('li');
+          assert.equal(list.length, 2);
+          assert.equal(list[0].textContent, 'Gerdes, Uwe');
+          assert.equal(list[1].textContent, 'Gerdes, Uwe');
           done();
         });
     });
-    */
   });
 });
