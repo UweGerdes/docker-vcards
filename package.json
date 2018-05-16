@@ -1,7 +1,7 @@
 {
   "name": "vCard",
   "description": "Gulp and other packages for vCard webapp development and testing",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "keywords": [
     "gulp",
     "frontend",
@@ -32,7 +32,6 @@
     "gulp-jshint": "^2.0.4",
     "gulp-jsonlint": "^1.2.1",
     "gulp-less": "^3.5.0",
-    "gulp-less-changed": "^1.2.1",
     "gulp-lesshint": "^5.0.0",
     "gulp-livereload": "^3.8.1",
     "gulp-mocha": "^5.0.0",
@@ -59,25 +58,6 @@
     "multer": "^1.3.0",
     "pug": "^2.0.3",
     "vcf": "^2.0.1"
-  },
-  "unusedDependencies": {
-    "dateformat": "^3.0.3",
-    "del": "^3.0.0",
-    "eval": "^0.1.2",
-    "fs-tools": "^0.3.0",
-    "gulp-changed": "^3.1.0",
-    "gulp-develop-server": "^0.5.2",
-    "gulp-ejs": "3.1.2",
-    "gulp-iconfont": "^9.0.0",
-    "gulp-iconfont-css": "^2.1.0",
-    "gulp-iconfont-template": "0.0.3",
-    "gulp-ignore": "^2.0.2",
-    "gulp-imagemin": "^4.1.0",
-    "gulp-livereload": "^3.8.1",
-    "gulp-shell": "^0.6.3",
-    "gulp-uglify": "^3.0.0",
-    "imagemin": "^5.3.1",
-    "lodash": "^4.17.5"
   },
   "repository": {
     "type": "git",

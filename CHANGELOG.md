@@ -2,6 +2,9 @@
 
 ## latest
 
+0.0.8
+refactored controller, model, more search tests
+
 0.0.7
 added testing for vcard server
 

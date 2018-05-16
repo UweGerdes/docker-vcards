@@ -36,7 +36,7 @@ describe('vcard server', function () {
     });
   });
   describe('GET /vcards/0/', function () {
-    it('should list list a SINGLE vcard', function (done) {
+    it('should list a SINGLE vcard', function (done) {
       chai.request('http://172.25.0.2:8080')
         .get('/vcards/0/')
         .end(function (err, res) {
@@ -56,7 +56,7 @@ describe('vcard server', function () {
     });
   });
   describe('GET /vcards/1/', function () {
-    it('should list list a SINGLE vcard', function (done) {
+    it('should list a SINGLE vcard', function (done) {
       chai.request('http://172.25.0.2:8080')
         .get('/vcards/1/')
         .end(function (err, res) {

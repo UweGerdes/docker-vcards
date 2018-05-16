@@ -23,9 +23,10 @@ module.exports = {
     vcards.open(filename)
     .then(function (res) {
       data = res;
-      data.forEach((card) => { // jscs:ignore jsDoc
-        list.push(new vcards.Vcard(card));
-      });
+      //data.forEach((card) => { // jscs:ignore jsDoc
+      //  list.push(new vcards.Vcard(card));
+      //});
+      list = vcards.list();
       return data;
     });
   },
@@ -41,7 +42,7 @@ module.exports = {
   index: (req, res) => {
     res.render(path.join(__dirname, 'views', 'index.pug'), {
       vcards: data,
-      vcard: req.params.id ? list[parseInt(req.params.id)] : null,
+      vcard: req.params.id ? vcards.list()[parseInt(req.params.id)] : null,
       title: 'vcard',
       livereload: 'http://172.25.0.2:8081/livereload.js',
       label: label,
@@ -88,25 +89,8 @@ module.exports = {
           errors: errors.array()
         });
       } else {
-        const searchResult = [];
-        list.forEach((vcard) => { // jscs:ignore jsDoc
-          let hit = false;
-          let searchFields = req.body.searchFields;
-          if (typeof searchFields == 'string') {
-            searchFields = [searchFields];
-          }
-          searchFields.forEach((field) => { // jscs:ignore jsDoc
-            if (vcard.vcard.data[field] &&
-              vcard.vcard.data[field].valueOf().indexOf(req.body.searchString) >= 0) {
-              hit = true;
-            }
-          });
-          if (hit) {
-            searchResult.push(vcard.vcard);
-          }
-        });
         res.render(path.join(__dirname, 'views', 'result.pug'), {
-          vcards: searchResult,
+          vcards: vcards.list(req.body),
           title: 'vcard',
           unCsv: unCsv
         });

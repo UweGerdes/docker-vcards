@@ -16,12 +16,17 @@ const testData = 'BEGIN:VCARD\n' +
   'URL:http://www.uwegerdes.de/\n' +
   'END:VCARD';
 
+let data,
+  list = []
+  ;
+
 class Vcard {
   /**
    * build a vcard
    */
-  constructor(vcard) {
+  constructor(vcard, id) {
     this.vcard = vcard;
+    this.id = id;
   }
 
   /**
@@ -35,18 +40,22 @@ class Vcard {
    * get the field value
    */
   getValue(key) {
-    let value = this.vcard.get(key).valueOf();
-    if (typeof value == 'string') {
-      return value;
-    } else {
-      let result = [];
-      value.forEach((entry) => { // jscs:ignore jsDoc
-        result.push({
-          type: entry.type,
-          value: entry.valueOf()
+    if (this.vcard.get(key)) {
+      let value = this.vcard.get(key).valueOf();
+      if (typeof value == 'string') {
+        return value;
+      } else {
+        let result = [];
+        value.forEach((entry) => { // jscs:ignore jsDoc
+          result.push({
+            type: entry.type,
+            value: entry.valueOf()
+          });
         });
-      });
-      return result;
+        return result;
+      }
+    } else {
+      return null;
     }
   }
 
@@ -56,6 +65,25 @@ class Vcard {
   getType(key) {
     let value = this.vcard.get(key).type;
     return value;
+  }
+
+  /**
+   * get the field type
+   */
+  matches(selection) {
+    if (selection && selection.searchString && selection.searchString.length > 0) {
+      let hit = false;
+      let searchFields = selection.searchFields || ['fn'];
+      if (typeof searchFields == 'string') {
+        searchFields = [searchFields];
+      }
+      searchFields.forEach((field) => { // jscs:ignore jsDoc
+        hit = hit || this.getValue(field) &&
+          this.getValue(field).indexOf(selection.searchString) >= 0;
+      });
+      return hit;
+    }
+    return true;
   }
 }
 
@@ -92,7 +120,10 @@ module.exports = {
           if (err) {
             reject(err);
           } else {
-            const data = vcf.parse(buffer);
+            data = vcf.parse(buffer);
+            data.forEach((item, id) => { // jscs:ignore jsDoc
+              list.push(new Vcard(item, id));
+            });
             resolve(data);
           }
         });
@@ -100,5 +131,19 @@ module.exports = {
         reject(err);
       }
     });
+  },
+  /**
+   * get list of Vcard objects
+   *
+   * @param {object} selection - to reduce list, optional
+   */
+  list: (selection) => {
+    let result = [];
+    list.forEach((item) => { // jscs:ignore jsDoc
+      if (item.matches(selection)) {
+        result.push(item);
+      }
+    });
+    return result;
   }
 };
