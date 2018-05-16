@@ -17,7 +17,7 @@ chai.use(chaiHttp);
 
 describe('vcard page', function () {
   describe('GET /vcards/', function () {
-    it('should have head', function (done) {
+    it('should have search form', function (done) {
       chai.request('http://172.25.0.2:8080')
         .get('/vcards/')
         .end(function (err, res) {
@@ -32,7 +32,9 @@ describe('vcard page', function () {
           done();
         });
     });
-    it('should find elements by field and part of valaue', function (done) {
+  });
+  describe('POST /vcards/search/', function () {
+    it('should find two names with "e"', function (done) {
       chai.request('http://172.25.0.2:8080')
         .post('/vcards/search/')
         .type('form')
@@ -49,6 +51,42 @@ describe('vcard page', function () {
           assert.equal(list.length, 2);
           assert.equal(list[0].textContent, 'Gerdes, Uwe');
           assert.equal(list[1].textContent, 'Gerdes, Uwe');
+          done();
+        });
+    });
+    it('should find no name with value "x"', function (done) {
+      chai.request('http://172.25.0.2:8080')
+        .post('/vcards/search/')
+        .type('form')
+        .send({
+          searchFields: 'n',
+          searchString: 'x'
+        })
+        .end(function (err, res) {
+          expect(err).to.be.null;
+          expect(res).to.have.status(200);
+          expect(res).to.be.html;
+          const { document } = (new JSDOM(res.text)).window;
+          const list = document.getElementById('list').getElementsByTagName('li');
+          assert.equal(list.length, 0);
+          done();
+        });
+    });
+    it('should find return error on missing arguments', function (done) {
+      chai.request('http://172.25.0.2:8080')
+        .post('/vcards/search/')
+        .type('form')
+        .send({
+          searchFields: 'n'
+        })
+        .end(function (err, res) {
+          expect(err).to.be.null;
+          expect(res).to.have.status(404);
+          expect(res).to.be.html;
+          const { document } = (new JSDOM(res.text)).window;
+          const list = document.getElementById('errors').getElementsByTagName('li');
+          assert.equal(list.length, 1);
+          assert.equal(list[0].textContent, 'Suchwort eintragen');
           done();
         });
     });

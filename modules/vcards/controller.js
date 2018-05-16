@@ -82,10 +82,8 @@ module.exports = {
     body('searchFields', 'Feld auswählen').isLength({ min: 1 }).trim(),
     sanitizeBody('searchString').trim().escape(),
     (req, res) => { // jscs:ignore jsDoc
-      console.log('req body', req.body);
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
-        console.log('errors', errors.array());
         res.status(404).render(path.join(__dirname, 'views', 'errors.pug'), { // jscs:ignore jsDoc
           errors: errors.array()
         });
