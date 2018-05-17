@@ -19,6 +19,9 @@ router.get('/', controller.index);
 // list vcards
 router.get('/list/', controller.list);
 
+// edit id route.
+router.get('/edit/:id/', controller.edit);
+
 // view id route.
 router.get('/:id/', controller.index);
 

@@ -59,6 +59,30 @@ const index = (req, res) => {
 };
 
 /**
+ * ### edit page
+ *
+ * render the edit page
+ *
+ * @param {object} req - request
+ * @param {object} res - result
+ */
+const edit = (req, res) => {
+  res.render(path.join(viewBase, 'index.pug'), {
+    vcards: data,
+    vcard: req.params.id ? model.list()[parseInt(req.params.id)] : null,
+    title: 'vcard',
+    edit: true,
+    livereload: 'http://172.25.0.2:8081/livereload.js',
+    label: label,
+    labels: labels,
+    type: type,
+    types: types,
+    timestamp: timestamp,
+    unCsv: unCsv
+  });
+};
+
+/**
  * ### list
  *
  * render the list snippet
@@ -101,6 +125,7 @@ module.exports = {
   init: init,
   index: index,
   list: list,
+  edit: edit,
   search: [
     body('searchFields', 'Feld auswählen').isLength({ min: 1 }).trim(),
     body('searchString', 'Suchwort eintragen').isLength({ min: 1 }).trim(),
