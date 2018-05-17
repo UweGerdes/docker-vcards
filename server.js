@@ -1,7 +1,7 @@
-/*
- * HTTP-Server for vcards
+/**
+ * ## HTTP-Server for vcards
  *
- * (c) Uwe Gerdes, entwicklung@uwegerdes.de
+ * @module server
  */
 'use strict';
 

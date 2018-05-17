@@ -1,6 +1,7 @@
 /**
- * Model for vCard
- * @module modules/vcards/model
+ * ## Model for vCard
+ *
+ * @module vcards/model
  */
 'use strict';
 
