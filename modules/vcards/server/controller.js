@@ -150,16 +150,17 @@ const fields = {
   },
   tel: {
     label: 'Telefon',
+    type: 'list',
     size: 30
   },
   adr: {
     label: 'Adresse',
-    type: 'text',
+    type: 'list',
     size: 30
   },
   email: {
     label: 'E-Mail',
-    type: 'text',
+    type: 'list',
     size: 30
   },
   url: {

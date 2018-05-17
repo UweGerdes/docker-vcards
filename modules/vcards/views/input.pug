@@ -1,5 +1,7 @@
 mixin input-text(field, value, types, index)
   input(type='text', id=field + index, name=field + index, class='input-text', size=fields[field].size, value=value)
+  if fields[field].type == 'list' && (index == '' || index == '_0')
+    span.add= '+'
   if types.length > 0
     .types
       each type in types
