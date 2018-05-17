@@ -5,72 +5,72 @@
 gulp:
   watch:
     js:
-      - ./modules/*/js/*.js
+      - 'modules/*/js/*.js'
     jsdoc:
-#      - ./*.js
-#      - ./gulp/**/*.js
-      - ./lib/**/*.js
-#      - ./modules/**/*.js
-#      - ./src/**/*.js
+#      - '*.js'
+#      - 'gulp/**/*.js'
+      - 'lib/**/*.js'
+#      - 'modules/**/*.js'
+#      - 'src/**/*.js'
     jshint:
-      - ./*.js
-      - ./gulp/**/*.js
-      - ./lib/**/*.js
-      - ./modules/**/*.js
-      - ./src/**/*.js
+      - '*.js'
+      - 'gulp/**/*.js'
+      - 'lib/**/*.js'
+      - 'modules/**/*.js'
+      - 'src/**/*.js'
     jsonlint:
-      - ./**/*.json
-      - ./.jscsrc
-      - ./.jshintrc
-      - ./.lesshintrc
+      - '**/*.json'
+      - '.jscsrc'
+      - '.jshintrc'
+      - '.lesshintrc'
     lesshint:
-      - ./src/less/**/*.less
+      - 'src/less/**/*.less'
     yamllint:
-      - ./**/*.yaml
-      - ./**/*.yml
+      - '**/*.yaml'
+      - '**/*.yml'
     ejslint:
-      - ./**/*.ejs
+      - '**/*.ejs'
     less:
-      - ./src/less/app.less
-      - ./src/less/**/*.less
-      - ./modules/**/*.less
+      - 'src/less/app.less'
+      - 'src/less/**/*.less'
+      - 'modules/**/*.less'
     puglint:
-      - ./**/*.pug
+      - '**/*.pug'
     test-vcards:
-      - ./modules/vcards/*.*
-      - ./modules/vcards/tests/*.*
-      - ./modules/vcards/views/*.*
-      - ./htdocs/css/app.css
+      - 'modules/vcards/*.*'
+      - 'modules/vcards/tests/*.*'
+      - 'modules/vcards/views/*.*'
+      - 'htdocs/css/app.css'
     webserver-restart:
-      - ./server.js
-      - ./modules/vcards/*.js
+      - 'server.js'
+      - 'modules/vcards/*.js'
     livereload:
-      - ./htdocs/**/*.html
-      - ./modules/**/*.ejs
-      - ./modules/**/*.pug
-      - ./htdocs/img/**/*.*
-      - ./htdocs/css/app.css
-      - ./htdocs/js/**/*.js
+      - 'htdocs/**/*.html'
+      - 'modules/**/*.ejs'
+      - 'modules/**/*.pug'
+      - 'htdocs/img/**/*.*'
+      - 'htdocs/css/app.css'
+      - 'htdocs/js/**/*.js'
   tests:
     vcards:
-      - ./modules/vcards/tests/*.js
+      - 'modules/vcards/tests/*.js'
   build:
     jsdoc:
       src:
-        - ./*.js
-        - ./gulp/**/*.js
-        - ./lib/**/*.js
-        - ./modules/**/*.js
-        - ./src/**/*.js
-      dest: ./docs/jsdoc
+        - '*.js'
+        - 'gulp/**/*.js'
+        - 'lib/**/*.js'
+        - 'modules/**/*.js'
+        - 'src/**/*.js'
+      dest: 'docs/jsdoc'
     js:
-      src: ./modules/*/js/*.js
-      dest: ./htdocs/js
+      src: 'modules/*/js/*.js'
+      dest: 'htdocs/js'
       replace:
         '/js': ''
     less:
-      src: ./src/less/app.less
-      dest: ./htdocs/css
+      src: 'src/less/app.less'
+      dest: 'htdocs/css'
 
 webserver:
   server: ./server.js
