@@ -1,8 +1,12 @@
-if typeof vcard.getValue(field) == "string"
-  input(type='text', id=field, name=field, class='input-text', size=fields[field].text, value=vcard.getValue(field))
-  if vcard.getType(field)
+mixin input-text(field, value, types)
+  input(type='text', id=field, name=field, class='input-text', size=fields[field].size, value=value)
+  if types
     = " "
-    = type(vcard.getType(field)).join(", ")
+    = types.join(' / ')
+
+if typeof vcard.getValue(field) == "string"
+  +input-text(field, vcard.getValue(field), type(vcard.getType(field)))
 else
-  include valuelist.pug
-.error
+  each obj in vcard.getValue(field)
+    +input-text(field, obj.value, type(obj.type))
+.error(id=field + '-error')

@@ -135,35 +135,42 @@ module.exports = {
 const fields = {
   version: {
     label: 'Version',
-    text: 5
+    type: 'text',
+    size: 5
   },
   n: {
     label: 'Name',
-    text: 30
+    type: 'text',
+    size: 30
   },
   fn: {
     label: 'Anzeigename',
-    text: 30
+    type: 'text',
+    size: 30
   },
   tel: {
     label: 'Telefon',
-    list: 30
+    size: 30
   },
   adr: {
     label: 'Adresse',
-    text: 30
+    type: 'text',
+    size: 30
   },
   email: {
     label: 'E-Mail',
-    text: 30
+    type: 'text',
+    size: 30
   },
   url: {
     label: 'Homepage',
-    text: 30
+    type: 'text',
+    size: 30
   },
   rev: {
     label: 'Timestamp',
-    text: 30
+    type: 'text',
+    size: 30
   }
 };
 
