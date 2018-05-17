@@ -7,11 +7,11 @@ gulp:
     js:
       - 'modules/*/js/*.js'
     jsdoc:
-#      - '*.js'
-#      - 'gulp/**/*.js'
+      - '*.js'
+      - 'gulp/**/*.js'
       - 'lib/**/*.js'
-#      - 'modules/**/*.js'
-#      - 'src/**/*.js'
+      - 'modules/**/*.js'
+      - 'src/**/*.js'
     jshint:
       - '*.js'
       - 'gulp/**/*.js'
@@ -41,7 +41,7 @@ gulp:
       - 'modules/vcards/tests/*.*'
       - 'modules/vcards/views/*.*'
       - 'htdocs/css/app.css'
-    webserver-restart:
+    server-restart:
       - './server.js'
       - 'modules/**/server/*.js'
     livereload:
@@ -72,7 +72,7 @@ gulp:
       src: 'src/less/app.less'
       dest: 'htdocs/css'
 
-webserver:
+server:
   server: ./server.js
   docroot: ./htdocs
   modules: ./modules

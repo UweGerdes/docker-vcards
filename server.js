@@ -1,5 +1,5 @@
 /*
- * HTTP-Server for compare-layouts
+ * HTTP-Server for vcards
  *
  * (c) Uwe Gerdes, entwicklung@uwegerdes.de
  */
@@ -18,11 +18,11 @@ const bodyParser = require('body-parser'),
   app = express()
   ;
 
-const httpPort = config.webserver.httpPort,
-  livereloadPort = config.webserver.livereloadPort,
-  docRoot = config.webserver.docroot,
-  modulesRoot = config.webserver.modules,
-  verbose = config.webserver.verbose
+const httpPort = config.server.httpPort,
+  livereloadPort = config.server.livereloadPort,
+  docRoot = config.server.docroot,
+  modulesRoot = config.server.modules,
+  verbose = config.server.verbose
   ;
 
 /**
@@ -101,7 +101,7 @@ app.get('*', (req, res) => {
 });
 
 // Fire it up!
-log.info('webserver listening on ' +
+log.info('server listening on ' +
   chalk.greenBright('http://' + ipv4addresses.get()[0] + ':' + httpPort));
 
 app.listen(httpPort);

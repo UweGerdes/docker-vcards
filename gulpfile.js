@@ -33,7 +33,7 @@ gulp.task('default', (callback) => {
     'build',
     'watch',
     'livereload-start',
-    'webserver-start',
+    'server-start',
     'tests',
     callback);
 });

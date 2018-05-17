@@ -17,21 +17,21 @@ const gulp = require('gulp'),
 
 const tasks = {
   /**
-   * ### webserver restart and run tests
+   * ### server restart and run tests
    *
-   * @task webserver
+   * @task server
    * @namespace tasks
    * @param {function} callback - gulp callback
    */
-  'webserver-restart': (callback) => {
+  'server-restart': (callback) => {
     sequence(
-      'webserver-changed',
+      'server-changed',
       'tests',
       callback
     );
   },
   /**
-   * ### webserver livereload task
+   * ### server livereload task
    *
    * @task livereload
    * @namespace tasks
@@ -43,28 +43,28 @@ const tasks = {
       ;
   },
   /**
-   * ### webserver start task
+   * ### server start task
    *
-   * @task webserver-start
+   * @task server-start
    * @namespace tasks
    * @param {function} callback - gulp callback
    */
-  'webserver-start': (callback) => {
+  'server-start': (callback) => {
     server.listen({
-        path: config.webserver.server,
+        path: config.server.server,
         env: { VERBOSE: true, FORCE_COLOR: 1 }
       },
       callback
     );
   },
   /**
-   * ### webserver restart task
+   * ### server restart task
    *
-   * @task webserver-restart
+   * @task server-restart
    * @namespace tasks
    * @param {function} callback - gulp callback
    */
-  'webserver-changed': (callback) => {
+  'server-changed': (callback) => {
     server.changed((error) => { // jscs:ignore jsDoc
       if (!error) {
         livereload.changed({ path: '/', quiet: true });
@@ -73,15 +73,15 @@ const tasks = {
     });
   },
   /**
-   * ### webserver livereload start task
+   * ### server livereload start task
    *
    * @task livereload-start
    * @namespace tasks
    */
   'livereload-start': () => {
-    livereload.listen({ port: config.webserver.livereloadPort, delay: 2000, quiet: true });
+    livereload.listen({ port: config.server.livereloadPort, delay: 2000, quiet: true });
     log.info('livereload listening on http://' +
-      ipv4addresses.get()[0] + ':' + config.webserver.livereloadPort);
+      ipv4addresses.get()[0] + ':' + config.server.livereloadPort);
   }
 };
 

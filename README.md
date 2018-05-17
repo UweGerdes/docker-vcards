@@ -30,7 +30,7 @@ $ docker build -t uwegerdes/nodejs \
 $ docker-compose up
 ```
 
-There are many warning from `npm install` - ignore them and wait a bit. Open the ip of the webserver in your browser.
+There are many warning from `npm install` - ignore them and wait a bit. Open the ip of the server in your browser.
 
 Use CTRL-C to stop the container. Restart it with `docker-compose up`.
 
@@ -81,7 +81,7 @@ $ docker run -it \
 $ docker run -it \
 	--name responsive-check-vcard \
 	---volume $(pwd)/tests/dev/responsive-check:/home/node/app/config \
-	--network="$(docker inspect --format='{{.HostConfig.NetworkMode}}' vcard-webserver)" \
-	--add-host webserver:$(docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}} {{end}}' vcard-webserver) \
+	--network="$(docker inspect --format='{{.HostConfig.NetworkMode}}' vcard-server)" \
+	--add-host vcard-server:$(docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}} {{end}}' vcard-server) \
 	uwegerdes/responsive-check
 ```
