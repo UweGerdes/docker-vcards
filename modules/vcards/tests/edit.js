@@ -75,16 +75,36 @@ describe('vcard page', function () {
           assert.equal(inputN[0].getAttribute('size'), 30);
           assert.equal(inputN[0].getAttribute('value'), 'Gerdes;Uwe;;;');
 
-          const inputTel0 = document.querySelectorAll('form#edit #tel_0');
+          const inputTel0 = document.querySelectorAll('form#edit #tel0');
           assert.equal(inputTel0.length, 1);
           assert.equal(inputTel0[0].getAttribute('size'), 30);
           assert.equal(inputTel0[0].getAttribute('value'), '040 256486');
 
-          const inputTel1 = document.querySelectorAll('form#edit #tel_1');
+          const inputTel1 = document.querySelectorAll('form#edit #tel1');
           assert.equal(inputTel1.length, 1);
           assert.equal(inputTel1[0].getAttribute('size'), 30);
           assert.equal(inputTel1[0].getAttribute('value'), '0179 3901008');
 
+          done();
+        });
+    });
+  });
+  describe('GET /vcards/type/tel/_0/work', function () {
+    it('should render a type item', function (done) {
+      chai.request('http://172.25.0.2:8080')
+        .get('/vcards/type/tel/_1/work')
+        .end(function (err, res) {
+          expect(err).to.be.null;
+          expect(res).to.have.status(200);
+          expect(res).to.be.html;
+          const { document } = (new JSDOM(res.text)).window;
+          const type = document.querySelectorAll('.type');
+          assert.equal(type.length, 1);
+          assert.equal(type[0].textContent, 'Arbeit');
+          const checkbox = document.querySelectorAll('input[type="checkbox"]');
+          assert.equal(checkbox.length, 1);
+          assert.equal(checkbox[0].getAttribute('name'), 'tel1');
+          assert.equal(checkbox[0].getAttribute('value'), 'work');
           done();
         });
     });
@@ -103,7 +123,7 @@ describe('vcard page', function () {
           assert.equal(type[0].textContent, 'Arbeit');
           const checkbox = document.querySelectorAll('input[type="checkbox"]');
           assert.equal(checkbox.length, 1);
-          assert.equal(checkbox[0].getAttribute('name'), 'tel_1');
+          assert.equal(checkbox[0].getAttribute('name'), 'tel1');
           assert.equal(checkbox[0].getAttribute('value'), 'work');
           done();
         });

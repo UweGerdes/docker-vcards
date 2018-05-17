@@ -1,5 +1,5 @@
 mixin moreTypes(field, index, used)
-  select&attributes({ name: field + index, 'data-select-xhr': '/type/' + field + '/' + index + '/' })
+  select&attributes({ name: field + index, 'data-select-xhr': '/vcards/type/' + field + '/_' + index + '/' })
     option(value='')= '- neu -'
     each type in fields[field].types
       if used.indexOf(type) < 0
@@ -14,8 +14,14 @@ mixin types(field, index, typeList)
     +moreTypes(field, index, typeList)
 
 mixin input-text(field, value, types, index)
-  input(type='text', id=field + index, name=field + index, class='input-text', size=fields[field].size, value=value)
-  if fields[field].type == 'list' && (index == '' || index == '_0')
+  input(
+    type='text',
+    id=field + index,
+    name=field + index,
+    class='input-text',
+    size=fields[field].size,
+    value=value)
+  if fields[field].type == 'list' && (index == '' || index == '0')
     span.add= '+'
   if types &&  types.length > 0
     +types(field, index, types)
@@ -27,5 +33,5 @@ if typeof vcard.getValue(field) == "string"
   +input-text(field, vcard.getValue(field), vcard.getType(field), '')
 else
   each obj, index in vcard.getValue(field)
-    +input-text(field, obj.value, obj.type, '_' + index)
+    +input-text(field, obj.value, obj.type, index)
 .error(id=field + '-error')

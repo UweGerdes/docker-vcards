@@ -66,6 +66,27 @@ handlers.push({
 });
 
 /**
+ * new type
+ */
+handlers.push({
+  elements: document.querySelectorAll('select[data-select-xhr]'),
+  event: 'change',
+  func: function () { // jscs:ignore jsDoc
+    const _this = this;
+    const xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () { // jscs:ignore jsDoc
+      if (this.readyState == 4) {
+        if (this.status == 200) {
+          _this.insertAdjacentHTML('beforebegin', this.responseText);
+        }
+      }
+    };
+    xhttp.open('GET', this.getAttribute('data-select-xhr') + this.value, true);
+    xhttp.send();
+  }
+});
+
+/**
  * attach event handlers
  */
 handlers.forEach((handler) => { // jscs:ignore jsDoc
