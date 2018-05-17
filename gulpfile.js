@@ -34,5 +34,6 @@ gulp.task('default', (callback) => {
     'watch',
     'livereload-start',
     'webserver-start',
+    'tests',
     callback);
 });
