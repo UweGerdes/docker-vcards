@@ -13,7 +13,7 @@ const controller = require('./controller.js');
 
 controller.init(path.join(path.dirname(__dirname), 'tests', 'testdata.vcf'));
 
-// Home page route.
+// vcard overview
 router.get('/', controller.index);
 
 // list vcards

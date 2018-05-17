@@ -3,7 +3,7 @@
 ## latest
 
 0.0.8
-refactored controller, model, more search tests
+refactored controller, model, more search tests, gulp tasks and configuration enhanced
 
 0.0.7
 added testing for vcard server

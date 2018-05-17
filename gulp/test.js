@@ -25,7 +25,6 @@ const tasks = {
   'tests': (callback) => {
     sequence(
       'test-vcards',
-//      'test-compare-layouts',
       callback
     );
   },

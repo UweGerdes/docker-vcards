@@ -3,14 +3,15 @@
  */
 'use strict';
 
-const combiner = require('stream-combiner2'),
-  gulp = require('gulp'),
+const gulp = require('gulp'),
   autoprefixer = require('gulp-autoprefixer'),
   jsdoc = require('gulp-jsdoc3'),
   less = require('gulp-less'),
   notify = require('gulp-notify'),
   rename = require('gulp-rename'),
   sequence = require('gulp-sequence'),
+  lessPluginGlob = require('less-plugin-glob'),
+  combiner = require('stream-combiner2'),
   config = require('../lib/config'),
   loadTasks = require('./lib/load-tasks')
   ;
@@ -51,7 +52,9 @@ const tasks = {
   'less': () => {
     return combiner.obj([
       gulp.src(config.gulp.build.less.src),
-      less(),
+      less({
+        plugins: [lessPluginGlob]
+      }),
       autoprefixer('last 3 version', 'safari 5', 'ie 8', 'ie 9', 'ios 6', 'android 4'),
       gulp.dest(config.gulp.build.less.dest),
       log({ message: 'written: <%= file.path %>', title: 'Gulp less' })

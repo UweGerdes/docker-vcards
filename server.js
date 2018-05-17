@@ -22,7 +22,7 @@ const httpPort = config.webserver.httpPort,
   livereloadPort = config.webserver.livereloadPort,
   docRoot = config.webserver.docroot,
   modulesRoot = config.webserver.modules,
-  verbose = config.webserver.verbose || false
+  verbose = config.webserver.verbose
   ;
 
 /**
