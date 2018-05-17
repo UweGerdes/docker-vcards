@@ -30,17 +30,23 @@ $ docker build -t uwegerdes/nodejs \
 $ docker-compose up
 ```
 
+There are many warning from `npm install` - ignore them and wait a bit. Open the ip of the webserver in your browser.
+
+Use CTRL-C to stop the container. Restart it with `docker-compose up`.
+
+To remove the container use `docker-compose down`.
+
+To rebuild the image you may now `docker rmi uwegerdes/vcard` and then `docker-compose up`.
+
 ## Development
 
 In the directory `modules` you should create subdirectories for your modules.
 
-Reuse parts of other modules or make modules from often used parts.
+Reuse parts of other modules or make modules out of often used parts.
 
-Each module contains everything for itself - views (templates, styles, scripts, assets), controller, model and tests
+Each module contains everything for itself - views (templates, styles, scripts, assets), server (controller, model), tests and other files.
 
-At the moment you must include some paths in configuration.yaml to activate gulp watch and other tasks for your module
-
-If you add files to your module please restart the development container - otherwise gulp will not watch your file.
+Perhaps you might want to restart the development container if something goes really wrong. Mostly the parts will trigger the needed restart but there have been cases...
 
 ### Templates: HTML / EJS / [Pug](https://pugjs.org/)
 
@@ -52,17 +58,13 @@ The project provides global styles so you should only add styles to your module 
 
 ### ES6 / JavaScript
 
+Will be copied to `htdocs/js/[module]/`.
+
 ### Iconfont
 
 ### Graphviz
 
-### Docker
-
-Start environment:
-
-```bash
-docker-compose up
-```
+### More Docker
 
 #### compare-layouts
 
@@ -83,5 +85,3 @@ $ docker run -it \
 	--add-host webserver:$(docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}} {{end}}' vcard-webserver) \
 	uwegerdes/responsive-check
 ```
-
-
