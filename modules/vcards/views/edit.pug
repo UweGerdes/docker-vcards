@@ -1,0 +1,12 @@
+form#edit.edit
+  each field in vcard.getFields()
+    div.list-item
+      div#field.field
+        label.label(for=field)
+          = fields[field].label
+          = ": "
+        div.itemvalue
+          include input.pug
+
+  #submit.submit
+    input.searchSubmit(type='submit', value='suchen...')

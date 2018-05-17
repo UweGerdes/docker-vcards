@@ -24,14 +24,25 @@ describe('vcard page', function () {
           expect(err).to.be.null;
           expect(res).to.have.status(200);
           expect(res).to.be.html;
+
           const { document } = (new JSDOM(res.text)).window;
+
           const headline = document.getElementById('headline');
           assert.equal(headline.textContent, 'vcard Uwe Gerdes bearbeiten');
-          const item = document.getElementById('item').getElementsByTagName('li');
-          assert.equal(item.length, 8);
-          assert.equal(document.getElementById('n').textContent, 'Name:  Gerdes, Uwe');
-          assert.equal(document.getElementById('tel').textContent,
-            'Telefon: Arbeit, Sprache: 040 256486Mobil: 0179 3901008');
+
+          const form = document.querySelectorAll('form#edit');
+          assert.equal(form.length, 1);
+
+          const inputVersion = document.querySelectorAll('form#edit #version');
+          assert.equal(inputVersion.length, 1);
+          assert.equal(inputVersion[0].getAttribute('size'), 5);
+          assert.equal(inputVersion[0].getAttribute('value'), '2.1');
+
+          const inputN = document.querySelectorAll('form#edit #n');
+          assert.equal(inputN.length, 1);
+          assert.equal(inputN[0].getAttribute('size'), 30);
+          assert.equal(inputN[0].getAttribute('value'), 'Gerdes;Uwe;;;');
+
           done();
         });
     });

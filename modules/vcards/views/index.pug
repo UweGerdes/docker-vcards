@@ -1,7 +1,7 @@
 extends ../../index.pug
 
 block content
-  div#vcardView.vcardView
+  div#vcard.vcard
     h1#headline.headline= title
       if vcard
         = " "
@@ -13,7 +13,7 @@ block content
       include list.pug
       if vcard
         if edit
-          include item.pug
+          include edit.pug
         else
           include item.pug
     #searchLayer.searchLayer.hidden

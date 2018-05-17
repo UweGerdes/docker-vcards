@@ -3,7 +3,7 @@ ul#item.item-list
     li.list-item
       div(id=field).field
         div.label
-          = label(field)
+          = fields[field].label
           =": "
         div.itemvalue
           if typeof vcard.getValue(field) == "string"

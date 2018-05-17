@@ -1,0 +1,8 @@
+if typeof vcard.getValue(field) == "string"
+  input(type='text', id=field, name=field, class='input-text', size=fields[field].text, value=vcard.getValue(field))
+  if vcard.getType(field)
+    = " "
+    = type(vcard.getType(field)).join(", ")
+else
+  include valuelist.pug
+.error

@@ -1,11 +1,11 @@
 h2.subheadline Suchen
 form#searchForm.searchForm(method='POST', action='')
   .searchFieldsContainer
-    each label, name in labels
+    each field, name in fields
       div.checkboxContainer
         input.checkbox(type='checkbox', name='searchFields', value=name, id='search_' + name)
         label(for='search_' + name)
-          = label
+          = field.label
   .searchStringContainer
     input.searchString(type='text', name='searchString', placeholder='Suchwort', value='')
     #searchErrors.search-errors

@@ -49,8 +49,7 @@ const index = (req, res) => {
     vcard: req.params.id ? model.list()[parseInt(req.params.id)] : null,
     title: 'vcard',
     livereload: 'http://172.25.0.2:8081/livereload.js',
-    label: label,
-    labels: labels,
+    fields: fields,
     type: type,
     types: types,
     timestamp: timestamp,
@@ -73,8 +72,7 @@ const edit = (req, res) => {
     title: 'vcard',
     edit: true,
     livereload: 'http://172.25.0.2:8081/livereload.js',
-    label: label,
-    labels: labels,
+    fields: fields,
     type: type,
     types: types,
     timestamp: timestamp,
@@ -134,26 +132,39 @@ module.exports = {
   ]
 };
 
-const labels = {
-  version: 'Version',
-  n: 'Name',
-  fn: 'Anzeigename',
-  tel: 'Telefon',
-  adr: 'Adresse',
-  email: 'E-Mail',
-  url: 'Homepage',
-  rev: 'Timestamp'
-};
-/**
- * ### label
- *
- * make readable labels
- *
- * @private
- * @param {string} value - to convert
- */
-const label = (value) => {
-  return labels[value] || '- ' + value + ' -';
+const fields = {
+  version: {
+    label: 'Version',
+    text: 5
+  },
+  n: {
+    label: 'Name',
+    text: 30
+  },
+  fn: {
+    label: 'Anzeigename',
+    text: 30
+  },
+  tel: {
+    label: 'Telefon',
+    list: 30
+  },
+  adr: {
+    label: 'Adresse',
+    text: 30
+  },
+  email: {
+    label: 'E-Mail',
+    text: 30
+  },
+  url: {
+    label: 'Homepage',
+    text: 30
+  },
+  rev: {
+    label: 'Timestamp',
+    text: 30
+  }
 };
 
 const types = {
