@@ -37,13 +37,13 @@ gulp:
     puglint:
       - '**/*.pug'
     test-vcards:
-      - 'modules/vcards/*.*'
+      - 'modules/vcards/server/*.*'
       - 'modules/vcards/tests/*.*'
       - 'modules/vcards/views/*.*'
       - 'htdocs/css/app.css'
     webserver-restart:
-      - 'server.js'
-      - 'modules/vcards/*.js'
+      - './server.js'
+      - 'modules/**/server/*.js'
     livereload:
       - 'htdocs/**/*.html'
       - 'modules/**/*.ejs'
@@ -76,8 +76,6 @@ webserver:
   server: ./server.js
   docroot: ./htdocs
   modules: ./modules
-  routes:
-    - ./modules/**/routes.js
   httpPort: 8080
   livereloadPort: 8081
   verbose: false

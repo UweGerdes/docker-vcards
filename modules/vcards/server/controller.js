@@ -10,7 +10,8 @@ const { body, validationResult } = require('express-validator/check'),
   ;
 
 let data,
-  list = []
+  list = [],
+  viewBase = path.join(path.dirname(__dirname), 'views')
   ;
 
 module.exports = {
@@ -40,7 +41,7 @@ module.exports = {
    * @param {object} res - result
    */
   index: (req, res) => {
-    res.render(path.join(__dirname, 'views', 'index.pug'), {
+    res.render(path.join(viewBase, 'index.pug'), {
       vcards: data,
       vcard: req.params.id ? vcards.list()[parseInt(req.params.id)] : null,
       title: 'vcard',
@@ -63,7 +64,7 @@ module.exports = {
    * @param {object} res - result
    */
   list: (req, res) => {
-    res.render(path.join(__dirname, 'views', 'list.pug'), {
+    res.render(path.join(viewBase, 'list.pug'), {
       vcards: data,
       title: 'vcard',
       unCsv: unCsv
@@ -85,11 +86,11 @@ module.exports = {
     (req, res) => { // jscs:ignore jsDoc
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
-        res.status(404).render(path.join(__dirname, 'views', 'errors.pug'), { // jscs:ignore jsDoc
+        res.status(404).render(path.join(viewBase, 'errors.pug'), { // jscs:ignore jsDoc
           errors: errors.array()
         });
       } else {
-        res.render(path.join(__dirname, 'views', 'result.pug'), {
+        res.render(path.join(viewBase, 'result.pug'), {
           vcards: vcards.list(req.body),
           title: 'vcard',
           unCsv: unCsv

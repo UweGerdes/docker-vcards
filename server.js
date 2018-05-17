@@ -22,7 +22,6 @@ const httpPort = config.webserver.httpPort,
   livereloadPort = config.webserver.livereloadPort,
   docRoot = config.webserver.docroot,
   modulesRoot = config.webserver.modules,
-  routesFiles = config.webserver.routes,
   verbose = config.webserver.verbose || false
   ;
 
@@ -79,15 +78,13 @@ app.get('/app', (req, res) => {
 /**
  * Routes from modules
  */
-routesFiles.forEach((path) => { // jscs:ignore jsDoc
-  glob.sync(path)
-    .forEach((filename) => { // jscs:ignore jsDoc
-      const regex = new RegExp(modulesRoot + '(/.+)/routes.js');
-      const baseRoute = filename.replace(regex, '$1');
-      app.use(baseRoute, require(filename));
-    })
-  ;
-});
+glob.sync(modulesRoot + '/**/server/index.js')
+  .forEach((filename) => { // jscs:ignore jsDoc
+    const regex = new RegExp(modulesRoot + '(/.+)/server/index.js');
+    const baseRoute = filename.replace(regex, '$1');
+    app.use(baseRoute, require(filename));
+  })
+;
 
 /**
  * Route for everything else
