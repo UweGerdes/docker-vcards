@@ -89,4 +89,24 @@ describe('vcard page', function () {
         });
     });
   });
+  describe('GET /vcards/type/tel/_1/work', function () {
+    it('should render a type item', function (done) {
+      chai.request('http://172.25.0.2:8080')
+        .get('/vcards/type/tel/_1/work')
+        .end(function (err, res) {
+          expect(err).to.be.null;
+          expect(res).to.have.status(200);
+          expect(res).to.be.html;
+          const { document } = (new JSDOM(res.text)).window;
+          const type = document.querySelectorAll('.type');
+          assert.equal(type.length, 1);
+          assert.equal(type[0].textContent, 'Arbeit');
+          const checkbox = document.querySelectorAll('input[type="checkbox"]');
+          assert.equal(checkbox.length, 1);
+          assert.equal(checkbox[0].getAttribute('name'), 'tel_1');
+          assert.equal(checkbox[0].getAttribute('value'), 'work');
+          done();
+        });
+    });
+  });
 });

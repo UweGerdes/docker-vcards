@@ -1,0 +1,5 @@
+span.type
+  input(type='checkbox', name=field + index, value=type, checked)
+  = types[type]
+  if fields[field].types.indexOf(type) < 0
+    = ' #'

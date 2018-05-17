@@ -22,6 +22,9 @@ router.get('/list/', controller.list);
 // edit id route.
 router.get('/edit/:id/', controller.edit);
 
+// new type route.
+router.get('/type/:field/:index/:type', controller.inputType);
+
 // view id route.
 router.get('/:id/', controller.index);
 

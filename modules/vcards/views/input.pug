@@ -1,5 +1,5 @@
 mixin moreTypes(field, index, used)
-  select(name=field + index)
+  select&attributes({ name: field + index, 'data-select-xhr': '/type/' + field + '/' + index + '/' })
     option(value='')= '- neu -'
     each type in fields[field].types
       if used.indexOf(type) < 0
@@ -10,11 +10,7 @@ mixin types(field, index, typeList)
     if typeof typeList == 'string'
       - typeList = [typeList]
     each type in typeList
-      span.type
-        input(type='checkbox', name=field + index, value=type, checked)
-        = types[type]
-        if fields[field].types.indexOf(type) < 0
-          = ' #'
+      include input-type.pug
     +moreTypes(field, index, typeList)
 
 mixin input-text(field, value, types, index)
@@ -23,6 +19,9 @@ mixin input-text(field, value, types, index)
     span.add= '+'
   if types &&  types.length > 0
     +types(field, index, types)
+  else if fields[field].types
+    .types
+      +moreTypes(field, index, [])
 
 if typeof vcard.getValue(field) == "string"
   +input-text(field, vcard.getValue(field), vcard.getType(field), '')
