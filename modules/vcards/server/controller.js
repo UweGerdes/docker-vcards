@@ -151,22 +151,26 @@ const fields = {
   tel: {
     label: 'Telefon',
     type: 'list',
-    size: 30
+    size: 30,
+    types: ['work', 'home', 'voice', 'cell', 'pref']
   },
   adr: {
     label: 'Adresse',
     type: 'list',
-    size: 30
+    size: 30,
+    types: ['work', 'home', 'pref']
   },
   email: {
     label: 'E-Mail',
     type: 'list',
-    size: 30
+    size: 30,
+    types: ['work', 'home', 'pref', 'internet']
   },
   url: {
     label: 'Homepage',
     type: 'text',
-    size: 30
+    size: 30,
+    types: ['work', 'home', 'pref', 'internet']
   },
   rev: {
     label: 'Timestamp',

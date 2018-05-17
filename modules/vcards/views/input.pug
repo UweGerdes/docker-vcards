@@ -1,17 +1,32 @@
+mixin moreTypes(field, index, used)
+  select(name=field + index)
+    option(value='')= '- neu -'
+    each type in fields[field].types
+      if used.indexOf(type) < 0
+        option(value=type)= types[type] || '- ' + type + ' -'
+
+mixin types(field, index, typeList)
+  .types
+    if typeof typeList == 'string'
+      - typeList = [typeList]
+    each type in typeList
+      span.type
+        input(type='checkbox', name=field + index, value=type, checked)
+        = types[type]
+        if fields[field].types.indexOf(type) < 0
+          = ' #'
+    +moreTypes(field, index, typeList)
+
 mixin input-text(field, value, types, index)
   input(type='text', id=field + index, name=field + index, class='input-text', size=fields[field].size, value=value)
   if fields[field].type == 'list' && (index == '' || index == '_0')
     span.add= '+'
-  if types.length > 0
-    .types
-      each type in types
-        span.type
-          input(type='checkbox', name=field + index, value=type, checked)
-          = type
+  if types &&  types.length > 0
+    +types(field, index, types)
 
 if typeof vcard.getValue(field) == "string"
-  +input-text(field, vcard.getValue(field), type(vcard.getType(field)), '')
+  +input-text(field, vcard.getValue(field), vcard.getType(field), '')
 else
   each obj, index in vcard.getValue(field)
-    +input-text(field, obj.value, type(obj.type), '_' + index)
+    +input-text(field, obj.value, obj.type, '_' + index)
 .error(id=field + '-error')
