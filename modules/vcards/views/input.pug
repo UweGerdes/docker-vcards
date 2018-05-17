@@ -1,12 +1,15 @@
-mixin input-text(field, value, types)
-  input(type='text', id=field, name=field, class='input-text', size=fields[field].size, value=value)
-  if types
-    = " "
-    = types.join(' / ')
+mixin input-text(field, value, types, index)
+  input(type='text', id=field + index, name=field + index, class='input-text', size=fields[field].size, value=value)
+  if types.length > 0
+    .types
+      each type in types
+        span.type
+          input(type='checkbox', name=field + index, value=type, checked)
+          = type
 
 if typeof vcard.getValue(field) == "string"
-  +input-text(field, vcard.getValue(field), type(vcard.getType(field)))
+  +input-text(field, vcard.getValue(field), type(vcard.getType(field)), '')
 else
-  each obj in vcard.getValue(field)
-    +input-text(field, obj.value, type(obj.type))
+  each obj, index in vcard.getValue(field)
+    +input-text(field, obj.value, type(obj.type), '_' + index)
 .error(id=field + '-error')

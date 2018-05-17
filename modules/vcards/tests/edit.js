@@ -75,11 +75,15 @@ describe('vcard page', function () {
           assert.equal(inputN[0].getAttribute('size'), 30);
           assert.equal(inputN[0].getAttribute('value'), 'Gerdes;Uwe;;;');
 
-          const inputTel = document.querySelectorAll('form#edit #tel');
-          assert.equal(inputTel.length, 2);
-          assert.equal(inputTel[0].getAttribute('size'), 30);
-          assert.equal(inputTel[0].getAttribute('value'), '040 256486');
-          assert.equal(inputTel[1].getAttribute('value'), '0179 3901008');
+          const inputTel0 = document.querySelectorAll('form#edit #tel_0');
+          assert.equal(inputTel0.length, 1);
+          assert.equal(inputTel0[0].getAttribute('size'), 30);
+          assert.equal(inputTel0[0].getAttribute('value'), '040 256486');
+
+          const inputTel1 = document.querySelectorAll('form#edit #tel_1');
+          assert.equal(inputTel1.length, 1);
+          assert.equal(inputTel1[0].getAttribute('size'), 30);
+          assert.equal(inputTel1[0].getAttribute('value'), '0179 3901008');
 
           done();
         });
