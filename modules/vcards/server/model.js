@@ -1,5 +1,6 @@
 /**
  * Model for vCard
+ * @module modules/vcards/model
  */
 'use strict';
 
@@ -23,6 +24,9 @@ let data,
 class Vcard {
   /**
    * build a vcard
+   *
+   * @param {object} vcard - vcf object
+   * @param {int} id - item id
    */
   constructor(vcard, id) {
     this.vcard = vcard;
@@ -31,6 +35,8 @@ class Vcard {
 
   /**
    * get the field names
+   *
+   * @returns {array} - array with field names
    */
   getFields() {
     return Object.keys(this.vcard.data);
@@ -38,10 +44,13 @@ class Vcard {
 
   /**
    * get the field value
+   *
+   * @param {string} field - name of field
+   * @returns {string} - value
    */
-  getValue(key) {
-    if (this.vcard.get(key)) {
-      let value = this.vcard.get(key).valueOf();
+  getValue(field) {
+    if (this.vcard.get(field)) {
+      let value = this.vcard.get(field).valueOf();
       if (typeof value == 'string') {
         return value;
       } else {
@@ -61,14 +70,20 @@ class Vcard {
 
   /**
    * get the field type
+   *
+   * @param {string} field - name of field
+   * @returns {array} - type list
    */
-  getType(key) {
-    let value = this.vcard.get(key).type;
+  getType(field) {
+    let value = this.vcard.get(field).type;
     return value;
   }
 
   /**
-   * get the field type
+   * check if vcard matches this selection
+   *
+   * @param {object} selection - searchFields and searchString
+   * @returns {boolean} - match result
    */
   matches(selection) {
     if (selection && selection.searchString && selection.searchString.length > 0) {
@@ -91,6 +106,8 @@ module.exports = {
   Vcard: Vcard,
   /**
    * get static list
+   *
+   * @returns {array} vcard item
    */
   get: () => {
     return [
@@ -103,15 +120,18 @@ module.exports = {
   },
   /**
    * get testData list
+   *
+   * @returns {array} vcard list
    */
   getTestData: () => {
     const data = vcf.parse(testData);
     return data;
   },
   /**
-   * read testData file
+   * read vcf file
    *
    * @param {string} filename - file to open
+   * @returns {Promise} data if resolved, err if rejected
    */
   open: (filename) => {
     return new Promise(function (resolve, reject) {
@@ -133,9 +153,10 @@ module.exports = {
     });
   },
   /**
-   * get list of Vcard objects
+   * get list of vcard objects
    *
    * @param {object} selection - to reduce list, optional
+   * @returns {array} vcard list
    */
   list: (selection) => {
     let result = [];

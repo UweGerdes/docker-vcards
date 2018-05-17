@@ -128,6 +128,7 @@ app.use((err, req, res) => {
 /**
  * Get the path for file to render
  *
+ * @private
  * @param {String} page - page type
  * @param {String} type - file type (ejs, TODO jade, pug, html)
  */
