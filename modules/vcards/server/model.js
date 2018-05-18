@@ -70,17 +70,6 @@ class Vcard {
   }
 
   /**
-   * set the field value
-   *
-   * @param {string} field - name of field
-   * @param {string} value - value to set
-   * @param {string} index - index for list elements
-   */
-  setValue(field, value, index) {
-    console.log('setValue', field, value, index);
-  }
-
-  /**
    * get the field type
    *
    * @param {string} field - name of field
@@ -111,31 +100,6 @@ class Vcard {
       return hit;
     }
     return true;
-  }
-
-  /**
-   * save data
-   *
-   * @param {object} data - data to save
-   */
-  save(data) {
-    const keyList = Object.keys(fields);
-    Object.keys(data).forEach((name) => { // jscs:ignore jsDoc
-      const matches = name.match(/^(.+?)([0-9]*)(_type)?$/);
-      const field = matches[1];
-      const index = matches[2];
-      const type = matches[3];
-      if (keyList.indexOf(field) >= 0) {
-        if (type) {
-          console.log('save:', field, index, 'type =', data[name]);
-        } else {
-          if (!index) {
-            this.vcard.set(field, data[name]);
-          }
-          console.log('save:', field, index, '=', data[name]);
-        }
-      }
-    });
   }
 }
 
@@ -227,6 +191,7 @@ module.exports = {
    * @returns {Promise} data if resolved, err if rejected
    */
   open: (filename) => {
+    list = [];
     return new Promise(function (resolve, reject) {
       try {
         fs.readFile(filename, 'utf8', function (err, buffer) {
@@ -253,11 +218,15 @@ module.exports = {
    */
   list: (selection) => {
     let result = [];
-    list.forEach((item) => { // jscs:ignore jsDoc
-      if (item.matches(selection)) {
-        result.push(item);
-      }
-    });
+    if (selection) {
+      list.forEach((item) => { // jscs:ignore jsDoc
+        if (item.matches(selection)) {
+          result.push(item);
+        }
+      });
+    } else {
+      result = list;
+    }
     return result;
   },
   /**
@@ -267,12 +236,40 @@ module.exports = {
    * @param {object} data - map with data
    */
   save: (index, data) => {
+    const vcard = data2vcard(data);
+    vcard.version = data.version;
     if (index < list.length) {
-      list[index].save(data);
+      list[index].vcard = vcard;
     } else {
-      throw('save new not implemented');
+      list.push(new Vcard(vcard, list.length));
     }
+    return list[index].vcard;
   },
+  /**
+   * export meta data
+   */
   fields: fields,
   types: types
+};
+
+/**
+ * make vcard object from jcard
+ *
+ * @param {object} data - data for new vcard
+ */
+const data2vcard = (data) => {
+  const keyList = Object.keys(fields);
+  const dataJSON = [];
+  Object.keys(data).forEach((name) => { // jscs:ignore jsDoc
+    const matches = name.match(/^(.+?)([0-9]*)?$/);
+    const field = matches[1];
+    if (keyList.indexOf(field) >= 0) {
+      let typeJSON = {};
+      if (data[name + '_type']) {
+        typeJSON = { type: data[name + '_type'] };
+      }
+      dataJSON.push([field, typeJSON, 'text', data[name]]);
+    }
+  });
+  return vcf.fromJSON(['vcard', dataJSON]);
 };

@@ -226,15 +226,19 @@ describe('vcard edit', function () {
           version: '3.0',
           n: 'Gerdes;Uwe;;;',
           fn: 'Uwe Gerdes',
-          tel0: '040 256486',
+          tel0: '+49 40 25178252',
           tel0_type: ['work', 'voice'],
           select_tel0: '',
-          tel1: '0179 3901008',
+          tel1: '01793901008',
+          tel1_type: 'cell',
           select_tel1: '',
-          email: 'uwe@uwegerdes.de',
-          email_type: 'pref',
+          adr: ';;Klaus-Groth-Str. 22;Hamburg;;20535;Germany',
+          adr_type: 'home',
+          select_adr: '',
+          email: 'entwicklung@uwegerdes.de',
+          email_type: ['pref', 'internet'],
           select_email: '',
-          select_url: ''
+          rev: '2014-08-24T18:50:00Z'
         })
         .end(function (err, res) {
           expect(err).to.be.null;

@@ -11,10 +11,7 @@ const { body, validationResult } = require('express-validator/check'),
   model = require('./model.js')
   ;
 
-let data,
-  vcards = [],
-  viewBase = path.join(path.dirname(__dirname), 'views')
-  ;
+const viewBase = path.join(path.dirname(__dirname), 'views');
 
 /**
  * ### init
@@ -25,12 +22,7 @@ let data,
  */
 const init = (filename) => {
   model.open(filename)
-  .then(function (res) {
-    data = res;
-    //data.forEach((card) => { // jscs:ignore jsDoc
-    //  vcards.push(new model.Vcard(card));
-    //});
-    vcards = model.list();
+  .then(function (data) {
     return data;
   });
 };
@@ -45,7 +37,7 @@ const init = (filename) => {
  */
 const index = (req, res) => {
   res.render(path.join(viewBase, 'index.pug'), {
-    vcards: data,
+    vcards: model.list(),
     vcard: req.params.id ? model.list()[parseInt(req.params.id)] : null,
     title: 'vcard',
     livereload: 'http://172.25.0.2:8081/livereload.js',
@@ -67,7 +59,7 @@ const index = (req, res) => {
  */
 const edit = (req, res) => {
   res.render(path.join(viewBase, 'index.pug'), {
-    vcards: data,
+    vcards: model.list(),
     vcard: req.params.id ? model.list()[parseInt(req.params.id)] : null,
     title: 'vcard',
     edit: true,
@@ -92,7 +84,7 @@ const edit = (req, res) => {
 const save = (req, res) => {
   model.save(parseInt(req.params.id), req.body);
   res.render(path.join(viewBase, 'index.pug'), {
-    vcards: data,
+    vcards: model.list(),
     vcard: req.params.id ? model.list()[parseInt(req.params.id)] : null,
     title: 'vcard',
     livereload: 'http://172.25.0.2:8081/livereload.js',
@@ -114,7 +106,7 @@ const save = (req, res) => {
  */
 const list = (req, res) => {
   res.render(path.join(viewBase, 'list.pug'), {
-    vcards: data,
+    vcards: model.list(),
     title: 'vcard',
     unCsv: unCsv
   });

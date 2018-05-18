@@ -88,4 +88,48 @@ describe('vcard model', () => {
       });
     });
   });
+  describe('build vcard from data', () => {
+    let testData = [];
+    beforeEach(function (done) {
+      vcards.open(path.join(__dirname, 'testdata.vcf'))
+      .then(function (data) {
+        data.forEach((card) => { // jscs:ignore jsDoc
+          testData.push(new vcards.Vcard(card));
+        });
+      })
+      .then(done);
+    });
+    it('should return vcard equal to testData', () => {
+      const vcard = vcards.list()[0].vcard;
+      const vcard2 = vcards.save(0, {
+        version: '2.1',
+        n: 'Gerdes;Uwe;;;',
+        fn: 'Uwe Gerdes',
+        tel0: '040 256486',
+        tel0_type: ['work', 'voice'],
+        tel1: '0179 3901008',
+        tel1_type: 'cell',
+        email: 'uwe@uwegerdes.de',
+        email_type: 'pref',
+        url: 'http://www.uwegerdes.de/'
+      });
+      assert.equal(vcards.list().length, 2);
+      assert.deepEqual(vcard.toJSON(), vcard2.toJSON());
+    });
+    it('should add a new vcard to list', () => {
+      vcards.save(2, {
+        version: '2.1',
+        n: 'Gerdes;Uwe;TEST;;',
+        fn: 'Uwe Gerdes TEST',
+        tel0: '040/256486',
+        tel0_type: ['work', 'voice'],
+        tel1: '0179 3901008',
+        tel1_type: 'cell',
+        email: 'uwe@uwegerdes.de',
+        email_type: 'pref',
+        url: 'http://www.uwegerdes.de/'
+      });
+      assert.equal(vcards.list().length, 3);
+    });
+  });
 });
