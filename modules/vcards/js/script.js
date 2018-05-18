@@ -73,16 +73,18 @@ handlers.push({
   event: 'change',
   func: function () { // jscs:ignore jsDoc
     const _this = this;
-    const xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () { // jscs:ignore jsDoc
-      if (this.readyState == 4) {
-        if (this.status == 200) {
-          _this.insertAdjacentHTML('beforebegin', this.responseText);
+    if (this.value != '') {
+      const xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function () { // jscs:ignore jsDoc
+        if (this.readyState == 4) {
+          if (this.status == 200) {
+            _this.insertAdjacentHTML('beforebegin', this.responseText);
+          }
         }
-      }
-    };
-    xhttp.open('GET', this.getAttribute('data-select-xhr') + this.value, true);
-    xhttp.send();
+      };
+      xhttp.open('GET', this.getAttribute('data-select-xhr') + this.value, true);
+      xhttp.send();
+    }
   }
 });
 
@@ -100,4 +102,3 @@ handlers.forEach((handler) => { // jscs:ignore jsDoc
     }
   });
 });
-
