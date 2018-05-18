@@ -1,5 +1,5 @@
 span.type
-  input(type='checkbox', name=field + index, value=type, checked)
-  = types[type]
+  input(type='checkbox', id='checkbox_' + field + index, name='checkbox_' + field + index, value=type, checked)
+  label(for='checkbox_' + field + index)= types[type]
   if fields[field].types.indexOf(type) < 0
     = ' #'

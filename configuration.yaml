@@ -41,6 +41,7 @@ gulp:
       - 'modules/vcards/tests/*.*'
       - 'modules/vcards/views/*.*'
       - 'htdocs/css/app.css'
+      - 'htdocs/js/vcards/*.js'
     server-restart:
       - './server.js'
       - 'modules/**/server/*.js'

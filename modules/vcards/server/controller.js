@@ -115,6 +115,23 @@ const inputType = (req, res) => {
 };
 
 /**
+ * ### inputField
+ *
+ * render the input snippet
+ *
+ * @param {object} req - request
+ * @param {object} res - result
+ */
+const inputField = (req, res) => {
+  res.render(path.join(viewBase, 'input.pug'), {
+    field: req.params.field,
+    index: req.params.index,
+    fields: fields,
+    types: types
+  });
+};
+
+/**
  * ### search
  *
  * search for vcards, render result snippet or error
@@ -143,6 +160,7 @@ module.exports = {
   list: list,
   edit: edit,
   inputType: inputType,
+  inputField: inputField,
   search: [
     body('searchFields', 'Feld auswählen').isLength({ min: 1 }).trim(),
     body('searchString', 'Suchwort eintragen').isLength({ min: 1 }).trim(),

@@ -25,6 +25,9 @@ router.get('/edit/:id/', controller.edit);
 // new type route.
 router.get('/type/:field/_:index?/:type', controller.inputType);
 
+// new type route.
+router.get('/field/:field/:index', controller.inputField);
+
 // view id route.
 router.get('/:id/', controller.index);
 

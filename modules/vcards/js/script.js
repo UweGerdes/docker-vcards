@@ -91,6 +91,28 @@ handlers.push({
 });
 
 /**
+ * new input
+ */
+handlers.push({
+  elements: document.querySelectorAll('[data-click-xhr]'),
+  event: 'click',
+  func: function () { // jscs:ignore jsDoc
+    const _this = this;
+    const xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () { // jscs:ignore jsDoc
+      if (this.readyState == 4) {
+        if (this.status == 200) {
+          _this.parentElement.insertAdjacentHTML('beforeend', this.responseText);
+        }
+      }
+    };
+    const newIndex = _this.parentElement.querySelectorAll('.input-text').length;
+    xhttp.open('GET', this.getAttribute('data-click-xhr') + newIndex, true);
+    xhttp.send();
+  }
+});
+
+/**
  * attach event handlers
  */
 handlers.forEach((handler) => { // jscs:ignore jsDoc

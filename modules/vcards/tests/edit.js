@@ -103,7 +103,7 @@ describe('vcard edit', function () {
           assert.equal(type[0].textContent, 'Arbeit');
           const checkbox = document.querySelectorAll('input[type="checkbox"]');
           assert.equal(checkbox.length, 1);
-          assert.equal(checkbox[0].getAttribute('name'), 'tel1');
+          assert.equal(checkbox[0].getAttribute('name'), 'checkbox_tel1');
           assert.equal(checkbox[0].getAttribute('value'), 'work');
           done();
         });
@@ -123,7 +123,7 @@ describe('vcard edit', function () {
           assert.equal(type[0].textContent, 'Arbeit');
           const checkbox = document.querySelectorAll('input[type="checkbox"]');
           assert.equal(checkbox.length, 1);
-          assert.equal(checkbox[0].getAttribute('name'), 'tel1');
+          assert.equal(checkbox[0].getAttribute('name'), 'checkbox_tel1');
           assert.equal(checkbox[0].getAttribute('value'), 'work');
           done();
         });
@@ -143,8 +143,24 @@ describe('vcard edit', function () {
           assert.equal(type[0].textContent, 'Arbeit');
           const checkbox = document.querySelectorAll('input[type="checkbox"]');
           assert.equal(checkbox.length, 1);
-          assert.equal(checkbox[0].getAttribute('name'), 'email');
+          assert.equal(checkbox[0].getAttribute('name'), 'checkbox_email');
           assert.equal(checkbox[0].getAttribute('value'), 'work');
+          done();
+        });
+    });
+  });
+  describe('GET /vcards/field/email/1', function () {
+    it('should render a work type for email', function (done) {
+      chai.request('http://172.25.0.2:8080')
+        .get('/vcards/field/email/1')
+        .end(function (err, res) {
+          expect(err).to.be.null;
+          expect(res).to.have.status(200);
+          expect(res).to.be.html;
+          const { document } = (new JSDOM(res.text)).window;
+          const input = document.querySelectorAll('input[type="text"]');
+          assert.equal(input.length, 1);
+          assert.equal(input[0].name, 'email1');
           done();
         });
     });
@@ -158,9 +174,9 @@ describe('vcard edit', function () {
           expect(res).to.have.status(200);
           expect(res).to.be.html;
           const { document } = (new JSDOM(res.text)).window;
-          const types = document.querySelectorAll('input[type="checkbox"][name="email"]');
+          const types = document.querySelectorAll('input[type="checkbox"][name="checkbox_email"]');
           assert.equal(types.length, 1);
-          const selectEmail = document.querySelectorAll('select[name="email"]');
+          const selectEmail = document.querySelectorAll('select[name="select_email"]');
           assert.equal(selectEmail.length, 1);
           assert.equal(selectEmail[0].value, '');
           selectEmail[0].selectedIndex = 1;
