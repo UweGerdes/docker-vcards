@@ -1,5 +1,7 @@
-h2.subheadline Suchen
-form#searchForm.searchForm(method='POST', action='')
+h2.searchHeadline Suchen
+#searchAgain.searchAgain.button.hidden&attributes({'data-toggle': '#searchForm, #searchResult, #searchInfo, #searchAgain'}) neue Suche
+#searchInfo.searchInfo
+form#searchForm.searchForm(name='searchForm', method='POST', action='')
   .searchFieldsContainer
     each field, name in fields
       div.checkboxContainer

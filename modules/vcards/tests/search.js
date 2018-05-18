@@ -29,6 +29,11 @@ describe('vcard page', function () {
           assert.equal(searchButton.textContent, 'suchen');
           assert.equal(searchButton.getAttribute('class'), 'button searchButton');
           assert.equal(searchButton.getAttribute('data-toggle'), '#searchLayer');
+          const searchLayer = document.getElementById('searchLayer');
+          assert.equal(searchLayer.getAttribute('class'), 'searchLayer hiddenX'); // TODO: remove X
+          const searchInfo = document.getElementById('searchInfo');
+          assert.equal(searchInfo.getAttribute('class'), 'searchInfo');
+          assert.equal(searchInfo.textContent, '');
           done();
         });
     });

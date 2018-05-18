@@ -23,14 +23,16 @@ handlers.push({
         });
       });
       toggleList.forEach((toggled) => { // jscs:ignore jsDoc
-        toggled.addEventListener('click', () => { // jscs:ignore jsDoc
-          toggled.classList.toggle('hidden');
-        });
-        toggled.childNodes.forEach((child) => { // jscs:ignore jsDoc
-          child.addEventListener('click', (event) => { // jscs:ignore jsDoc
-            event.stopPropagation();
+        if (toggled != element) {
+          toggled.addEventListener('click', () => { // jscs:ignore jsDoc
+            toggled.classList.toggle('hidden');
           });
-        });
+          toggled.childNodes.forEach((child) => { // jscs:ignore jsDoc
+            child.addEventListener('click', (event) => { // jscs:ignore jsDoc
+              event.stopPropagation();
+            });
+          });
+        }
       });
     });
   }
@@ -60,6 +62,16 @@ handlers.push({
         }
       }
     };
+    const searchFieldList = [];
+    document.searchForm.searchFields.forEach((field) => { // jscs:ignore jsDoc
+      if (field.checked) {
+        searchFieldList.push(field.value);
+      }
+    });
+    document.getElementById('searchInfo').innerHTML =
+      '"' + document.searchForm.searchString.value + '" in ' + searchFieldList.join(', ');
+    document.getElementById('searchInfo').classList.remove('hidden');
+    document.getElementById('searchAgain').classList.remove('hidden');
     xhttp.open('POST', '/vcards/search/', true);
     xhttp.send(formData);
   }
