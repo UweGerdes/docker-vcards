@@ -107,7 +107,7 @@ const list = (req, res) => {
 const inputType = (req, res) => {
   res.render(path.join(viewBase, 'input-type.pug'), {
     field: req.params.field,
-    index: req.params.index,
+    index: req.params.index || '',
     type: req.params.type,
     fields: fields,
     types: types
