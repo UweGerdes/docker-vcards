@@ -15,7 +15,7 @@ const chai = require('chai'),
 
 chai.use(chaiHttp);
 
-describe('vcard page', function () {
+describe('vcard edit', function () {
   describe('GET /vcards/', function () {
     it('should not have edit button', function (done) {
       chai.request('http://172.25.0.2:8080')
@@ -90,7 +90,7 @@ describe('vcard page', function () {
     });
   });
   describe('GET /vcards/type/tel/_0/work', function () {
-    it('should render a type item', function (done) {
+    it('should render a work type for tel0', function (done) {
       chai.request('http://172.25.0.2:8080')
         .get('/vcards/type/tel/_1/work')
         .end(function (err, res) {
@@ -110,7 +110,7 @@ describe('vcard page', function () {
     });
   });
   describe('GET /vcards/type/tel/_1/work', function () {
-    it('should render a type item', function (done) {
+    it('should render a work type for tel1', function (done) {
       chai.request('http://172.25.0.2:8080')
         .get('/vcards/type/tel/_1/work')
         .end(function (err, res) {
@@ -125,6 +125,46 @@ describe('vcard page', function () {
           assert.equal(checkbox.length, 1);
           assert.equal(checkbox[0].getAttribute('name'), 'tel1');
           assert.equal(checkbox[0].getAttribute('value'), 'work');
+          done();
+        });
+    });
+  });
+  describe('GET /vcards/type/email/_/work', function () {
+    it('should render a work type for email', function (done) {
+      chai.request('http://172.25.0.2:8080')
+        .get('/vcards/type/email/_/work')
+        .end(function (err, res) {
+          expect(err).to.be.null;
+          expect(res).to.have.status(200);
+          expect(res).to.be.html;
+          const { document } = (new JSDOM(res.text)).window;
+          const type = document.querySelectorAll('.type');
+          assert.equal(type.length, 1);
+          assert.equal(type[0].textContent, 'Arbeit');
+          const checkbox = document.querySelectorAll('input[type="checkbox"]');
+          assert.equal(checkbox.length, 1);
+          assert.equal(checkbox[0].getAttribute('name'), 'email');
+          assert.equal(checkbox[0].getAttribute('value'), 'work');
+          done();
+        });
+    });
+  });
+  describe('GET /vcards/edit/0/', function () {
+    it('should have select with types for email', function (done) {
+      chai.request('http://172.25.0.2:8080')
+        .get('/vcards/edit/0/')
+        .end(function (err, res) {
+          expect(err).to.be.null;
+          expect(res).to.have.status(200);
+          expect(res).to.be.html;
+          const { document } = (new JSDOM(res.text)).window;
+          const types = document.querySelectorAll('input[type="checkbox"][name="email"]');
+          assert.equal(types.length, 1);
+          const selectEmail = document.querySelectorAll('select[name="email"]');
+          assert.equal(selectEmail.length, 1);
+          assert.equal(selectEmail[0].value, '');
+          selectEmail[0].selectedIndex = 1;
+          assert.equal(selectEmail[0].value, 'work');
           done();
         });
     });
