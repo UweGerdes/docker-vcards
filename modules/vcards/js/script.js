@@ -67,27 +67,30 @@ handlers.push({
 
 /**
  * new type
+ *
+ * @param {Event} event - triggered event
  */
+function newType(event) {
+  const element = event.target;
+  if (element.value != '') {
+    const xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () { // jscs:ignore jsDoc
+      if (this.readyState == 4) {
+        if (this.status == 200) {
+          element.insertAdjacentHTML('beforebegin', this.responseText);
+          element.remove(element.selectedIndex);
+          element.selectedIndex = 0;
+        }
+      }
+    };
+    xhttp.open('GET', element.getAttribute('data-select-xhr') + element.value, true);
+    xhttp.send();
+  }
+}
 handlers.push({
   elements: document.querySelectorAll('select[data-select-xhr]'),
   event: 'change',
-  func: function () { // jscs:ignore jsDoc
-    const _this = this;
-    if (this.value != '') {
-      const xhttp = new XMLHttpRequest();
-      xhttp.onreadystatechange = function () { // jscs:ignore jsDoc
-        if (this.readyState == 4) {
-          if (this.status == 200) {
-            _this.insertAdjacentHTML('beforebegin', this.responseText);
-            _this.remove(_this.selectedIndex);
-            _this.selectedIndex = 0;
-          }
-        }
-      };
-      xhttp.open('GET', this.getAttribute('data-select-xhr') + this.value, true);
-      xhttp.send();
-    }
-  }
+  func: newType
 });
 
 /**
@@ -103,6 +106,8 @@ handlers.push({
       if (this.readyState == 4) {
         if (this.status == 200) {
           _this.parentElement.insertAdjacentHTML('beforeend', this.responseText);
+          const selects = _this.parentElement.querySelectorAll('select[data-select-xhr]');
+          attachEventHandler(selects[selects.length - 1], 'change', newType);
         }
       }
     };
@@ -113,16 +118,27 @@ handlers.push({
 });
 
 /**
+ * attach event to elements
+ *
+ * @param {DOMelement} element - to attach event
+ * @param {string} event - type
+ * @param {function} handler - event handler
+ */
+function attachEventHandler(element, event, handler) {
+  if (element.attachEvent) {
+    element.attachEvent('on' + event, handler);
+  } else if (element.addEventListener) {
+    element.addEventListener(event, handler, false);
+  } else {
+    element.addEventListener(event, handler, false);
+  }
+}
+
+/**
  * attach event handlers
  */
 handlers.forEach((handler) => { // jscs:ignore jsDoc
   handler.elements.forEach((element) => { // jscs:ignore jsDoc
-    if (element.attachEvent) {
-      element.attachEvent('on' + handler.event, handler.func);
-    } else if (element.addEventListener) {
-      element.addEventListener(handler.event, handler.func, false);
-    } else {
-      element.addEventListener(handler.event, handler.func, false);
-    }
+    attachEventHandler(element, handler.event, handler.func);
   });
 });
