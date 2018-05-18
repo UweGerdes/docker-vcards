@@ -2,6 +2,9 @@
 
 ## latest
 
+0.0.9
+merge vcards, save and load from disk
+
 0.0.8
 refactored controller, model, more search tests, gulp tasks and configuration enhanced
 

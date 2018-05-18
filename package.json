@@ -1,7 +1,7 @@
 {
   "name": "vCard",
   "description": "Gulp and other packages for vCard webapp development and testing",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "keywords": [
     "gulp",
     "frontend",
