@@ -49,9 +49,9 @@ const index = (req, res) => {
     vcard: req.params.id ? model.list()[parseInt(req.params.id)] : null,
     title: 'vcard',
     livereload: 'http://172.25.0.2:8081/livereload.js',
-    fields: fields,
+    fields: model.fields,
     type: type,
-    types: types,
+    types: model.types,
     timestamp: timestamp,
     unCsv: unCsv
   });
@@ -73,9 +73,9 @@ const edit = (req, res) => {
     edit: true,
     id: req.params.id,
     livereload: 'http://172.25.0.2:8081/livereload.js',
-    fields: fields,
+    fields: model.fields,
     type: type,
-    types: types,
+    types: model.types,
     timestamp: timestamp,
     unCsv: unCsv
   });
@@ -96,9 +96,9 @@ const save = (req, res) => {
     vcard: req.params.id ? model.list()[parseInt(req.params.id)] : null,
     title: 'vcard',
     livereload: 'http://172.25.0.2:8081/livereload.js',
-    fields: fields,
+    fields: model.fields,
     type: type,
-    types: types,
+    types: model.types,
     timestamp: timestamp,
     unCsv: unCsv
   });
@@ -133,8 +133,8 @@ const inputType = (req, res) => {
     field: req.params.field,
     index: req.params.index || '',
     type: req.params.type,
-    fields: fields,
-    types: types
+    fields: model.fields,
+    types: model.types
   });
 };
 
@@ -150,8 +150,8 @@ const inputField = (req, res) => {
   res.render(path.join(viewBase, 'input.pug'), {
     field: req.params.field,
     index: req.params.index,
-    fields: fields,
-    types: types
+    fields: model.fields,
+    types: model.types
   });
 };
 
@@ -194,61 +194,6 @@ module.exports = {
   ]
 };
 
-const fields = {
-  version: {
-    label: 'Version',
-    type: 'text',
-    size: 5
-  },
-  n: {
-    label: 'Name',
-    type: 'text',
-    size: 30
-  },
-  fn: {
-    label: 'Anzeigename',
-    type: 'text',
-    size: 30
-  },
-  tel: {
-    label: 'Telefon',
-    type: 'list',
-    size: 30,
-    types: ['work', 'home', 'voice', 'cell', 'pref']
-  },
-  adr: {
-    label: 'Adresse',
-    type: 'list',
-    size: 30,
-    types: ['work', 'home', 'pref']
-  },
-  email: {
-    label: 'E-Mail',
-    type: 'list',
-    size: 30,
-    types: ['work', 'home', 'pref', 'internet']
-  },
-  url: {
-    label: 'Homepage',
-    type: 'text',
-    size: 30,
-    types: ['work', 'home', 'pref', 'internet']
-  },
-  rev: {
-    label: 'Timestamp',
-    type: 'text',
-    size: 30
-  }
-};
-
-const types = {
-  voice: 'Sprache',
-  cell: 'Mobil',
-  work: 'Arbeit',
-  home: 'privat',
-  pref: '!',
-  internet: 'Web'
-};
 /**
  * ### split types
  *
@@ -261,10 +206,10 @@ const type = (value) => {
   let typelist = [];
   if (value) {
     if (typeof value == 'string' && value.length > 0) {
-      typelist.push(types[value] || value);
+      typelist.push(model.types[value] || value);
     } else {
       value.forEach((item) => { // jscs:ignore jsDoc
-        typelist.push(types[item] || item);
+        typelist.push(model.types[item] || item);
       });
     }
   }

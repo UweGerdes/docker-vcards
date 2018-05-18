@@ -108,9 +108,65 @@ class Vcard {
    * @param {object} data - data to save
    */
   save(data) {
-    console.log('save:', data);
+    console.log('save:', data.n);
   }
 }
+
+const fields = {
+  version: {
+    label: 'Version',
+    type: 'text',
+    size: 5
+  },
+  n: {
+    label: 'Name',
+    type: 'text',
+    size: 30
+  },
+  fn: {
+    label: 'Anzeigename',
+    type: 'text',
+    size: 30
+  },
+  tel: {
+    label: 'Telefon',
+    type: 'list',
+    size: 30,
+    types: ['work', 'home', 'voice', 'cell', 'pref']
+  },
+  adr: {
+    label: 'Adresse',
+    type: 'list',
+    size: 30,
+    types: ['work', 'home', 'pref']
+  },
+  email: {
+    label: 'E-Mail',
+    type: 'list',
+    size: 30,
+    types: ['work', 'home', 'pref', 'internet']
+  },
+  url: {
+    label: 'Homepage',
+    type: 'text',
+    size: 30,
+    types: ['work', 'home', 'pref', 'internet']
+  },
+  rev: {
+    label: 'Timestamp',
+    type: 'text',
+    size: 30
+  }
+};
+
+const types = {
+  voice: 'Sprache',
+  cell: 'Mobil',
+  work: 'Arbeit',
+  home: 'privat',
+  pref: '!',
+  internet: 'Web'
+};
 
 module.exports = {
   Vcard: Vcard,
@@ -189,5 +245,7 @@ module.exports = {
     } else {
       throw('save new not implemented');
     }
-  }
+  },
+  fields: fields,
+  types: types
 };
