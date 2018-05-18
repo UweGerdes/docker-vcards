@@ -70,6 +70,17 @@ class Vcard {
   }
 
   /**
+   * set the field value
+   *
+   * @param {string} field - name of field
+   * @param {string} value - value to set
+   * @param {string} index - index for list elements
+   */
+  setValue(field, value, index) {
+    console.log('setValue', field, value, index);
+  }
+
+  /**
    * get the field type
    *
    * @param {string} field - name of field
@@ -108,7 +119,23 @@ class Vcard {
    * @param {object} data - data to save
    */
   save(data) {
-    console.log('save:', data.n);
+    const keyList = Object.keys(fields);
+    Object.keys(data).forEach((name) => { // jscs:ignore jsDoc
+      const matches = name.match(/^(.+?)([0-9]*)(_type)?$/);
+      const field = matches[1];
+      const index = matches[2];
+      const type = matches[3];
+      if (keyList.indexOf(field) >= 0) {
+        if (type) {
+          console.log('save:', field, index, 'type =', data[name]);
+        } else {
+          if (!index) {
+            this.vcard.set(field, data[name]);
+          }
+          console.log('save:', field, index, '=', data[name]);
+        }
+      }
+    });
   }
 }
 

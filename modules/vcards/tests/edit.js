@@ -202,8 +202,6 @@ describe('vcard edit', function () {
           email: 'uwe@uwegerdes.de neu',
           email_type: 'pref',
           select_email: '',
-          url: 'http://www.uwegerdes.de/ neu',
-          url_type: ['work', 'home', 'pref', 'internet'],
           select_url: ''
         })
         .end(function (err, res) {
@@ -211,6 +209,40 @@ describe('vcard edit', function () {
           expect(res).to.have.status(200);
           expect(res).to.be.html;
           const { document } = (new JSDOM(res.text)).window;
+          const headline = document.getElementById('headline');
+          assert.equal(headline.textContent, 'vcard Uwe Gerdes neu');
+          const list = document.getElementById('list').getElementsByTagName('li');
+          assert.equal(list.length, 2);
+          assert.equal(list[0].textContent, 'Gerdes, Uwe');
+          assert.equal(list[1].textContent, 'Gerdes, Uwe');
+          done();
+        });
+    });
+    it('should reset data in model', function (done) {
+      chai.request('http://172.25.0.2:8080')
+        .post('/vcards/save/1')
+        .type('form')
+        .send({
+          version: '3.0',
+          n: 'Gerdes;Uwe;;;',
+          fn: 'Uwe Gerdes',
+          tel0: '040 256486',
+          tel0_type: ['work', 'voice'],
+          select_tel0: '',
+          tel1: '0179 3901008',
+          select_tel1: '',
+          email: 'uwe@uwegerdes.de',
+          email_type: 'pref',
+          select_email: '',
+          select_url: ''
+        })
+        .end(function (err, res) {
+          expect(err).to.be.null;
+          expect(res).to.have.status(200);
+          expect(res).to.be.html;
+          const { document } = (new JSDOM(res.text)).window;
+          const headline = document.getElementById('headline');
+          assert.equal(headline.textContent, 'vcard Uwe Gerdes');
           const list = document.getElementById('list').getElementsByTagName('li');
           assert.equal(list.length, 2);
           assert.equal(list[0].textContent, 'Gerdes, Uwe');
