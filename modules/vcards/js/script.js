@@ -79,6 +79,8 @@ handlers.push({
         if (this.readyState == 4) {
           if (this.status == 200) {
             _this.insertAdjacentHTML('beforebegin', this.responseText);
+            _this.remove(_this.selectedIndex);
+            _this.selectedIndex = 0;
           }
         }
       };
