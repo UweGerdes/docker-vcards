@@ -71,6 +71,30 @@ const edit = (req, res) => {
     vcard: req.params.id ? model.list()[parseInt(req.params.id)] : null,
     title: 'vcard',
     edit: true,
+    id: req.params.id,
+    livereload: 'http://172.25.0.2:8081/livereload.js',
+    fields: fields,
+    type: type,
+    types: types,
+    timestamp: timestamp,
+    unCsv: unCsv
+  });
+};
+
+/**
+ * ### save changes
+ *
+ * save input and render the index page
+ *
+ * @param {object} req - request
+ * @param {object} res - result
+ */
+const save = (req, res) => {
+  model.save(parseInt(req.params.id), req.body);
+  res.render(path.join(viewBase, 'index.pug'), {
+    vcards: data,
+    vcard: req.params.id ? model.list()[parseInt(req.params.id)] : null,
+    title: 'vcard',
     livereload: 'http://172.25.0.2:8081/livereload.js',
     fields: fields,
     type: type,
@@ -157,8 +181,9 @@ const search = (req, res) => {
 module.exports = {
   init: init,
   index: index,
-  list: list,
   edit: edit,
+  save: save,
+  list: list,
   inputType: inputType,
   inputField: inputField,
   search: [

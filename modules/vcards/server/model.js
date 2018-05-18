@@ -101,6 +101,15 @@ class Vcard {
     }
     return true;
   }
+
+  /**
+   * save data
+   *
+   * @param {object} data - data to save
+   */
+  save(data) {
+    console.log('save:', data);
+  }
 }
 
 module.exports = {
@@ -167,5 +176,18 @@ module.exports = {
       }
     });
     return result;
+  },
+  /**
+   * save vcard object
+   *
+   * @param {int} index - item id to save
+   * @param {object} data - map with data
+   */
+  save: (index, data) => {
+    if (index < list.length) {
+      list[index].save(data);
+    } else {
+      throw('save new not implemented');
+    }
   }
 };

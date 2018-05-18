@@ -103,7 +103,7 @@ describe('vcard edit', function () {
           assert.equal(type[0].textContent, 'Arbeit');
           const checkbox = document.querySelectorAll('input[type="checkbox"]');
           assert.equal(checkbox.length, 1);
-          assert.equal(checkbox[0].getAttribute('name'), 'checkbox_tel1');
+          assert.equal(checkbox[0].getAttribute('name'), 'tel1_type');
           assert.equal(checkbox[0].getAttribute('value'), 'work');
           done();
         });
@@ -123,7 +123,7 @@ describe('vcard edit', function () {
           assert.equal(type[0].textContent, 'Arbeit');
           const checkbox = document.querySelectorAll('input[type="checkbox"]');
           assert.equal(checkbox.length, 1);
-          assert.equal(checkbox[0].getAttribute('name'), 'checkbox_tel1');
+          assert.equal(checkbox[0].getAttribute('name'), 'tel1_type');
           assert.equal(checkbox[0].getAttribute('value'), 'work');
           done();
         });
@@ -143,7 +143,7 @@ describe('vcard edit', function () {
           assert.equal(type[0].textContent, 'Arbeit');
           const checkbox = document.querySelectorAll('input[type="checkbox"]');
           assert.equal(checkbox.length, 1);
-          assert.equal(checkbox[0].getAttribute('name'), 'checkbox_email');
+          assert.equal(checkbox[0].getAttribute('name'), 'email_type');
           assert.equal(checkbox[0].getAttribute('value'), 'work');
           done();
         });
@@ -174,13 +174,47 @@ describe('vcard edit', function () {
           expect(res).to.have.status(200);
           expect(res).to.be.html;
           const { document } = (new JSDOM(res.text)).window;
-          const types = document.querySelectorAll('input[type="checkbox"][name="checkbox_email"]');
+          const types = document.querySelectorAll('input[type="checkbox"][name="email_type"]');
           assert.equal(types.length, 1);
           const selectEmail = document.querySelectorAll('select[name="select_email"]');
           assert.equal(selectEmail.length, 1);
           assert.equal(selectEmail[0].value, '');
           selectEmail[0].selectedIndex = 1;
           assert.equal(selectEmail[0].value, 'work');
+          done();
+        });
+    });
+  });
+  describe('POST /vcards/save/1', function () {
+    it('should save data in model', function (done) {
+      chai.request('http://172.25.0.2:8080')
+        .post('/vcards/save/1')
+        .type('form')
+        .send({
+          version: '2.1',
+          n: 'Gerdes;Uwe;;;',
+          fn: 'Uwe Gerdes neu',
+          tel0: '040 256486 neu',
+          tel0_type: ['work', 'voice'],
+          select_tel0: '',
+          tel1: '0179 3901008 neu',
+          select_tel1: '',
+          email: 'uwe@uwegerdes.de neu',
+          email_type: 'pref',
+          select_email: '',
+          url: 'http://www.uwegerdes.de/ neu',
+          url_type: ['work', 'home', 'pref', 'internet'],
+          select_url: ''
+        })
+        .end(function (err, res) {
+          expect(err).to.be.null;
+          expect(res).to.have.status(200);
+          expect(res).to.be.html;
+          const { document } = (new JSDOM(res.text)).window;
+          const list = document.getElementById('list').getElementsByTagName('li');
+          assert.equal(list.length, 2);
+          assert.equal(list[0].textContent, 'Gerdes, Uwe');
+          assert.equal(list[1].textContent, 'Gerdes, Uwe');
           done();
         });
     });

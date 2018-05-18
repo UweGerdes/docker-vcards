@@ -1,4 +1,4 @@
-form#edit.edit
+form#edit.edit(method='POST', action='/vcards/save/' + id)
   each field in vcard.getFields()
     div.list-item
       div#field.field
