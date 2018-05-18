@@ -8,9 +8,10 @@ block content
         = vcard.getValue('fn')
       if edit
         = " bearbeiten"
-    #searchButton.button.searchButton&attributes({'data-toggle': '#searchLayer'}) suchen
-    if vcard
-      a#editButton.button.editButton&attributes({'href': '/vcards/edit/' + vcard.id + '/'}) ändern
+    #headlineButtons.headlineButtons
+      #searchButton.button.searchButton&attributes({'data-toggle': '#searchLayer'}) suchen
+      if vcard
+        a#editButton.button.editButton&attributes({'href': '/vcards/edit/' + vcard.id + '/'}) ändern
     #content.content
       include list.pug
       if vcard
@@ -18,7 +19,7 @@ block content
           include edit.pug
         else
           include item.pug
-    #searchLayer.searchLayer.hiddenX
+    #searchLayer.searchLayer.hidden
       .searchLayerContent
         include search.pug
 

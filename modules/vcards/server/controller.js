@@ -38,6 +38,7 @@ const init = (filename) => {
 const index = (req, res) => {
   res.render(path.join(viewBase, 'index.pug'), {
     vcards: model.list(),
+    id: req.params.id ? req.params.id : '',
     vcard: req.params.id ? model.list()[parseInt(req.params.id)] : null,
     title: 'vcard',
     livereload: 'http://172.25.0.2:8081/livereload.js',
@@ -60,10 +61,10 @@ const index = (req, res) => {
 const edit = (req, res) => {
   res.render(path.join(viewBase, 'index.pug'), {
     vcards: model.list(),
-    vcard: req.params.id ? model.list()[parseInt(req.params.id)] : null,
+    id: req.params.id,
+    vcard: model.list()[parseInt(req.params.id)],
     title: 'vcard',
     edit: true,
-    id: req.params.id,
     livereload: 'http://172.25.0.2:8081/livereload.js',
     fields: model.fields,
     type: type,
@@ -85,6 +86,7 @@ const save = (req, res) => {
   model.save(parseInt(req.params.id), req.body);
   res.render(path.join(viewBase, 'index.pug'), {
     vcards: model.list(),
+    id: req.params.id ? req.params.id : '',
     vcard: req.params.id ? model.list()[parseInt(req.params.id)] : null,
     title: 'vcard',
     livereload: 'http://172.25.0.2:8081/livereload.js',
@@ -164,6 +166,7 @@ const search = (req, res) => {
   } else {
     res.render(path.join(viewBase, 'result.pug'), {
       vcards: model.list(req.body),
+      id: req.params.id ? req.params.id : '',
       title: 'vcard',
       unCsv: unCsv
     });

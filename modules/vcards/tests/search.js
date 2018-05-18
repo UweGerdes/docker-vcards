@@ -15,7 +15,7 @@ const chai = require('chai'),
 
 chai.use(chaiHttp);
 
-describe('vcard page', function () {
+describe('vcard search', function () {
   describe('GET /vcards/', function () {
     it('should have search form', function (done) {
       chai.request('http://172.25.0.2:8080')
@@ -30,7 +30,7 @@ describe('vcard page', function () {
           assert.equal(searchButton.getAttribute('class'), 'button searchButton');
           assert.equal(searchButton.getAttribute('data-toggle'), '#searchLayer');
           const searchLayer = document.getElementById('searchLayer');
-          assert.equal(searchLayer.getAttribute('class'), 'searchLayer hiddenX'); // TODO: remove X
+          assert.equal(searchLayer.getAttribute('class'), 'searchLayer hidden');
           const searchInfo = document.getElementById('searchInfo');
           assert.equal(searchInfo.getAttribute('class'), 'searchInfo');
           assert.equal(searchInfo.textContent, '');
@@ -54,8 +54,8 @@ describe('vcard page', function () {
           const { document } = (new JSDOM(res.text)).window;
           const list = document.getElementById('list').getElementsByTagName('li');
           assert.equal(list.length, 2);
-          assert.equal(list[0].textContent, 'Gerdes, Uwe');
-          assert.equal(list[1].textContent, 'Gerdes, Uwe');
+          assert.equal(list[0].textContent, 'Gerdes, Uweöffnen');
+          assert.equal(list[1].textContent, 'Gerdes, Uweöffnenmerge');
           done();
         });
     });
@@ -74,14 +74,14 @@ describe('vcard page', function () {
           const { document } = (new JSDOM(res.text)).window;
           const list = document.getElementById('list').getElementsByTagName('a');
           assert.equal(list.length, 1);
-          assert.equal(list[0].textContent, 'Gerdes, Uwe');
+          assert.equal(list[0].textContent, 'öffnen');
           assert.equal(list[0].attributes.href.nodeValue, '/vcards/0/');
           done();
         });
     });
     it('should find one version with "3" - link should be "/vcards/1/"', function (done) {
       chai.request('http://172.25.0.2:8080')
-        .post('/vcards/search/')
+        .post('/vcards/search/0')
         .type('form')
         .send({
           searchFields: 'version',
@@ -93,9 +93,11 @@ describe('vcard page', function () {
           expect(res).to.be.html;
           const { document } = (new JSDOM(res.text)).window;
           const list = document.getElementById('list').getElementsByTagName('a');
-          assert.equal(list.length, 1);
-          assert.equal(list[0].textContent, 'Gerdes, Uwe');
+          assert.equal(list.length, 2);
+          assert.equal(list[0].textContent, 'öffnen');
           assert.equal(list[0].attributes.href.nodeValue, '/vcards/1/');
+          assert.equal(list[1].textContent, 'merge');
+          assert.equal(list[1].attributes.href.nodeValue, '/vcards/merge/0/1/');
           done();
         });
     });

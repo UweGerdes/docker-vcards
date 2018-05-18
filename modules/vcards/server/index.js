@@ -32,7 +32,7 @@ router.get('/type/:field/_:index?/:type', controller.inputType);
 router.get('/field/:field/:index', controller.inputField);
 
 // search vcards
-router.post('/search/', upload.array(), controller.search);
+router.post('/search/:id?', upload.array(), controller.search);
 
 // save vcard
 router.post('/save/:id', upload.array(), controller.save);

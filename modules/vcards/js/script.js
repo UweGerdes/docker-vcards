@@ -55,6 +55,7 @@ handlers.push({
         document.getElementById('searchErrors').innerHTML = '';
         if (this.status == 200) {
           document.getElementById('searchResult').innerHTML = this.responseText;
+          document.getElementById('searchResult').classList.remove('hidden');
           form.classList.add('hidden');
         }
         if (this.status == 404) {
@@ -72,7 +73,7 @@ handlers.push({
       '"' + document.searchForm.searchString.value + '" in ' + searchFieldList.join(', ');
     document.getElementById('searchInfo').classList.remove('hidden');
     document.getElementById('searchAgain').classList.remove('hidden');
-    xhttp.open('POST', '/vcards/search/', true);
+    xhttp.open('POST', form.action, true);
     xhttp.send(formData);
   }
 });

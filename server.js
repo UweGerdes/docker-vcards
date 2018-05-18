@@ -130,7 +130,7 @@ app.use((err, req, res) => {
  *
  * @private
  * @param {String} page - page type
- * @param {String} type - file type (ejs, TODO jade, pug, html)
+ * @param {String} type - file type (ejs, jade, pug, html)
  */
 function viewPath(page = '404', type = 'ejs') {
   return modulesRoot + '/pages/' + page + '/views/index.' + type;

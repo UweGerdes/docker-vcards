@@ -8,7 +8,8 @@
   }
 
   .list,
-  .item-list {
+  .item-list,
+  .result-list {
     float:left;
     list-style: none;
     margin: 0 0 10px;
@@ -101,13 +102,18 @@
     }
   }
 
+  .headlineButtons {
+    float: right;
+    margin: 2em 0 0 0;
+  }
+
   .button {
     border: 1px solid #AAAAAA;
     border-radius: 3px;
     color: #000000;
     cursor: pointer;
     float: right;
-    margin: 3em 0 0 1em;
+    margin: 0 0 0 1em;
     padding: 0.3em 2em 0.25em;
     text-decoration: none;
 
@@ -208,6 +214,20 @@
       clear: both;
       content: '';
       display: block;
+    }
+
+    .result-list {
+      width: 100%;
+    }
+
+    .list-item {
+      height: 2em;
+
+      &-value {
+        border-top: 1px solid transparent;
+        display: inline-block;
+        padding-top: 0.3em;
+      }
     }
   }
 
