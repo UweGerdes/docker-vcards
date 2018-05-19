@@ -114,7 +114,7 @@ app.listen(httpPort);
  * @param {Object} res - response
  */
 app.use((err, req, res) => {
-  console.error(err.stack);
+  console.error('SERVER ERROR:', err);
   res.status(500)
     .render(viewPath('500'), {
       error: err,
