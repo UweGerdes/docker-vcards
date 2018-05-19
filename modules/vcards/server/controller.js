@@ -75,6 +75,33 @@ const edit = (req, res) => {
 };
 
 /**
+ * ### merge page
+ *
+ * render the merge page
+ *
+ * @param {object} req - request
+ * @param {object} res - result
+ */
+const merge = (req, res) => {
+  res.render(path.join(viewBase, 'index.pug'), {
+    vcards: model.list(),
+    id: req.params.id1,
+    id1: req.params.id1,
+    id2: req.params.id2,
+    vcard1: model.list()[parseInt(req.params.id1)],
+    vcard2: model.list()[parseInt(req.params.id2)],
+    title: 'vcard merge',
+    merge: true,
+    livereload: 'http://172.25.0.2:8081/livereload.js',
+    fields: model.fields,
+    type: type,
+    types: model.types,
+    timestamp: timestamp,
+    unCsv: unCsv
+  });
+};
+
+/**
  * ### save changes
  *
  * save input and render the index page
@@ -177,6 +204,7 @@ module.exports = {
   init: init,
   index: index,
   edit: edit,
+  merge: merge,
   save: save,
   list: list,
   inputType: inputType,

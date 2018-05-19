@@ -19,6 +19,8 @@ block content
           include edit.pug
         else
           include item.pug
+      else if vcard1 && vcard2 && merge
+        include merge.pug
     #searchLayer.searchLayer.hidden
       .searchLayerContent
         include search.pug

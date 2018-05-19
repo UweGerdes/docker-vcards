@@ -22,6 +22,9 @@ router.get('/:id/', controller.index);
 // edit id route.
 router.get('/edit/:id/', controller.edit);
 
+// edit id route.
+router.get('/merge/:id1/:id2/', controller.merge);
+
 // list vcards (only test)
 router.get('/list/', controller.list);
 

@@ -1,0 +1,7 @@
+mixin merge(id, vcard)
+  .merge&attributes({ id: 'merge' + id, class: 'merge' + id })
+    include item.pug
+
+#mergeView.mergeView
+  +merge(id1, vcard1)
+  +merge(id2, vcard2)
