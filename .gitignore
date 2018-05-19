@@ -2,6 +2,7 @@
 htdocs/css
 htdocs/js
 docs/jsdoc
+logs
 
 # ignore downloaded files
 
