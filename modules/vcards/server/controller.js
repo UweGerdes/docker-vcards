@@ -277,12 +277,22 @@ const unCsv = (value) => {
  * check if value / types of two vcards are equal
  *
  * @private
- * @param {object} vcard1 - first vcard
- * @param {object} vcard2 - second vcard
- * @param {string} field - to compare
+ * @param {object} vcard1Value - first value
+ * @param {object} vcard2Value - second value
  */
-const checkEqual = (vcard1, vcard2, field) => {
-  console.log('checkEqual', field);
-  const equal = vcard1 == vcard2;
+const checkEqual = (vcard1Value, vcard2Value) => {
+  let equal = false;
+  console.log('vcard1Value', vcard1Value, 'vcard2Value', vcard2Value);
+  if (vcard1Value && typeof vcard1Value == 'object') {
+    vcard1Value.forEach((vcard1Val) => { // jscs:ignore jsDoc
+      if (vcard1Val.value == vcard2Value.value) {
+        equal = true;
+      }
+    });
+  } else {
+    if (vcard1Value == vcard2Value) {
+      equal = true;
+    }
+  }
   return equal;
 };

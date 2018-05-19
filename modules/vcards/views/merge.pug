@@ -1,40 +1,45 @@
-mixin choice(num, field, value, index)
-  span.container
+mixin choice(num, field, value, index, eq)
+  span.choice
     if fields[field].type == 'text'
       if num == 1
         input(type='radio', id='radio_' + field + index, name=field + index, value=value, checked)
       else
         input(type='radio', id='radio_' + field + index, name=field + index, value=value)
     else if fields[field].type == 'list'
-      input(type='checkbox', id='checkbox_' + field + num + index, name=field + num + index, value=value, checked)
+      if num == 1 || !eq
+        input(type='checkbox', id='checkbox_' + field + num + index, name=field + num + index, value=value, checked)
+      else
+        input(type='checkbox', id='checkbox_' + field + num + index, name=field + num + index, value=value)
 
 mixin type(num, field, types, index)
   if typeof types == 'string'
     input(type='hidden', id='value_' + field + index, name=field + num + index + '_type', value=types)
-    span.type= type(types)
+    span.type= type(types) + ': '
   else
     each type in types
       input(type='hidden', id='value_' + field + index, name=field + num + index + '_type', value=type)
     span.type= type(types).join(", ") + ': '
 
-mixin itemvalue(num, vcard, field)
+mixin itemvalue(num, vcard, field, eq)
   if vcard.getValue(field)
     if typeof vcard.getValue(field) == "string"
-      + choice(num, field, vcard.getValue(field), '')
-      span.type
-        if vcard.getType(field)
-          + type(num, field, vcard.getType(field), '')
-        if vcard.getValue(field).indexOf(';') > -1
-          = unCsv(vcard.getValue(field))
-        else if vcard.getValue(field).match(/^[0-9.-]+[T ][0-9:]+Z?$/)
-          = timestamp(vcard.getValue(field))
-        else
-          = vcard.getValue(field)
+      if num == 1 || !eq
+        + choice(num, field, vcard.getValue(field), '')
+        span.type
+          if vcard.getType(field)
+            + type(num, field, vcard.getType(field), '')
+          if vcard.getValue(field).indexOf(';') > -1
+            = unCsv(vcard.getValue(field))
+          else if vcard.getValue(field).match(/^[0-9.-]+[T ][0-9:]+Z?$/)
+            = timestamp(vcard.getValue(field))
+          else
+            = vcard.getValue(field)
     else
       ul.values
         each obj, index in vcard.getValue(field)
           li.values-item
-            + choice(num, field, obj.value, index)
+            - var eq = checkEqual(vcard1.getValue(field), obj)
+            + choice(num, field, obj.value, index, eq)
             + type(num, field, obj.type, index)
             span.value= obj.value
   else
@@ -44,11 +49,12 @@ mixin field(field, check)
   li.list-item
     div(id=field).fielddiv.label
       = fields[field].label
-      =": "
+      = ": "
     div.itemvalue.i1
       + itemvalue(1, vcard1, field)
     div.itemvalue.i2
-      + itemvalue(check - 1, vcard2, field)
+      - eq = vcard2 && checkEqual(vcard1.getValue(field), vcard2.getValue(field))
+      + itemvalue(check - 1, vcard2, field, eq)
 
 #mergeView.mergeView
   - var fields1 = vcard1.getFields()
