@@ -1,7 +1,63 @@
-mixin merge(id, vcard)
-  .merge&attributes({ id: 'merge' + id, class: 'merge' + id })
-    include item.pug
+mixin choice(num, field, value, index)
+  span.container
+    if fields[field].type == 'text'
+      if num == 1
+        input(type='radio', id='radio_' + field + index, name=field + index, value=value, checked)
+      else
+        input(type='radio', id='radio_' + field + index, name=field + index, value=value)
+    else if fields[field].type == 'list'
+      input(type='checkbox', id='checkbox_' + field + num + index, name=field + num + index, value=value, checked)
+
+mixin type(num, field, types, index)
+  if typeof types == 'string'
+    input(type='hidden', id='value_' + field + index, name=field + num + index + '_type', value=types)
+    span.type= type(types)
+  else
+    each type in types
+      input(type='hidden', id='value_' + field + index, name=field + num + index + '_type', value=type)
+    span.type= type(types).join(", ") + ': '
+
+mixin itemvalue(num, vcard, field)
+  if vcard.getValue(field)
+    if typeof vcard.getValue(field) == "string"
+      + choice(num, field, vcard.getValue(field), '')
+      span.type
+        if vcard.getType(field)
+          + type(num, field, vcard.getType(field), '')
+        if vcard.getValue(field).indexOf(';') > -1
+          = unCsv(vcard.getValue(field))
+        else if vcard.getValue(field).match(/^[0-9.-]+[T ][0-9:]+Z?$/)
+          = timestamp(vcard.getValue(field))
+        else
+          = vcard.getValue(field)
+    else
+      ul.values
+        each obj, index in vcard.getValue(field)
+          li.values-item
+            + choice(num, field, obj.value, index)
+            + type(num, field, obj.type, index)
+            span.value= obj.value
+  else
+    | !{'&nbsp;'}
+
+mixin field(field, check)
+  li.list-item
+    div(id=field).fielddiv.label
+      = fields[field].label
+      =": "
+    div.itemvalue.i1
+      + itemvalue(1, vcard1, field)
+    div.itemvalue.i2
+      + itemvalue(check - 1, vcard2, field)
 
 #mergeView.mergeView
-  +merge(id1, vcard1)
-  +merge(id2, vcard2)
+  - var fields1 = vcard1.getFields()
+  form#merge.merge(method='POST', action='/vcards/save/' + id)
+    ul#fieldList.item-list
+      each field in fields1
+        + field(field, 1)
+      each field in vcard2.getFields()
+        if (fields1.indexOf(field) < 0)
+          + field(field, 2)
+    #submit.submit
+      input.searchSubmit(type='submit', value='speichern')

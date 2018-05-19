@@ -83,15 +83,17 @@ const edit = (req, res) => {
  * @param {object} res - result
  */
 const merge = (req, res) => {
+  const vcard1 = model.list()[parseInt(req.params.id1)];
+  const vcard2 = model.list()[parseInt(req.params.id2)];
   res.render(path.join(viewBase, 'index.pug'), {
     vcards: model.list(),
     id: req.params.id1,
     id1: req.params.id1,
     id2: req.params.id2,
     vcard1: model.list()[parseInt(req.params.id1)],
-    vcard2: model.list()[parseInt(req.params.id2)],
+    vcard2: vcard2,
     title: 'vcard merge',
-    merge: true,
+    merge: mergeVcards(vcard1, vcard2),
     livereload: 'http://172.25.0.2:8081/livereload.js',
     fields: model.fields,
     type: type,
@@ -264,4 +266,18 @@ const unCsv = (value) => {
   return value
     .replace(/^;*(.+?);*$/, '$1')
     .replace(/;+/g, ', ');
+};
+
+/**
+ * ### mergeVcards
+ *
+ * merge two vcards for merge view
+ *
+ * @private
+ * @param {object} vcard1 - first vcard
+ * @param {object} vcard2 - second vcard
+ */
+const mergeVcards = (vcard1, vcard2) => {
+  const equal = vcard1 == vcard2;
+  return equal;
 };

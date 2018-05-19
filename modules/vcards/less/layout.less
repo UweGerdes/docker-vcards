@@ -21,6 +21,12 @@
 
     &-item {
       margin: 0 0 5px;
+
+      &::after {
+        clear: both;
+        content: '';
+        display: block;
+      }
     }
   }
 
@@ -75,13 +81,8 @@
     padding: 0;
     width: 80%;
 
-    .merge {
-      float: left;
-      width: 50%;
-
-      .itemValue {
-        width: 15em;
-      }
+    .itemvalue {
+      width: 20em;
     }
   }
 
