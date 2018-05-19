@@ -246,6 +246,17 @@ module.exports = {
     return list[index].vcard;
   },
   /**
+   * save vcard object
+   *
+   * @param {int} index - item id to save
+   * @param {object} data - map with data
+   */
+  del: (index) => {
+    if (index < list.length) {
+      list.splice(index, 1);
+    }
+  },
+  /**
    * export meta data
    */
   fields: fields,

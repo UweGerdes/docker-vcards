@@ -52,7 +52,7 @@ mixin field(field, check)
 
 #mergeView.mergeView
   - var fields1 = vcard1.getFields()
-  form#merge.merge(method='POST', action='/vcards/save/' + id)
+  form#merge.merge(method='POST', action='/vcards/save/' + id + '/' + id2)
     ul#fieldList.item-list
       each field in fields1
         + field(field, 1)

@@ -36,6 +36,10 @@ const init = (filename) => {
  * @param {object} res - result
  */
 const index = (req, res) => {
+  if (req.params.delId && req.params.delId.match(/^[0-9]+$/)) {
+    console.log('delete:', req.params.delId);
+    model.del(parseInt(req.params.delId));
+  }
   res.render(path.join(viewBase, 'index.pug'), {
     vcards: model.list(),
     id: req.params.id ? req.params.id : '',
@@ -83,23 +87,21 @@ const edit = (req, res) => {
  * @param {object} res - result
  */
 const merge = (req, res) => {
-  const vcard1 = model.list()[parseInt(req.params.id1)];
-  const vcard2 = model.list()[parseInt(req.params.id2)];
   res.render(path.join(viewBase, 'index.pug'), {
     vcards: model.list(),
     id: req.params.id1,
     id1: req.params.id1,
     id2: req.params.id2,
     vcard1: model.list()[parseInt(req.params.id1)],
-    vcard2: vcard2,
+    vcard2: model.list()[parseInt(req.params.id2)],
     title: 'vcard merge',
-    merge: mergeVcards(vcard1, vcard2),
     livereload: 'http://172.25.0.2:8081/livereload.js',
     fields: model.fields,
     type: type,
     types: model.types,
     timestamp: timestamp,
-    unCsv: unCsv
+    unCsv: unCsv,
+    checkEqual: checkEqual
   });
 };
 
@@ -115,7 +117,8 @@ const save = (req, res) => {
   model.save(parseInt(req.params.id), req.body);
   res.render(path.join(viewBase, 'index.pug'), {
     vcards: model.list(),
-    id: req.params.id ? req.params.id : '',
+    id: req.params.id,
+    delId: req.params.delId ? req.params.delId : '',
     vcard: req.params.id ? model.list()[parseInt(req.params.id)] : null,
     title: 'vcard',
     livereload: 'http://172.25.0.2:8081/livereload.js',
@@ -269,15 +272,17 @@ const unCsv = (value) => {
 };
 
 /**
- * ### mergeVcards
+ * ### checkEqual
  *
- * merge two vcards for merge view
+ * check if value / types of two vcards are equal
  *
  * @private
  * @param {object} vcard1 - first vcard
  * @param {object} vcard2 - second vcard
+ * @param {string} field - to compare
  */
-const mergeVcards = (vcard1, vcard2) => {
+const checkEqual = (vcard1, vcard2, field) => {
+  console.log('checkEqual', field);
   const equal = vcard1 == vcard2;
   return equal;
 };

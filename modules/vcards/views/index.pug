@@ -12,6 +12,8 @@ block content
       #searchButton.button.searchButton&attributes({'data-toggle': '#searchLayer'}) suchen
       if vcard
         a#editButton.button.editButton&attributes({'href': '/vcards/edit/' + vcard.id + '/'}) ändern
+        if delId
+          a#delButton.button.delButton&attributes({'href': '/vcards/' + vcard.id + '/del/' + delId})= 'Vcard ' + delId + ' löschen'
     #content.content
       include list.pug
       if vcard

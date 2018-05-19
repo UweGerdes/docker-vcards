@@ -25,6 +25,9 @@ router.get('/edit/:id/', controller.edit);
 // edit id route.
 router.get('/merge/:id1/:id2/', controller.merge);
 
+// view id and delete delId route.
+router.get('/:id/del/:delId', controller.index);
+
 // list vcards (only test)
 router.get('/list/', controller.list);
 
@@ -38,6 +41,6 @@ router.get('/field/:field/:index', controller.inputField);
 router.post('/search/:id?', upload.array(), controller.search);
 
 // save vcard
-router.post('/save/:id', upload.array(), controller.save);
+router.post('/save/:id/:delId?', upload.array(), controller.save);
 
 module.exports = router;
