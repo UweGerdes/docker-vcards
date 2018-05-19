@@ -115,14 +115,16 @@ app.listen(httpPort);
  */
 app.use((err, req, res) => {
   console.error('SERVER ERROR:', err);
-  res.status(500)
-    .render(viewPath('500'), {
-      error: err,
-      hostname: req.hostname,
-      livereloadPort: livereloadPort,
-      httpPort: httpPort
-    }
-  );
+  if (res) {
+    res.status(500)
+      .render(viewPath('500'), {
+        error: err,
+        hostname: req.hostname,
+        livereloadPort: livereloadPort,
+        httpPort: httpPort
+      }
+    );
+  }
 });
 
 /**
