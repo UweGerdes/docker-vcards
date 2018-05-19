@@ -66,7 +66,7 @@ handlers.push({
     const searchFieldList = [];
     document.searchForm.searchFields.forEach((field) => { // jscs:ignore jsDoc
       if (field.checked) {
-        searchFieldList.push(field.value);
+        searchFieldList.push(field.nextSibling.textContent);
       }
     });
     document.getElementById('searchInfo').innerHTML =
