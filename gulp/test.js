@@ -37,7 +37,7 @@ const tasks = {
   'test-vcards': [['jshint'], () => {
       const _this = gulp.src(config.gulp.tests.vcards, { read: false })
         // `gulp-mocha` needs filepaths so you can't have any plugins before it
-        .pipe(mocha({ reporter: 'tap' }))
+        .pipe(mocha({ reporter: 'tap', timeout: 4000 })) // timeout for Raspberry Pi 3
         .on('error', function () { // jscs:ignore jsDoc
           _this.emit('end');
         })

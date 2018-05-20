@@ -90,7 +90,7 @@ const tasks = {
    * @namespace tasks
    * @param {function} callback - gulp callback
    */
-  'jsdoc': (callback) => {
+  'jsdoc': [['jshint'], (callback) => {
     const jsdocConfig = {
       'tags': {
         'allowUnknownTags': true
@@ -117,7 +117,7 @@ const tasks = {
     gulp.src(config.gulp.build.jsdoc.src, { read: false })
       .pipe(jsdoc(jsdocConfig, callback))
       ;
-  }
+  }]
 };
 
 loadTasks.importTasks(tasks);

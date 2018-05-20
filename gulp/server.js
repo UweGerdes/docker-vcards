@@ -23,13 +23,13 @@ const tasks = {
    * @namespace tasks
    * @param {function} callback - gulp callback
    */
-  'server-restart': (callback) => {
+  'server-restart': [['jshint'], (callback) => {
     sequence(
       'server-changed',
       'tests',
       callback
     );
-  },
+  }],
   /**
    * ### server livereload task
    *
@@ -54,7 +54,7 @@ const tasks = {
         path: config.server.server,
         env: { VERBOSE: true, FORCE_COLOR: 1 }
       },
-      callback
+      callback()
     );
   },
   /**
