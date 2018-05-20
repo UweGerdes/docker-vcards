@@ -211,7 +211,7 @@ module.exports = {
   edit: edit,
   merge: merge,
   save: [
-    body('fn', model.fields['fn'].label).isLength({ min: 1 }).trim(),
+    body('fn', model.fields.fn.label).isLength({ min: 1 }).trim(),
     sanitizeBody('fn').trim().escape(),
     save],
   list: list,
