@@ -119,23 +119,5 @@ describe('vcard search', function () {
           done();
         });
     });
-    it('should find return error on missing arguments', function (done) {
-      chai.request('http://172.25.0.2:8080')
-        .post('/vcards/search/')
-        .type('form')
-        .send({
-          searchFields: 'n'
-        })
-        .end(function (err, res) {
-          expect(err).to.be.null;
-          expect(res).to.have.status(404);
-          expect(res).to.be.html;
-          const { document } = (new JSDOM(res.text)).window;
-          const list = document.getElementById('errors').getElementsByTagName('li');
-          assert.equal(list.length, 1);
-          assert.equal(list[0].textContent, 'Suchwort eintragen');
-          done();
-        });
-    });
   });
 });

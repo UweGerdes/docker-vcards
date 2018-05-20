@@ -210,16 +210,14 @@ module.exports = {
   index: index,
   edit: edit,
   merge: merge,
-  save: save,
+  save: [
+    body('fn', model.fields['fn'].label).isLength({ min: 1 }).trim(),
+    sanitizeBody('fn').trim().escape(),
+    save],
   list: list,
   inputType: inputType,
   inputField: inputField,
-  search: [
-    body('searchFields', 'Feld auswählen').isLength({ min: 1 }).trim(),
-    body('searchString', 'Suchwort eintragen').isLength({ min: 1 }).trim(),
-    sanitizeBody('searchString').trim().escape(),
-    search
-  ]
+  search: search
 };
 
 /**
