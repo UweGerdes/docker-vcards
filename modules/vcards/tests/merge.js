@@ -38,14 +38,44 @@ describe('vcard merge', function () {
           expect(res).to.have.status(200);
           expect(res).to.be.html;
           const { document } = (new JSDOM(res.text)).window;
+          const form = document.querySelectorAll('form#merge')[0];
+          assert.equal(form.getAttribute('action'), '/vcards/save/0/1');
           const mergeFieldList = document.querySelectorAll('#mergeView #fieldList > .list-item');
           assert.equal(mergeFieldList.length, 8);
           assert.equal(mergeFieldList[0].childNodes.length, 3);
           assert.equal(mergeFieldList[0].childNodes[0].textContent.trim(), 'Version:');
           assert.equal(mergeFieldList[0].childNodes[1].textContent.trim(), '2.1');
           assert.equal(mergeFieldList[0].childNodes[2].textContent.trim(), '3.0');
+          let formData = {};
+          const fd = new document.defaultView.FormData(form);
+          let e = fd.entries();
+          for (let current = e.next(); !current.done; current = e.next()) {
+            formData[current.value[0]] = current.value[1];
+          }
+          assert.deepEqual(formData, formDataCompare);
           done();
         });
     });
   });
 });
+
+const formDataCompare = { version: '2.1',
+  n: 'Gerdes;Uwe;;;',
+  fn: 'Uwe Gerdes',
+  tel10: '040 256486',
+  tel10_type: 'voice',
+  tel11: '0179 3901008',
+  tel11_type: 'cell',
+  tel00: '+49 40 25178252',
+  tel00_type: 'voice',
+  tel01: '01793901008',
+  tel01_type: 'cell',
+  email1: 'uwe@uwegerdes.de',
+  email1_type: 'pref',
+  email0: 'entwicklung@uwegerdes.de',
+  email0_type: 'internet',
+  url: 'http://www.uwegerdes.de/',
+  adr1: ';;Klaus-Groth-Str. 22;Hamburg;;20535;Germany',
+  adr1_type: 'home',
+  rev: '2014-08-24T18:50:00Z'
+};

@@ -6,6 +6,7 @@
 'use strict';
 
 const fs = require('fs'),
+  path = require('path'),
   vcf = require('vcf');
 
 const testData = 'BEGIN:VCARD\n' +
@@ -19,7 +20,8 @@ const testData = 'BEGIN:VCARD\n' +
   'END:VCARD';
 
 let data,
-  list = []
+  list = [],
+  lists = { }
   ;
 
 class Vcard {
@@ -191,7 +193,9 @@ module.exports = {
    * @returns {Promise} data if resolved, err if rejected
    */
   open: (filename) => {
+    const name = path.basename(filename, path.extname(filename));
     list = [];
+    lists[name] = [];
     return new Promise(function (resolve, reject) {
       try {
         fs.readFile(filename, 'utf8', function (err, buffer) {
@@ -201,6 +205,7 @@ module.exports = {
             data = vcf.parse(buffer);
             data.forEach((item, id) => { // jscs:ignore jsDoc
               list.push(new Vcard(item, id));
+              lists[name].push(new Vcard(item, id));
             });
             resolve(data);
           }
@@ -209,6 +214,20 @@ module.exports = {
         reject(err);
       }
     });
+  },
+  /**
+   * switch testData list
+   *
+   * @param {string} name - to set as list
+   * @returns {array} vcard list
+   */
+  switch: (name) => {
+    if (lists[name]) {
+      list = lists[name];
+    } else {
+      console.log('dataset ' + name + ' not loaded');
+    }
+    return list;
   },
   /**
    * get list of vcard objects
