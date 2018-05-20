@@ -39,9 +39,10 @@ mixin itemvalue(num, vcard, field, eq)
         each obj, index in vcard.getValue(field)
           li.values-item
             - var eq = checkEqual(vcard1.getValue(field), obj)
-            + choice(num, field, obj.value, index, eq)
-            + type(num, field, obj.type, index)
-            span.value= obj.value
+            if !eq || num == 1
+              + choice(num, field, obj.value, index, eq)
+              + type(num, field, obj.type, index)
+              span.value= obj.value
   else
     | !{'&nbsp;'}
 

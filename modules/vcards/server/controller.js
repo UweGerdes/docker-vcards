@@ -282,15 +282,16 @@ const unCsv = (value) => {
  */
 const checkEqual = (vcard1Value, vcard2Value) => {
   let equal = false;
-  console.log('vcard1Value', vcard1Value, 'vcard2Value', vcard2Value);
   if (vcard1Value && typeof vcard1Value == 'object') {
     vcard1Value.forEach((vcard1Val) => { // jscs:ignore jsDoc
-      if (vcard1Val.value == vcard2Value.value) {
+      if (vcard2Value.value && vcard1Val.value == vcard2Value.value ||
+        vcard1Val.value == vcard2Value) {
         equal = true;
       }
     });
   } else {
-    if (vcard1Value == vcard2Value) {
+    if (vcard2Value && vcard2Value.value && vcard1Value == vcard2Value.value ||
+      vcard1Value == vcard2Value) {
       equal = true;
     }
   }
