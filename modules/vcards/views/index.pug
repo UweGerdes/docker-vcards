@@ -9,6 +9,7 @@ block content
       if edit
         = " bearbeiten"
     #headlineButtons.headlineButtons
+      include parts/dataset-select.pug
       #searchButton.button.searchButton&attributes({'data-toggle': '#searchLayer'}) suchen
       if vcard
         a#editButton.button.editButton&attributes({'href': '/vcards/edit/' + vcard.id + '/'}) ändern

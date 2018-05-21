@@ -194,41 +194,24 @@ module.exports = {
    * @returns {Promise} data if resolved, err if rejected
    */
   open: (filename) => {
-    const name = path.basename(filename, path.extname(filename));
-    list = [];
-    lists[name] = [];
-    return new Promise(function (resolve, reject) {
-      try {
-        fs.readFile(filename, 'utf8', function (err, buffer) {
-          if (err) {
-            reject(err);
-          } else {
-            data = vcf.parse(buffer);
-            data.forEach((item, id) => { // jscs:ignore jsDoc
-              list.push(new Vcard(item, id));
-              lists[name].push(new Vcard(item, id));
-            });
-            resolve(data);
-          }
-        });
-      } catch (err) {
-        reject(err);
-      }
-    });
+    return openFile(filename);
   },
   /**
    * switch data set
    *
    * @param {string} name - to set as list
-   * @returns {array} vcard list
+   * @returns {Promise} with vcard list
    */
   switchDataset: (name) => {
     if (lists[name]) {
       list = lists[name];
+      return new Promise(function (resolve) {
+        resolve(name);
+      });
     } else {
-      console.log('dataset ' + name + ' not loaded');
+      console.log('dataset ' + name + ' loading');
+      return openFile(path.join(path.dirname(__dirname), 'tests', 'server', name + '.vcf'));
     }
-    return list;
   },
   /**
    * get list of vcard objects
@@ -237,9 +220,6 @@ module.exports = {
    * @returns {array} vcard list
    */
   list: (selection) => {
-    if (datasetName) {
-      console.log('datasetName', datasetName);
-    }
     let result = [];
     if (selection) {
       list.forEach((item) => { // jscs:ignore jsDoc
@@ -280,12 +260,52 @@ module.exports = {
     }
   },
   /**
+   * list of dataset names
+   *
+   * @returns {array} with names
+   */
+  datasetNames: () => {
+    return Object.keys(lists);
+  },
+  /**
    * export meta data
    */
   datasetName: datasetName,
   fields: fields,
   types: types
 };
+
+/**
+ * open file
+ *
+ * @param {object} filename - to open
+ * @returns {Promise} with parsed buffer // TODO buffer not needed?
+ */
+function openFile(filename) {
+  const name = path.basename(filename, path.extname(filename));
+  const oldDatasetName = datasetName;
+  return new Promise(function (resolve, reject) {
+    try {
+      fs.readFile(filename, 'utf8', function (err, buffer) {
+        if (err) {
+          reject(err);
+        } else {
+          list = [];
+          lists[name] = [];
+          data = vcf.parse(buffer);
+          data.forEach((item, id) => { // jscs:ignore jsDoc
+            list.push(new Vcard(item, id));
+            lists[name].push(new Vcard(item, id));
+          });
+          datasetName = name;
+          resolve(oldDatasetName);
+        }
+      });
+    } catch (err) {
+      reject(err);
+    }
+  });
+}
 
 /**
  * make vcard object from jcard

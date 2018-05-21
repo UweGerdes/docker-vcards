@@ -43,7 +43,7 @@ const index = (req, res) => {
   let datasetName = '';
   if (req.cookies && req.cookies.datasetName) {
     datasetName = req.cookies.datasetName;
-    console.log('datasetName', datasetName);
+    console.log('cookie datasetName', datasetName);
     model.datasetName = datasetName;
   }
   res.render(path.join(viewBase, 'index.pug'), {
@@ -52,6 +52,7 @@ const index = (req, res) => {
     vcard: req.params.id ? model.list()[parseInt(req.params.id)] : null,
     title: 'vcard',
     livereload: 'http://172.25.0.2:8081/livereload.js',
+    datasetNames: model.datasetNames(),
     fields: model.fields,
     type: type,
     types: model.types,
@@ -143,19 +144,40 @@ const save = (req, res) => {
  * @param {object} res - result
  */
 const switchDataset = (req, res) => {
-  model.switchDataset(req.params.name);
-  res.cookie('datasetName', req.params.name, { maxAge: 900000, httpOnly: true }).
-    render(path.join(viewBase, 'index.pug'), {
-      vcards: model.list(),
-      title: 'vcard',
-      livereload: 'http://172.25.0.2:8081/livereload.js',
-      fields: model.fields,
-      type: type,
-      types: model.types,
-      timestamp: timestamp,
-      unCsv: unCsv
-    })
-  ;
+  const oldDatasetName = model.datasetName;
+  model.switchDataset(req.params.name)
+  .then(() => { // jscs:ignore jsDoc
+    res.cookie('datasetName', req.params.name, { maxAge: 900000, httpOnly: true }).
+      render(path.join(viewBase, 'index.pug'), {
+        vcards: model.list(),
+        title: 'vcard',
+        livereload: 'http://172.25.0.2:8081/livereload.js',
+        fields: model.fields,
+        type: type,
+        types: model.types,
+        timestamp: timestamp,
+        unCsv: unCsv,
+        datasetNames: model.datasetNames(),
+        oldDatasetName: oldDatasetName,
+        datasetName: model.datasetName
+      })
+    ;
+  })
+  .catch((error) => { // jscs:ignore jsDoc
+    console.log('switchDataset error:', error);
+    res.clearCookie('datasetName').
+      render(path.join(viewBase, 'index.pug'), {
+        vcards: model.list(),
+        title: 'vcard - file not found error',
+        livereload: 'http://172.25.0.2:8081/livereload.js',
+        fields: model.fields,
+        type: type,
+        types: model.types,
+        timestamp: timestamp,
+        unCsv: unCsv
+      })
+    ;
+  });
 };
 
 /**

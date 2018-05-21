@@ -38,7 +38,7 @@ gulp:
       - '**/*.pug'
     test-vcards:
       - 'modules/vcards/tests/server/*.*'
-      - 'modules/vcards/views/*.*'
+      - 'modules/vcards/views/**/*.*'
       - 'htdocs/css/app.css'
       - 'htdocs/js/vcards/*.js'
     server-restart:
