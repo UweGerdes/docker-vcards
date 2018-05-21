@@ -54,7 +54,7 @@ const tasks = {
         path: config.server.server,
         env: { VERBOSE: true, FORCE_COLOR: 1 }
       },
-      callback()
+      callback
     );
   },
   /**
@@ -67,7 +67,7 @@ const tasks = {
   'server-changed': (callback) => {
     server.changed((error) => { // jscs:ignore jsDoc
       if (!error) {
-        livereload.changed({ path: '/', quiet: true });
+        livereload.changed({ path: '/', quiet: false });
       }
       callback();
     });
