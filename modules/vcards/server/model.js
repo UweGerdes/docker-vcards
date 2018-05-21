@@ -205,6 +205,7 @@ module.exports = {
   switchDataset: (name) => {
     if (lists[name]) {
       list = lists[name];
+      datasetName = name;
       return new Promise(function (resolve) {
         resolve(name);
       });
@@ -270,7 +271,9 @@ module.exports = {
   /**
    * export meta data
    */
-  datasetName: datasetName,
+  datasetName: () => {
+    return datasetName;
+  },
   fields: fields,
   types: types
 };

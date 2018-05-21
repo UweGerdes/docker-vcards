@@ -16,6 +16,7 @@ const chai = require('chai'),
 chai.use(chaiHttp);
 
 describe('vcard server', function () {
+  let oldDatasetName;
   before(function (done) {
     chai.request('http://172.25.0.2:8080')
     .get('/vcards/dataset/testdata')
@@ -34,8 +35,13 @@ describe('vcard server', function () {
     });
   });
   after(function (done) {
+    let resetName = 'testdata';
+    if (oldDatasetName) {
+      resetName = oldDatasetName;
+      console.log('reset to:', oldDatasetName);
+    }
     chai.request('http://172.25.0.2:8080')
-    .get('/vcards/dataset/testdata')
+    .get('/vcards/dataset/' + resetName)
     .end(function (err, res) {
       expect(err).to.be.null;
       expect(res).to.have.status(200);

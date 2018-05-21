@@ -1,6 +1,9 @@
 if datasetNames
   each name in datasetNames
-    span.datasetName= name
-    = ', '
+    if name != datasetName
+      a.button.datasetName(href='/vcards/dataset/' + name)= name
+    else
+      span.button.datasetName= name
 if oldDatasetName
-  span#oldDatasetName= oldDatasetName
+  span#oldDatasetName.hidden= oldDatasetName
+span#datasetName.hidden= datasetName

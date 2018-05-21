@@ -13,6 +13,17 @@ const { body, validationResult } = require('express-validator/check'),
 
 const viewBase = path.join(path.dirname(__dirname), 'views');
 
+const viewRenderParams = {
+  // livereload link
+  livereload: 'http://172.25.0.2:8081/livereload.js',
+  // model data
+  fields: model.fields,
+  types: model.types,
+  // view helper functions
+  type: type,
+  timestamp: timestamp,
+  unCsv: unCsv
+};
 /**
  * ### init
  *
@@ -46,19 +57,17 @@ const index = (req, res) => {
     console.log('cookie datasetName', datasetName);
     model.datasetName = datasetName;
   }
-  res.render(path.join(viewBase, 'index.pug'), {
-    vcards: model.list(),
-    id: req.params.id ? req.params.id : '',
-    vcard: req.params.id ? model.list()[parseInt(req.params.id)] : null,
-    title: 'vcard',
-    livereload: 'http://172.25.0.2:8081/livereload.js',
-    datasetNames: model.datasetNames(),
-    fields: model.fields,
-    type: type,
-    types: model.types,
-    timestamp: timestamp,
-    unCsv: unCsv
-  });
+  res.render(path.join(viewBase, 'index.pug'),
+    Object.assign({
+      vcards: model.list(),
+      id: req.params.id ? req.params.id : '',
+      vcard: req.params.id ? model.list()[parseInt(req.params.id)] : null,
+      title: 'vcard',
+      datasetNames: model.datasetNames(),
+      datasetName: model.datasetName()
+    },
+    viewRenderParams)
+  );
 };
 
 /**
@@ -70,19 +79,16 @@ const index = (req, res) => {
  * @param {object} res - result
  */
 const edit = (req, res) => {
-  res.render(path.join(viewBase, 'index.pug'), {
-    vcards: model.list(),
-    id: req.params.id,
-    vcard: model.list()[parseInt(req.params.id)],
-    title: 'vcard',
-    edit: true,
-    livereload: 'http://172.25.0.2:8081/livereload.js',
-    fields: model.fields,
-    type: type,
-    types: model.types,
-    timestamp: timestamp,
-    unCsv: unCsv
-  });
+  res.render(path.join(viewBase, 'index.pug'),
+    Object.assign({
+      vcards: model.list(),
+      id: req.params.id,
+      vcard: model.list()[parseInt(req.params.id)],
+      title: 'vcard',
+      edit: true
+    },
+    viewRenderParams)
+  );
 };
 
 /**
@@ -94,22 +100,19 @@ const edit = (req, res) => {
  * @param {object} res - result
  */
 const merge = (req, res) => {
-  res.render(path.join(viewBase, 'index.pug'), {
-    vcards: model.list(),
-    id: req.params.id1,
-    id1: req.params.id1,
-    id2: req.params.id2,
-    vcard1: model.list()[parseInt(req.params.id1)],
-    vcard2: model.list()[parseInt(req.params.id2)],
-    title: 'vcard merge',
-    livereload: 'http://172.25.0.2:8081/livereload.js',
-    fields: model.fields,
-    type: type,
-    types: model.types,
-    timestamp: timestamp,
-    unCsv: unCsv,
-    checkEqual: checkEqual
-  });
+  res.render(path.join(viewBase, 'index.pug'),
+    Object.assign({
+      vcards: model.list(),
+      id: req.params.id1,
+      id1: req.params.id1,
+      id2: req.params.id2,
+      vcard1: model.list()[parseInt(req.params.id1)],
+      vcard2: model.list()[parseInt(req.params.id2)],
+      title: 'vcard merge',
+      checkEqual: checkEqual
+    },
+    viewRenderParams)
+  );
 };
 
 /**
@@ -122,19 +125,18 @@ const merge = (req, res) => {
  */
 const save = (req, res) => {
   model.save(parseInt(req.params.id), req.body);
-  res.render(path.join(viewBase, 'index.pug'), {
-    vcards: model.list(),
-    id: req.params.id,
-    delId: req.params.delId ? req.params.delId : '',
-    vcard: req.params.id ? model.list()[parseInt(req.params.id)] : null,
-    title: 'vcard',
-    livereload: 'http://172.25.0.2:8081/livereload.js',
-    fields: model.fields,
-    type: type,
-    types: model.types,
-    timestamp: timestamp,
-    unCsv: unCsv
-  });
+  res.render(path.join(viewBase, 'index.pug'),
+      Object.assign({
+      vcards: model.list(),
+      id: req.params.id,
+      delId: req.params.delId ? req.params.delId : '',
+      vcard: req.params.id ? model.list()[parseInt(req.params.id)] : null,
+      title: 'vcard',
+      datasetNames: model.datasetNames(),
+      datasetName: model.datasetName()
+    },
+    viewRenderParams)
+  );
 };
 
 /**
@@ -144,23 +146,20 @@ const save = (req, res) => {
  * @param {object} res - result
  */
 const switchDataset = (req, res) => {
-  const oldDatasetName = model.datasetName;
+  const oldDatasetName = model.datasetName();
   model.switchDataset(req.params.name)
   .then(() => { // jscs:ignore jsDoc
     res.cookie('datasetName', req.params.name, { maxAge: 900000, httpOnly: true }).
-      render(path.join(viewBase, 'index.pug'), {
-        vcards: model.list(),
-        title: 'vcard',
-        livereload: 'http://172.25.0.2:8081/livereload.js',
-        fields: model.fields,
-        type: type,
-        types: model.types,
-        timestamp: timestamp,
-        unCsv: unCsv,
-        datasetNames: model.datasetNames(),
-        oldDatasetName: oldDatasetName,
-        datasetName: model.datasetName
-      })
+      render(path.join(viewBase, 'index.pug'),
+        Object.assign({
+          vcards: model.list(),
+          title: 'vcard',
+          datasetNames: model.datasetNames(),
+          datasetName: model.datasetName(),
+          oldDatasetName: oldDatasetName
+        },
+        viewRenderParams)
+      )
     ;
   })
   .catch((error) => { // jscs:ignore jsDoc
@@ -279,7 +278,7 @@ module.exports = {
  * @private
  * @param {string} value - to convert
  */
-const type = (value) => {
+function type(value) {
   let typelist = [];
   if (value) {
     if (typeof value == 'string' && value.length > 0) {
@@ -291,7 +290,7 @@ const type = (value) => {
     }
   }
   return typelist;
-};
+}
 
 /**
  * ### timestamp
@@ -301,10 +300,10 @@ const type = (value) => {
  * @private
  * @param {string} value - to convert
  */
-const timestamp = (value) => {
+function timestamp(value) {
   const date = new Date(value);
   return date.toLocaleString();
-};
+}
 
 /**
  * ### unCsv
@@ -314,11 +313,11 @@ const timestamp = (value) => {
  * @private
  * @param {string} value - to convert
  */
-const unCsv = (value) => {
+function unCsv(value) {
   return value
     .replace(/^;*(.+?);*$/, '$1')
     .replace(/;+/g, ', ');
-};
+}
 
 /**
  * ### checkEqual
@@ -329,7 +328,7 @@ const unCsv = (value) => {
  * @param {object} vcard1Value - first value
  * @param {object} vcard2Value - second value
  */
-const checkEqual = (vcard1Value, vcard2Value) => {
+function checkEqual(vcard1Value, vcard2Value) {
   let equal = false;
   if (vcard1Value && typeof vcard1Value == 'object') {
     vcard1Value.forEach((vcard1Val) => { // jscs:ignore jsDoc
@@ -345,4 +344,4 @@ const checkEqual = (vcard1Value, vcard2Value) => {
     }
   }
   return equal;
-};
+}
