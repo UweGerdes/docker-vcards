@@ -7,6 +7,7 @@
 
 const fs = require('fs'),
   glob = require('glob'),
+  libqp = require('libqp'),
   path = require('path'),
   vcf = require('vcf');
 
@@ -57,6 +58,9 @@ class Vcard {
     if (this.vcard.get(field)) {
       let value = this.vcard.get(field).valueOf();
       if (typeof value == 'string') {
+        if (this.vcard.get(field).toJSON()[1].encoding == 'QUOTED-PRINTABLE') {
+          value = libqp.decode(value).toString();
+        }
         return value;
       } else {
         let result = [];
@@ -80,8 +84,8 @@ class Vcard {
    * @returns {array} - type list
    */
   getType(field) {
-    let value = this.vcard.get(field).type;
-    return value;
+    let type = this.vcard.get(field).type;
+    return type;
   }
 
   /**
@@ -146,6 +150,16 @@ const fields = {
     type: 'text',
     size: 30,
     types: ['work', 'home', 'pref', 'internet']
+  },
+  org: {
+    label: 'Firma',
+    type: 'text',
+    size: 30
+  },
+  xGroupMembership: {
+    label: 'Gruppen',
+    type: 'list',
+    size: 30
   },
   rev: {
     label: 'Timestamp',

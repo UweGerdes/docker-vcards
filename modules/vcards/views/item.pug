@@ -3,7 +3,7 @@ ul#item.item-list
     li.list-item
       div(id=field).field
         div.label
-          = fields[field].label
+          = fields[field] ? fields[field].label : field
           =": "
         div.itemvalue
           if typeof vcard.getValue(field) == "string"
@@ -18,6 +18,8 @@ ul#item.item-list
               else if vcard.getValue(field).match(/^[0-9.-]+[T ][0-9:]+Z?$/)
                 = timestamp(vcard.getValue(field))
               else
+                = vcard.getValue(field)
+              if vcard.getValue(field).indexOf('=') > -1
                 = vcard.getValue(field)
           else
             include valuelist.pug
