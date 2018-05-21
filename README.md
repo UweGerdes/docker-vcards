@@ -74,14 +74,3 @@ $ docker run -it \
 	--volume $(pwd)/tests/dev/compare-layouts:/home/node/app/config \
 	uwegerdes/compare-layouts bash
 ```
-
-#### responsive-check
-
-```bash
-$ docker run -it \
-	--name responsive-check-vcard \
-	---volume $(pwd)/tests/dev/responsive-check:/home/node/app/config \
-	--network="$(docker inspect --format='{{.HostConfig.NetworkMode}}' vcard-server)" \
-	--add-host vcard-server:$(docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}} {{end}}' vcard-server) \
-	uwegerdes/responsive-check
-```
