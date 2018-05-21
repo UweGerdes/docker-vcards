@@ -2,12 +2,14 @@ extends ../../index.pug
 
 block content
   div#vcard.vcard
+
     h1#headline.headline= title
       if vcard
         = " "
         = vcard.getValue('fn')
       if edit
         = " bearbeiten"
+
     #headlineButtons.headlineButtons
       #searchButton.button.searchButton&attributes({'data-toggle': '#searchLayer'}) suchen
       if vcard
@@ -15,6 +17,7 @@ block content
         if delId
           a#delButton.button.delButton&attributes({'href': '/vcards/' + vcard.id + '/del/' + delId})= 'Vcard ' + delId + ' löschen'
       include parts/dataset-select.pug
+
     #content.content
       include list.pug
       if vcard
@@ -24,6 +27,7 @@ block content
           include item.pug
       else if vcard1 && vcard2
         include merge.pug
+
     #searchLayer.searchLayer.hidden
       .searchLayerContent
         include search.pug
