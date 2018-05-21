@@ -64,7 +64,8 @@ const index = (req, res) => {
       vcard: req.params.id ? model.list()[parseInt(req.params.id)] : null,
       title: 'vcard',
       datasetNames: model.datasetNames(),
-      datasetName: model.datasetName()
+      datasetName: model.datasetName(),
+      datasetFiles: model.datasetFiles()
     },
     viewRenderParams)
   );
@@ -133,7 +134,8 @@ const save = (req, res) => {
       vcard: req.params.id ? model.list()[parseInt(req.params.id)] : null,
       title: 'vcard',
       datasetNames: model.datasetNames(),
-      datasetName: model.datasetName()
+      datasetName: model.datasetName(),
+      datasetFiles: model.datasetFiles()
     },
     viewRenderParams)
   );
@@ -157,7 +159,8 @@ const switchDataset = (req, res) => {
           title: 'vcard',
           datasetNames: model.datasetNames(),
           datasetName: model.datasetName(),
-          oldDatasetName: oldDatasetName
+          oldDatasetName: oldDatasetName,
+          datasetFiles: model.datasetFiles()
         },
         viewRenderParams)
       )
@@ -166,16 +169,16 @@ const switchDataset = (req, res) => {
   .catch((error) => { // jscs:ignore jsDoc
     console.log('switchDataset error:', error);
     res.clearCookie('datasetName').
-      render(path.join(viewBase, 'index.pug'), {
-        vcards: model.list(),
-        title: 'vcard - file not found error',
-        livereload: 'http://172.25.0.2:8081/livereload.js',
-        fields: model.fields,
-        type: type,
-        types: model.types,
-        timestamp: timestamp,
-        unCsv: unCsv
-      })
+      render(path.join(viewBase, 'index.pug'),
+          Object.assign({
+          vcards: model.list(),
+          title: 'vcard - file not found error',
+          datasetNames: model.datasetNames(),
+          datasetName: model.datasetName(),
+          datasetFiles: model.datasetFiles()
+        },
+        viewRenderParams)
+      )
     ;
   });
 };

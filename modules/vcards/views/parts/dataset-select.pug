@@ -1,4 +1,3 @@
-span.label.datasetName= datasetName
 if datasetNames
   each name in datasetNames
     if name != datasetName
@@ -6,3 +5,10 @@ if datasetNames
 if oldDatasetName
   span#oldDatasetName.hidden= oldDatasetName
 span#datasetName.hidden= datasetName
+if datasetFiles
+  select#datasetFiles&attributes({ name: 'datasetFiles', 'data-select-url': '/vcards/dataset/' })
+    each name in datasetFiles
+      if name == datasetName
+        option(value=name, selected)= name
+      else
+        option(value=name)= name

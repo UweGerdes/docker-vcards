@@ -6,6 +6,7 @@
 'use strict';
 
 const fs = require('fs'),
+  glob = require('glob'),
   path = require('path'),
   vcf = require('vcf');
 
@@ -210,8 +211,11 @@ module.exports = {
         resolve(name);
       });
     } else {
-      console.log('dataset ' + name + ' loading');
-      return openFile(path.join(path.dirname(__dirname), 'tests', 'server', name + '.vcf'));
+      if (name == 'testdata') {
+        return openFile(path.join(path.dirname(__dirname), 'tests', 'server', name + '.vcf'));
+      } else {
+        return openFile(path.join(path.dirname(__dirname), 'data', name + '.vcf'));
+      }
     }
   },
   /**
@@ -273,6 +277,19 @@ module.exports = {
    */
   datasetName: () => {
     return datasetName;
+  },
+  /**
+   * list of data file names
+   *
+   * @returns {array} with names
+   */
+  datasetFiles: () => {
+    const paths = glob.sync(path.join(path.dirname(__dirname), 'data', '*.vcf'));
+    const files = [];
+    paths.forEach((p) => { // jscs:ignore jsDoc
+      files.push(path.basename(p, path.extname(p)));
+    });
+    return files;
   },
   fields: fields,
   types: types

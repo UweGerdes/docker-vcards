@@ -112,21 +112,35 @@ handlers.push({
 handlers.push({
   elements: document.querySelectorAll('[data-click-xhr]'),
   event: 'click',
-  func: function () { // jscs:ignore jsDoc
-    const _this = this;
+  func: function (event) { // jscs:ignore jsDoc
+    const element = event.target;
     const xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () { // jscs:ignore jsDoc
       if (this.readyState == 4) {
         if (this.status == 200) {
-          _this.parentElement.insertAdjacentHTML('beforeend', this.responseText);
-          const selects = _this.parentElement.querySelectorAll('select[data-select-xhr]');
+          element.parentElement.insertAdjacentHTML('beforeend', this.responseText);
+          const selects = element.parentElement.querySelectorAll('select[data-select-xhr]');
           attachEventHandler(selects[selects.length - 1], 'change', newType);
         }
       }
     };
-    const newIndex = _this.parentElement.querySelectorAll('.input-text').length;
-    xhttp.open('GET', this.getAttribute('data-click-xhr') + newIndex, true);
+    const newIndex = element.parentElement.querySelectorAll('.input-text').length;
+    xhttp.open('GET', element.getAttribute('data-click-xhr') + newIndex, true);
     xhttp.send();
+  }
+});
+
+/**
+ * open url from selection
+ */
+handlers.push({
+  elements: document.querySelectorAll('[data-select-url]'),
+  event: 'change',
+  func: function (event) { // jscs:ignore jsDoc
+    const element = event.target;
+    const value = element[element.selectedIndex].value;
+    console.log('open', element.getAttribute('data-select-url') + value);
+    document.location.href = element.getAttribute('data-select-url') + value;
   }
 });
 
