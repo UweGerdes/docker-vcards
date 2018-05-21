@@ -28,6 +28,9 @@ router.get('/merge/:id1/:id2/', controller.merge);
 // view id and delete delId route.
 router.get('/:id/del/:delId', controller.index);
 
+// switchDataset id route.
+router.get('/dataset/:name/', controller.switchDataset);
+
 // list vcards (only test)
 router.get('/list/', controller.list);
 

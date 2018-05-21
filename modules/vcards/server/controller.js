@@ -40,6 +40,12 @@ const index = (req, res) => {
     console.log('delete:', req.params.delId);
     model.del(parseInt(req.params.delId));
   }
+  let datasetName = '';
+  if (req.cookies && req.cookies.datasetName) {
+    datasetName = req.cookies.datasetName;
+    console.log('datasetName', datasetName);
+    model.datasetName = datasetName;
+  }
   res.render(path.join(viewBase, 'index.pug'), {
     vcards: model.list(),
     id: req.params.id ? req.params.id : '',
@@ -131,6 +137,28 @@ const save = (req, res) => {
 };
 
 /**
+ * ### switchDataset
+ *
+ * @param {object} req - request
+ * @param {object} res - result
+ */
+const switchDataset = (req, res) => {
+  model.switchDataset(req.params.name);
+  res.cookie('datasetName', req.params.name, { maxAge: 900000, httpOnly: true }).
+    render(path.join(viewBase, 'index.pug'), {
+      vcards: model.list(),
+      title: 'vcard',
+      livereload: 'http://172.25.0.2:8081/livereload.js',
+      fields: model.fields,
+      type: type,
+      types: model.types,
+      timestamp: timestamp,
+      unCsv: unCsv
+    })
+  ;
+};
+
+/**
  * ### list
  *
  * render the list snippet
@@ -215,6 +243,7 @@ module.exports = {
     sanitizeBody('fn').trim().escape(),
     save],
   list: list,
+  switchDataset: switchDataset,
   inputType: inputType,
   inputField: inputField,
   search: search

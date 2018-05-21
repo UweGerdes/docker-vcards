@@ -20,6 +20,7 @@ const testData = 'BEGIN:VCARD\n' +
   'END:VCARD';
 
 let data,
+  datasetName,
   list = [],
   lists = { }
   ;
@@ -216,12 +217,12 @@ module.exports = {
     });
   },
   /**
-   * switch testData list
+   * switch data set
    *
    * @param {string} name - to set as list
    * @returns {array} vcard list
    */
-  switch: (name) => {
+  switchDataset: (name) => {
     if (lists[name]) {
       list = lists[name];
     } else {
@@ -236,6 +237,9 @@ module.exports = {
    * @returns {array} vcard list
    */
   list: (selection) => {
+    if (datasetName) {
+      console.log('datasetName', datasetName);
+    }
     let result = [];
     if (selection) {
       list.forEach((item) => { // jscs:ignore jsDoc
@@ -278,6 +282,7 @@ module.exports = {
   /**
    * export meta data
    */
+  datasetName: datasetName,
   fields: fields,
   types: types
 };

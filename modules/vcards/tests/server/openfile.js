@@ -22,8 +22,8 @@ describe('vcard openfile', () => {
     .then(done);
   });
   after(function (done) {
-    console.log('open testdata.vcf');
-    model.open(path.join(__dirname, 'testdata.vcf'))
+    console.log('open userdata.vcf');
+    model.open(path.join(__dirname, 'userdata.vcf'))
     .then(function () {
       done();
     });

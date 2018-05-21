@@ -1,6 +1,6 @@
 BEGIN:VCARD
 VERSION:2.1
-N:Gerdes;Uwe;;;
+N:Gerdes;Uwe;User;;
 FN:Uwe Gerdes
 TEL;WORK;VOICE:040 256486
 TEL;CELL:0179 3901008
@@ -9,7 +9,7 @@ URL:http://www.uwegerdes.de/
 END:VCARD
 BEGIN:VCARD
 VERSION:3.0
-N:Gerdes;Uwe
+N:Gerdes;Uwe;User
 FN:Uwe Gerdes
 TEL;TYPE=WORK,VOICE:+49 40 25178252
 TEL;TYPE=CELL:01793901008
