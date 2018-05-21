@@ -10,7 +10,7 @@ gulp:
       - '*.js'
       - 'gulp/**/*.js'
       - 'lib/**/*.js'
-      - 'modules/**/*.js'
+#      - 'modules/**/*.js'
       - 'src/**/*.js'
     jshint:
       - '*.js'
@@ -37,14 +37,13 @@ gulp:
     puglint:
       - '**/*.pug'
     test-vcards:
-      - 'modules/vcards/server/*.*'
-      - 'modules/vcards/tests/*.*'
+      - 'modules/vcards/tests/server/*.*'
       - 'modules/vcards/views/*.*'
       - 'htdocs/css/app.css'
       - 'htdocs/js/vcards/*.js'
     server-restart:
       - './server.js'
-      - 'modules/**/server/*.js'
+      - './modules/**/!(tests)/server/*.js'
     livereload:
       - 'htdocs/**/*.html'
       - 'modules/**/*.ejs'
@@ -54,7 +53,7 @@ gulp:
       - 'htdocs/js/**/*.js'
   tests:
     vcards:
-      - 'modules/vcards/tests/*.js'
+      - 'modules/vcards/tests/server/*.js'
   build:
     jsdoc:
       src:
