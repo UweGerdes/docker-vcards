@@ -284,12 +284,11 @@ module.exports = {
    * @returns {array} with names
    */
   datasetFiles: () => {
-    const paths = glob.sync(path.join(path.dirname(__dirname), 'data', '*.vcf'));
-    const files = [];
-    paths.forEach((p) => { // jscs:ignore jsDoc
-      files.push(path.basename(p, path.extname(p)));
+    let paths = glob.sync(path.join(path.dirname(__dirname), 'data', '*.vcf'));
+    paths.map((p, i, paths) => { // jscs:ignore jsDoc
+      paths[i] = path.basename(p, path.extname(p));
     });
-    return files;
+    return paths;
   },
   fields: fields,
   types: types
