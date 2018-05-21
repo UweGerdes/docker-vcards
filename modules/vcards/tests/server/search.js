@@ -31,6 +31,8 @@ describe('vcard search', function () {
       assert.equal(list.length, 2);
       assert.equal(list[0].textContent, 'Gerdes, Uwe');
       assert.equal(list[1].textContent, 'Gerdes, Uwe');
+      const oldDatasetNameElement = document.getElementById('oldDatasetName');
+      oldDatasetName = oldDatasetNameElement.textContent;
       done();
     });
   });
@@ -38,7 +40,6 @@ describe('vcard search', function () {
     let resetName = 'testdata';
     if (oldDatasetName) {
       resetName = oldDatasetName;
-      console.log('reset to:', oldDatasetName);
     }
     chai.request('http://172.25.0.2:8080')
     .get('/vcards/dataset/' + resetName)
@@ -49,10 +50,6 @@ describe('vcard search', function () {
       const { document } = (new JSDOM(res.text)).window;
       const headline = document.getElementById('headline');
       assert.equal(headline.textContent, 'vcard');
-      const list = document.getElementById('list').getElementsByTagName('li');
-      assert.equal(list.length, 2);
-      assert.equal(list[0].textContent, 'Gerdes, Uwe');
-      assert.equal(list[1].textContent, 'Gerdes, Uwe');
       done();
     });
   });

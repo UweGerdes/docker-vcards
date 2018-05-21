@@ -147,6 +147,7 @@ const save = (req, res) => {
  */
 const switchDataset = (req, res) => {
   const oldDatasetName = model.datasetName();
+  // console.log('switch from ' + oldDatasetName + ' to ' + req.params.name);
   model.switchDataset(req.params.name)
   .then(() => { // jscs:ignore jsDoc
     res.cookie('datasetName', req.params.name, { maxAge: 900000, httpOnly: true }).
