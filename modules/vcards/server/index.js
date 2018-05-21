@@ -11,8 +11,7 @@ const express = require('express'),
 
 const controller = require('./controller.js');
 
-// TODO remove this
-controller.init(path.join(path.dirname(__dirname), 'tests', 'server', 'testdata.vcf'));
+controller.init(path.join(path.dirname(__dirname), 'tests', 'server', 'userdata.vcf'));
 
 // vcard overview
 router.get('/', controller.index);
