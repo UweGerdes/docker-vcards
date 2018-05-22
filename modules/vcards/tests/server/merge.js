@@ -29,8 +29,8 @@ describe('vcard merge', function () {
       assert.equal(headline.textContent, 'vcard');
       const list = document.getElementById('list').getElementsByTagName('li');
       assert.equal(list.length, 2);
-      assert.equal(list[0].textContent, 'Gerdes, Uwe');
-      assert.equal(list[1].textContent, 'Gerdes, Uwe');
+      assert.equal(list[0].textContent, 'Uwe Gerdes');
+      assert.equal(list[1].textContent, 'Uwe Gerdes');
       const oldDatasetNameElement = document.getElementById('oldDatasetName');
       oldDatasetName = oldDatasetNameElement.textContent;
       done();

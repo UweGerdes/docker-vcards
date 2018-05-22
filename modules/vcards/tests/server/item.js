@@ -1,5 +1,5 @@
 /**
- * Test for vCard webserver test results
+ * Test for vCard item view
  */
 'use strict';
 
@@ -15,7 +15,7 @@ const chai = require('chai'),
 
 chai.use(chaiHttp);
 
-describe('vcard server', function () {
+describe('vcard item', function () {
   let oldDatasetName;
   before(function (done) {
     chai.request('http://172.25.0.2:8080')
@@ -29,8 +29,8 @@ describe('vcard server', function () {
       assert.equal(headline.textContent, 'vcard');
       const list = document.getElementById('list').getElementsByTagName('li');
       assert.equal(list.length, 2);
-      assert.equal(list[0].textContent, 'Gerdes, Uwe');
-      assert.equal(list[1].textContent, 'Gerdes, Uwe');
+      assert.equal(list[0].textContent, 'Uwe Gerdes');
+      assert.equal(list[1].textContent, 'Uwe Gerdes');
       const oldDatasetNameElement = document.getElementById('oldDatasetName');
       oldDatasetName = oldDatasetNameElement.textContent;
       done();
@@ -66,8 +66,8 @@ describe('vcard server', function () {
           assert.equal(headline.textContent, 'vcard');
           const list = document.getElementById('list').getElementsByTagName('li');
           assert.equal(list.length, 2);
-          assert.equal(list[0].textContent, 'Gerdes, Uwe');
-          assert.equal(list[1].textContent, 'Gerdes, Uwe');
+          assert.equal(list[0].textContent, 'Uwe Gerdes');
+          assert.equal(list[1].textContent, 'Uwe Gerdes');
           done();
         });
     });
@@ -85,7 +85,13 @@ describe('vcard server', function () {
           assert.equal(headline.textContent, 'vcard Uwe Gerdes');
           const item = document.getElementById('item').getElementsByTagName('li');
           assert.equal(item.length, 8);
-          assert.equal(document.getElementById('n').textContent, 'Name:  Gerdes, Uwe');
+          const name = document.getElementById('n');
+          assert.equal(name.textContent, 'Name: Gerdes, Uwe');
+          const nameParts = name.childNodes[1].childNodes[0].childNodes;
+          assert.equal(nameParts.length, 6);
+          assert.equal(nameParts[0].textContent, 'Gerdes');
+          assert.equal(nameParts[1].textContent, ', ');
+          assert.equal(nameParts[2].textContent, 'Uwe');
           assert.equal(document.getElementById('tel').textContent,
             'Telefon: Arbeit, Sprache: 040 256486Mobil: 0179 3901008');
           done();
@@ -105,7 +111,7 @@ describe('vcard server', function () {
           assert.equal(headline.textContent, 'vcard Uwe Gerdes');
           const item = document.getElementById('item').getElementsByTagName('li');
           assert.equal(item.length, 9);
-          assert.equal(document.getElementById('n').textContent, 'Name:  Gerdes, Uwe');
+          assert.equal(document.getElementById('n').textContent, 'Name: Gerdes, Uwe');
           assert.equal(document.getElementById('tel').textContent,
             'Telefon: Arbeit, Sprache: +49 40 25178252Mobil: 01793901008');
           assert.equal(document.getElementById('adr').textContent,

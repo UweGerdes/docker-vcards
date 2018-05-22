@@ -52,16 +52,24 @@ class Vcard {
    * get the field value
    *
    * @param {string} field - name of field
+   * @param {boolean} parts - split parts
    * @returns {string} - value
    */
-  getValue(field) {
+  getValue(field, parts) {
     if (this.vcard.get(field)) {
       let value = this.vcard.get(field).valueOf();
       if (typeof value == 'string') {
         if (this.vcard.get(field).toJSON()[1].encoding == 'QUOTED-PRINTABLE') {
           value = libqp.decode(value).toString();
         }
-        return value;
+        if (false) {
+          console.log('splitParts', splitParts(field, value));
+        }
+        if (parts) {
+          return splitParts(field, value);
+        } else {
+          return value;
+        }
       } else {
         let result = [];
         value.forEach((entry) => { // jscs:ignore jsDoc
@@ -120,7 +128,8 @@ const fields = {
   n: {
     label: 'Name',
     type: 'text',
-    size: 30
+    size: 30,
+    parts: ['Nachname', 'Vorname', '?', '?', '?']
   },
   fn: {
     label: 'Anzeigename',
@@ -131,7 +140,8 @@ const fields = {
     label: 'Telefon',
     type: 'list',
     size: 30,
-    types: ['work', 'home', 'voice', 'cell', 'pref']
+    types: ['work', 'home', 'voice', 'cell', 'pref'],
+    clean: cleanTel
   },
   adr: {
     label: 'Adresse',
@@ -176,6 +186,42 @@ const types = {
   pref: '!',
   internet: 'Web'
 };
+
+/**
+ * ### split value parts, add label
+ *
+ * split on ';', return array or map
+ *
+ * @private
+ * @param {string} field - name
+ * @param {string} value - to convert
+ * @returns {object} value in parts
+ */
+function splitParts(field, value) {
+  const parts = value.split(/;/);
+  if (fields[field].parts) {
+    let map = {};
+    fields[field].parts.forEach((part, i) => { // jscs:ignore jsDoc
+      map[part] = parts[i] || '';
+    });
+    return map;
+  } else {
+    return value
+      .replace(/^;*(.+?);*$/, '$1')
+      .replace(/;+/g, ', ');
+  }
+}
+
+/**
+ * get cleaned phone number for comparison
+ *
+ * @param {string} tel - phone number
+ */
+function cleanTel(tel) {
+  return tel
+    .replace(/[ /-]/g, '')
+    .replace(/^0/g, '+49');
+}
 
 module.exports = {
   Vcard: Vcard,

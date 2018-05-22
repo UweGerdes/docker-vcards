@@ -1,6 +1,15 @@
-ul.values
-  each obj in vcard.getValue(field)
-    li.values-item
-      = type(obj.type).join(", ")
-      = ": "
-      = obj.value
+if fields[field].parts
+  span.parts
+    each part, i in fields[field].parts
+      if i > 0 && value[fields[field].parts[i]]
+        = ', '
+      span(title=part)
+        = value[part]
+else
+  ul.values
+    each obj in value
+      li.values-item
+        if obj.type
+          = type(obj.type).join(", ")
+          = ": "
+        = obj.value
