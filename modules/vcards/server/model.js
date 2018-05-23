@@ -141,7 +141,17 @@ const fields = {
     type: 'list',
     size: 30,
     types: ['work', 'home', 'voice', 'cell', 'pref'],
-    clean: cleanTel
+    clean: cleanTel,
+    checkEqual: (tel1, tel2) => { // jscs:ignore jsDoc
+      if (tel1 && tel2) {
+        if (cleanTel(tel1) == cleanTel(tel2)) {
+          return true;
+        }
+      } else {
+        console.log('tel1', tel1, 'tel2', tel2);
+      }
+      return false;
+    }
   },
   adr: {
     label: 'Adresse',
@@ -218,9 +228,13 @@ function splitParts(field, value) {
  * @param {string} tel - phone number
  */
 function cleanTel(tel) {
-  return tel
-    .replace(/[ /-]/g, '')
-    .replace(/^0/g, '+49');
+  if (tel.replace) {
+    return tel
+      .replace(/[ /-]/g, '')
+      .replace(/^0/g, '+49');
+  } else {
+    console.log('cleanTel', tel);
+  }
 }
 
 module.exports = {

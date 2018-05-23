@@ -329,22 +329,31 @@ function unCsv(value) {
  * check if value / types of two vcards are equal
  *
  * @private
- * @param {object} vcard1Value - first value
+ * @param {object} vcard1Value - first value(s)
  * @param {object} vcard2Value - second value
+ * @param {object} field - field name for more detailed compare
  */
-function checkEqual(vcard1Value, vcard2Value) {
+function checkEqual(vcard1Value, vcard2Value, field) {
   let equal = false;
   if (vcard1Value && typeof vcard1Value == 'object') {
     vcard1Value.forEach((vcard1Val) => { // jscs:ignore jsDoc
-      if (vcard2Value.value && vcard1Val.value == vcard2Value.value ||
-        vcard1Val.value == vcard2Value) {
-        equal = true;
+      if (model.fields[field].checkEqual) {
+        equal = model.fields[field].checkEqual(vcard1Val.value, vcard2Value.value || vcard2Value);
+      } else {
+        if (vcard2Value.value && vcard1Val.value == vcard2Value.value ||
+          vcard1Val.value == vcard2Value) {
+          equal = true;
+        }
       }
     });
   } else {
-    if (vcard2Value && vcard2Value.value && vcard1Value == vcard2Value.value ||
-      vcard1Value == vcard2Value) {
-      equal = true;
+    if (model.fields[field].checkEqual) {
+      equal = model.fields[field].checkEqual(vcard1Value, vcard2Value.value || vcard2Value);
+    } else {
+      if (vcard2Value && vcard2Value.value && vcard1Value == vcard2Value.value ||
+        vcard1Value == vcard2Value) {
+        equal = true;
+      }
     }
   }
   return equal;

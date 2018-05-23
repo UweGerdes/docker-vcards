@@ -38,7 +38,7 @@ mixin itemvalue(num, vcard, field, eq)
       ul.values
         each obj, index in vcard.getValue(field)
           li.values-item
-            - var eq = checkEqual(vcard1.getValue(field), obj)
+            - var eq = checkEqual(vcard1.getValue(field), obj, field)
             if !eq || num == 1
               + choice(num, field, obj.value, index, eq)
               span.value= obj.value
@@ -54,7 +54,7 @@ mixin field(field, check)
     div.itemvalue.i1
       + itemvalue(1, vcard1, field)
     div.itemvalue.i2
-      - eq = vcard2 && checkEqual(vcard1.getValue(field), vcard2.getValue(field))
+      - eq = vcard2 && checkEqual(vcard1.getValue(field), vcard2.getValue(field), field)
       + itemvalue(check - 1, vcard2, field, eq)
 
 #mergeView.mergeView
