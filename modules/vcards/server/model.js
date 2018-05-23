@@ -59,7 +59,7 @@ class Vcard {
     if (this.vcard.get(field)) {
       let value = this.vcard.get(field).valueOf();
       if (typeof value == 'string') {
-        if (this.vcard.get(field).toJSON()[1].encoding == 'QUOTED-PRINTABLE') {
+        if (this.vcard.get(field).encoding == 'QUOTED-PRINTABLE') {
           value = libqp.decode(value).toString();
         }
         if (false) {
