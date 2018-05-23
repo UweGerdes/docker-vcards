@@ -9,13 +9,13 @@ ul#item.item-list
           - var value = vcard.getValue(field, true)
           if typeof value == "string"
             span.value
-              if value.indexOf(';') > -1
+              if vcard.get(field).type == 'jpeg' || vcard.get(field).type == 'png'
+                img(src='data:image/' + vcard.get(field).type + ';' + vcard.get(field).encoding.toLowerCase() + ',' + value)
+              else if value.indexOf(';') > -1
                 = unCsv(value)
               else if value.match(/^[0-9.-]+[T ][0-9:]+Z?$/)
                 = timestamp(value)
               else
-                = value
-              if value.indexOf('=') > -1
                 = value
             if vcard.getType(field)
               span.type

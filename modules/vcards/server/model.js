@@ -97,6 +97,16 @@ class Vcard {
   }
 
   /**
+   * get the vcard field
+   *
+   * @param {string} field - name of field
+   * @returns {map} - data
+   */
+  get(field) {
+    return this.vcard.get(field);
+  }
+
+  /**
    * check if vcard matches this selection
    *
    * @param {object} selection - searchFields and searchString
@@ -219,7 +229,7 @@ const types = {
  */
 function splitParts(field, value) {
   const parts = value.split(/;/);
-  if (fields[field].parts) {
+  if (fields[field] && fields[field].parts) {
     let map = {};
     fields[field].parts.forEach((part, i) => { // jscs:ignore jsDoc
       map[part] = parts[i] || '';
