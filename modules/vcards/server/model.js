@@ -129,7 +129,17 @@ const fields = {
     label: 'Name',
     type: 'text',
     size: 30,
-    parts: ['Nachname', 'Vorname', '?', '?', '?']
+    parts: ['Nachname', 'Vorname', '?', '?', '?'],
+    checkEqual: (n1, n2) => { // jscs:ignore jsDoc
+      if (n1 && n2) {
+        if (n1.replace(/^;*(.+?);*$/, '$1') == n2.replace(/^;*(.+?);*$/, '$1')) {
+          return true;
+        }
+      } else {
+        console.log('n1', n1, 'n2', n2);
+      }
+      return false;
+    }
   },
   fn: {
     label: 'Anzeigename',
@@ -233,7 +243,7 @@ function cleanTel(tel) {
       .replace(/[ /-]/g, '')
       .replace(/^0/g, '+49');
   } else {
-    console.log('cleanTel', tel);
+    console.log('cleanTel error', typeof tel, tel);
   }
 }
 

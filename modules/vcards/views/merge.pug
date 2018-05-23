@@ -12,17 +12,19 @@ mixin choice(num, field, value, index, eq)
         input(type='checkbox', id='checkbox_' + field + num + index, name=field + num + index, value=value)
 
 mixin type(num, field, types, index)
-  if typeof types == 'string'
-    input(type='hidden', id='value_' + field + index, name=field + num + index + '_type', value=types)
-    span.type= ' (' + type(types) + ')'
-  else
-    each type in types
-      input(type='hidden', id='value_' + field + index, name=field + num + index + '_type', value=type)
-    span.type= ' (' + type(types).join(", ") + ')'
+  if types
+    if typeof types == 'string'
+      input(type='hidden', id='value_' + field + index, name=field + num + index + '_type', value=types)
+      span.type= ' (' + type(types) + ')'
+    else
+      each type in types
+        input(type='hidden', id='value_' + field + index, name=field + num + index + '_type', value=type)
+      span.type= ' (' + type(types).join(", ") + ')'
 
-mixin itemvalue(num, vcard, field, eq)
+mixin itemvalue(num, vcard, field)
   if vcard.getValue(field)
     if typeof vcard.getValue(field) == "string"
+      - eq = vcard2 && checkEqual(vcard1.getValue(field), vcard2.getValue(field), field)
       if num == 1 || !eq
         + choice(num, field, vcard.getValue(field), '')
         span.type
@@ -32,8 +34,7 @@ mixin itemvalue(num, vcard, field, eq)
             = timestamp(vcard.getValue(field))
           else
             = vcard.getValue(field)
-          if vcard.getType(field)
-            + type(num, field, vcard.getType(field), '')
+          + type(num, field, vcard.getType(field), '')
     else
       ul.values
         each obj, index in vcard.getValue(field)
@@ -54,8 +55,7 @@ mixin field(field, check)
     div.itemvalue.i1
       + itemvalue(1, vcard1, field)
     div.itemvalue.i2
-      - eq = vcard2 && checkEqual(vcard1.getValue(field), vcard2.getValue(field), field)
-      + itemvalue(check - 1, vcard2, field, eq)
+      + itemvalue(check - 1, vcard2, field)
 
 #mergeView.mergeView
   - var fields1 = vcard1.getFields()
