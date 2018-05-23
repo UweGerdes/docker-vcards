@@ -1,7 +1,7 @@
 if fields[field].parts
   span.parts
     each part, i in fields[field].parts
-      if i > 0 && value[fields[field].parts[i]]
+      if i > 0 && value[fields[field].parts[i-1]] && value[part]
         = ', '
       span(title=part)
         = value[part]
