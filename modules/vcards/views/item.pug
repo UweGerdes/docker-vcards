@@ -8,11 +8,6 @@ ul#item.item-list
         div.itemvalue
           - var value = vcard.getValue(field, true)
           if typeof value == "string"
-            span.type
-              if vcard.getType(field)
-                = type(vcard.getType(field)).join(", ")
-                | !{':'}
-            | !{' '}
             span.value
               if value.indexOf(';') > -1
                 = unCsv(value)
@@ -22,5 +17,8 @@ ul#item.item-list
                 = value
               if value.indexOf('=') > -1
                 = value
+            if vcard.getType(field)
+              span.type
+                = ' (' + type(vcard.getType(field)).join(", ") + ')'
           else
             include valuelist.pug

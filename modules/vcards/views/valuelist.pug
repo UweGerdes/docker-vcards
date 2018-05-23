@@ -9,7 +9,6 @@ else
   ul.values
     each obj in value
       li.values-item
-        if obj.type
-          = type(obj.type).join(", ")
-          = ": "
         = obj.value
+        if obj.type
+          = ' (' + type(obj.type).join(', ') + ')'
