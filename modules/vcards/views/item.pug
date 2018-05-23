@@ -9,7 +9,7 @@ ul#item.item-list
           - var value = vcard.getValue(field, true)
           if typeof value == "string"
             span.value
-              if vcard.get(field).type == 'jpeg' || vcard.get(field).type == 'png'
+              if vcard.get(field).encoding && (vcard.get(field).type == 'jpeg' || vcard.get(field).type == 'png')
                 img(src='data:image/' + vcard.get(field).type + ';' + vcard.get(field).encoding.toLowerCase() + ',' + value)
               else if value.indexOf(';') > -1
                 = unCsv(value)
