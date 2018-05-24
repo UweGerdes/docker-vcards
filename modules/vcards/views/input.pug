@@ -31,7 +31,7 @@ mixin input-text(field, value, types, index)
 
 if vcard
   if typeof vcard.getValue(field) == "string"
-    +input-text(field, vcard.getValue(field), vcard.getType(field), '')
+    +input-text(field, vcard.getValue(field), vcard.get(field).type, '')
   else
     each obj, index in vcard.getValue(field)
       +input-text(field, obj.value, obj.type, index)

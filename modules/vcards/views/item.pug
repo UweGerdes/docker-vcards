@@ -17,8 +17,8 @@ ul#item.item-list
                 = timestamp(value)
               else
                 = value
-            if vcard.getType(field)
+            if vcard.get(field).type
               span.type
-                = ' (' + type(vcard.getType(field)).join(", ") + ')'
+                = ' (' + type(vcard.get(field).type).join(", ") + ')'
           else
             include valuelist.pug

@@ -86,17 +86,6 @@ class Vcard {
   }
 
   /**
-   * get the field type
-   *
-   * @param {string} field - name of field
-   * @returns {array} - type list
-   */
-  getType(field) {
-    let type = this.vcard.get(field).type;
-    return type;
-  }
-
-  /**
    * get the vcard field
    *
    * @param {string} field - name of field

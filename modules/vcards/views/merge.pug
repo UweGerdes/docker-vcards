@@ -34,7 +34,7 @@ mixin itemvalue(num, vcard, field)
             = timestamp(vcard.getValue(field))
           else
             = vcard.getValue(field)
-          + type(num, field, vcard.getType(field), '')
+          + type(num, field, vcard.get(field).type, '')
     else
       ul.values
         each obj, index in vcard.getValue(field)
