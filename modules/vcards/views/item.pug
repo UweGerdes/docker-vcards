@@ -7,18 +7,19 @@ ul#item.item-list
           =": "
         div.itemvalue
           - var value = vcard.getValue(field, true)
+          - var data = vcard.get(field)
           if typeof value == "string"
             span.value
-              if vcard.get(field).encoding && (vcard.get(field).type == 'jpeg' || vcard.get(field).type == 'png')
-                img(src='data:image/' + vcard.get(field).type + ';' + vcard.get(field).encoding.toLowerCase() + ',' + value)
+              if data.encoding && (data.type == 'jpeg' || data.type == 'png')
+                img(src='data:image/' + data.type + ';' + data.encoding.toLowerCase() + ',' + value)
               else if value.indexOf(';') > -1
                 = unCsv(value)
               else if value.match(/^[0-9.-]+[T ][0-9:]+Z?$/)
                 = timestamp(value)
               else
                 = value
-            if vcard.get(field).type
+            if data.type
               span.type
-                = ' (' + type(vcard.get(field).type).join(", ") + ')'
+                = ' (' + type(data.type).join(", ") + ')'
           else
             include valuelist.pug
