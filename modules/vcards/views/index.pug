@@ -6,7 +6,7 @@ block content
     h1#headline.headline= title
       if vcard
         = " "
-        = vcard.getValue('fn')
+        = vcard.getValue('fn', true)
       if edit
         = " bearbeiten"
 

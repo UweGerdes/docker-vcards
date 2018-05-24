@@ -88,7 +88,7 @@ describe('vcard item', function () {
           const name = document.getElementById('n');
           assert.equal(name.textContent, 'Name: Gerdes, Uwe');
           const nameParts = name.childNodes[1].childNodes[0].childNodes;
-          assert.equal(nameParts.length, 6);
+          assert.equal(nameParts.length, 3);
           assert.equal(nameParts[0].textContent, 'Gerdes');
           assert.equal(nameParts[1].textContent, ', ');
           assert.equal(nameParts[2].textContent, 'Uwe');

@@ -221,7 +221,9 @@ function splitParts(field, value) {
   if (fields[field] && fields[field].parts) {
     let map = {};
     fields[field].parts.forEach((part, i) => { // jscs:ignore jsDoc
-      map[part] = parts[i] || '';
+      if (parts[i]) {
+        map[part] = parts[i];
+      }
     });
     return map;
   } else {
