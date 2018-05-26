@@ -30,10 +30,12 @@ mixin input-text(field, value, types, index)
       +moreTypes(field, index, [])
 
 if vcard
-  if typeof vcard.getValue(field) == "string"
-    +input-text(field, vcard.getValue(field), vcard.get(field).type, '')
+  if typeof vcard.getValue(field, false) == "string"
+    +input-text(field, vcard.getValue(field, false), vcard.get(field).type, '')
   else
-    each obj, index in vcard.getValue(field)
+    each obj, index in vcard.getValue(field, false)
+      if typeof index == 'string'
+        = index + ': '
       +input-text(field, obj.value, obj.type, index)
 else
   +input-text(field, '', [], index)

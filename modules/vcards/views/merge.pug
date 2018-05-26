@@ -22,27 +22,28 @@ mixin type(num, field, types, index)
       span.type= ' (' + type(types).join(", ") + ')'
 
 mixin itemvalue(num, vcard, field)
-  if vcard.getValue(field)
-    if typeof vcard.getValue(field) == "string"
-      - eq = vcard2 && checkEqual(vcard1.getValue(field), vcard2.getValue(field), field)
+  if vcard.getValue(field, true)
+    if typeof vcard.get(field).valueOf() == "string"
+      - value = vcard.get(field).valueOf()
+      - eq = vcard1 && vcard2 && vcard1.get(field) && vcard2.get(field) && checkEqual(vcard1.get(field).valueOf(), vcard2.get(field).valueOf(), field)
       if num == 1 || !eq
-        + choice(num, field, vcard.getValue(field), '')
+        + choice(num, field, value, '')
         span.type
-          if vcard.getValue(field).indexOf(';') > -1
-            = unCsv(vcard.getValue(field))
-          else if vcard.getValue(field).match(/^[0-9.-]+[T ][0-9:]+Z?$/)
-            = timestamp(vcard.getValue(field))
+          if value.indexOf(';') > -1
+            = unCsv(value)
+          else if value.match(/^[0-9.-]+[T ][0-9:]+Z?$/)
+            = timestamp(value)
           else
-            = vcard.getValue(field)
+            = value
           + type(num, field, vcard.get(field).type, '')
     else
       ul.values
-        each obj, index in vcard.getValue(field)
+        each obj, index in vcard.getValue(field, true)
           li.values-item
-            - var eq = checkEqual(vcard1.getValue(field), obj, field)
+            - var eq = checkEqual(vcard1.getValue(field, true), obj, field)
             if !eq || num == 1
               + choice(num, field, obj.value, index, eq)
-              span.value= obj.value
+              span.value= obj.value || obj
               + type(num, field, obj.type, index)
   else
     | !{'&nbsp;'}
