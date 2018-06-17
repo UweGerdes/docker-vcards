@@ -3,6 +3,7 @@ htdocs/css
 htdocs/js
 docs/jsdoc
 logs
+modules/vcards/data
 
 # ignore downloaded files
 
