@@ -18,7 +18,7 @@ chai.use(chaiHttp);
 describe('vcard item', function () {
   let oldDatasetName;
   before(function (done) {
-    chai.request('http://172.25.0.2:8080')
+    chai.request('http://vcards-dev:8080')
     .get('/vcards/dataset/testdata')
     .end(function (err, res) {
       expect(err).to.be.null;
@@ -41,7 +41,7 @@ describe('vcard item', function () {
     if (oldDatasetName) {
       resetName = oldDatasetName;
     }
-    chai.request('http://172.25.0.2:8080')
+    chai.request('http://vcards-dev:8080')
     .get('/vcards/dataset/' + resetName)
     .end(function (err, res) {
       expect(err).to.be.null;
@@ -55,7 +55,7 @@ describe('vcard item', function () {
   });
   describe('GET /vcards/', function () {
     it('should list ALL vcards', function (done) {
-      chai.request('http://172.25.0.2:8080')
+      chai.request('http://vcards-dev:8080')
         .get('/vcards/')
         .end(function (err, res) {
           expect(err).to.be.null;
@@ -74,7 +74,7 @@ describe('vcard item', function () {
   });
   describe('GET /vcards/0/', function () {
     it('should list a SINGLE vcard', function (done) {
-      chai.request('http://172.25.0.2:8080')
+      chai.request('http://vcards-dev:8080')
         .get('/vcards/0/')
         .end(function (err, res) {
           expect(err).to.be.null;
@@ -100,7 +100,7 @@ describe('vcard item', function () {
   });
   describe('GET /vcards/1/', function () {
     it('should list a SINGLE vcard', function (done) {
-      chai.request('http://172.25.0.2:8080')
+      chai.request('http://vcards-dev:8080')
         .get('/vcards/1/')
         .end(function (err, res) {
           expect(err).to.be.null;

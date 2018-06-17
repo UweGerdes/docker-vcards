@@ -18,7 +18,7 @@ chai.use(chaiHttp);
 describe('vcard page', function () {
   describe('GET /vcards/', function () {
     it('should have head', function (done) {
-      chai.request('http://172.25.0.2:8080')
+      chai.request('http://vcards-dev:8080')
         .get('/vcards/')
         .end(function (err, res) {
           expect(err).to.be.null;
@@ -34,7 +34,7 @@ describe('vcard page', function () {
         });
     });
     it('should have footer', function (done) {
-      chai.request('http://172.25.0.2:8080')
+      chai.request('http://vcards-dev:8080')
         .get('/vcards/')
         .end(function (err, res) {
           expect(err).to.be.null;
@@ -45,7 +45,7 @@ describe('vcard page', function () {
           assert.equal(footer.textContent, '© 2018 Uwe Gerdes');
           assert.equal(
             document.body.getElementsByTagName('script')[0].attributes.src.nodeValue,
-            'http://172.25.0.2:8081/livereload.js');
+            'http://vcards-dev:8081/livereload.js');
           done();
         });
     });

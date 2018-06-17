@@ -1,15 +1,14 @@
-version: '2'
+version: '3.5'
 
 services:
-  webserver:
+  vcards-dev:
     build:
       context: .
-    container_name: vcard-dev
-    hostname: vcard-dev
-    image: uwegerdes/vcard
+    container_name: vcards-dev
+    hostname: vcards-dev
+    image: uwegerdes/vcards
     networks:
-      vcard-bridge:
-        ipv4_address: 172.25.0.2
+      - vcards-bridge
     ports:
       - 8080
     volumes:
@@ -17,29 +16,7 @@ services:
 #    command: gulp --silent
     command: npm run dev
 
-#  compare-layouts:
-#    build:
-#      context: ../../docker-compare-layouts
-#    container_name: vcard-compare-layouts
-#    hostname: vcard-compare-layouts
-#    image: uwegerdes/compare-layouts
-#    networks:
-#      vcard-bridge:
-#        ipv4_address: 172.25.0.3
-#    ports:
-#      - '8080'
-#    volumes:
-#     - ../../docker-compare-layouts:/home/node/app
-#     - ./tests/dev/compare-layouts:/home/node/app/config
-#     - ./modules:/home/node/app/config/modules
-##    command: gulp --silent
-#    command: npm run dev
-
 networks:
-  vcard-bridge:
+  vcards-bridge:
     driver: bridge
-    ipam:
-      driver: default
-      config:
-        - subnet: 172.25.0.0/16
-          gateway: 172.25.0.1
+    name: vcards-bridge

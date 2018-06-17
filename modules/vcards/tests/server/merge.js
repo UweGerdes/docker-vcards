@@ -18,7 +18,7 @@ chai.use(chaiHttp);
 describe('vcard merge', function () {
   let oldDatasetName;
   before(function (done) {
-    chai.request('http://172.25.0.2:8080')
+    chai.request('http://vcards-dev:8080')
     .get('/vcards/dataset/testdata')
     .end(function (err, res) {
       expect(err).to.be.null;
@@ -41,7 +41,7 @@ describe('vcard merge', function () {
     if (oldDatasetName) {
       resetName = oldDatasetName;
     }
-    chai.request('http://172.25.0.2:8080')
+    chai.request('http://vcards-dev:8080')
     .get('/vcards/dataset/' + resetName)
     .end(function (err, res) {
       expect(err).to.be.null;
@@ -55,7 +55,7 @@ describe('vcard merge', function () {
   });
   describe('GET /vcards/merge/0/1/', function () {
     it('should not have edit button', function (done) {
-      chai.request('http://172.25.0.2:8080')
+      chai.request('http://vcards-dev:8080')
         .get('/vcards/merge/0/1/')
         .end(function (err, res) {
           expect(err).to.be.null;
@@ -68,7 +68,7 @@ describe('vcard merge', function () {
         });
     });
     it('should have version field with two values', function (done) {
-      chai.request('http://172.25.0.2:8080')
+      chai.request('http://vcards-dev:8080')
         .get('/vcards/merge/0/1/')
         .end(function (err, res) {
           expect(err).to.be.null;

@@ -15,7 +15,7 @@ const viewBase = path.join(path.dirname(__dirname), 'views');
 
 const viewRenderParams = {
   // livereload link
-  livereload: 'http://172.25.0.2:8081/livereload.js',
+  livereload: 'http://vcards-dev:8081/livereload.js',
   // model data
   fields: model.fields,
   types: model.types,

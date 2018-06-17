@@ -18,7 +18,7 @@ chai.use(chaiHttp);
 describe('vcard search', function () {
   let oldDatasetName;
   before(function (done) {
-    chai.request('http://172.25.0.2:8080')
+    chai.request('http://vcards-dev:8080')
     .get('/vcards/dataset/testdata')
     .end(function (err, res) {
       expect(err).to.be.null;
@@ -41,7 +41,7 @@ describe('vcard search', function () {
     if (oldDatasetName) {
       resetName = oldDatasetName;
     }
-    chai.request('http://172.25.0.2:8080')
+    chai.request('http://vcards-dev:8080')
     .get('/vcards/dataset/' + resetName)
     .end(function (err, res) {
       expect(err).to.be.null;
@@ -55,7 +55,7 @@ describe('vcard search', function () {
   });
   describe('GET /vcards/', function () {
     it('should have search form', function (done) {
-      chai.request('http://172.25.0.2:8080')
+      chai.request('http://vcards-dev:8080')
         .get('/vcards/')
         .end(function (err, res) {
           expect(err).to.be.null;
@@ -77,7 +77,7 @@ describe('vcard search', function () {
   });
   describe('POST /vcards/search/', function () {
     it('should find two names with "e"', function (done) {
-      chai.request('http://172.25.0.2:8080')
+      chai.request('http://vcards-dev:8080')
         .post('/vcards/search/')
         .type('form')
         .send({
@@ -97,7 +97,7 @@ describe('vcard search', function () {
         });
     });
     it('should find one version with "2" - link should be "/vcards/0/"', function (done) {
-      chai.request('http://172.25.0.2:8080')
+      chai.request('http://vcards-dev:8080')
         .post('/vcards/search/')
         .type('form')
         .send({
@@ -117,7 +117,7 @@ describe('vcard search', function () {
         });
     });
     it('should find one version with "3" - link should be "/vcards/1/"', function (done) {
-      chai.request('http://172.25.0.2:8080')
+      chai.request('http://vcards-dev:8080')
         .post('/vcards/search/0')
         .type('form')
         .send({
@@ -139,7 +139,7 @@ describe('vcard search', function () {
         });
     });
     it('should find no name with value "x"', function (done) {
-      chai.request('http://172.25.0.2:8080')
+      chai.request('http://vcards-dev:8080')
         .post('/vcards/search/')
         .type('form')
         .send({

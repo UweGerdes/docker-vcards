@@ -289,15 +289,15 @@ module.exports = {
    * @returns {Promise} with vcard list
    */
   switchDataset: (name) => {
-    if (lists[name]) {
-      list = lists[name];
-      datasetName = name;
-      return new Promise(function (resolve) {
-        resolve(name);
-      });
+    if (name == 'testdata') {
+      return openFile(path.join(path.dirname(__dirname), 'tests', 'server', name + '.vcf'));
     } else {
-      if (name == 'testdata') {
-        return openFile(path.join(path.dirname(__dirname), 'tests', 'server', name + '.vcf'));
+      if (lists[name]) {
+        list = lists[name];
+        datasetName = name;
+        return new Promise(function (resolve) {
+          resolve(name);
+        });
       } else {
         return openFile(path.join(path.dirname(__dirname), 'data', name + '.vcf'));
       }
