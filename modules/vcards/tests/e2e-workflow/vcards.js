@@ -6,7 +6,7 @@
 
 const domain = 'http://vcards-dev:8080';
 
-module.exports = { 
+module.exports = {
   name: 'default e2e workflow test',
   dumpDir: './results/modules/vcards/',
   viewportSize: { width: 1500, height: 1024 },
@@ -19,7 +19,7 @@ module.exports = {
           title: 'Webserver - vcard',
           elements: {
             '//h1[@class="headline"]': 'vcard',
-            '//*[@id="list"]/li[1]/a': 'Uwe Gerdes', 
+            '//*[@id="list"]/li[1]/a': 'Uwe Gerdes',
             '//*[@id="list"]/li[2]/a': 'Uwe Gerdes',
             '//*[@id="searchButton"]': 'suchen',
           },
@@ -32,6 +32,8 @@ module.exports = {
           click: 'a[href="/vcards/0/"]',
           elements: {
             '//*[@id="version"]//*[@class="itemvalue"]': '2.1',
+            '//*[@id="fn"]//*[@class="itemvalue"]': 'Uwe Gerdes',
+            '//*[@id="tel"]//*[@class="itemvalue"]': '040 256486 (Arbeit, Sprache)\n0179 3901008 (Mobil)',
             '//a[@id="editButton"]': '',
           },
         },
@@ -97,8 +99,8 @@ module.exports = {
         },
         'search again': {
           title: 'Webserver - vcard',
-          click: '#searchAgain', 
-          elements: { 
+          click: '#searchAgain',
+          elements: {
             '//*[@class="searchHeadline"]': 'Suchen',
             '//form[@name="searchForm"]': '',
             '//form[@name="searchForm"]//*[@id="search_version"]': '',
@@ -115,7 +117,7 @@ module.exports = {
           elements: {
             '//*[@id="searchLayer"]/div/h2': 'Suchen',
           },
-          elementsNotExist: [ 
+          elementsNotExist: [
             '//a[@class="button open"]',
             '//a[@class="button merge"]',
             '//*[@id="searchLayer"]//a[@href="/vcards/0/"]',
