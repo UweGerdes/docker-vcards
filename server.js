@@ -80,7 +80,7 @@ app.get('/app', (req, res) => {
  */
 glob.sync(modulesRoot + '/**/server/index.js')
   .forEach((filename) => { // jscs:ignore jsDoc
-    const regex = new RegExp(modulesRoot + '(/.+)/server/index.js');
+    const regex = new RegExp(modulesRoot + '(/[^/]+)/server/index.js');
     const baseRoute = filename.replace(regex, '$1');
     app.use(baseRoute, require(filename));
   })
