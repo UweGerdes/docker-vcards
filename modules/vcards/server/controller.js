@@ -8,14 +8,15 @@
 const { body, validationResult } = require('express-validator/check'),
   { sanitizeBody } = require('express-validator/filter'),
   path = require('path'),
+  config = require('../../../lib/config'),
   model = require('./model.js')
   ;
 
 const viewBase = path.join(path.dirname(__dirname), 'views');
 
 const viewRenderParams = {
-  // livereload link
-  livereload: 'http://vcards-dev:8081/livereload.js',
+  // livereload data
+  livereloadPort: config.server.livereloadPort,
   // model data
   fields: model.fields,
   types: model.types,
@@ -59,6 +60,7 @@ const index = (req, res) => {
   }
   res.render(path.join(viewBase, 'index.pug'),
     Object.assign({
+      hostname: req.hostname,
       vcards: model.list(),
       id: req.params.id ? req.params.id : '',
       vcard: req.params.id ? model.list()[parseInt(req.params.id)] : null,
@@ -82,6 +84,7 @@ const index = (req, res) => {
 const edit = (req, res) => {
   res.render(path.join(viewBase, 'index.pug'),
     Object.assign({
+      hostname: req.hostname,
       vcards: model.list(),
       id: req.params.id,
       vcard: model.list()[parseInt(req.params.id)],
@@ -103,6 +106,7 @@ const edit = (req, res) => {
 const merge = (req, res) => {
   res.render(path.join(viewBase, 'index.pug'),
     Object.assign({
+      hostname: req.hostname,
       vcards: model.list(),
       id: req.params.id1,
       id1: req.params.id1,
@@ -128,6 +132,7 @@ const save = (req, res) => {
   model.save(parseInt(req.params.id), req.body);
   res.render(path.join(viewBase, 'index.pug'),
       Object.assign({
+      hostname: req.hostname,
       vcards: model.list(),
       id: req.params.id,
       delId: req.params.delId ? req.params.delId : '',
@@ -155,6 +160,7 @@ const switchDataset = (req, res) => {
     res.cookie('datasetName', req.params.name, { maxAge: 900000, httpOnly: true }).
       render(path.join(viewBase, 'index.pug'),
         Object.assign({
+          hostname: req.hostname,
           vcards: model.list(),
           title: 'vcard',
           datasetNames: model.datasetNames(),
@@ -171,6 +177,7 @@ const switchDataset = (req, res) => {
     res.clearCookie('datasetName').
       render(path.join(viewBase, 'index.pug'),
           Object.assign({
+          hostname: req.hostname,
           vcards: model.list(),
           title: 'vcard - file not found error',
           datasetNames: model.datasetNames(),
