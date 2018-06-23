@@ -10,7 +10,8 @@ services:
     networks:
       - vcards-bridge
     ports:
-      - 8080
+      - 51280:8080
+      - 51281:8081
     volumes:
     - .:/home/node/app
 #    command: gulp --silent

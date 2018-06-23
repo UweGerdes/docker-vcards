@@ -15,8 +15,6 @@ const { body, validationResult } = require('express-validator/check'),
 const viewBase = path.join(path.dirname(__dirname), 'views');
 
 const viewRenderParams = {
-  // livereload data
-  livereloadPort: config.server.livereloadPort,
   // model data
   fields: model.fields,
   types: model.types,
@@ -60,7 +58,6 @@ const index = (req, res) => {
   }
   res.render(path.join(viewBase, 'index.pug'),
     Object.assign({
-      hostname: req.hostname,
       vcards: model.list(),
       id: req.params.id ? req.params.id : '',
       vcard: req.params.id ? model.list()[parseInt(req.params.id)] : null,
@@ -69,6 +66,7 @@ const index = (req, res) => {
       datasetName: model.datasetName(),
       datasetFiles: model.datasetFiles()
     },
+    getHostData(req),
     viewRenderParams)
   );
 };
@@ -84,13 +82,13 @@ const index = (req, res) => {
 const edit = (req, res) => {
   res.render(path.join(viewBase, 'index.pug'),
     Object.assign({
-      hostname: req.hostname,
       vcards: model.list(),
       id: req.params.id,
       vcard: model.list()[parseInt(req.params.id)],
       title: 'vcard',
       edit: true
     },
+    getHostData(req),
     viewRenderParams)
   );
 };
@@ -106,7 +104,6 @@ const edit = (req, res) => {
 const merge = (req, res) => {
   res.render(path.join(viewBase, 'index.pug'),
     Object.assign({
-      hostname: req.hostname,
       vcards: model.list(),
       id: req.params.id1,
       id1: req.params.id1,
@@ -116,6 +113,7 @@ const merge = (req, res) => {
       title: 'vcard merge',
       checkEqual: checkEqual
     },
+    getHostData(req),
     viewRenderParams)
   );
 };
@@ -132,7 +130,6 @@ const save = (req, res) => {
   model.save(parseInt(req.params.id), req.body);
   res.render(path.join(viewBase, 'index.pug'),
       Object.assign({
-      hostname: req.hostname,
       vcards: model.list(),
       id: req.params.id,
       delId: req.params.delId ? req.params.delId : '',
@@ -142,6 +139,7 @@ const save = (req, res) => {
       datasetName: model.datasetName(),
       datasetFiles: model.datasetFiles()
     },
+    getHostData(req),
     viewRenderParams)
   );
 };
@@ -160,7 +158,6 @@ const switchDataset = (req, res) => {
     res.cookie('datasetName', req.params.name, { maxAge: 900000, httpOnly: true }).
       render(path.join(viewBase, 'index.pug'),
         Object.assign({
-          hostname: req.hostname,
           vcards: model.list(),
           title: 'vcard',
           datasetNames: model.datasetNames(),
@@ -168,6 +165,7 @@ const switchDataset = (req, res) => {
           oldDatasetName: oldDatasetName,
           datasetFiles: model.datasetFiles()
         },
+        getHostData(req),
         viewRenderParams)
       )
     ;
@@ -176,14 +174,14 @@ const switchDataset = (req, res) => {
     console.log('switchDataset error:', error);
     res.clearCookie('datasetName').
       render(path.join(viewBase, 'index.pug'),
-          Object.assign({
-          hostname: req.hostname,
+        Object.assign({
           vcards: model.list(),
           title: 'vcard - file not found error',
           datasetNames: model.datasetNames(),
           datasetName: model.datasetName(),
           datasetFiles: model.datasetFiles()
         },
+        getHostData(req),
         viewRenderParams)
       )
     ;
@@ -364,4 +362,22 @@ function checkEqual(vcard1Value, vcard2Value, field) {
     }
   }
   return equal;
+}
+
+/**
+ * Get the host data for livereload
+ *
+ * @private
+ * @param {String} req - request
+ */
+function getHostData(req) {
+  let livereloadPort = config.server.livereloadPort;
+  const host = req.get('Host');
+  if (host.indexOf(':') > 0) {
+    livereloadPort = parseInt(host.split(':')[1]) + 1;
+  }
+  return {
+    hostname: req.hostname,
+    livereloadPort: livereloadPort
+  };
 }

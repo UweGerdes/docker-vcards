@@ -19,7 +19,6 @@ const bodyParser = require('body-parser'),
   ;
 
 const httpPort = config.server.httpPort,
-  livereloadPort = config.server.livereloadPort,
   docRoot = config.server.docroot,
   modulesRoot = config.server.modules,
   verbose = config.server.verbose
@@ -68,11 +67,7 @@ app.get('/', (req, res) => {
  * @param {Object} res - response
  */
 app.get('/app', (req, res) => {
-  res.render(viewPath('app'), {
-    hostname: req.hostname,
-    livereloadPort: livereloadPort,
-    httpPort: httpPort
-  });
+  res.render(viewPath('app'), getHostData(req));
 });
 
 /**
@@ -93,11 +88,7 @@ glob.sync(modulesRoot + '/**/server/index.js')
  * @param {Object} res - response
  */
 app.get('*', (req, res) => {
-  res.status(404).render(viewPath('404'), {
-    hostname: req.hostname,
-    livereloadPort: livereloadPort,
-    httpPort: httpPort
-  });
+  res.status(404).render(viewPath('404'), getHostData(req));
 });
 
 // Fire it up!
@@ -117,13 +108,7 @@ app.use((err, req, res) => {
   console.error('SERVER ERROR:', err);
   if (res) {
     res.status(500)
-      .render(viewPath('500'), {
-        error: err,
-        hostname: req.hostname,
-        livereloadPort: livereloadPort,
-        httpPort: httpPort
-      }
-    );
+      .render(viewPath('500'), Object.assign({ error: err }, getHostData(req)));
   }
 });
 
@@ -136,4 +121,23 @@ app.use((err, req, res) => {
  */
 function viewPath(page = '404', type = 'ejs') {
   return modulesRoot + '/pages/' + page + '/views/index.' + type;
+}
+
+/**
+ * Get the host data for livereload
+ *
+ * @private
+ * @param {String} req - request
+ */
+function getHostData(req) {
+  let livereloadPort = config.server.livereloadPort;
+  const host = req.get('Host');
+  if (host.indexOf(':') > 0) {
+    livereloadPort = parseInt(host.split(':')[1]) + 1;
+  }
+  return {
+    hostname: req.hostname,
+    httpPort: httpPort,
+    livereloadPort: livereloadPort
+  };
 }
