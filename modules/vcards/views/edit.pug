@@ -1,7 +1,7 @@
 form#edit.edit(method='POST', action='/vcards/save/' + id)
   each field in vcard.getFields()
     div.list-item
-      div#field.field
+      div.field(id=field + '_container')
         label.label(for=field)
           = fields[field].label
           = ": "
