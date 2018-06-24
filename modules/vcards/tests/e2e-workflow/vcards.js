@@ -13,7 +13,6 @@ module.exports = {
   testCases: {
     'vcards': {
       uri: domain + '/vcards/dataset/testdata',
-      title: 'Webserver - vcard',
       steps: {
         'start': {
           title: 'Webserver - vcard',
@@ -33,7 +32,8 @@ module.exports = {
           elements: {
             '//*[@id="version"]//*[@class="itemvalue"]': '2.1',
             '//*[@id="fn"]//*[@class="itemvalue"]': 'Uwe Gerdes',
-            '//*[@id="tel"]//*[@class="itemvalue"]': '040 256486 (Arbeit, Sprache)\n0179 3901008 (Mobil)',
+            '//*[@id="tel"]//*[@class="itemvalue"]':
+              '040 256486 (Arbeit, Sprache)\n0179 3901008 (Mobil)',
             '//a[@id="editButton"]': '',
           },
         },

@@ -13,7 +13,6 @@ module.exports = {
   testCases: {
     'edit': {
       uri: domain + '/vcards/dataset/testdata',
-      title: 'Webserver - vcard',
       steps: {
         'start': {
           title: 'Webserver - vcard',
@@ -74,9 +73,10 @@ module.exports = {
             '//form[@id="edit"]//input[@type="checkbox"][@name="tel0_type"][@value="voice"]': '',
           }
         },
-        'delete phone type': {
+        'add and remove phone type': {
           title: 'Webserver - vcard',
           input: {
+            '//select[@name="select_tel0"]/option[@value="home"]': true,
             '//input[@type="checkbox"][@name="tel0_type"][@value="voice"]': false,
           },
           click: '//form[@id="edit"]//input[@type="submit"]',
@@ -84,10 +84,12 @@ module.exports = {
             '//*[@id="headline"]': 'vcard Uwe Gerdes Test',
             '//*[@id="version"]//*[@class="itemvalue"]': '2.2',
             '//*[@id="fn"]//*[@class="itemvalue"]': 'Uwe Gerdes Test',
+            '//*[@id="tel"]//*[@class="itemvalue"]':
+                  '040 256486 (Arbeit, privat)\n0179 3901008 (Mobil)',
             '//a[@id="editButton"]': '',
           },
           elementsNotExist: [
-            '//form[@id="edit"]//input[@type="checkbox"][@name="tel0_type"][@value="voice"]',
+            '//form[@id="edit"]',
           ],
         },
       }
