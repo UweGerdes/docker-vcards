@@ -58,14 +58,11 @@ const index = (req, res) => {
   }
   res.render(path.join(viewBase, 'index.pug'),
     Object.assign({
-      vcards: model.list(),
+      title: 'vcard',
       id: req.params.id ? req.params.id : '',
       vcard: req.params.id ? model.list()[parseInt(req.params.id)] : null,
-      title: 'vcard',
-      datasetNames: model.datasetNames(),
-      datasetName: model.datasetName(),
-      datasetFiles: model.datasetFiles()
     },
+    getModelData(req),
     getHostData(req),
     viewRenderParams)
   );
@@ -82,12 +79,12 @@ const index = (req, res) => {
 const edit = (req, res) => {
   res.render(path.join(viewBase, 'index.pug'),
     Object.assign({
-      vcards: model.list(),
+      title: 'vcard',
       id: req.params.id,
       vcard: model.list()[parseInt(req.params.id)],
-      title: 'vcard',
       edit: true
     },
+    getModelData(req),
     getHostData(req),
     viewRenderParams)
   );
@@ -104,15 +101,15 @@ const edit = (req, res) => {
 const merge = (req, res) => {
   res.render(path.join(viewBase, 'index.pug'),
     Object.assign({
-      vcards: model.list(),
+      title: 'vcard merge',
       id: req.params.id1,
       id1: req.params.id1,
       id2: req.params.id2,
       vcard1: model.list()[parseInt(req.params.id1)],
       vcard2: model.list()[parseInt(req.params.id2)],
-      title: 'vcard merge',
       checkEqual: checkEqual
     },
+    getModelData(req),
     getHostData(req),
     viewRenderParams)
   );
@@ -130,15 +127,12 @@ const save = (req, res) => {
   model.save(parseInt(req.params.id), req.body);
   res.render(path.join(viewBase, 'index.pug'),
       Object.assign({
-      vcards: model.list(),
+      title: 'vcard',
       id: req.params.id,
       delId: req.params.delId ? req.params.delId : '',
-      vcard: req.params.id ? model.list()[parseInt(req.params.id)] : null,
-      title: 'vcard',
-      datasetNames: model.datasetNames(),
-      datasetName: model.datasetName(),
-      datasetFiles: model.datasetFiles()
+      vcard: req.params.id ? model.list()[parseInt(req.params.id)] : null
     },
+    getModelData(req),
     getHostData(req),
     viewRenderParams)
   );
@@ -158,13 +152,10 @@ const switchDataset = (req, res) => {
     res.cookie('datasetName', req.params.name, { maxAge: 900000, httpOnly: true }).
       render(path.join(viewBase, 'index.pug'),
         Object.assign({
-          vcards: model.list(),
           title: 'vcard',
-          datasetNames: model.datasetNames(),
-          datasetName: model.datasetName(),
-          oldDatasetName: oldDatasetName,
-          datasetFiles: model.datasetFiles()
+          oldDatasetName: oldDatasetName
         },
+        getModelData(req),
         getHostData(req),
         viewRenderParams)
       )
@@ -175,12 +166,9 @@ const switchDataset = (req, res) => {
     res.clearCookie('datasetName').
       render(path.join(viewBase, 'index.pug'),
         Object.assign({
-          vcards: model.list(),
-          title: 'vcard - file not found error',
-          datasetNames: model.datasetNames(),
-          datasetName: model.datasetName(),
-          datasetFiles: model.datasetFiles()
+          title: 'vcard - file not found error'
         },
+        getModelData(req),
         getHostData(req),
         viewRenderParams)
       )
@@ -362,6 +350,20 @@ function checkEqual(vcard1Value, vcard2Value, field) {
     }
   }
   return equal;
+}
+
+/**
+ * Get the model data elements
+ *
+ * @private
+ */
+function getModelData() {
+  return {
+    vcards: model.list(),
+    datasetNames: model.datasetNames(),
+    datasetName: model.datasetName(),
+    datasetFiles: model.datasetFiles(),
+  };
 }
 
 /**
