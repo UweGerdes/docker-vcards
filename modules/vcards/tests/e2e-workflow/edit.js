@@ -92,6 +92,42 @@ module.exports = {
             '//form[@id="edit"]',
           ],
         },
+        'edit form for add phone number': {
+          title: 'Webserver - vcard',
+          click: '#editButton',
+          elements: {
+            '//*[@id="headline"]': 'vcard Uwe Gerdes Test bearbeiten',
+            '//form[@id="edit"]': '',
+          },
+        },
+        'add phone number fields': {
+          title: 'Webserver - vcard',
+          click: '//form[@id="edit"]//*[@id="tel_container"]//*[@class="add"]',
+          elements: {
+            '//*[@id="headline"]': 'vcard Uwe Gerdes Test bearbeiten',
+            '//form[@id="edit"]': '',
+            '//form[@id="edit"]//*[@id="tel_container"]//input[@type="text"][@name="tel2"]': '',
+            '//form[@id="edit"]//*[@id="tel_container"]//select[@name="select_tel2"]': '',
+            '//form[@id="edit"]//select[@name="select_tel2"]//option[@value="work"]': 'Arbeit',
+          },
+        },
+        'add phone number input': {
+          title: 'Webserver - vcard',
+          input: {
+            '//input[@name="tel2"]': '0123 123456',
+            '//select[@name="select_tel2"]/option[@value="home"]': true,
+            '//select[@name="select_tel2"]/option[@value="voice"]': true,
+          },
+          click: '//form[@id="edit"]//input[@type="submit"]',
+          elements: {
+            '//*[@id="headline"]': 'vcard Uwe Gerdes Test',
+            '//*[@id="tel"]//*[@class="itemvalue"]':
+                '040 256486 (Arbeit, privat)\n0179 3901008 (Mobil)\n0123 123456 (privat, Sprache)',
+          },
+          elementsNotExist: [
+            '//form[@id="edit"]',
+          ],
+        },
       }
     }
   }
