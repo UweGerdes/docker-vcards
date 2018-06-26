@@ -116,6 +116,15 @@ class Vcard {
     }
     return true;
   }
+
+  /**
+   * get JSON
+   *
+   * @returns {object} - data
+   */
+  toJSON() {
+    return this.vcard.toJSON();
+  }
 }
 
 const fields = {
@@ -348,6 +357,18 @@ module.exports = {
     if (index < list.length) {
       list.splice(index, 1);
     }
+  },
+  /**
+   * vcards to JSON
+   *
+   * @param {object} data - array with data
+   */
+  toJSON: () => {
+    let result = [];
+    list.forEach((item) => { // jscs:ignore jsDoc
+      result.push(item.toJSON());
+    });
+    return result;
   },
   /**
    * list of dataset names

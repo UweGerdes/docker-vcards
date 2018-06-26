@@ -130,4 +130,44 @@ describe('vcard model', () => {
       assert.equal(model.list().length, 3);
     });
   });
+  describe('vcard JSON', () => {
+    let testData = [];
+    beforeEach(function (done) {
+      model.open(path.join(__dirname, 'testdata.vcf'))
+      .then(function () {
+        testData = model.list();
+      })
+      .then(done);
+    });
+    it('should return vcard equal to testData', () => {
+      const vcard = model.list()[0];
+      const vcard2 = model.save(0, {
+        version: '2.1',
+        n: 'Gerdes;Uwe;;;',
+        fn: 'Uwe Gerdes',
+        tel0: '040 256486',
+        tel0_type: ['work', 'voice'],
+        tel1: '0179 3901008',
+        tel1_type: 'cell',
+        email: 'uwe@uwegerdes.de',
+        email_type: 'pref',
+        url: 'http://www.uwegerdes.de/'
+      });
+      assert.deepEqual(vcard.toJSON(), vcard2.toJSON());
+    });
+    it('should return vcards array equal to testData', () => {
+      const json = [['vcard', [['version', {  }, 'text', '2.1'], ['n', {  }, 'text',
+        ['Gerdes', 'Uwe', '', '', '']], ['fn', {  }, 'text', 'Uwe Gerdes'], ['tel', { 'type':
+        ['work', 'voice'] }, 'text', '040 256486'], ['tel', { 'type': 'cell' }, 'text',
+        '0179 3901008'], ['email', { 'type': 'pref' }, 'text', 'uwe@uwegerdes.de'], ['url', {  },
+        'text', 'http://www.uwegerdes.de/']]],
+        ['vcard', [['version', {  }, 'text', '3.0'], ['n', {  }, 'text', ['Gerdes', 'Uwe']],
+        ['fn', {  }, 'text', 'Uwe Gerdes'], ['tel', { 'type': ['work', 'voice'] }, 'text',
+        '+49 40 25178252'], ['tel', { 'type': 'cell' }, 'text', '01793901008'], ['adr', { 'type':
+        'home' }, 'text', ['', '', 'Klaus-Groth-Str. 22', 'Hamburg', '', '20535', 'Germany']],
+        ['email', { 'type': ['pref', 'internet'] }, 'text', 'entwicklung@uwegerdes.de'],
+        ['rev', {  }, 'text', '2014-08-24T18:50:00Z']]]];
+      assert.deepEqual(model.toJSON(), json);
+    });
+  });
 });
