@@ -251,6 +251,21 @@ const search = (req, res) => {
   }
 };
 
+/**
+ * ### download
+ *
+ * download the list
+ *
+ * @param {object} req - request
+ * @param {object} res - result
+ */
+const download = (req, res) => {
+  console.log('download', req.params.type ? req.params.type : '');
+  res.set('Content-disposition', 'attachment; filename=vcards.json');
+  res.set('Content-Type', 'application/json');
+  res.send(model.toJSON());
+};
+
 module.exports = {
   init: init,
   index: index,
@@ -264,7 +279,8 @@ module.exports = {
   switchDataset: switchDataset,
   inputType: inputType,
   inputField: inputField,
-  search: search
+  search: search,
+  download: download
 };
 
 /**

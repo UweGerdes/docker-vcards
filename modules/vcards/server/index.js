@@ -16,6 +16,12 @@ controller.init(path.join(path.dirname(__dirname), 'data', 'userdata.vcf'));
 // vcard overview
 router.get('/', controller.index);
 
+// search vcards
+router.post('/search/:id?', upload.array(), controller.search);
+
+// search vcards
+router.get('/download/:type?', controller.download);
+
 // view id route.
 router.get('/:id/', controller.index);
 
@@ -39,9 +45,6 @@ router.get('/type/:field/_:index?/:type', controller.inputType);
 
 // new field route
 router.get('/field/:field/:index', controller.inputField);
-
-// search vcards
-router.post('/search/:id?', upload.array(), controller.search);
 
 // save vcard
 router.post('/save/:id/:delId?', upload.array(), controller.save);
