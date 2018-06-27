@@ -170,4 +170,36 @@ describe('vcard model', () => {
       assert.deepEqual(model.toJSON(), json);
     });
   });
+  describe('vcard VCF', () => {
+    let testData = [];
+    beforeEach(function (done) {
+      model.open(path.join(__dirname, 'testdata.vcf'))
+      .then(function () {
+        testData = model.list();
+      })
+      .then(done);
+    });
+    it('should return vcards VCF equal to testData', () => {
+      const vcf = 'BEGIN:VCARD\n' +
+                  'VERSION:4.0\n' +
+                  'N:Gerdes;Uwe;;;\n' +
+                  'FN:Uwe Gerdes\n' +
+                  'TEL;TYPE=work,voice:040 256486\n' +
+                  'TEL;TYPE=cell:0179 3901008\n' +
+                  'EMAIL;TYPE=pref:uwe@uwegerdes.de\n' +
+                  'URL:http://www.uwegerdes.de/\n' +
+                  'END:VCARD\n' +
+                  'BEGIN:VCARD\n' +
+                  'VERSION:4.0\n' +
+                  'N:Gerdes;Uwe\n' +
+                  'FN:Uwe Gerdes\n' +
+                  'TEL;TYPE=work,voice:+49 40 25178252\n' +
+                  'TEL;TYPE=cell:01793901008\n' +
+                  'ADR;TYPE=home:;;Klaus-Groth-Str. 22;Hamburg;;20535;Germany\n' +
+                  'EMAIL;TYPE=pref,internet:entwicklung@uwegerdes.de\n' +
+                  'REV:2014-08-24T18:50:00Z\n' +
+                  'END:VCARD\n';
+      assert.equal(model.toVCF(), vcf);
+    });
+  });
 });

@@ -260,10 +260,18 @@ const search = (req, res) => {
  * @param {object} res - result
  */
 const download = (req, res) => {
-  console.log('download', req.params.type ? req.params.type : '');
-  res.set('Content-disposition', 'attachment; filename=vcards.json');
-  res.set('Content-Type', 'application/json');
-  res.send(model.toJSON());
+  console.log('download', req.params.type);
+  let content;
+  if (req.params.type == 'json') {
+    res.set('Content-disposition', 'attachment; filename=vcards.json');
+    res.set('Content-Type', 'application/json');
+    content = model.toJSON();
+  } else {
+    res.set('Content-disposition', 'attachment; filename=vcards.vcf');
+    res.set('Content-Type', 'text/vcard');
+    content = model.toVCF();
+  }
+  res.send(content);
 };
 
 module.exports = {
