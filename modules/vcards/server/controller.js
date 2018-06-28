@@ -56,38 +56,20 @@ const index = (req, res) => {
     console.log('cookie datasetName', datasetName);
     model.datasetName = datasetName;
   }
-  res.render(path.join(viewBase, 'index.pug'),
-    Object.assign({
+  let vcard = req.params.id ? model.list()[parseInt(req.params.id)] : null;
+  if (req.params.editId) {
+    vcard = model.list()[parseInt(req.params.editId)];
+  }
+  let data = Object.assign({
       title: 'vcard',
-      id: req.params.id ? req.params.id : '',
-      vcard: req.params.id ? model.list()[parseInt(req.params.id)] : null,
+      vcard: vcard,
     },
+    req.params,
     getModelData(req),
     getHostData(req),
-    viewRenderParams)
+    viewRenderParams
   );
-};
-
-/**
- * ### edit page
- *
- * render the edit page
- *
- * @param {object} req - request
- * @param {object} res - result
- */
-const edit = (req, res) => {
-  res.render(path.join(viewBase, 'index.pug'),
-    Object.assign({
-      title: 'vcard',
-      id: req.params.id,
-      vcard: model.list()[parseInt(req.params.id)],
-      edit: true
-    },
-    getModelData(req),
-    getHostData(req),
-    viewRenderParams)
-  );
+  res.render(path.join(viewBase, 'index.pug'), data);
 };
 
 /**
@@ -276,7 +258,6 @@ const download = (req, res) => {
 module.exports = {
   init: init,
   index: index,
-  edit: edit,
   merge: merge,
   save: [
     body('fn', model.fields.fn.label).isLength({ min: 1 }).trim(),

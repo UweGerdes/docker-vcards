@@ -26,7 +26,7 @@ router.get('/download/:type?', controller.download);
 router.get('/:id/', controller.index);
 
 // edit id route.
-router.get('/edit/:id/', controller.edit);
+router.get('/edit/:editId/', controller.index);
 
 // edit id route.
 router.get('/merge/:id1/:id2/', controller.merge);

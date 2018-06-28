@@ -8,7 +8,7 @@ block content
       if vcard
         = " "
         = vcard.getValue('fn', true)
-      if edit
+      if editId
         = " bearbeiten"
 
     #headlineButtons.headlineButtons
@@ -23,7 +23,8 @@ block content
     #content.content
       include list.pug
       if vcard
-        if edit
+        = 'VCARD'
+        if editId
           include edit.pug
         else
           include item.pug
