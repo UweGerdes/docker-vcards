@@ -13,6 +13,7 @@ block content
 
     #headlineButtons.headlineButtons
       #searchButton.button.searchButton&attributes({'data-toggle': '#searchLayer'}) suchen
+      #downloadButton.button.downloadButton&attributes({'data-open-url': '/vcards/download/'}) Download
       if vcard
         a#editButton.button.editButton&attributes({'href': '/vcards/edit/' + vcard.id + '/'}) ändern
         if delId

@@ -260,7 +260,6 @@ const search = (req, res) => {
  * @param {object} res - result
  */
 const download = (req, res) => {
-  console.log('download', req.params.type);
   let content;
   if (req.params.type == 'json') {
     res.set('Content-disposition', 'attachment; filename=vcards.json');

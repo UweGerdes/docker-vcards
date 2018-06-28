@@ -33,6 +33,25 @@ describe('vcard page', function () {
           done();
         });
     });
+    it('should have some buttons', function (done) {
+      chai.request('http://vcards-dev:8080')
+        .get('/vcards/')
+        .end(function (err, res) {
+          expect(err).to.be.null;
+          expect(res).to.have.status(200);
+          expect(res).to.be.html;
+          const { document } = (new JSDOM(res.text)).window;
+          const searchButton = document.getElementById('searchButton');
+          assert.equal(searchButton.textContent, 'suchen');
+          assert.equal(searchButton.getAttribute('class'), 'button searchButton');
+          assert.equal(searchButton.getAttribute('data-toggle'), '#searchLayer');
+          const downloadButton = document.getElementById('downloadButton');
+          assert.equal(downloadButton.textContent, 'Download');
+          assert.equal(downloadButton.getAttribute('class'), 'button downloadButton');
+          assert.equal(downloadButton.getAttribute('data-open-url'), '/vcards/download/');
+          done();
+        });
+    });
     it('should have footer', function (done) {
       chai.request('http://vcards-dev:8080')
         .get('/vcards/')

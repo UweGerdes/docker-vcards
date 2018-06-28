@@ -145,6 +145,19 @@ handlers.push({
 });
 
 /**
+ * open url from selection
+ */
+handlers.push({
+  elements: document.querySelectorAll('[data-open-url]'),
+  event: 'click',
+  func: function (event) { // jscs:ignore jsDoc
+    const element = event.target;
+    console.log('open', element.getAttribute('data-open-url'));
+    document.location.href = element.getAttribute('data-open-url');
+  }
+});
+
+/**
  * attach event to elements
  *
  * @param {DOMelement} element - to attach event
