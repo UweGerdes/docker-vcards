@@ -14,7 +14,7 @@ block content
     #headlineButtons.headlineButtons
       #searchButton.button.searchButton&attributes({'data-toggle': '#searchLayer'}) suchen
       #downloadButton.button.downloadButton&attributes({'data-open-url': '/vcards/download/'}) Download
-      if vcard
+      if vcard && !vcard2
         a#editButton.button.editButton&attributes({'href': '/vcards/edit/' + vcard.id + '/'}) ändern
         if delId
           a#delButton.button.delButton&attributes({'href': '/vcards/' + vcard.id + '/del/' + delId})= 'Vcard ' + delId + ' löschen'
@@ -23,13 +23,13 @@ block content
     #content.content
       include list.pug
       if vcard
-        = 'VCARD'
         if editId
           include edit.pug
+        else if vcard2
+          = 'merge'
+          include merge.pug
         else
           include item.pug
-      else if vcard1 && vcard2
-        include merge.pug
 
     #searchLayer.searchLayer.hidden
       .searchLayerContent

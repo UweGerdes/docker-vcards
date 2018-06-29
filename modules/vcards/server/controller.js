@@ -84,13 +84,11 @@ const merge = (req, res) => {
   res.render(path.join(viewBase, 'index.pug'),
     Object.assign({
       title: 'vcard merge',
-      id: req.params.id1,
-      id1: req.params.id1,
-      id2: req.params.id2,
-      vcard1: model.list()[parseInt(req.params.id1)],
+      vcard: model.list()[parseInt(req.params.id)],
       vcard2: model.list()[parseInt(req.params.id2)],
       checkEqual: checkEqual
     },
+    req.params,
     getModelData(req),
     getHostData(req),
     viewRenderParams)
@@ -353,6 +351,7 @@ function checkEqual(vcard1Value, vcard2Value, field) {
       }
     }
   }
+  console.log('checkEqual', field, equal);
   return equal;
 }
 

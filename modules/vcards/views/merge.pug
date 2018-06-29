@@ -25,7 +25,7 @@ mixin itemvalue(num, vcard, field)
   if vcard.getValue(field, true)
     if typeof vcard.get(field).valueOf() == "string"
       - value = vcard.get(field).valueOf()
-      - eq = vcard1 && vcard2 && vcard1.get(field) && vcard2.get(field) && checkEqual(vcard1.get(field).valueOf(), vcard2.get(field).valueOf(), field)
+      - eq = vcard && vcard2 && vcard.get(field) && vcard2.get(field) && checkEqual(vcard.get(field).valueOf(), vcard2.get(field).valueOf(), field)
       if num == 1 || !eq
         + choice(num, field, value, '')
         span.type
@@ -40,7 +40,7 @@ mixin itemvalue(num, vcard, field)
       ul.values
         each obj, index in vcard.getValue(field, true)
           li.values-item
-            - var eq = checkEqual(vcard1.getValue(field, true), obj, field)
+            - var eq = checkEqual(vcard.getValue(field, true), obj, field)
             if !eq || num == 1
               + choice(num, field, obj.value, index, eq)
               span.value= obj.value || obj
@@ -54,12 +54,12 @@ mixin field(field, check)
       = fields[field].label
       = ": "
     div.itemvalue.i1
-      + itemvalue(1, vcard1, field)
+      + itemvalue(1, vcard, field)
     div.itemvalue.i2
       + itemvalue(check - 1, vcard2, field)
 
 #mergeView.mergeView
-  - var fields1 = vcard1.getFields()
+  - var fields1 = vcard.getFields()
   form#merge.merge(method='POST', action='/vcards/save/' + id + '/' + id2)
     ul#fieldList.item-list
       each field in fields1

@@ -29,7 +29,7 @@ router.get('/:id/', controller.index);
 router.get('/edit/:editId/', controller.index);
 
 // edit id route.
-router.get('/merge/:id1/:id2/', controller.merge);
+router.get('/merge/:id/:id2/', controller.merge);
 
 // view id and delete delId route.
 router.get('/:id/del/:delId', controller.index);
