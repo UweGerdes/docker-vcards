@@ -83,6 +83,9 @@ describe('vcard merge', function () {
           assert.equal(mergeFieldList[0].childNodes[0].textContent.trim(), 'Version:');
           assert.equal(mergeFieldList[0].childNodes[1].textContent.trim(), '2.1');
           assert.equal(mergeFieldList[0].childNodes[2].textContent.trim(), '3.0');
+          assert.equal(mergeFieldList[4].childNodes.length, 3);
+          assert.equal(mergeFieldList[4].childNodes[0].textContent.trim(), 'E-Mail:');
+          assert.equal(mergeFieldList[4].childNodes[1].textContent.trim(), 'uwe@uwegerdes.de (!)');
           let formData = {};
           const fd = new document.defaultView.FormData(form);
           let e = fd.entries();
@@ -103,14 +106,16 @@ const formDataCompare = { version: '2.1',
   tel10_type: 'voice',
   tel11: '0179 3901008',
   tel11_type: 'cell',
-  tel00: '+49 40 25178252',
-  tel00_type: 'voice',
+  tel20: '+49 40 25178252',
+  tel20_type: 'voice',
+  tel21: '01793901008',
+  tel21_type: 'cell',
   email1: 'uwe@uwegerdes.de',
   email1_type: 'pref',
-  email0: 'entwicklung@uwegerdes.de',
-  email0_type: 'internet',
+  email2: 'entwicklung@uwegerdes.de',
+  email2_type: 'internet',
   url: 'http://www.uwegerdes.de/',
-  adr1: ';;Klaus-Groth-Str. 22;Hamburg;;20535;Germany',
-  adr1_type: 'home',
+  adr2: ';;Klaus-Groth-Str. 22;Hamburg;;20535;Germany',
+  adr2_type: 'home',
   rev: '2014-08-24T18:50:00Z'
 };

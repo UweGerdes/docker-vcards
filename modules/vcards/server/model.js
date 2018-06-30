@@ -146,7 +146,7 @@ const fields = {
     label: 'Name',
     type: 'text',
     size: 30,
-    parts: ['Nachname', 'Vorname', '?', '?', '?'],
+    parts: ['Nachname', 'Vorname', 'part3', 'Titel', 'part5'],
     checkEqual: (n1, n2) => { // jscs:ignore jsDoc
       if (n1 && n2) {
         if (n1.replace(/^;*(.+?);*$/, '$1') == n2.replace(/^;*(.+?);*$/, '$1')) {
@@ -184,7 +184,8 @@ const fields = {
     label: 'Adresse',
     type: 'list',
     size: 30,
-    types: ['work', 'home', 'pref']
+    types: ['work', 'home', 'pref'],
+    parts: ['part1', 'part2', 'Straße', 'Ort', 'part5', 'PLZ', 'Land']
   },
   email: {
     label: 'E-Mail',
@@ -207,6 +208,11 @@ const fields = {
     label: 'Gruppen',
     type: 'list',
     size: 30
+  },
+  photo: {
+    label: 'Foto',
+    type: 'image',
+    size: 1
   },
   rev: {
     label: 'Timestamp',

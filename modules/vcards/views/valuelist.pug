@@ -1,11 +1,13 @@
 if fields[field].parts
   span.parts
+    - var comma = false
     each part, i in fields[field].parts
-      if value[part] && (i == 0 || value[fields[field].parts[i-1]] != value[part])
-        if i > 0 && value[fields[field].parts[i-1]] && value[part]
-          = ', '
-        span(title=part)
-          = value[part]
+      if value[part]
+        = (comma ? ', ' : '')
+        span(title=part)= value[part]
+        - comma = true
+    if data.type
+      = ' (' + type(data.type).join(', ') + ')'
 else
   ul.values
     each obj in value

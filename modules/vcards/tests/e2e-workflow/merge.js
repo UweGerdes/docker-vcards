@@ -58,7 +58,7 @@ module.exports = {
           title: 'Webserver - vcard',
           click: '//a[@class="button merge"]',
           elements: {
-            '//*[@id="headline"]': 'vcard merge',
+            '//*[@id="headline"]': 'vcard merge Uwe Gerdes',
             '//form[@id="merge"]': '',
             '//form[@id="merge"]//*[@name="version"][@value="2.1"]': '',
             '//form[@id="merge"]//*[@name="version"][@value="3.0"]': '',
@@ -72,7 +72,7 @@ module.exports = {
             '//*[@id="fn"]//*[@class="itemvalue"]': 'Uwe Gerdes',
             '//*[@id="tel"]//*[@class="itemvalue"]':
                   '040 256486 (Arbeit, Sprache)\n0179 3901008 (Mobil)\n' +
-                  '+49 40 25178252 (Arbeit, Sprache)',
+                  '+49 40 25178252 (Arbeit, Sprache)\n01793901008 (Mobil)',
           },
         },
         'delete merged': {
@@ -83,7 +83,7 @@ module.exports = {
             '//*[@id="fn"]//*[@class="itemvalue"]': 'Uwe Gerdes',
             '//*[@id="tel"]//*[@class="itemvalue"]':
                   '040 256486 (Arbeit, Sprache)\n0179 3901008 (Mobil)\n' +
-                  '+49 40 25178252 (Arbeit, Sprache)',
+                  '+49 40 25178252 (Arbeit, Sprache)\n01793901008 (Mobil)',
           },
           elementsNotExist: [
             '//*[@id="list"]/li[2]',

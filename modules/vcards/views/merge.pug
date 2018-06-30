@@ -1,71 +1,107 @@
-mixin choice(num, field, value, index, eq)
+
+mixin parts(value, parts)
+  span.parts
+    - var values = value.split(';')
+    - var comma = false
+    each part, i in parts
+      if values[i]
+        span(title=part)= (comma ? ', ' : '') + values[i]
+        - comma = true
+
+mixin types(types, name, index)
+  if typeof types == 'string'
+    input(type='hidden', id='value_' + name + index, name=name + index + '_type', value=types)
+    span.type= ' (' + type(types) + ')'
+  else
+    each type, i in types
+      input(type='hidden', id='value_' + name + index + i, name=name + index + '_type', value=type)
+    span.type= ' (' + type(types).join(", ") + ')'
+
+
+mixin choice(field, other, name, id)
   span.choice
-    if fields[field].type == 'text'
-      if num == 1
-        input(type='radio', id='radio_' + field + index, name=field + index, value=value, checked)
-      else
-        input(type='radio', id='radio_' + field + index, name=field + index, value=value)
-    else if fields[field].type == 'list'
-      if num == 1 || !eq
-        input(type='checkbox', id='checkbox_' + field + num + index, name=field + num + index, value=value, checked)
-      else
-        input(type='checkbox', id='checkbox_' + field + num + index, name=field + num + index, value=value)
-
-mixin type(num, field, types, index)
-  if types
-    if typeof types == 'string'
-      input(type='hidden', id='value_' + field + index, name=field + num + index + '_type', value=types)
-      span.type= ' (' + type(types) + ')'
-    else
-      each type in types
-        input(type='hidden', id='value_' + field + index, name=field + num + index + '_type', value=type)
-      span.type= ' (' + type(types).join(", ") + ')'
-
-mixin itemvalue(num, vcard, field)
-  if vcard.getValue(field, true)
-    if typeof vcard.get(field).valueOf() == "string"
-      - value = vcard.get(field).valueOf()
-      - eq = vcard && vcard2 && vcard.get(field) && vcard2.get(field) && checkEqual(vcard.get(field).valueOf(), vcard2.get(field).valueOf(), field)
-      if num == 1 || !eq
-        + choice(num, field, value, '')
-        span.type
-          if value.indexOf(';') > -1
-            = unCsv(value)
+    - var value = field.valueOf()
+    if typeof value == 'string'
+      if !other || value != other.valueOf()
+        input(type='radio', name=name, value=value, checked=!other, id=id)
+        label(for=id)
+          if fields[name].parts
+            + parts(value, fields[name].parts)
           else if value.match(/^[0-9.-]+[T ][0-9:]+Z?$/)
             = timestamp(value)
           else
             = value
-          + type(num, field, vcard.get(field).type, '')
     else
-      ul.values
-        each obj, index in vcard.getValue(field, true)
+      if JSON.stringify(value) != JSON.stringify(other.valueOf())
+        input(type='radio', name=name, value=value, checked, id=id)
+        label(for=id)
+          - var i = 0
+          each val, key in field
+            = (i++ > 0) ? ', ' : ''
+            span(title=key)= val
+
+mixin list(field, other, name, id)
+  - otherValues = []
+  if other
+    if typeof other.valueOf() == 'string'
+      - otherValues = [other.valueOf()]
+    else
+      each item, i in other.valueOf()
+        - otherValues.push(item.valueOf())
+  if typeof field.valueOf() == 'string'
+    if otherValues.indexOf(field.valueOf()) < 0
+      input(type='checkbox', name=id, value=field.valueOf(), checked, id=id)
+      label(for=id)
+        if fields[name].parts
+          + parts(field.valueOf(), fields[name].parts)
+        else
+          = field.valueOf()
+        if field.type
+          + types(field.type, id, '')
+  else
+    ul.values
+      each item, i in field
+        if otherValues.indexOf(item.valueOf()) < 0
           li.values-item
-            - var eq = checkEqual(vcard.getValue(field, true), obj, field)
-            if !eq || num == 1
-              + choice(num, field, obj.value, index, eq)
-              span.value= obj.value || obj
-              + type(num, field, obj.type, index)
+            input(type='checkbox', name=id + i, value=item.valueOf(), checked, id=id + '_' + i)
+            label(for=id + '_' + i)
+              = item.valueOf()
+              if item.type
+                + types(item.type, id, i)
+
+
+mixin value(field, other, name, id)
+  if field
+    if fields[name].type == 'text'
+      + choice(field, other, name, id)
+    else if fields[name].type == 'list'
+      + list(field, other, name, id)
+    else
+      = '???? ' + name
   else
     | !{'&nbsp;'}
 
-mixin field(field, check)
+mixin values(field1, field2, name)
+  div.itemvalue.i1
+    + value(field1, null, name, name + '1')
+  div.itemvalue.i2
+    + value(field2, field1, name, name + '2')
+
+mixin field2(field1, field2, name)
   li.list-item
-    div(id=field).fielddiv.label
-      = fields[field].label
-      = ": "
-    div.itemvalue.i1
-      + itemvalue(1, vcard, field)
-    div.itemvalue.i2
-      + itemvalue(check - 1, vcard2, field)
+    div(id=name).fielddiv.label= fields[name].label + ":"
+    + values(field1, field2, name)
 
 #mergeView.mergeView
-  - var fields1 = vcard.getFields()
+  - var names1 = vcard.getFields()
+  - var names2 = vcard2.getFields()
   form#merge.merge(method='POST', action='/vcards/save/' + id + '/' + id2)
     ul#fieldList.item-list
-      each field in fields1
-        + field(field, 1)
-      each field in vcard2.getFields()
-        if (fields1.indexOf(field) < 0)
-          + field(field, 2)
+      each name in names1
+        + field2(vcard.get(name), vcard2.get(name), name)
+      each name in names2
+        if (names1.indexOf(name) < 0)
+          + field2(null, vcard2.get(name), name)
+          = JSON.stringify(vcard2.get(name))
     #submit.submit
       input.searchSubmit(type='submit', value='speichern')
