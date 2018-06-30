@@ -58,14 +58,14 @@ module.exports = {
           title: 'Webserver - vcard',
           click: '//a[@class="button merge"]',
           elements: {
-            '//*[@id="headline"]': 'vcard merge Uwe Gerdes',
+            '//*[@id="headline"]': 'vcard Uwe Gerdes',
             '//form[@id="merge"]': '',
             '//form[@id="merge"]//*[@name="version"][@value="2.1"]': '',
             '//form[@id="merge"]//*[@name="version"][@value="3.0"]': '',
           }
         },
         'merge save': {
-          title: 'Webserver - vcard merge',
+          title: 'Webserver - vcard',
           click: '//form[@id="merge"]//input[@type="submit"]',
           elements: {
             '//*[@id="version"]//*[@class="itemvalue"]': '2.1',

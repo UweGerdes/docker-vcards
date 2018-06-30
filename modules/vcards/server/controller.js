@@ -60,9 +60,11 @@ const index = (req, res) => {
   if (req.params.editId) {
     vcard = model.list()[parseInt(req.params.editId)];
   }
+  let vcard2 = req.params.id2 ? model.list()[parseInt(req.params.id2)] : null;
   let data = Object.assign({
       title: 'vcard',
       vcard: vcard,
+      vcard2: vcard2
     },
     req.params,
     getModelData(req),
@@ -70,28 +72,6 @@ const index = (req, res) => {
     viewRenderParams
   );
   res.render(path.join(viewBase, 'index.pug'), data);
-};
-
-/**
- * ### merge page
- *
- * render the merge page
- *
- * @param {object} req - request
- * @param {object} res - result
- */
-const merge = (req, res) => {
-  res.render(path.join(viewBase, 'index.pug'),
-    Object.assign({
-      title: 'vcard merge',
-      vcard: model.list()[parseInt(req.params.id)],
-      vcard2: model.list()[parseInt(req.params.id2)]
-    },
-    req.params,
-    getModelData(req),
-    getHostData(req),
-    viewRenderParams)
-  );
 };
 
 /**
@@ -255,7 +235,6 @@ const download = (req, res) => {
 module.exports = {
   init: init,
   index: index,
-  merge: merge,
   save: [
     body('fn', model.fields.fn.label).isLength({ min: 1 }).trim(),
     sanitizeBody('fn').trim().escape(),
