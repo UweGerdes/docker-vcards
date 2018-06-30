@@ -146,17 +146,7 @@ const fields = {
     label: 'Name',
     type: 'text',
     size: 30,
-    parts: ['Nachname', 'Vorname', 'part3', 'Titel', 'part5'],
-    checkEqual: (n1, n2) => { // jscs:ignore jsDoc
-      if (n1 && n2) {
-        if (n1.replace(/^;*(.+?);*$/, '$1') == n2.replace(/^;*(.+?);*$/, '$1')) {
-          return true;
-        }
-      } else {
-        console.log('n1', n1, 'n2', n2);
-      }
-      return false;
-    }
+    parts: ['Nachname', 'Vorname', 'part3', 'Titel', 'part5']
   },
   fn: {
     label: 'Anzeigename',
@@ -168,17 +158,7 @@ const fields = {
     type: 'list',
     size: 30,
     types: ['work', 'home', 'voice', 'cell', 'pref'],
-    clean: cleanTel,
-    checkEqual: (tel1, tel2) => { // jscs:ignore jsDoc
-      if (tel1 && tel2) {
-        if (cleanTel(tel1) == cleanTel(tel2)) {
-          return true;
-        }
-      } else {
-        console.log('tel1', tel1, 'tel2', tel2);
-      }
-      return false;
-    }
+    clean: cleanTel
   },
   adr: {
     label: 'Adresse',

@@ -85,8 +85,7 @@ const merge = (req, res) => {
     Object.assign({
       title: 'vcard merge',
       vcard: model.list()[parseInt(req.params.id)],
-      vcard2: model.list()[parseInt(req.params.id2)],
-      checkEqual: checkEqual
+      vcard2: model.list()[parseInt(req.params.id2)]
     },
     req.params,
     getModelData(req),
@@ -316,43 +315,6 @@ function unCsv(value) {
   return value
     .replace(/^;*(.+?);*$/, '$1')
     .replace(/;+/g, ', ');
-}
-
-/**
- * ### checkEqual
- *
- * check if value / types of two vcards are equal
- *
- * @private
- * @param {object} vcard1Value - first value(s)
- * @param {object} vcard2Value - second value
- * @param {object} field - field name for more detailed compare
- */
-function checkEqual(vcard1Value, vcard2Value, field) {
-  let equal = false;
-  if (vcard1Value && typeof vcard1Value == 'object') {
-    vcard1Value.forEach((vcard1Val) => { // jscs:ignore jsDoc
-      if (model.fields[field].checkEqual) {
-        equal = model.fields[field].checkEqual(vcard1Val.value, vcard2Value.value || vcard2Value);
-      } else {
-        if (vcard2Value.value && vcard1Val.value == vcard2Value.value ||
-          vcard1Val.value == vcard2Value) {
-          equal = true;
-        }
-      }
-    });
-  } else {
-    if (model.fields[field].checkEqual) {
-      equal = model.fields[field].checkEqual(vcard1Value, vcard2Value.value || vcard2Value);
-    } else {
-      if (vcard2Value && vcard2Value.value && vcard1Value == vcard2Value.value ||
-        vcard1Value == vcard2Value) {
-        equal = true;
-      }
-    }
-  }
-  console.log('checkEqual', field, equal);
-  return equal;
 }
 
 /**
