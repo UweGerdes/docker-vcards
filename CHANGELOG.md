@@ -2,6 +2,9 @@
 
 ## latest
 
+0.0.10
+sort list
+
 0.0.9
 merge vcards, save and load from disk
 
