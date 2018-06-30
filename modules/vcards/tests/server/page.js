@@ -68,5 +68,45 @@ describe('vcard page', function () {
           done();
         });
     });
+    it('should have a list', function (done) {
+      chai.request('http://vcards-dev:8080')
+        .get('/vcards/')
+        .end(function (err, res) {
+          expect(err).to.be.null;
+          expect(res).to.have.status(200);
+          expect(res).to.be.html;
+          const { document } = (new JSDOM(res.text)).window;
+          const list = document.getElementById('list').getElementsByTagName('li');
+          assert.equal(list.length, 2);
+          assert.equal(list[0].textContent, 'Uwe Gerdes');
+          assert.equal(list[0].getElementsByTagName('a')[0].attributes.href.nodeValue,
+            '/vcards/0/');
+          assert.equal(list[1].textContent, 'Uwe Gerdes');
+          assert.equal(list[1].getElementsByTagName('a')[0].attributes.href.nodeValue,
+            '/vcards/1/');
+          done();
+        });
+    });
+    it('should have a list', function (done) {
+      chai.request('http://vcards-dev:8080')
+        .get('/vcards/')
+        .set('Cookie', 'sort=email')
+        .end(function (err, res) {
+          expect(err).to.be.null;
+          expect(res).to.have.status(200);
+          expect(res).to.be.html;
+          expect(res).to.have.cookie('sort');
+          const { document } = (new JSDOM(res.text)).window;
+          const list = document.getElementById('list').getElementsByTagName('li');
+          assert.equal(list.length, 2);
+          assert.equal(list[0].textContent, 'Uwe Gerdes');
+          assert.equal(list[0].getElementsByTagName('a')[0].attributes.href.nodeValue,
+            '/vcards/0/');
+          assert.equal(list[1].textContent, 'Uwe Gerdes');
+          assert.equal(list[1].getElementsByTagName('a')[0].attributes.href.nodeValue,
+            '/vcards/1/');
+          done();
+        });
+    });
   });
 });

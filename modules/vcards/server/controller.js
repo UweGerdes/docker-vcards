@@ -51,10 +51,18 @@ const index = (req, res) => {
     model.del(parseInt(req.params.delId));
   }
   let datasetName = '';
-  if (req.cookies && req.cookies.datasetName) {
-    datasetName = req.cookies.datasetName;
-    console.log('cookie datasetName', datasetName);
-    model.datasetName = datasetName;
+  let sort = '';
+  if (req.cookies) {
+    if (req.cookies.datasetName) {
+      datasetName = req.cookies.datasetName;
+      console.log('cookie datasetName', datasetName);
+      model.datasetName = datasetName;
+    }
+    if (req.cookies.sort) {
+      sort = req.cookies.sort;
+      console.log('cookie sort', sort);
+      model.sort = sort;
+    }
   }
   let vcard = req.params.id ? model.list()[parseInt(req.params.id)] : null;
   if (req.params.editId) {
@@ -71,7 +79,8 @@ const index = (req, res) => {
     getHostData(req),
     viewRenderParams
   );
-  res.render(path.join(viewBase, 'index.pug'), data);
+  res.cookie('sort', sort, { maxAge: 900000, httpOnly: true })
+    .render(path.join(viewBase, 'index.pug'), data);
 };
 
 /**
