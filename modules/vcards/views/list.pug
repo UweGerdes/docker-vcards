@@ -1,7 +1,7 @@
 //- list.pug
 #sort
   select.sort&attributes({ name: 'sort', 'data-select-url': '/vcards/sort/' })
-    option(value='')= 'Sortierung'
+    option(value='id')= 'Sortierung'
     each data, field in fields
       option(value=field, selected=field==sort)= data.label
 ul#list.list

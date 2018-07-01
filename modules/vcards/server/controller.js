@@ -316,26 +316,38 @@ function getModelData(req) {
     sort = req.cookies.sort;
   }
   if (sort) {
-    list.sort(
-      function (a, b) {
-        if (!a.get(sort) && !b.get(sort)) {
-          return 0;
-        } else
-        if (a.get(sort) && !b.get(sort)) {
-          return -1;
-        } else
-        if (!a.get(sort) && b.get(sort)) {
-          return 1;
-        } else
-        if (a.get(sort).valueOf() > b.get(sort).valueOf()) {
-          return 1;
-        } else
-        if (a.get(sort).valueOf() < b.get(sort).valueOf()) {
-          return -1;
+    if (sort == 'id') {
+      list.sort(
+        function (a, b) {
+          if (a.id > b.id) {
+            return 1;
+          } else {
+            return -1;
+          }
         }
-        return 0;
-      }
-    );
+      );
+    } else {
+      list.sort(
+        function (a, b) {
+          if (!a.get(sort) && !b.get(sort)) {
+            return 0;
+          } else
+          if (a.get(sort) && !b.get(sort)) {
+            return -1;
+          } else
+          if (!a.get(sort) && b.get(sort)) {
+            return 1;
+          } else
+          if (a.get(sort).valueOf() > b.get(sort).valueOf()) {
+            return 1;
+          } else
+          if (a.get(sort).valueOf() < b.get(sort).valueOf()) {
+            return -1;
+          }
+          return 0;
+        }
+      );
+    }
   }
   return {
     vcards: list,
