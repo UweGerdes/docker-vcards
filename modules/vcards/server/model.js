@@ -257,16 +257,17 @@ module.exports = {
   /**
    * get static list
    *
+   * @param {string} id - to open
    * @returns {array} vcard item
    */
-  get: () => {
-    return [
-      {
-        _version: '2.1',
-        name: 'Gerdes',
-        firstname: 'Uwe'
+  get: (id) => {
+    let result = null;
+    list.forEach((vcard) => { // jscs:ignore jsDoc
+      if (vcard.id == id) {
+        result = vcard;
       }
-    ];
+    });
+    return result;
   },
   /**
    * get testData list
@@ -310,10 +311,11 @@ module.exports = {
   /**
    * get list of vcard objects
    *
-   * @param {object} selection - to reduce list, optional
+   * @param {string} selection - to reduce list, optional
+   * @param {string} sort - to sort list
    * @returns {array} vcard list
    */
-  list: (selection) => {
+  list: (selection, sort) => {
     let result = [];
     if (selection) {
       list.forEach((item) => { // jscs:ignore jsDoc
@@ -323,6 +325,20 @@ module.exports = {
       });
     } else {
       result = list;
+    }
+    if (sort) {
+      result.sort(
+        function (a, b) {
+          if (a.get(sort).valueOf() > b.get(sort).valueOf()) {
+            return 1;
+          }
+          if (a.get(sort).valueOf() < b.get(sort).valueOf()) {
+            return -1;
+          }
+          return 0;
+        }
+      );
+      throw('sort');
     }
     return result;
   },

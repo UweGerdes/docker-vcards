@@ -1,5 +1,10 @@
 //- list.pug
+#sort
+  select.sort&attributes({ name: 'sort', 'data-select-url': '/vcards/sort/' })
+    option(value='')= 'Sortierung'
+    each data, field in fields
+      option(value=field, selected=field==sort)= data.label
 ul#list.list
   each vcard, id in vcards
     li.list-item
-      a(href='/vcards/' + id + '/')= vcard.getValue('fn', true)
+      a(href='/vcards/' + vcard.id + '/')= vcard.getValue('fn', true)

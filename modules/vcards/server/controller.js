@@ -50,37 +50,33 @@ const index = (req, res) => {
     console.log('delete:', req.params.delId);
     model.del(parseInt(req.params.delId));
   }
-  let datasetName = '';
   let sort = '';
   if (req.cookies) {
     if (req.cookies.datasetName) {
-      datasetName = req.cookies.datasetName;
-      console.log('cookie datasetName', datasetName);
-      model.datasetName = datasetName;
-    }
-    if (req.cookies.sort) {
-      sort = req.cookies.sort;
-      console.log('cookie sort', sort);
-      model.sort = sort;
+      model.switchDataset(req.cookies.datasetName);
     }
   }
-  let vcard = req.params.id ? model.list()[parseInt(req.params.id)] : null;
+  if (req.params.hasOwnProperty('sort')) {
+    sort = req.params.sort;
+    res.cookie('sort', sort, { maxAge: 12 * 60 * 60 * 1000, httpOnly: true });
+  }
+  let modelData = getModelData(req);
+  let vcard = req.params.id ? model.get(parseInt(req.params.id)) : null;
   if (req.params.editId) {
-    vcard = model.list()[parseInt(req.params.editId)];
+    vcard = model.get(parseInt(req.params.editId));
   }
-  let vcard2 = req.params.id2 ? model.list()[parseInt(req.params.id2)] : null;
+  let vcard2 = req.params.id2 ? model.get(parseInt(req.params.id2)) : null;
   let data = Object.assign({
       title: 'vcard',
       vcard: vcard,
       vcard2: vcard2
     },
     req.params,
-    getModelData(req),
+    modelData,
     getHostData(req),
     viewRenderParams
   );
-  res.cookie('sort', sort, { maxAge: 900000, httpOnly: true })
-    .render(path.join(viewBase, 'index.pug'), data);
+  res.render(path.join(viewBase, 'index.pug'), data);
 };
 
 /**
@@ -98,7 +94,7 @@ const save = (req, res) => {
       title: 'vcard',
       id: req.params.id,
       delId: req.params.delId ? req.params.delId : '',
-      vcard: req.params.id ? model.list()[parseInt(req.params.id)] : null
+      vcard: req.params.id ? model.get(parseInt(req.params.id)) : null
     },
     getModelData(req),
     getHostData(req),
@@ -117,8 +113,8 @@ const switchDataset = (req, res) => {
   // console.log('switch from ' + oldDatasetName + ' to ' + req.params.name);
   model.switchDataset(req.params.name)
   .then(() => { // jscs:ignore jsDoc
-    res.cookie('datasetName', req.params.name, { maxAge: 900000, httpOnly: true }).
-      render(path.join(viewBase, 'index.pug'),
+    res.cookie('datasetName', req.params.name, { maxAge: 900000, httpOnly: true })
+      .render(path.join(viewBase, 'index.pug'),
         Object.assign({
           title: 'vcard',
           oldDatasetName: oldDatasetName
@@ -309,13 +305,44 @@ function unCsv(value) {
  * Get the model data elements
  *
  * @private
+ * @param {object} req - request
  */
-function getModelData() {
+function getModelData(req) {
+  let list = model.list();
+  let sort = '';
+  if (req.params.sort) {
+    sort = req.params.sort;
+  } else if (req.cookies && req.cookies.sort) {
+    sort = req.cookies.sort;
+  }
+  if (sort) {
+    list.sort(
+      function (a, b) {
+        if (!a.get(sort) && !b.get(sort)) {
+          return 0;
+        } else
+        if (a.get(sort) && !b.get(sort)) {
+          return -1;
+        } else
+        if (!a.get(sort) && b.get(sort)) {
+          return 1;
+        } else
+        if (a.get(sort).valueOf() > b.get(sort).valueOf()) {
+          return 1;
+        } else
+        if (a.get(sort).valueOf() < b.get(sort).valueOf()) {
+          return -1;
+        }
+        return 0;
+      }
+    );
+  }
   return {
-    vcards: model.list(),
+    vcards: list,
     datasetNames: model.datasetNames(),
     datasetName: model.datasetName(),
     datasetFiles: model.datasetFiles(),
+    sort: sort
   };
 }
 

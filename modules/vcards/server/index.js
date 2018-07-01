@@ -19,6 +19,9 @@ router.get('/', controller.index);
 // download vcards
 router.get('/download/:type?', controller.download);
 
+// sort field route.
+router.get('/sort/:sort?', controller.index);
+
 // view id route.
 router.get('/:id/', controller.index);
 

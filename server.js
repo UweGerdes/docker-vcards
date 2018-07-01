@@ -6,6 +6,7 @@
 'use strict';
 
 const bodyParser = require('body-parser'),
+  cookieParser = require('cookie-parser'),
   chalk = require('chalk'),
   dateFormat = require('dateformat'),
   express = require('express'),
@@ -46,6 +47,9 @@ app.set('view engine', 'ejs');
 // work on post requests
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+// work on cookies
+app.use(cookieParser());
 
 // Serve static files
 app.use(express.static(docRoot));

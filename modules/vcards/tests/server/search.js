@@ -133,8 +133,6 @@ describe('vcard search', function () {
           assert.equal(list.length, 2);
           assert.equal(list[0].textContent, 'öffnen');
           assert.equal(list[0].attributes.href.nodeValue, '/vcards/1/');
-          assert.equal(list[1].textContent, 'merge');
-          assert.equal(list[1].attributes.href.nodeValue, '/vcards/merge/0/1/');
           done();
         });
     });

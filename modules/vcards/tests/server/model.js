@@ -12,12 +12,6 @@ const model = require('../../server/model.js');
 /* jscs:disable jsDoc */
 
 describe('vcard model', () => {
-  describe('get()', () => {
-    it('should return Array with at least one entry', () => {
-      assert.equal(model.get().length > 0, true);
-      assert.equal(model.get()[0].name, 'Gerdes');
-    });
-  });
   describe('getTestData()', () => {
     it('should dive into the data structure', () => {
       const vcard = model.getTestData()[0];
