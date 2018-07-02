@@ -1,6 +1,6 @@
 //- input.pug
 mixin moreTypes(field, index, used)
-  select&attributes({ name: 'select_' + field + index, 'data-select-xhr': '/vcards/type/' + field + '/_' + index + '/' })
+  select.select&attributes({ name: 'select_' + field + index, 'data-select-xhr': '/vcards/type/' + field + '/_' + index + '/' })
     option(value='')= '- neu -'
     each type in fields[field].types
       if used.indexOf(type) < 0

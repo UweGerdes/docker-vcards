@@ -9,7 +9,7 @@
     clear: both;
   }
 
-  .list,
+  .list-container,
   .item-list,
   .result-list {
     float:left;
@@ -20,6 +20,9 @@
 
   .list {
     width: 15em;
+    list-style: none;
+    margin: 0 0 10px;
+    padding: 0;
 
     &-item {
       margin: 0 0 5px;
@@ -257,6 +260,21 @@
     &-text {
       font-size: 1.2em;
       padding: 2px 5px;
+    }
+  }
+
+  .select {
+    background: #ffffff;
+    font-size: 1.2em;
+    padding: 2px 5px;
+  }
+
+  .sort {
+    float: left;
+    width: 15em;
+
+    .select {
+      margin-bottom: 15px;
     }
   }
 }

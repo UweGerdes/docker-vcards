@@ -24,3 +24,5 @@ ul#item.item-list
                 = ' (' + type(data.type).join(", ") + ')'
           else
             include valuelist.pug
+//-  li.list-item
+//-    pre= JSON.stringify(vcard.toJSON(), null, 2)

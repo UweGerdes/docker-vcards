@@ -1,15 +1,16 @@
 //- dataset-select.pug
-if datasetNames
-  each name in datasetNames
-    if name != datasetName
-      a.button.datasetName(href='/vcards/dataset/' + name)= name
+//-if datasetNames.indexOf('testdata') >= 0
+//-  each name in datasetNames
+//-    if name != datasetName
+//-      a.button.datasetName(href='/vcards/dataset/' + name)= name
 if oldDatasetName
   span#oldDatasetName.hidden= oldDatasetName
 span#datasetName.hidden= datasetName
 if datasetFiles
-  select#datasetFiles&attributes({ name: 'datasetFiles', 'data-select-url': '/vcards/dataset/' })
+  select#datasetFiles.select&attributes({ name: 'datasetFiles', 'data-select-url': '/vcards/dataset/' })
     each name in datasetFiles
       if name == datasetName
         option(value=name, selected)= name
       else
         option(value=name)= name
+    option(value='testdata') testdata
