@@ -37,6 +37,36 @@ class Vcard {
   constructor(vcard, id) {
     this.vcard = vcard;
     this.id = id;
+
+    this.text = new Proxy({},
+      {
+        get: (obj, prop) => { // jscs:ignore jsDoc
+          return this.vcard.get(prop).valueOf();
+        }
+      }
+    );
+
+    this.value = new Proxy({},
+      {
+        get: (obj, prop) => { // jscs:ignore jsDoc
+          let value = this.getValue(prop, true);
+          if (fields[prop].type == 'list') {
+            if (!(value instanceof Array)) {
+              value = [{ type: this.vcard.get(prop).type, value: value }];
+            }
+          }
+          return value;
+        }
+      }
+    );
+
+    this.type = new Proxy({},
+      {
+        get: (obj, prop) => { // jscs:ignore jsDoc
+          return this.vcard.get(prop).type;
+        }
+      }
+    );
   }
 
   /**
