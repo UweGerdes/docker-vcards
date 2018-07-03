@@ -38,21 +38,22 @@ class Vcard {
     this.vcard = vcard;
     this.id = id;
 
-    this.text = new Proxy({},
-      {
-        get: (obj, prop) => { // jscs:ignore jsDoc
-          return this.vcard.get(prop).valueOf();
-        }
-      }
-    );
-
-    this.value = new Proxy({},
+    this.prop = new Proxy({},
       {
         get: (obj, prop) => { // jscs:ignore jsDoc
           let value = this.getValue(prop, true);
+          const type = this.vcard.get(prop).type;
           if (fields[prop].type == 'list') {
             if (!(value instanceof Array)) {
-              value = [{ type: this.vcard.get(prop).type, value: value }];
+              value = [{ value: value }];
+              if (type) {
+                value[0].type = type;
+              }
+            }
+          } else {
+            value = { value: value };
+            if (type) {
+              value.type = type;
             }
           }
           return value;
@@ -60,10 +61,10 @@ class Vcard {
       }
     );
 
-    this.type = new Proxy({},
+    this.text = new Proxy({},
       {
         get: (obj, prop) => { // jscs:ignore jsDoc
-          return this.vcard.get(prop).type;
+          return propToString(this.prop[prop]);
         }
       }
     );
@@ -164,6 +165,33 @@ class Vcard {
   toVCF() {
     return this.vcard.toString('4.0');
   }
+}
+
+/**
+ * propToString
+ *
+ * @param {object} prop - to convert
+ * @returns {string} - prop string
+ */
+function propToString(prop) {
+  let result;
+  if (prop instanceof Array) {
+    result = [];
+    prop.forEach((p) => { // jscs:ignore jsDoc
+      result.push(propToString(p));
+    });
+  } else {
+    let value = prop.value;
+    if (prop.value instanceof Object) {
+      value = Object.values(value).join(', ');
+    }
+    let type = '';
+    if (prop.type) {
+      type = ' (' + (prop.type instanceof Array ? prop.type.join(', ') : prop.type) + ')';
+    }
+    result = value + type;
+  }
+  return result;
 }
 
 const fields = {

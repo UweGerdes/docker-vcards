@@ -28,23 +28,17 @@ describe('vcard testproxy', () => {
         assert.equal(testData.length > 0, true);
         const vcard = testData[0];
         assert.equal(vcard.get('n').valueOf(), 'Gerdes;Uwe;;;');
-        assert.equal(vcard.text.n, 'Gerdes;Uwe;;;', 'proxy text n');
-        assert.deepEqual(vcard.value.n,
-          { Nachname: 'Gerdes', Vorname: 'Uwe' },
-          'proxy value n'
-        );
-        assert.equal(vcard.type.n, undefined, 'proxy type n');
-        assert.deepEqual(vcard.value.tel,
+        assert.equal(vcard.text.n, 'Gerdes, Uwe');
+        assert.deepEqual(vcard.prop.n, { value: { Nachname: 'Gerdes', Vorname: 'Uwe' } });
+        assert.deepEqual(vcard.text.tel, ['040 256486 (work, voice)', '0179 3901008 (cell)']);
+        assert.deepEqual(vcard.prop.tel,
           [
             { type: ['work', 'voice'], value: '040 256486' },
             { type: 'cell', value: '0179 3901008' }
-          ],
-          'proxy value tel'
+          ]
         );
-        assert.deepEqual(vcard.value.email,
-          [{ type: 'pref', value: 'uwe@uwegerdes.de' }],
-          'proxy value email'
-        );
+        assert.deepEqual(vcard.text.email, ['uwe@uwegerdes.de (pref)']);
+        assert.deepEqual(vcard.prop.email, [{ type: 'pref', value: 'uwe@uwegerdes.de' }]);
       });
     });
   });
