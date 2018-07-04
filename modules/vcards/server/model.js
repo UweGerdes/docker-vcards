@@ -58,8 +58,10 @@ class Vcard {
             if (type) {
               value.type = type;
             }
+            if (this.vcard.get(field).encoding) {
+              value.encoding = this.vcard.get(field).encoding;
+            }
           }
-
           return value;
         }
       }
@@ -360,7 +362,7 @@ module.exports = {
    * @returns {Promise} with vcard list
    */
   switchDataset: (name) => {
-    if (name == 'testdata') {
+    if (name == 'testdata' || name == 'testimage') {
       return openFile(path.join(path.dirname(__dirname), 'tests', 'server', name + '.vcf'));
     } else {
       if (lists[name]) {
