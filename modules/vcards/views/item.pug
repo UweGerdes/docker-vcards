@@ -1,7 +1,10 @@
 //- item.pug
 mixin itemvalue(prop, field)
   if typeof prop.value == 'string'
-    = prop.value
+    if fields[field].type == 'image'
+      img(src='data:image/' + prop.type + ';' + prop.encoding.toLowerCase() + ',' + prop.value)
+    else
+      = prop.value
     if prop.type
       = ' (' + type(prop.type).join(', ') + ')'
   else if fields[field].parts
@@ -36,17 +39,5 @@ ul#item.item-list
                       + itemvalue(p, field)
               else
                 + itemvalue(prop, field)
-
-//                if prop.type && prop.type == 'image'
-//                  img(src='data:image/' + data.type + ';' + data.encoding.toLowerCase() + ',' + value)
-//                else if value.indexOf(';') > -1
-//                  = unCsv(value)
-//                else if value.match(/^[0-9.-]+[T ][0-9:]+Z?$/)
-//                  = timestamp(value)
-//                else
-                = value
-              if data.type
-                span.type
-                  = ' (' + type(data.type).join(", ") + ')'
             else
-              = value + 'X'
+              = field + ' type unkown'
