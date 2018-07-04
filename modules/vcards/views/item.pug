@@ -30,9 +30,9 @@ ul#item.item-list
             if fields[field]
               if fields[field].type == 'list'
                 ul.values
-                  each p in vcard.prop[field]
+                  each prop in vcard.prop[field]
                     li.values-item
-                      + itemvalue(p, field)
+                      + itemvalue(prop, field)
               else
                 + itemvalue(vcard.prop[field], field)
             else
