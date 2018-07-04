@@ -23,8 +23,7 @@ ul#item.item-list
     li.list-item
       div(id=field).field
         div.label
-          = fields[field] ? fields[field].label : field
-          =": "
+          = (fields[field] ? fields[field].label : field) + ": "
         div.itemvalue
           span.value
             if fields[field]
