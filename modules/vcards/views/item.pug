@@ -1,4 +1,21 @@
 //- item.pug
+mixin itemvalue(prop, field)
+  if typeof prop.value == 'string'
+    = prop.value
+    if prop.type
+      = ' (' + type(prop.type).join(', ') + ')'
+  else if fields[field].parts
+    span.parts
+      - var comma = false
+      each part, i in fields[field].parts
+        if prop.value[part]
+          = (comma ? ', ' : '')
+          span(title=part)= prop.value[part]
+          - comma = true
+      if prop.type
+        = ' (' + type(prop.type).join(', ') + ')'
+
+
 ul#item.item-list
   each field in vcard.getFields()
     li.list-item
@@ -7,22 +24,29 @@ ul#item.item-list
           = fields[field] ? fields[field].label : field
           =": "
         div.itemvalue
-          - var value = vcard.getValue(field, true)
+          - var value = vcard.text[field]
+          - var prop = vcard.prop[field]
           - var data = vcard.get(field)
-          if typeof value == "string"
-            span.value
-              if data.encoding && (data.type == 'jpeg' || data.type == 'png')
-                img(src='data:image/' + data.type + ';' + data.encoding.toLowerCase() + ',' + value)
-              else if value.indexOf(';') > -1
-                = unCsv(value)
-              else if value.match(/^[0-9.-]+[T ][0-9:]+Z?$/)
-                = timestamp(value)
+          span.value
+            if fields[field]
+              if fields[field].type == 'list'
+                ul.values
+                  each p in prop
+                    li.values-item
+                      + itemvalue(p, field)
               else
+                + itemvalue(prop, field)
+
+//                if prop.type && prop.type == 'image'
+//                  img(src='data:image/' + data.type + ';' + data.encoding.toLowerCase() + ',' + value)
+//                else if value.indexOf(';') > -1
+//                  = unCsv(value)
+//                else if value.match(/^[0-9.-]+[T ][0-9:]+Z?$/)
+//                  = timestamp(value)
+//                else
                 = value
-            if data.type
-              span.type
-                = ' (' + type(data.type).join(", ") + ')'
-          else
-            include valuelist.pug
-//-  li.list-item
-//-    pre= JSON.stringify(vcard.toJSON(), null, 2)
+              if data.type
+                span.type
+                  = ' (' + type(data.type).join(", ") + ')'
+            else
+              = value + 'X'

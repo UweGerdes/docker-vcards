@@ -28,7 +28,7 @@ describe('vcard testproxy', () => {
         assert.equal(testData.length > 0, true);
         const vcard = testData[0];
         assert.equal(vcard.get('n').valueOf(), 'Gerdes;Uwe;;;');
-        assert.equal(vcard.text.n, 'Gerdes, Uwe');
+        assert.deepEqual(vcard.text.n, { Nachname: 'Gerdes', Vorname: 'Uwe' });
         assert.deepEqual(vcard.prop.n, { value: { Nachname: 'Gerdes', Vorname: 'Uwe' } });
         assert.deepEqual(vcard.text.tel, ['040 256486 (work, voice)', '0179 3901008 (cell)']);
         assert.deepEqual(vcard.prop.tel,

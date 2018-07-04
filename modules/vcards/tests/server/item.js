@@ -84,10 +84,10 @@ describe('vcard item', function () {
           const headline = document.getElementById('headline');
           assert.equal(headline.textContent, 'vcard Uwe Gerdes');
           const item = document.getElementById('item').getElementsByTagName('li');
-          assert.equal(item.length, 8);
+          assert.equal(item.length, 9);
           const name = document.getElementById('n');
           assert.equal(name.textContent, 'Name: Gerdes, Uwe');
-          const nameParts = name.childNodes[1].childNodes[0].childNodes;
+          const nameParts = name.childNodes[1].childNodes[0].childNodes[0].childNodes;
           assert.equal(nameParts.length, 3);
           assert.equal(nameParts[0].textContent, 'Gerdes');
           assert.equal(nameParts[1].textContent, ', ');
@@ -110,7 +110,7 @@ describe('vcard item', function () {
           const headline = document.getElementById('headline');
           assert.equal(headline.textContent, 'vcard Uwe Gerdes');
           const item = document.getElementById('item').getElementsByTagName('li');
-          assert.equal(item.length, 9);
+          assert.equal(item.length, 11);
           assert.equal(document.getElementById('n').textContent, 'Name: Gerdes, Uwe');
           assert.equal(document.getElementById('tel').textContent,
             'Telefon: +49 40 25178252 (Arbeit, Sprache)01793901008 (Mobil)');

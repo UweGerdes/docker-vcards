@@ -72,12 +72,10 @@ mixin list(field, other, name, id)
 
 mixin value(field, other, name, id)
   if field
-    if fields[name].type == 'text'
-      + choice(field, other, name, id)
-    else if fields[name].type == 'list'
+    if fields[name].type == 'list'
       + list(field, other, name, id)
     else
-      = '???? ' + name
+      + choice(field, other, name, id)
   else
     | !{'&nbsp;'}
 
@@ -102,6 +100,5 @@ mixin field2(field1, field2, name)
       each name in names2
         if (names1.indexOf(name) < 0)
           + field2(null, vcard2.get(name), name)
-          = JSON.stringify(vcard2.get(name))
     #submit.submit
       input.searchSubmit(type='submit', value='speichern')

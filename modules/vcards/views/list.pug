@@ -8,4 +8,4 @@
   ul#list.list
     each vcard, id in vcards
       li.list-item
-        a(href='/vcards/' + vcard.id + '/')= vcard.getValue('fn', true)
+        a(href='/vcards/' + vcard.id + '/')= vcard.text.fn

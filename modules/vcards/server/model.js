@@ -40,22 +40,26 @@ class Vcard {
 
     this.prop = new Proxy({},
       {
-        get: (obj, prop) => { // jscs:ignore jsDoc
-          let value = this.getValue(prop, true);
-          const type = this.vcard.get(prop).type;
-          if (fields[prop].type == 'list') {
+        get: (obj, field) => { // jscs:ignore jsDoc
+          let value = this.getValue(field, true);
+          const type = this.vcard.get(field).type;
+          if (fields[field].type == 'list') {
             if (!(value instanceof Array)) {
               value = [{ value: value }];
               if (type) {
                 value[0].type = type;
               }
             }
+          } else if (fields[field].type == 'timestamp') {
+            const date = new Date(value);
+            value = { value: date.toLocaleString() };
           } else {
             value = { value: value };
             if (type) {
               value.type = type;
             }
           }
+
           return value;
         }
       }
@@ -63,8 +67,8 @@ class Vcard {
 
     this.text = new Proxy({},
       {
-        get: (obj, prop) => { // jscs:ignore jsDoc
-          return propToString(this.prop[prop]);
+        get: (obj, field) => { // jscs:ignore jsDoc
+          return propToString(this.prop[field], field);
         }
       }
     );
@@ -171,25 +175,29 @@ class Vcard {
  * propToString
  *
  * @param {object} prop - to convert
+ * @param {object} field - name
  * @returns {string} - prop string
  */
-function propToString(prop) {
+function propToString(prop, field) {
   let result;
   if (prop instanceof Array) {
     result = [];
     prop.forEach((p) => { // jscs:ignore jsDoc
-      result.push(propToString(p));
+      result.push(propToString(p, field));
     });
   } else {
     let value = prop.value;
-    if (prop.value instanceof Object) {
-      value = Object.values(value).join(', ');
+    if (value instanceof Object) {
+      result = value;
+    } else {
+      let type = '';
+      if (prop.type && fields[field]) {
+        if (fields[field].type != 'image') {
+          type = ' (' + (prop.type instanceof Array ? prop.type.join(', ') : prop.type) + ')';
+        }
+      }
+      result = value + type;
     }
-    let type = '';
-    if (prop.type) {
-      type = ' (' + (prop.type instanceof Array ? prop.type.join(', ') : prop.type) + ')';
-    }
-    result = value + type;
   }
   return result;
 }
@@ -254,7 +262,7 @@ const fields = {
   },
   rev: {
     label: 'Timestamp',
-    type: 'text',
+    type: 'timestamp',
     size: 30
   }
 };

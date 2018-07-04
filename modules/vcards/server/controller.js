@@ -20,7 +20,7 @@ const viewRenderParams = {
   types: model.types,
   // view helper functions
   type: type,
-  timestamp: timestamp,
+  timestamp: timestamp, // TODO remove
   unCsv: unCsv
 };
 /**
@@ -274,6 +274,7 @@ function type(value) {
   return typelist;
 }
 
+// TODO remove
 /**
  * ### timestamp
  *
