@@ -37,11 +37,14 @@ class Vcard {
   constructor(vcard, id) {
     this.vcard = vcard;
     this.id = id;
-
+    this.fields = Object.keys(this.vcard.data);
     this.prop = new Proxy({},
       {
         get: (obj, field) => { // jscs:ignore jsDoc
           let value = this.getValue(field, true);
+          if (!this.vcard.get(field)) {
+            console.log(field);
+          }
           const type = this.vcard.get(field).type;
           if (fields[field].type == 'list') {
             if (!(value instanceof Array)) {
@@ -421,6 +424,7 @@ module.exports = {
     vcard.version = data.version;
     if (index < list.length) {
       list[index].vcard = vcard;
+      list[index].fields = Object.keys(vcard.data);
     } else {
       list.push(new Vcard(vcard, list.length));
     }
