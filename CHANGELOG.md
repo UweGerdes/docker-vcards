@@ -2,6 +2,9 @@
 
 ## latest
 
+0.1.0
+use variable proxy for vcard
+
 0.0.10
 sort list
 
