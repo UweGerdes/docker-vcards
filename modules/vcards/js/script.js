@@ -96,7 +96,8 @@ function newType(event) {
         }
       }
     };
-    xhttp.open('GET', element.getAttribute('data-select-xhr') + element.value, true);
+    const i = element.parentNode.getElementsByClassName('type').length + element.selectedIndex - 1;
+    xhttp.open('GET', element.getAttribute('data-select-xhr') + element.value + '/' + i, true);
     xhttp.send();
   }
 }

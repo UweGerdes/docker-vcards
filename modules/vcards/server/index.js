@@ -41,7 +41,7 @@ router.get('/dataset/:name/', controller.switchDataset);
 router.get('/list/', controller.list);
 
 // new type route
-router.get('/type/:field/_:index?/:type', controller.inputType);
+router.get('/type/:field/_:index?/:type/:i?', controller.inputType);
 
 // new field route
 router.get('/field/:field/:index', controller.inputField);

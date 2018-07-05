@@ -168,6 +168,7 @@ const inputType = (req, res) => {
   res.render(path.join(viewBase, 'input-type.pug'), {
     field: req.params.field,
     index: req.params.index || '',
+    i: req.params.i || '0',
     type: req.params.type,
     fields: model.fields,
     types: model.types

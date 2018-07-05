@@ -166,10 +166,10 @@ describe('vcard edit', function () {
         });
     });
   });
-  describe('GET /vcards/type/email/_/work', function () {
+  describe('GET /vcards/type/email/_/work/2', function () {
     it('should render a work type for email', function (done) {
       chai.request('http://vcards-dev:8080')
-        .get('/vcards/type/email/_/work')
+        .get('/vcards/type/email/_/work/2')
         .end(function (err, res) {
           expect(err).to.be.null;
           expect(res).to.have.status(200);
@@ -181,6 +181,7 @@ describe('vcard edit', function () {
           const checkbox = document.querySelectorAll('input[type="checkbox"]');
           assert.equal(checkbox.length, 1);
           assert.equal(checkbox[0].getAttribute('name'), 'email_type');
+          assert.equal(checkbox[0].getAttribute('id'), 'checkbox_email_2');
           assert.equal(checkbox[0].getAttribute('value'), 'work');
           done();
         });
