@@ -71,6 +71,8 @@ module.exports = {
             '//form[@id="edit"]//input[@name="n"][@value="Gerdes;Uwe;;;"]': '',
             '//form[@id="edit"]//input[@name="fn"][@value="Uwe Gerdes Test"]': '',
             '//form[@id="edit"]//input[@type="checkbox"][@name="tel0_type"][@value="voice"]': '',
+            '//form[@id="edit"]//*[@type="checkbox"][@id="checkbox_tel0_1"][@value="voice"]': '',
+            '//form[@id="edit"]//*[@for="checkbox_tel0_1"]': 'Sprache',
           }
         },
         'add and remove phone type': {

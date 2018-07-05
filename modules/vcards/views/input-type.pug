@@ -1,6 +1,6 @@
 //- input-type.pug
 span.type
-  input(type='checkbox', id='checkbox_' + field + index, name=field + index + '_type', value=type, checked)
-  label(for='checkbox_' + field + index)= types[type]
+  input(type='checkbox', id='checkbox_' + field + index + '_' + i, name=field + index + '_type', value=type, checked)
+  label(for='checkbox_' + field + index + '_' + i)= types[type]
   if fields[field].types.indexOf(type) < 0
     = ' #'

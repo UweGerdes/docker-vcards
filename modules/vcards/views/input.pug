@@ -10,7 +10,7 @@ mixin types(field, index, typeList)
   .types
     if typeof typeList == 'string'
       - typeList = [typeList]
-    each type in typeList
+    each type, i in typeList
       include input-type.pug
     +moreTypes(field, index, typeList)
 
