@@ -19,7 +19,7 @@ mixin itemvalue(prop, field)
         = ' (' + type(prop.type).join(', ') + ')'
 
 ul#item.item-list
-  each field in vcard.getFields()
+  each field in vcard.fields
     li.list-item
       div(id=field).field
         div.label

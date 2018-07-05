@@ -7,7 +7,7 @@ block content
     h1#headline.headline= title
       if vcard
         = " "
-        = vcard.getValue('fn', true)
+        = vcard.text.fn
       if editId
         = " bearbeiten"
 
