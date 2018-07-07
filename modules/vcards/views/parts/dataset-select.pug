@@ -9,8 +9,6 @@ span#datasetName.hidden= datasetName
 if datasetFiles
   select#datasetFiles.select&attributes({ name: 'datasetFiles', 'data-select-url': '/vcards/dataset/' })
     each name in datasetFiles
-      if name == datasetName
-        option(value=name, selected)= name
-      else
-        option(value=name)= name
-    option(value='testdata') testdata
+      option(value=name, selected=(name == datasetName))= name
+    option(value='testdata', selected=(datasetName == 'testdata')) testdata
+    option(value='testimage', selected=(datasetName == 'testimage')) testimage
