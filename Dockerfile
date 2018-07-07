@@ -1,7 +1,7 @@
 #
 # Dockerfile for vCard development
 #
-# docker build -t uwegerdes/vcard .
+# docker build -t uwegerdes/vcards .
 
 FROM uwegerdes/nodejs
 
