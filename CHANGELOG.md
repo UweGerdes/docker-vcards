@@ -4,6 +4,7 @@
 
 0.1.0
 use variable proxy for vcard
+test server for e2e-workflow tests
 
 0.0.10
 sort list

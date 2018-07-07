@@ -4,7 +4,7 @@
  * (c) Uwe Gerdes, entwicklung@uwegerdes.de
  */
 
-const domain = 'http://vcards-dev:8080';
+const domain = 'http://vcards-e2e:8080';
 
 module.exports = {
   name: 'default e2e workflow test',
