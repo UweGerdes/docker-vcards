@@ -103,17 +103,17 @@ describe('vcard edit', function () {
           assert.equal(form.length, 1);
 
           const inputVersion = document.querySelectorAll('form#edit #version');
-          assert.equal(inputVersion.length, 1);
+          assert.equal(inputVersion.length, 1, 'input field version');
           assert.equal(inputVersion[0].getAttribute('size'), 5);
           assert.equal(inputVersion[0].getAttribute('value'), '2.1');
 
-          const inputN = document.querySelectorAll('form#edit #n');
-          assert.equal(inputN.length, 1);
-          assert.equal(inputN[0].getAttribute('size'), 30);
-          assert.equal(inputN[0].getAttribute('value'), 'Gerdes;Uwe;;;');
+          const inputN = document.querySelectorAll('form#edit #n_container .input-text');
+          assert.equal(inputN.length, 5, 'input field n');
+          assert.equal(inputN[0].getAttribute('title'), 'Vorname');
+          assert.equal(inputN[0].getAttribute('value'), 'Uwe');
 
           const inputTel0 = document.querySelectorAll('form#edit #tel0');
-          assert.equal(inputTel0.length, 1);
+          assert.equal(inputTel0.length, 1, 'input field tel0');
           assert.equal(inputTel0[0].getAttribute('size'), 30);
           assert.equal(inputTel0[0].getAttribute('value'), '040 256486');
 
@@ -212,9 +212,9 @@ describe('vcard edit', function () {
           expect(res).to.have.status(200);
           expect(res).to.be.html;
           const { document } = (new JSDOM(res.text)).window;
-          const types = document.querySelectorAll('input[type="checkbox"][name="email_type"]');
+          const types = document.querySelectorAll('input[type="checkbox"][name="email0_type"]');
           assert.equal(types.length, 1);
-          const selectEmail = document.querySelectorAll('select[name="select_email"]');
+          const selectEmail = document.querySelectorAll('select[name="select_email0"]');
           assert.equal(selectEmail.length, 1);
           assert.equal(selectEmail[0].value, '');
           selectEmail[0].selectedIndex = 1;

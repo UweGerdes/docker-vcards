@@ -217,7 +217,8 @@ const fields = {
     label: 'Name',
     type: 'text',
     size: 30,
-    parts: ['Nachname', 'Vorname', 'part3', 'Titel', 'part5']
+    parts: ['Nachname', 'Vorname', 'part3', 'Titel', 'part5'],
+    parts_order: ['Vorname', 'Nachname', 'Titel', 'part3', 'part5'],
   },
   fn: {
     label: 'Anzeigename',
@@ -236,7 +237,8 @@ const fields = {
     type: 'list',
     size: 30,
     types: ['work', 'home', 'pref'],
-    parts: ['part1', 'part2', 'Straße', 'Ort', 'part5', 'PLZ', 'Land']
+    parts: ['part1', 'part2', 'Straße', 'Ort', 'part5', 'PLZ', 'Land'],
+    parts_order: ['Straße', 'PLZ', 'Ort', 'Land', 'part1', 'part2', 'part5']
   },
   email: {
     label: 'E-Mail',
