@@ -127,4 +127,6 @@ function getRequest(file) {
   });
 }
 
-loadTasks.importTasks(tasks);
+if (process.env.NODE_ENV == 'development') {
+  loadTasks.importTasks(tasks);
+}

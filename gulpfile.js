@@ -29,11 +29,18 @@ const gulp = require('gulp'),
  * @param {function} callback - gulp callback
  */
 gulp.task('default', (callback) => {
-  sequence('lint',
-    'build',
-    'watch',
-    'livereload-start',
-    'server-start',
-    'tests',
-    callback);
+  if (process.env.NODE_ENV == 'development') {
+    sequence('lint',
+      'build',
+      'watch',
+      'livereload-start',
+      'server-start',
+      'tests',
+      callback);
+  } else {
+    sequence(
+      'livereload-start',
+      'server-start',
+      callback);
+  }
 });
