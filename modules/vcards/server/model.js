@@ -365,7 +365,7 @@ module.exports = {
    * @returns {Promise} with vcard list
    */
   switchDataset: (name) => {
-    if (name == 'testdata' || name == 'testimage') {
+    if (name.indexOf('test') == 0) {
       return openFile(path.join(path.dirname(__dirname), 'tests', 'server', name + '.vcf'));
     } else {
       if (lists[name]) {
