@@ -42,7 +42,8 @@ module.exports = {
             '//*[@id="headline"]': 'vcard Uwe Gerdes bearbeiten',
             '//form[@id="edit"]': '',
             '//form[@id="edit"]//input[@name="version"][@value="2.1"]': '',
-            '//form[@id="edit"]//input[@name="n"][@value="Gerdes;Uwe;;;"]': '',
+            '//form[@id="edit"]//input[@name="n_Nachname"][@value="Gerdes"]': '',
+            '//form[@id="edit"]//input[@name="n_Vorname"][@value="Uwe"]': '',
           }
         },
         'change content': {
@@ -68,7 +69,8 @@ module.exports = {
             '//*[@id="headline"]': 'vcard Uwe Gerdes Test bearbeiten',
             '//form[@id="edit"]': '',
             '//form[@id="edit"]//input[@name="version"][@value="2.2"]': '',
-            '//form[@id="edit"]//input[@name="n"][@value="Gerdes;Uwe;;;"]': '',
+            '//form[@id="edit"]//input[@name="n_Nachname"][@value="Gerdes"]': '',
+            '//form[@id="edit"]//input[@name="n_Vorname"][@value="Uwe"]': '',
             '//form[@id="edit"]//input[@name="fn"][@value="Uwe Gerdes Test"]': '',
             '//form[@id="edit"]//input[@type="checkbox"][@name="tel0_type"][@value="voice"]': '',
             '//form[@id="edit"]//*[@type="checkbox"][@id="checkbox_tel0_1"][@value="voice"]': '',
@@ -100,6 +102,7 @@ module.exports = {
           elements: {
             '//*[@id="headline"]': 'vcard Uwe Gerdes Test bearbeiten',
             '//form[@id="edit"]': '',
+            '//form[@id="edit"]//*[@id="tel_container"]//*[@class="add"]': '+',
           },
         },
         'add phone number fields': {
