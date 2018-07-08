@@ -266,7 +266,8 @@ const fields = {
   photo: {
     label: 'Foto',
     type: 'image',
-    size: 1
+    size: 1,
+    types: ['jpeg', 'gif', 'png']
   },
   rev: {
     label: 'Timestamp',
