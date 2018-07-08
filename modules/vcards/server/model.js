@@ -42,10 +42,11 @@ class Vcard {
       {
         get: (obj, field) => { // jscs:ignore jsDoc
           let value = this.getValue(field, true);
-          if (!this.vcard.get(field)) {
-            console.log(field);
+          let field2 = this.vcard.get(field);
+          let type;
+          if (field2) {
+            type = field2.type;
           }
-          const type = this.vcard.get(field).type;
           if (fields[field].type == 'list') {
             if (!(value instanceof Array)) {
               value = [{ value: value }];
@@ -61,8 +62,8 @@ class Vcard {
             if (type) {
               value.type = type;
             }
-            if (this.vcard.get(field).encoding) {
-              value.encoding = this.vcard.get(field).encoding;
+            if (field2 && field2.encoding) {
+              value.encoding = field2.encoding;
             }
           }
           return value;
@@ -569,6 +570,9 @@ const data2vcard = (data) => {
 const dataValue = (data, name, parts) => {
   let value;
   if (parts) {
+    if (data[name] && data[name].indexOf('{') == 0) {
+      data = JSON.parse(data[name]);
+    }
     const v = parts.map(part => data[name + '_' + part] || ''); // jscs:ignore jsDoc
     if (v.join('')) {
       value = v;

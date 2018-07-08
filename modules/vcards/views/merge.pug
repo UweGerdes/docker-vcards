@@ -1,12 +1,8 @@
 //- merge.pug
 mixin parts(value, parts)
-  span.parts
-    - var values = value.split(';')
-    - var comma = false
-    each part, i in parts
-      if values[i]
-        span(title=part)= (comma ? ', ' : '') + values[i]
-        - comma = true
+  each part in parts
+    if value[part]
+      span(title=part)= value[part] + ' '
 
 mixin types(types, name, index)
   if typeof types == 'string'
@@ -18,77 +14,50 @@ mixin types(types, name, index)
     span.type= ' (' + type(types).join(", ") + ')'
 
 
-mixin choice(field, other, name, id)
-  span.choice
-    - var value = field.valueOf()
-    if typeof value == 'string'
-      if !other || value != other.valueOf()
-        input(type='radio', name=name, value=value, checked=!other, id=id)
-        label(for=id)
-          if fields[name].parts
-            + parts(value, fields[name].parts)
-          else if value.match(/^[0-9.-]+[T ][0-9:]+Z?$/)
-            = timestamp(value)
-          else
-            = value
-    else
-      if JSON.stringify(value) != JSON.stringify(other.valueOf())
-        input(type='radio', name=name, value=value, checked, id=id)
-        label(for=id)
-          - var i = 0
-          each val, key in field
-            = (i++ > 0) ? ', ' : ''
-            span(title=key)= val
-
-mixin list(field, other, name, id)
+mixin list2(prop, other, name, id)
   - otherValues = []
-  if other
-    if typeof other.valueOf() == 'string'
-      - otherValues = [other.valueOf()]
-    else
-      each item, i in other.valueOf()
-        - otherValues.push(item.valueOf())
-  if typeof field.valueOf() == 'string'
-    if otherValues.indexOf(field.valueOf()) < 0
-      input(type='checkbox', name=id, value=field.valueOf(), checked, id=id)
+  ul.values
+    each item, i in prop
+      li.values-item
+        input(type='checkbox', name=id + i, value=item.value, checked, id=id + '_' + i)
+        label(for=id + '_' + i)
+          if fields[name].parts_order
+            if !other || JSON.stringify(item) != JSON.stringify(other.value)
+              label(for=id)
+                each part in fields[name].parts_order
+                  if item.value[part]
+                    span(title=part)= item.value[part] + ' '
+          else
+            = item.value
+          if item.type
+            + types(item.type, id, i)
+
+mixin choice2(prop, other, name, id)
+  span.choice
+    if prop.value && (!other || JSON.stringify(prop.value) != JSON.stringify(other.value))
+      input(type='radio', name=name, value=prop.value, checked=!other, id=id)
       label(for=id)
         if fields[name].parts
-          + parts(field.valueOf(), fields[name].parts)
+          + parts(prop.value, fields[name].parts_order)
         else
-          = field.valueOf()
-        if field.type
-          + types(field.type, id, '')
-  else
-    ul.values
-      each item, i in field
-        if otherValues.indexOf(item.valueOf()) < 0
-          li.values-item
-            input(type='checkbox', name=id + i, value=item.valueOf(), checked, id=id + '_' + i)
-            label(for=id + '_' + i)
-              = item.valueOf()
-              if item.type
-                + types(item.type, id, i)
+          = prop.value
 
-
-mixin value(field, other, name, id)
-  if field
+mixin value2(prop, other, name, id)
+  if prop
     if fields[name].type == 'list'
-      + list(field, other, name, id)
+      + list2(prop, other, name, id)
     else
-      + choice(field, other, name, id)
+      + choice2(prop, other, name, id)
   else
     | !{'&nbsp;'}
 
-mixin values(field1, field2, name)
-  div.itemvalue.i1
-    + value(field1, null, name, name + '1')
-  div.itemvalue.i2
-    + value(field2, field1, name, name + '2')
-
-mixin field2(field1, field2, name)
+mixin field2(prop1, prop2, name)
   li.list-item
     div(id=name).fielddiv.label= fields[name].label + ":"
-    + values(field1, field2, name)
+    div.itemvalue.i1
+      + value2(prop1, null, name, name + '1')
+    div.itemvalue.i2
+      + value2(prop2, prop1, name, name + '2')
 
 #mergeView.mergeView
   - var names1 = vcard.getFields()
@@ -96,9 +65,9 @@ mixin field2(field1, field2, name)
   form#merge.merge(method='POST', action='/vcards/save/' + id + '/' + id2)
     ul#fieldList.item-list
       each name in names1
-        + field2(vcard.get(name), vcard2.get(name), name)
+        + field2(vcard.prop[name], vcard2.prop[name], name)
       each name in names2
         if (names1.indexOf(name) < 0)
-          + field2(null, vcard2.get(name), name)
+          + field2(null, vcard2.prop[name], name)
     #submit.submit
       input.searchSubmit(type='submit', value='speichern')

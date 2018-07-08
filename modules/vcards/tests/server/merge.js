@@ -103,7 +103,7 @@ describe('vcard merge', function () {
 });
 
 const formDataCompare = { version: '2.1',
-  n: 'Gerdes;Uwe;;;',
+  n: '{"Nachname":"Gerdes","Vorname":"Uwe"}',
   fn: 'Uwe Gerdes',
   tel10: '040 256486',
   tel10_type: 'voice',
@@ -113,12 +113,12 @@ const formDataCompare = { version: '2.1',
   tel20_type: 'voice',
   tel21: '01793901008',
   tel21_type: 'cell',
-  email1: 'uwe@uwegerdes.de',
-  email1_type: 'pref',
-  email2: 'entwicklung@uwegerdes.de',
-  email2_type: 'internet',
+  email10: 'uwe@uwegerdes.de',
+  email10_type: 'pref',
+  email20: 'entwicklung@uwegerdes.de',
+  email20_type: 'internet',
   url: 'http://www.uwegerdes.de/',
-  adr2: ';;Klaus-Groth-Str. 22;Hamburg;;20535;Germany',
-  adr2_type: 'home',
-  rev: '2014-08-24T18:50:00Z'
+  adr20: '{"Straße":"Klaus-Groth-Str. 22","Ort":"Hamburg","PLZ":"20535","Land":"Germany"}',
+  adr20_type: 'home',
+  rev: '2014-8-24 20:50:00'
 };
