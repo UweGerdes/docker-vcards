@@ -86,6 +86,9 @@ describe('vcard merge', function () {
           assert.equal(mergeFieldList[4].childNodes.length, 3);
           assert.equal(mergeFieldList[4].childNodes[0].textContent.trim(), 'E-Mail:');
           assert.equal(mergeFieldList[4].childNodes[1].textContent.trim(), 'uwe@uwegerdes.de (!)');
+          assert.equal(mergeFieldList[7].childNodes.length, 3);
+          assert.equal(mergeFieldList[7].childNodes[0].textContent.trim(), 'Timestamp:');
+          assert.equal(mergeFieldList[7].childNodes[2].textContent.trim(), '2014-8-24 20:50:00');
           let formData = {};
           const fd = new document.defaultView.FormData(form);
           let e = fd.entries();
