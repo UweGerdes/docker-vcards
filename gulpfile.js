@@ -39,6 +39,7 @@ gulp.task('default', (callback) => {
       callback);
   } else {
     sequence(
+      'watch',
       'livereload-start',
       'server-start',
       callback);

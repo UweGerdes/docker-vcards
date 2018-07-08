@@ -277,4 +277,6 @@ const report = (file) => {
 
 if (process.env.NODE_ENV == 'development') {
   loadTasks.importTasks(tasks);
+} else {
+  loadTasks.importTasks({ jshint: () => { } });
 }
