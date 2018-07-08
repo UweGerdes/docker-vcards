@@ -535,18 +535,60 @@ function openFile(filename) {
  * @param {object} data - data for new vcard
  */
 const data2vcard = (data) => {
-  const keyList = Object.keys(fields);
-  const dataJSON = [];
-  Object.keys(data).forEach((name) => { // jscs:ignore jsDoc
-    const matches = name.match(/^(.+?)([0-9]*)?$/);
-    const field = matches[1];
-    if (keyList.indexOf(field) >= 0) {
-      let typeJSON = {};
-      if (data[name + '_type']) {
-        typeJSON = { type: data[name + '_type'] };
+  const dataKeys = Object.keys(data);
+  let dataJSON = [];
+  Object.keys(fields).forEach((name) => { // jscs:ignore jsDoc
+    const field = fields[name];
+    if (field.type == 'list') {
+      const re = new RegExp('^' + name + '([0-9]*)' +
+                            (field.parts ? '_' + field.parts_order[0] : '') + '$');
+      dataKeys.forEach(key => { // jscs:ignore jsDoc
+        const match = re.exec(key);
+        if (match) {
+          dataJSON.push([name, typeArray(data, name + match[1]), 'text',
+                        dataValue(data, name + match[1], field.parts)]);
+        }
+      });
+    } else {
+      const value = dataValue(data, name, field.parts);
+      if (value) {
+        dataJSON.push([name, typeArray(data, name), 'text', value]);
       }
-      dataJSON.push([field, typeJSON, 'text', data[name]]);
     }
   });
   return vcf.fromJSON(['vcard', dataJSON]);
+};
+
+/**
+ * get value from form data
+ *
+ * @param {object} data - data for new vcard
+ * @param {string} name - fieldname
+ * @param {object} parts - parts for entry
+ */
+const dataValue = (data, name, parts) => {
+  let value;
+  if (parts) {
+    const v = parts.map(part => data[name + '_' + part] || ''); // jscs:ignore jsDoc
+    if (v.join('')) {
+      value = v;
+    }
+  } else {
+    value = data[name];
+  }
+  return value;
+};
+
+/**
+ * get type array from form data
+ *
+ * @param {object} data - data for new vcard
+ * @param {string} name - fieldname
+ */
+const typeArray = (data, name) => {
+  let typeJSON = {};
+  if (data[name + '_type']) {
+    typeJSON = { type: data[name + '_type'] };
+  }
+  return typeJSON;
 };

@@ -126,6 +126,50 @@ describe('vcard edit', function () {
         });
     });
   });
+  describe('GET /vcards/edit/1/', function () {
+    it('should edit vcard with separated fields n, adr', function (done) {
+      chai.request('http://vcards-dev:8080')
+        .get('/vcards/edit/1/')
+        .end(function (err, res) {
+          expect(err).to.be.null;
+          expect(res).to.have.status(200);
+          expect(res).to.be.html;
+
+          const { document } = (new JSDOM(res.text)).window;
+
+          const headline = document.getElementById('headline');
+          assert.equal(headline.textContent, 'vcard Uwe Gerdes bearbeiten');
+
+          const form = document.querySelectorAll('form#edit');
+          assert.equal(form.length, 1);
+
+          const inputVersion = document.querySelectorAll('form#edit #version');
+          assert.equal(inputVersion.length, 1, 'input field version');
+          assert.equal(inputVersion[0].getAttribute('size'), 5);
+          assert.equal(inputVersion[0].getAttribute('value'), '3.0');
+
+          const inputN = document.querySelectorAll('form#edit #n_container .input-text');
+          assert.equal(inputN.length, 5, 'input field n');
+          assert.equal(inputN[0].getAttribute('title'), 'Vorname');
+          assert.equal(inputN[0].getAttribute('value'), 'Uwe');
+          assert.equal(inputN[1].getAttribute('title'), 'Nachname');
+          assert.equal(inputN[1].getAttribute('value'), 'Gerdes');
+
+          const inputAdr = document.querySelectorAll('form#edit #adr_container .input-text');
+          assert.equal(inputAdr.length, 7, 'input field adr');
+          assert.equal(inputAdr[0].getAttribute('title'), 'Straße');
+          assert.equal(inputAdr[0].getAttribute('value'), 'Klaus-Groth-Str. 22');
+          assert.equal(inputAdr[1].getAttribute('title'), 'PLZ');
+          assert.equal(inputAdr[1].getAttribute('value'), '20535');
+          assert.equal(inputAdr[2].getAttribute('title'), 'Ort');
+          assert.equal(inputAdr[2].getAttribute('value'), 'Hamburg');
+          assert.equal(inputAdr[3].getAttribute('title'), 'Land');
+          assert.equal(inputAdr[3].getAttribute('value'), 'Germany');
+
+          done();
+        });
+    });
+  });
   describe('GET /vcards/type/tel/_0/work', function () {
     it('should render a work type for tel0', function (done) {
       chai.request('http://vcards-dev:8080')
@@ -230,13 +274,20 @@ describe('vcard edit', function () {
         .type('form')
         .send({
           version: '2.1',
-          n: 'Gerdes;Uwe;;;',
+          n_Vorname: 'Uwe Wilhelm',
+          n_Nachname: 'Gerdes (test)',
+          n_Titel: 'Dipl. Ing. FH',
           fn: 'Uwe Gerdes neu',
           tel0: '040 256486 neu',
           tel0_type: ['work', 'voice'],
           select_tel0: '',
           tel1: '0179 3901008 neu',
           select_tel1: '',
+          adr0_Straße: 'Klaus-Groth-Str. 22',
+          adr0_PLZ: '20535',
+          adr0_Ort: 'Hamburg',
+          adr0_Land: 'Germany',
+          adr0_type: 'home',
           email: 'uwe@uwegerdes.de neu',
           email_type: 'pref',
           select_email: '',
@@ -253,6 +304,28 @@ describe('vcard edit', function () {
           assert.equal(list.length, 2);
           assert.equal(list[0].textContent, 'Uwe Gerdes');
           assert.equal(list[1].textContent, 'Uwe Gerdes neu');
+          const name = document.getElementById('n');
+          assert.equal(name.textContent, 'Name: Gerdes (test), Uwe Wilhelm, Dipl. Ing. FH');
+          const nameParts = name.childNodes[1].childNodes[0].childNodes[0].childNodes;
+          assert.equal(nameParts.length, 5);
+          assert.equal(nameParts[0].textContent, 'Gerdes (test)');
+          assert.equal(nameParts[1].textContent, ', ');
+          assert.equal(nameParts[2].textContent, 'Uwe Wilhelm');
+          assert.equal(nameParts[3].textContent, ', ');
+          assert.equal(nameParts[4].textContent, 'Dipl. Ing. FH');
+          const adr = document.getElementById('adr');
+          assert.equal(adr.textContent,
+              'Adresse: Klaus-Groth-Str. 22, Hamburg, 20535, Germany (privat)');
+          const adrParts = adr.getElementsByClassName('parts')[0].childNodes;
+          assert.equal(adrParts.length, 8);
+          assert.equal(adrParts[0].textContent, 'Klaus-Groth-Str. 22');
+          assert.equal(adrParts[1].textContent, ', ');
+          assert.equal(adrParts[2].textContent, 'Hamburg');
+          assert.equal(adrParts[3].textContent, ', ');
+          assert.equal(adrParts[4].textContent, '20535');
+          assert.equal(adrParts[5].textContent, ', ');
+          assert.equal(adrParts[6].textContent, 'Germany');
+          assert.equal(adrParts[7].textContent, ' (privat)');
           done();
         });
     });
@@ -262,7 +335,9 @@ describe('vcard edit', function () {
         .type('form')
         .send({
           version: '3.0',
-          n: 'Gerdes;Uwe;;;',
+          n_Vorname: 'Uwe',
+          n_Nachname: 'Gerdes',
+          n_Titel: '',
           fn: 'Uwe Gerdes',
           tel0: '+49 40 25178252',
           tel0_type: ['work', 'voice'],
@@ -270,7 +345,10 @@ describe('vcard edit', function () {
           tel1: '01793901008',
           tel1_type: 'cell',
           select_tel1: '',
-          adr: ';;Klaus-Groth-Str. 22;Hamburg;;20535;Germany',
+          adr_Straße: 'Klaus-Groth-Str. 22',
+          adr_PLZ: '20535',
+          adr_Ort: 'Hamburg',
+          adr_Land: 'Germany',
           adr_type: 'home',
           select_adr: '',
           email: 'entwicklung@uwegerdes.de',

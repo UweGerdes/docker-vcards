@@ -95,7 +95,8 @@ describe('vcard model', () => {
       const vcard = model.list()[0].vcard;
       const vcard2 = model.save(0, {
         version: '2.1',
-        n: 'Gerdes;Uwe;;;',
+        n_Vorname: 'Uwe',
+        n_Nachname: 'Gerdes',
         fn: 'Uwe Gerdes',
         tel0: '040 256486',
         tel0_type: ['work', 'voice'],
@@ -109,19 +110,33 @@ describe('vcard model', () => {
       assert.deepEqual(vcard.toJSON(), vcard2.toJSON());
     });
     it('should add a new vcard to list', () => {
+      const vcard2 = ['vcard', [
+        ['version', { }, 'text', '2.1'],
+        ['n', { }, 'text', ['Gerdes (test)', 'Uwe Wilhelm', '', 'Dipl. Ing. FH', '']],
+        ['fn', { }, 'text', 'Uwe Gerdes neu'],
+        ['tel', { 'type': ['work', 'voice'] }, 'text', '040 256486 neu'],
+        ['tel', {}, 'text', '0179 3901008 neu'],
+        ['email', { 'type': 'pref' }, 'text', 'uwe@uwegerdes.de neu']
+      ]];
       model.save(2, {
         version: '2.1',
-        n: 'Gerdes;Uwe;TEST;;',
-        fn: 'Uwe Gerdes TEST',
-        tel0: '040/256486',
+        n_Vorname: 'Uwe Wilhelm',
+        n_Nachname: 'Gerdes (test)',
+        n_Titel: 'Dipl. Ing. FH',
+        fn: 'Uwe Gerdes neu',
+        tel0: '040 256486 neu',
         tel0_type: ['work', 'voice'],
-        tel1: '0179 3901008',
-        tel1_type: 'cell',
-        email: 'uwe@uwegerdes.de',
+        select_tel0: '',
+        tel1: '0179 3901008 neu',
+        select_tel1: '',
+        email: 'uwe@uwegerdes.de neu',
         email_type: 'pref',
-        url: 'http://www.uwegerdes.de/'
+        select_email: '',
+        select_url: ''
       });
       assert.equal(model.list().length, 3);
+      const vcard = model.list()[2].vcard;
+      assert.deepEqual(vcard.toJSON(), vcard2);
     });
   });
   describe('vcard JSON', () => {
