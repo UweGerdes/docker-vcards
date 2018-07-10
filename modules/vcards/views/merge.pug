@@ -14,19 +14,23 @@ mixin types(types, name, index)
     span.type= ' (' + type(types).join(", ") + ')'
 
 mixin list2(prop, other, name, id)
+  - var otherValues = []
+  if other
+    - otherValues = other.map(elem => JSON.stringify(elem.value) + JSON.stringify(elem.type))
   ul.values
     each item, i in prop
       li.values-item
-        input(type='checkbox', name=id + i, value=item.value, checked, id=id + '_' + i)
-        label(for=id + '_' + i)
-          if fields[name].parts_order
-            if !other || JSON.stringify(item) != JSON.stringify(other.value)
-              label(for=id)
-                + parts(item.value, name)
-          else
-            = item.value
-          if item.type
-            + types(item.type, id, i)
+        if otherValues.indexOf(JSON.stringify(item.value) + JSON.stringify(item.type)) < 0
+          input(type='checkbox', name=id + i, value=item.value, checked, id=id + '_' + i)
+          label(for=id + '_' + i)
+            if fields[name].parts_order
+              if !other || JSON.stringify(item) != JSON.stringify(other.value)
+                label(for=id)
+                  + parts(item.value, name)
+            else
+              = item.value
+            if item.type
+              + types(item.type, id, i)
 
 mixin choice2(prop, other, name, id)
   span.choice
