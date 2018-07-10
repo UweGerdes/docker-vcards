@@ -170,7 +170,7 @@ describe('vcard edit', function () {
         });
     });
   });
-  describe('GET /vcards/type/tel/_0/work', function () {
+  describe('GET /vcards/type/tel/_1/work', function () {
     it('should render a work type for tel0', function (done) {
       chai.request('http://vcards-dev:8080')
         .get('/vcards/type/tel/_1/work')

@@ -25,13 +25,10 @@ mixin input-value(field, value, index, part)
     size=(fields[field].size ? fields[field].size : ''),
     value=value)
 
-mixin input-parts(field, prop, index)
-  each part in fields[field].parts_order
-    + input-value(field, prop.value[part], index, part)
-
 mixin input-group(field, prop, index)
   if fields[field].parts
-    + input-parts(field, prop, index)
+    each part in fields[field].parts_order
+      + input-value(field, prop.value[part], index, part)
   else
     + input-value(field, prop.value, index)
   if prop.type &&  prop.type.length > 0
