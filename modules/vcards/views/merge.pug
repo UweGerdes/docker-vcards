@@ -13,7 +13,6 @@ mixin types(types, name, index)
       input(type='hidden', id='value_' + name + index + i, name=name + index + '_type', value=type)
     span.type= ' (' + type(types).join(", ") + ')'
 
-
 mixin list2(prop, other, name, id)
   ul.values
     each item, i in prop
@@ -24,7 +23,6 @@ mixin list2(prop, other, name, id)
             if !other || JSON.stringify(item) != JSON.stringify(other.value)
               label(for=id)
                 + parts(item.value, name)
-              = JSON.stringify(item)
           else
             = item.value
           if item.type

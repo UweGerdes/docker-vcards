@@ -542,8 +542,8 @@ const data2vcard = (data) => {
   Object.keys(fields).forEach((name) => { // jscs:ignore jsDoc
     const field = fields[name];
     if (field.type == 'list') {
-      const re = new RegExp('^' + name + '([0-9]*)' +
-                            (field.parts ? '_' + field.parts_order[0] : '') + '$');
+      const re = new RegExp('^' + name + '([0-9]*)(' +
+                            (field.parts ? '_' + field.parts_order[0] : '') + ')?$');
       dataKeys.forEach(key => { // jscs:ignore jsDoc
         const match = re.exec(key);
         if (match) {
@@ -572,11 +572,16 @@ const dataValue = (data, name, parts) => {
   let value;
   if (parts) {
     if (data[name] && data[name].indexOf('{') == 0) {
-      data = JSON.parse(data[name]);
-    }
-    const v = parts.map(part => data[name + '_' + part] || ''); // jscs:ignore jsDoc
-    if (v.join('')) {
-      value = v;
+      const map = JSON.parse(data[name]);
+      const v = parts.map(part => map[part] || ''); // jscs:ignore jsDoc
+      if (v.join('')) {
+        value = v;
+      }
+    } else {
+      const v = parts.map(part => data[name + '_' + part] || ''); // jscs:ignore jsDoc
+      if (v.join('')) {
+        value = v;
+      }
     }
   } else {
     value = data[name];

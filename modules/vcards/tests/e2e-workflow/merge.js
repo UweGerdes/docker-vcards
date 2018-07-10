@@ -69,10 +69,13 @@ module.exports = {
           click: '//form[@id="merge"]//input[@type="submit"]',
           elements: {
             '//*[@id="version"]//*[@class="itemvalue"]': '2.1',
+            '//*[@id="n"]//*[@class="itemvalue"]': 'Gerdes, Uwe',
             '//*[@id="fn"]//*[@class="itemvalue"]': 'Uwe Gerdes',
             '//*[@id="tel"]//*[@class="itemvalue"]':
                   '040 256486 (Arbeit, Sprache)\n0179 3901008 (Mobil)\n' +
                   '+49 40 25178252 (Arbeit, Sprache)\n01793901008 (Mobil)',
+            '//*[@id="adr"]//*[@class="itemvalue"]':
+                  'Klaus-Groth-Str. 22, Hamburg, 20535, Germany (privat)',
           },
         },
         'delete merged': {
