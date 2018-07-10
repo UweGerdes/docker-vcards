@@ -24,9 +24,8 @@ mixin list2(prop, other, name, id)
           input(type='checkbox', name=id + i, value=item.value, checked, id=id + '_' + i)
           label(for=id + '_' + i)
             if fields[name].parts_order
-              if !other || JSON.stringify(item) != JSON.stringify(other.value)
-                label(for=id)
-                  + parts(item.value, name)
+              label(for=id)
+                + parts(item.value, name)
             else
               = item.value
             if item.type
