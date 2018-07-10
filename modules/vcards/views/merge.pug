@@ -1,6 +1,6 @@
 //- merge.pug
-mixin parts(value, parts)
-  each part in parts
+mixin parts(value, name)
+  each part, i in fields[name].parts_order
     if value[part]
       span(title=part)= value[part] + ' '
 
@@ -15,7 +15,6 @@ mixin types(types, name, index)
 
 
 mixin list2(prop, other, name, id)
-  - otherValues = []
   ul.values
     each item, i in prop
       li.values-item
@@ -24,9 +23,8 @@ mixin list2(prop, other, name, id)
           if fields[name].parts_order
             if !other || JSON.stringify(item) != JSON.stringify(other.value)
               label(for=id)
-                each part in fields[name].parts_order
-                  if item.value[part]
-                    span(title=part)= item.value[part] + ' '
+                + parts(item.value, name)
+              = JSON.stringify(item)
           else
             = item.value
           if item.type
@@ -38,7 +36,7 @@ mixin choice2(prop, other, name, id)
       input(type='radio', name=name, value=prop.value, checked=!other, id=id)
       label(for=id)
         if fields[name].parts
-          + parts(prop.value, fields[name].parts_order)
+          + parts(prop.value, name)
         else
           = prop.value
 
