@@ -9,7 +9,7 @@ const fs = require('fs'),
   glob = require('glob'),
   libqp = require('libqp'),
   path = require('path'),
-  vcf = require('vcf');
+  Vcf = require('vcf');
 
 const testData = 'BEGIN:VCARD\n' +
   'VERSION:2.1\n' +
@@ -37,7 +37,9 @@ class Vcard {
   constructor(vcard, id) {
     this.vcard = vcard;
     this.id = id;
-    this.fields = Object.keys(this.vcard.data);
+    if (vcard) {
+      this.fields = Object.keys(this.vcard.data);
+    }
     this.prop = new Proxy({},
       {
         get: (obj, field) => { // jscs:ignore jsDoc
@@ -67,6 +69,15 @@ class Vcard {
             }
           }
           return value;
+        },
+        set: (obj, name, data) => { // jscs:ignore jsDoc
+          console.log('set', name, data);
+          const value = data.value;
+          const params = data.params;
+          if (value == 'TEST') {
+            this.vcard.add(name, value, params);
+          }
+          return true;
         }
       }
     );
@@ -350,7 +361,7 @@ module.exports = {
    * @returns {array} vcard list
    */
   getTestData: () => {
-    const data = vcf.parse(testData);
+    const data = Vcf.parse(testData);
     return data;
   },
   /**
@@ -516,7 +527,7 @@ function openFile(filename) {
         } else {
           list = [];
           lists[name] = [];
-          data = vcf.parse(buffer);
+          data = Vcf.parse(buffer);
           data.forEach((item, id) => { // jscs:ignore jsDoc
             list.push(new Vcard(item, id));
             lists[name].push(new Vcard(item, id));
@@ -558,7 +569,31 @@ const data2vcard = (data) => {
       }
     }
   });
-  return vcf.fromJSON(['vcard', dataJSON]);
+  const vcard1 = Vcf.fromJSON(['vcard', dataJSON]);
+  const vcard2 = new Vcard();
+  Object.keys(fields).forEach((name) => { // jscs:ignore jsDoc
+    const field = fields[name];
+    if (field.type == 'list') {
+      const re = new RegExp('^' + name + '([0-9]*)(' +
+                            (field.parts ? '_' + field.parts_order[0] : '') + ')?$');
+      dataKeys.forEach(key => { // jscs:ignore jsDoc
+        const match = re.exec(key);
+        if (match) {
+          const value = dataValue(data, name + match[1], field.parts);
+          if (value) {
+            vcard2.prop[name] = { value: value, params: dataParams(data, name + match[1]) };
+          }
+        }
+      });
+    } else {
+      const value = dataValue(data, name, field.parts);
+      if (value) {
+        vcard2.prop[name] = { value: value, params: dataParams(data, name) };
+        //console.log(JSON.stringify(data[name]));
+      }
+    }
+  });
+  return vcard1;
 };
 
 /**
@@ -587,6 +622,20 @@ const dataValue = (data, name, parts) => {
     value = data[name];
   }
   return value;
+};
+
+/**
+ * get params map from form data
+ *
+ * @param {object} data - data for new vcard
+ * @param {string} name - fieldname
+ */
+const dataParams = (data, name) => {
+  let params = {};
+  if (data[name + '_type']) {
+    params = { type: data[name + '_type'] };
+  }
+  return params;
 };
 
 /**
