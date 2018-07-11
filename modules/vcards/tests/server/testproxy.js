@@ -45,6 +45,9 @@ describe('vcard testproxy', () => {
         vcard.prop.fn = { value: 'Uwe Gerdes Home', params: { } };
         assert.deepEqual(vcard.prop.fn, { value: 'Uwe Gerdes Home' });
         assert.equal(vcard.get('fn').valueOf(), 'Uwe Gerdes Home');
+        vcard.prop.n = { value: ['Gerdes', 'Uwe', 'Home', '', ''], params: { } };
+        assert.deepEqual(vcard.text.n, { Nachname: 'Gerdes', Vorname: 'Uwe', part3: 'Home' });
+        assert.equal(vcard.get('n').valueOf(), 'Gerdes;Uwe;Home;;');
       });
     });
   });

@@ -72,16 +72,19 @@ class Vcard {
         },
         set: (obj, name, data) => { // jscs:ignore jsDoc
           console.log('set', name, data);
-          const value = data.value;
+          let value = data.value;
+          if (data.value instanceof Array) {
+            value = data.value.join(';');
+          }
           const params = data.params;
           if (value) {
-            if (fields[name].type == 'list') {
+            if (fields[name].type == 'list' && !this.vcard.get(name)) {
               this.vcard.add(name, value, params);
             } else {
               this.vcard.set(name, value, params);
             }
           }
-          if (value == 'Uwe Gerdes Home') {
+          if (value) {
             console.log(name, value, params);
           }
           return true;
