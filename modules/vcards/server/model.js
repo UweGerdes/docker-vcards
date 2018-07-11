@@ -74,8 +74,15 @@ class Vcard {
           console.log('set', name, data);
           const value = data.value;
           const params = data.params;
-          if (value == 'TEST') {
-            this.vcard.add(name, value, params);
+          if (value) {
+            if (fields[name].type == 'list') {
+              this.vcard.add(name, value, params);
+            } else {
+              this.vcard.set(name, value, params);
+            }
+          }
+          if (value == 'Uwe Gerdes Home') {
+            console.log(name, value, params);
           }
           return true;
         }
@@ -435,7 +442,7 @@ module.exports = {
    * @param {object} data - map with data
    */
   save: (index, data) => {
-    const vcard = data2vcard(data);
+    const vcard = data2vcard(data, index);
     vcard.version = data.version;
     if (index < list.length) {
       list[index].vcard = vcard;
@@ -546,8 +553,9 @@ function openFile(filename) {
  * make vcard object from jcard
  *
  * @param {object} data - data for new vcard
+ * @param {object} index - in list
  */
-const data2vcard = (data) => {
+const data2vcard = (data, index) => {
   const dataKeys = Object.keys(data);
   let dataJSON = [];
   Object.keys(fields).forEach((name) => { // jscs:ignore jsDoc
@@ -570,7 +578,7 @@ const data2vcard = (data) => {
     }
   });
   const vcard1 = Vcf.fromJSON(['vcard', dataJSON]);
-  const vcard2 = new Vcard();
+  const vcard2 = new Vcard(new Vcf(), index);
   Object.keys(fields).forEach((name) => { // jscs:ignore jsDoc
     const field = fields[name];
     if (field.type == 'list') {

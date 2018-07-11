@@ -20,12 +20,12 @@ describe('vcard testproxy', () => {
       .then(function (data) {
         testData = model.list();
         assert.equal(data, 'testdata');
+        assert.equal(testData.length > 0, true);
       })
       .then(done);
     });
     describe('fields proxy', () => {
-      it('should proxy access to properties', () => {
-        assert.equal(testData.length > 0, true);
+      it('should proxy prop get', () => {
         const vcard = testData[0];
         assert.equal(vcard.get('n').valueOf(), 'Gerdes;Uwe;;;');
         assert.deepEqual(vcard.text.n, { Nachname: 'Gerdes', Vorname: 'Uwe' });
@@ -39,6 +39,12 @@ describe('vcard testproxy', () => {
         );
         assert.deepEqual(vcard.text.email, ['uwe@uwegerdes.de (pref)']);
         assert.deepEqual(vcard.prop.email, [{ type: 'pref', value: 'uwe@uwegerdes.de' }]);
+      });
+      it('should proxy prop set', () => {
+        const vcard = testData[0];
+        vcard.prop.fn = { value: 'Uwe Gerdes Home', params: { } };
+        assert.deepEqual(vcard.prop.fn, { value: 'Uwe Gerdes Home' });
+        assert.equal(vcard.get('fn').valueOf(), 'Uwe Gerdes Home');
       });
     });
   });
