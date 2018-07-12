@@ -42,21 +42,21 @@ class Vcard {
     }
     this.prop = new Proxy({},
       {
-        get: (obj, field) => { // jscs:ignore jsDoc
-          let value = this.getValue(field, true);
-          let field2 = this.vcard.get(field);
+        get: (obj, name) => { // jscs:ignore jsDoc
+          let value = this.getValue(name, true);
+          let field = this.vcard.get(name);
           let type;
-          if (field2) {
-            type = field2.type;
+          if (field) {
+            type = field.type;
           }
-          if (fields[field].type == 'list') {
+          if (fields[name].type == 'list') {
             if (!(value instanceof Array)) {
               value = [{ value: value }];
               if (type) {
                 value[0].type = type;
               }
             }
-          } else if (fields[field].type == 'timestamp') {
+          } else if (fields[name].type == 'timestamp') {
             const date = new Date(value);
             value = { value: date.toLocaleString() };
           } else {
@@ -64,8 +64,8 @@ class Vcard {
             if (type) {
               value.type = type;
             }
-            if (field2 && field2.encoding) {
-              value.encoding = field2.encoding;
+            if (field && field.encoding) {
+              value.encoding = field.encoding;
             }
           }
           return value;
@@ -73,6 +73,7 @@ class Vcard {
         set: (obj, name, data) => { // jscs:ignore jsDoc
           console.log('set', name, data);
           let value = data.value;
+          const params = data.params;
           if (fields[name].parts) {
             const v = fields[name].parts.map(part => value[part] || ''); // jscs:ignore jsDoc
             if (v.join('')) {
@@ -81,7 +82,18 @@ class Vcard {
           } else if (fields[name].type == 'timestamp') {
             value = new Date(value).toISOString().replace(/\.0+Z/, 'Z');
           }
-          const params = data.params;
+          if (typeof value == 'string' && !/^[\x00-\x7F]*$/.test(value)) {
+            params.encoding = 'QUOTED-PRINTABLE';
+            const a = Array.prototype.map.call(value, x => { // jscs:ignore jsDoc
+              const c = x.charCodeAt(0);
+              if (c <= 127) {
+                return '=' + ('0' + (Number(c).toString(16))).slice(-2).toUpperCase();
+              } else {
+                return libqp.encode(x);
+              }
+            });
+            value = a.join('');
+          }
           if (value) {
             console.log('prepared', name, value, params);
           }
@@ -99,8 +111,8 @@ class Vcard {
 
     this.text = new Proxy({},
       {
-        get: (obj, field) => { // jscs:ignore jsDoc
-          return propToString(this.prop[field], field);
+        get: (obj, name) => { // jscs:ignore jsDoc
+          return propToString(this.prop[name], name);
         }
       }
     );
