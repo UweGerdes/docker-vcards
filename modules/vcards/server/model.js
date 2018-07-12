@@ -73,19 +73,22 @@ class Vcard {
         set: (obj, name, data) => { // jscs:ignore jsDoc
           console.log('set', name, data);
           let value = data.value;
-          if (data.value instanceof Array) {
-            value = data.value.join(';');
+          if (fields[name].parts) {
+            const v = fields[name].parts.map(part => value[part] || ''); // jscs:ignore jsDoc
+            if (v.join('')) {
+              value = v.join(';');
+            }
           }
           const params = data.params;
           if (value) {
-            if (fields[name].type == 'list' && !this.vcard.get(name)) {
+            console.log('prepared', name, value, params);
+          }
+          if (value) {
+            if (fields[name].type == 'list' && this.vcard.get(name)) {
               this.vcard.add(name, value, params);
             } else {
               this.vcard.set(name, value, params);
             }
-          }
-          if (value) {
-            console.log(name, value, params);
           }
           return true;
         }
@@ -590,14 +593,14 @@ const data2vcard = (data, index) => {
       dataKeys.forEach(key => { // jscs:ignore jsDoc
         const match = re.exec(key);
         if (match) {
-          const value = dataValue(data, name + match[1], field.parts);
+          const value = dataValue2(data, name + match[1], field.parts);
           if (value) {
             vcard2.prop[name] = { value: value, params: dataParams(data, name + match[1]) };
           }
         }
       });
     } else {
-      const value = dataValue(data, name, field.parts);
+      const value = dataValue2(data, name, field.parts);
       if (value) {
         vcard2.prop[name] = { value: value, params: dataParams(data, name) };
         //console.log(JSON.stringify(data[name]));
@@ -605,6 +608,46 @@ const data2vcard = (data, index) => {
     }
   });
   return vcard1;
+};
+
+/**
+ * get value from form data
+ *
+ * @param {object} data - data for new vcard
+ * @param {string} name - fieldname
+ * @param {object} parts - parts for entry
+ */
+const dataValue2 = (data, name, parts) => {
+  let value;
+  if (parts) {
+    if (data[name] && data[name].indexOf('{') == 0) {
+      value = JSON.parse(data[name]);
+    } else {
+      value = {};
+      parts.forEach(part => { // jscs:ignore jsDoc
+        if (data[name + '_' + part]) {
+          value[part] = data[name + '_' + part] || '';
+        }
+      });
+    }
+  } else {
+    value = data[name];
+  }
+  return value;
+};
+
+/**
+ * get params map from form data
+ *
+ * @param {object} data - data for new vcard
+ * @param {string} name - fieldname
+ */
+const dataParams = (data, name) => {
+  let params = {};
+  if (data[name + '_type']) {
+    params = { type: data[name + '_type'] };
+  }
+  return params;
 };
 
 /**
@@ -633,20 +676,6 @@ const dataValue = (data, name, parts) => {
     value = data[name];
   }
   return value;
-};
-
-/**
- * get params map from form data
- *
- * @param {object} data - data for new vcard
- * @param {string} name - fieldname
- */
-const dataParams = (data, name) => {
-  let params = {};
-  if (data[name + '_type']) {
-    params = { type: data[name + '_type'] };
-  }
-  return params;
 };
 
 /**
