@@ -68,6 +68,12 @@ describe('vcard testproxy', () => {
                                             PLZ: '20535', Land: 'Germany' }]);
         assert.equal(vcard.get('adr').valueOf(), ';;Klaus-Groth-Str. 22;Hamburg;;20535;Germany');
       });
+      it('should proxy prop set timestamp', () => {
+        const vcard = testData[0];
+        vcard.prop.rev = { value: '2014-8-24 20:50:00', params: { } };
+        assert.deepEqual(vcard.prop.rev, { value: '2014-8-24 20:50:00' });
+        assert.equal(vcard.get('rev').valueOf(), '2014-08-24T18:50:00Z');
+      });
     });
   });
 });

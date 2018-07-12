@@ -78,6 +78,8 @@ class Vcard {
             if (v.join('')) {
               value = v.join(';');
             }
+          } else if (fields[name].type == 'timestamp') {
+            value = new Date(value).toISOString().replace(/\.0+Z/, 'Z');
           }
           const params = data.params;
           if (value) {
