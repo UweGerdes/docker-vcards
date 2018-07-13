@@ -14,6 +14,25 @@ mixin types(field, index, typeList)
       include input-type.pug
     + moreTypes(field, index, typeList)
 
+mixin input-image(name, prop)
+  input(
+    type='checkbox',
+    id=name,
+    name=name,
+    value=prop.value,
+    checked)
+  input(
+    type='hidden',
+    id=name + '_type',
+    name=name + '_type',
+    value=prop.type)
+  input(
+    type='hidden',
+    id=name + '_encoding',
+    name=name + '_encoding',
+    value=prop.encoding)
+  img(src='data:image/' + prop.type + ';' + prop.encoding.toLowerCase() + ',' + prop.value)
+
 mixin input-value(field, value, index, part)
   input(
     type='text',
@@ -25,17 +44,23 @@ mixin input-value(field, value, index, part)
     size=(fields[field].size ? fields[field].size : ''),
     value=value)
 
-mixin input-group(field, prop, index)
-  if fields[field].parts
-    each part in fields[field].parts_order
-      + input-value(field, prop.value[part], index, part)
-  else
-    + input-value(field, prop.value, index)
+mixin input-type(field, prop, index)
   if prop.type &&  prop.type.length > 0
     + types(field, index, prop.type)
   else if fields[field].types
     .types
       + moreTypes(field, index, [])
+
+mixin input-group(field, prop, index)
+  if fields[field].parts
+    each part in fields[field].parts_order
+      + input-value(field, prop.value[part], index, part)
+    + input-type(field, prop, index)
+  else if fields[field].type == 'image'
+    + input-image(field + index, prop)
+  else
+    + input-value(field, prop.value, index)
+    + input-type(field, prop, index)
 
 if vcard
   - var prop = vcard.prop[field]

@@ -78,6 +78,9 @@ class Vcard {
           //console.log('set', name, data);
           let value = data.value;
           const params = data.params;
+          //if (fields[name].type == 'image') {
+          //  console.log('set', name, data);
+          //}
           if (fields[name].parts) {
             const v = fields[name].parts.map(part => value[part] || ''); // jscs:ignore jsDoc
             if (v.join('')) {
@@ -98,8 +101,8 @@ class Vcard {
             });
             value = a.join('');
           }
-          //if (value) {
-          //console.log('prepared', name, value, params);
+          //if (fields[name].type == 'image') {
+          //  console.log('prepared', name, value, params);
           //}
           if (value) {
             if (fields[name].type == 'list' && this.vcard.get(name)) {
@@ -557,14 +560,14 @@ const data2vcard = (data, index) => {
       dataKeys.forEach(key => { // jscs:ignore jsDoc
         const match = re.exec(key);
         if (match) {
-          dataJSON.push([name, typeArray(data, name + match[1]), 'text',
+          dataJSON.push([name, dataParams(data, name + match[1]), 'text',
                         dataValue(data, name + match[1], field.parts)]);
         }
       });
     } else {
       const value = dataValue(data, name, field.parts);
       if (value) {
-        dataJSON.push([name, typeArray(data, name), 'text', value]);
+        dataJSON.push([name, dataParams(data, name), 'text', value]);
       }
     }
   });
@@ -630,7 +633,10 @@ const dataValue2 = (data, name, parts) => {
 const dataParams = (data, name) => {
   let params = {};
   if (data[name + '_type']) {
-    params = { type: data[name + '_type'] };
+    params.type = data[name + '_type'];
+  }
+  if (data[name + '_encoding']) {
+    params.encoding = data[name + '_encoding'];
   }
   return params;
 };
@@ -661,18 +667,4 @@ const dataValue = (data, name, parts) => {
     value = data[name];
   }
   return value;
-};
-
-/**
- * get type array from form data
- *
- * @param {object} data - data for new vcard
- * @param {string} name - fieldname
- */
-const typeArray = (data, name) => {
-  let typeJSON = {};
-  if (data[name + '_type']) {
-    typeJSON = { type: data[name + '_type'] };
-  }
-  return typeJSON;
 };
