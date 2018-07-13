@@ -82,6 +82,10 @@ describe('vcard testproxy', () => {
         assert.equal(vcard.get('fn').valueOf(),
                     '=55=77=65=20=C3=A4=C3=B6=C3=BC=C3=84=C3=96=C3=9C=C3=9F=2E');
       });
+      it('should proxy fields list', () => {
+        const vcard = testData[0];
+        assert.deepEqual(vcard.fields, ['version', 'n', 'fn', 'tel', 'email', 'url', 'adr', 'rev']);
+      });
     });
   });
 });

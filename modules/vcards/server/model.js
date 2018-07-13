@@ -37,6 +37,7 @@ class Vcard {
   constructor(vcard, id) {
     this.vcard = vcard;
     this.id = id;
+    this.fields = [];
     if (vcard) {
       this.fields = Object.keys(this.vcard.data);
     }
@@ -107,6 +108,9 @@ class Vcard {
               this.vcard.set(name, value, params);
             }
           }
+          if (this.fields.indexOf(name) < 0) {
+            this.fields.push(name);
+          }
           return true;
         }
       }
@@ -119,15 +123,6 @@ class Vcard {
         }
       }
     );
-  }
-
-  /**
-   * get the field names
-   *
-   * @returns {array} - array with field names
-   */
-  getFields() {
-    return Object.keys(this.vcard.data);
   }
 
   /**

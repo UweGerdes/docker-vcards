@@ -52,8 +52,8 @@ describe('vcard model', () => {
     });
     describe('get fields', () => {
       it('should return Array with field names', () => {
-        assert.deepEqual(testData[0].getFields(), ['version', 'n', 'fn', 'tel', 'email', 'url']);
-        assert.deepEqual(testData[1].getFields(),
+        assert.deepEqual(testData[0].fields, ['version', 'n', 'fn', 'tel', 'email', 'url']);
+        assert.deepEqual(testData[1].fields,
           ['version', 'n', 'fn', 'tel', 'adr', 'email', 'rev']);
       });
     });
