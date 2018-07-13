@@ -45,30 +45,33 @@ class Vcard {
         get: (obj, name) => { // jscs:ignore jsDoc
           let value = this.getValue(name, true);
           let field = this.vcard.get(name);
+          let prop;
           let type;
           if (field) {
             type = field.type;
           }
           if (fields[name].type == 'list') {
             if (!(value instanceof Array)) {
-              value = [{ value: value }];
+              prop = [{ value: value }];
               if (type) {
-                value[0].type = type;
+                prop[0].type = type;
               }
+            } else {
+              prop = value;
             }
           } else if (fields[name].type == 'timestamp') {
             const date = new Date(value);
-            value = { value: date.toLocaleString() };
+            prop = { value: date.toLocaleString() };
           } else {
-            value = { value: value };
+            prop = { value: value };
             if (type) {
-              value.type = type;
+              prop.type = type;
             }
             if (field && field.encoding) {
-              value.encoding = field.encoding;
+              prop.encoding = field.encoding;
             }
           }
-          return value;
+          return prop;
         },
         set: (obj, name, data) => { // jscs:ignore jsDoc
           console.log('set', name, data);
