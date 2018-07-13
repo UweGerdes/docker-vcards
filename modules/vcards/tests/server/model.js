@@ -38,8 +38,6 @@ describe('vcard model', () => {
     });
     it('should return Array with at least two entries', () => {
       assert.equal(testData.length > 1, true);
-      assert.equal(testData[0].getValue('n'), 'Gerdes;Uwe;;;');
-      assert.equal(testData[1].getValue('n'), 'Gerdes;Uwe');
     });
   });
   describe('read file, make Vcard list and', () => {
@@ -60,9 +58,11 @@ describe('vcard model', () => {
       });
     });
     describe('get data', () => {
-      it('should return string for n', () => {
-        assert.deepEqual(testData[0].getValue('n'), 'Gerdes;Uwe;;;');
-        assert.deepEqual(testData[1].getValue('n'), 'Gerdes;Uwe');
+      it('should return map for n', () => {
+        assert.equal(testData[0].get('n').valueOf(), 'Gerdes;Uwe;;;');
+        assert.deepEqual(testData[0].getValue('n'), { Nachname: 'Gerdes', Vorname: 'Uwe' });
+        assert.equal(testData[1].get('n').valueOf(), 'Gerdes;Uwe');
+        assert.deepEqual(testData[1].getValue('n'), { Nachname: 'Gerdes', Vorname: 'Uwe' });
       });
     });
     describe('get data', () => {

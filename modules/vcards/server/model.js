@@ -44,37 +44,37 @@ class Vcard {
       {
         get: (obj, name) => { // jscs:ignore jsDoc
           let value = this.getValue(name, true);
-          let field = this.vcard.get(name);
+          let data = this.vcard.get(name);
           let prop;
-          let type;
-          if (field) {
-            type = field.type;
-          }
           if (fields[name].type == 'list') {
             if (!(value instanceof Array)) {
               prop = [{ value: value }];
-              if (type) {
-                prop[0].type = type;
+              if (data && data.type) {
+                prop[0].type = data.type;
               }
             } else {
               prop = value;
             }
           } else if (fields[name].type == 'timestamp') {
-            const date = new Date(value);
-            prop = { value: date.toLocaleString() };
+            prop = { value: new Date(value).toLocaleString() };
           } else {
             prop = { value: value };
-            if (type) {
-              prop.type = type;
-            }
-            if (field && field.encoding) {
-              prop.encoding = field.encoding;
+            if (data) {
+              if (data.type) {
+                prop.type = data.type;
+              }
+              if (data.encoding) {
+                prop.encoding = data.encoding;
+                if (prop.encoding == 'QUOTED-PRINTABLE') {
+                  prop.value = libqp.decode(value).toString();
+                }
+              }
             }
           }
           return prop;
         },
         set: (obj, name, data) => { // jscs:ignore jsDoc
-          console.log('set', name, data);
+          //console.log('set', name, data);
           let value = data.value;
           const params = data.params;
           if (fields[name].parts) {
@@ -97,9 +97,9 @@ class Vcard {
             });
             value = a.join('');
           }
-          if (value) {
-            console.log('prepared', name, value, params);
-          }
+          //if (value) {
+          //console.log('prepared', name, value, params);
+          //}
           if (value) {
             if (fields[name].type == 'list' && this.vcard.get(name)) {
               this.vcard.add(name, value, params);
@@ -134,21 +134,21 @@ class Vcard {
    * get the field value
    *
    * @param {string} field - name of field
-   * @param {boolean} parts - split parts
    * @returns {string} - value
    */
-  getValue(field, parts) {
+  getValue(field) {
     if (this.vcard.get(field)) {
       let value = this.vcard.get(field).valueOf();
       if (typeof value == 'string') {
-        if (this.vcard.get(field).encoding == 'QUOTED-PRINTABLE') {
-          value = libqp.decode(value).toString();
-        }
-        if (false) {
-          console.log('splitParts', splitParts(field, value));
-        }
-        if (parts) {
-          return splitParts(field, value);
+        if (fields[field] && fields[field].parts) {
+          const parts = value.split(/;/);
+          let map = {};
+          fields[field].parts.forEach((part, i) => { // jscs:ignore jsDoc
+            if (parts[i]) {
+              map[part] = parts[i];
+            }
+          });
+          return map;
         } else {
           return value;
         }
@@ -192,7 +192,7 @@ class Vcard {
       }
       searchFields.forEach((field) => { // jscs:ignore jsDoc
         hit = hit || this.getValue(field) &&
-          this.getValue(field).indexOf(selection.searchString) >= 0;
+          this.vcard.get(field).valueOf().indexOf(selection.searchString) >= 0;
       });
       return hit;
     }
@@ -325,33 +325,6 @@ const types = {
   pref: '!',
   internet: 'Web'
 };
-
-/**
- * ### split value parts, add label
- *
- * split on ';', return array or map
- *
- * @private
- * @param {string} field - name
- * @param {string} value - to convert
- * @returns {object} value in parts
- */
-function splitParts(field, value) {
-  const parts = value.split(/;/);
-  if (fields[field] && fields[field].parts) {
-    let map = {};
-    fields[field].parts.forEach((part, i) => { // jscs:ignore jsDoc
-      if (parts[i]) {
-        map[part] = parts[i];
-      }
-    });
-    return map;
-  } else {
-    return value
-      .replace(/^;*(.+?);*$/, '$1')
-      .replace(/;+/g, ', ');
-  }
-}
 
 /**
  * get cleaned phone number for comparison
