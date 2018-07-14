@@ -29,7 +29,7 @@ describe('vcard model', () => {
   describe('get test file contents', () => {
     let testData;
     before(function (done) {
-      model.open(path.join(__dirname, 'testdata.vcf'))
+      model.open(path.join(__dirname, '..', 'data', 'testdata.vcf'))
       .then(function (data) {
         testData = model.list();
         assert.equal(data, undefined);
@@ -43,7 +43,7 @@ describe('vcard model', () => {
   describe('read file, make Vcard list and', () => {
     let testData = [];
     before(function (done) {
-      model.open(path.join(__dirname, 'testdata.vcf'))
+      model.open(path.join(__dirname, '..', 'data', 'testdata.vcf'))
       .then(function (data) {
         testData = model.list();
         assert.equal(data, 'testdata');
@@ -85,7 +85,7 @@ describe('vcard model', () => {
   describe('build vcard from data', () => {
     let testData = [];
     beforeEach(function (done) {
-      model.open(path.join(__dirname, 'testdata.vcf'))
+      model.open(path.join(__dirname, '..', 'data', 'testdata.vcf'))
       .then(function () {
         testData = model.list();
       })
@@ -142,7 +142,7 @@ describe('vcard model', () => {
   describe('vcard JSON', () => {
     let testData = [];
     beforeEach(function (done) {
-      model.open(path.join(__dirname, 'testdata.vcf'))
+      model.open(path.join(__dirname, '..', 'data', 'testdata.vcf'))
       .then(function () {
         testData = model.list();
       })
@@ -182,7 +182,7 @@ describe('vcard model', () => {
   describe('vcard VCF', () => {
     let testData = [];
     beforeEach(function (done) {
-      model.open(path.join(__dirname, 'testdata.vcf'))
+      model.open(path.join(__dirname, '..', 'data', 'testdata.vcf'))
       .then(function () {
         testData = model.list();
       })

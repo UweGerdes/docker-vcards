@@ -66,9 +66,6 @@ class Vcard {
               }
               if (data.encoding) {
                 prop.encoding = data.encoding;
-                if (prop.encoding == 'QUOTED-PRINTABLE') {
-                  prop.value = libqp.decode(value).toString();
-                }
               }
             }
           }
@@ -131,23 +128,31 @@ class Vcard {
   /**
    * get the field value
    *
-   * @param {string} field - name of field
+   * @param {string} name - name of field
    * @returns {string} - value
    */
-  getValue(field) {
-    if (this.vcard.get(field)) {
-      let value = this.vcard.get(field).valueOf();
+  getValue(name) {
+    if (this.vcard.get(name)) {
+      let value = this.vcard.get(name).valueOf();
+      let data = this.vcard.get(name);
       if (typeof value == 'string') {
-        if (fields[field] && fields[field].parts) {
+        if (fields[name] && fields[name].parts) {
           const parts = value.split(/;/);
           let map = {};
-          fields[field].parts.forEach((part, i) => { // jscs:ignore jsDoc
+          fields[name].parts.forEach((part, i) => { // jscs:ignore jsDoc
             if (parts[i]) {
-              map[part] = parts[i];
+              if (data.encoding && data.encoding == 'QUOTED-PRINTABLE') {
+                map[part] = libqp.decode(parts[i]).toString();
+              } else {
+                map[part] = parts[i];
+              }
             }
           });
           return map;
         } else {
+          if (data.encoding && data.encoding == 'QUOTED-PRINTABLE') {
+            value = libqp.decode(value).toString();
+          }
           return value;
         }
       } else {
@@ -382,7 +387,7 @@ module.exports = {
    */
   switchDataset: (name) => {
     if (name.indexOf('test') == 0) {
-      return openFile(path.join(path.dirname(__dirname), 'tests', 'server', name + '.vcf'));
+      return openFile(path.join(path.dirname(__dirname), 'tests', 'data', name + '.vcf'));
     } else {
       if (lists[name]) {
         list = lists[name];

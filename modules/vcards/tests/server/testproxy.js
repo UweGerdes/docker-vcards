@@ -16,7 +16,7 @@ describe('vcard testproxy', () => {
   describe('getTestData()', () => {
     let testData = [];
     before(function (done) {
-      model.open(path.join(__dirname, 'testdata.vcf'))
+      model.open(path.join(__dirname, '..', 'data', 'testdata.vcf'))
       .then(function (data) {
         testData = model.list();
         assert.equal(data, 'testdata');
