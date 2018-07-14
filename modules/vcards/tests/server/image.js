@@ -120,4 +120,71 @@ describe('vcard image', function () {
         });
     });
   });
+  describe('GET /vcards/merge/0/1/', function () {
+    it('should not have edit button', function (done) {
+      chai.request('http://vcards-dev:8080')
+        .get('/vcards/merge/0/1/')
+        .end(function (err, res) {
+          expect(err).to.be.null;
+          expect(res).to.have.status(200);
+          expect(res).to.be.html;
+          const { document } = (new JSDOM(res.text)).window;
+          const editButton = document.getElementById('editButton');
+          assert.equal(editButton, null);
+          done();
+        });
+    });
+    it('should have fields version, email, photo and many values', function (done) {
+      chai.request('http://vcards-dev:8080')
+        .get('/vcards/merge/0/1/')
+        .end(function (err, res) {
+          expect(err).to.be.null;
+          expect(res).to.have.status(200);
+          expect(res).to.be.html;
+          const { document } = (new JSDOM(res.text)).window;
+          const form = document.querySelectorAll('form#merge')[0];
+          assert.equal(form.getAttribute('action'), '/vcards/save/0/1');
+          const mergeFieldList = document.querySelectorAll('#mergeView #fieldList > .list-item');
+          assert.equal(mergeFieldList.length, 8);
+          assert.equal(mergeFieldList[0].childNodes.length, 3);
+          assert.equal(mergeFieldList[0].childNodes[0].textContent.trim(), 'Version:');
+          assert.equal(mergeFieldList[0].childNodes[1].textContent.trim(), '2.1');
+          const email = mergeFieldList[3].childNodes;
+          assert.equal(email.length, 3);
+          assert.equal(email[0].textContent.trim(), 'E-Mail:');
+          assert.equal(email[1].textContent.trim(), 'pinkpighh@googlemail.com (!)');
+          assert.equal(email[2].textContent.trim(), 'uwe@uwegerdes.de (!)');
+          const photo = mergeFieldList[5].childNodes;
+          assert.equal(photo[0].textContent.trim(), 'Foto:');
+          let formData = {};
+          const fd = new document.defaultView.FormData(form);
+          let e = fd.entries();
+          for (let current = e.next(); !current.done; current = e.next()) {
+            formData[current.value[0]] = current.value[1];
+          }
+          //console.log(JSON.stringify(formData));
+          Object.keys(formDataCompare).forEach(key => { // jscs:ignore jsDoc
+            assert.equal(formData[key], formDataCompare[key],
+              formData[key] + ' == ' + formDataCompare[key]);
+          });
+          assert.equal(formData.photo.indexOf('/9j/4AAQSkZJRgABA'), 0, 'photo data start');
+          done();
+        });
+    });
+  });
 });
+
+const formDataCompare = {
+  'version': '2.1',
+  'fn': 'Uwe Gerdes',
+  'email10': 'pinkpighh@googlemail.com',
+  'email10_type': 'pref',
+  'email20': 'uwe@uwegerdes.de',
+  'email20_type': 'pref',
+  'url': 'http://www.google.com/profiles/108735976046160800643',
+  'xGroupMembership10': 'My Contacts',
+  'tel20': '040 256486',
+  'tel20_type': 'voice',
+  'tel21': '0179 3901008',
+  'tel21_type': 'cell'
+};

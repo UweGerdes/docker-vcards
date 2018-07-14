@@ -20,7 +20,7 @@ mixin list2(prop, other, name, id)
   ul.values
     each item, i in prop
       li.values-item
-        if otherValues.indexOf(JSON.stringify(item.value) + JSON.stringify(item.type)) < 0
+        if item.value && otherValues.indexOf(JSON.stringify(item.value) + JSON.stringify(item.type)) < 0
           input(type='checkbox', name=id + i, value=item.value, checked, id=id + '_' + i)
           label(for=id + '_' + i)
             if fields[name].parts_order
@@ -31,6 +31,19 @@ mixin list2(prop, other, name, id)
             if item.type
               + types(item.type, id, i)
 
+mixin image(prop, name)
+  input(
+    type='hidden',
+    id=name + '_type',
+    name=name + '_type',
+    value=prop.type)
+  input(
+    type='hidden',
+    id=name + '_encoding',
+    name=name + '_encoding',
+    value=prop.encoding)
+  img(src='data:image/' + prop.type + ';' + prop.encoding.toLowerCase() + ',' + prop.value)
+
 mixin choice2(prop, other, name, id)
   span.choice
     if prop.value && (!other || JSON.stringify(prop.value) != JSON.stringify(other.value))
@@ -38,6 +51,8 @@ mixin choice2(prop, other, name, id)
       label(for=id)
         if fields[name].parts
           + parts(prop.value, name)
+        else if fields[name].type == 'image'
+          + image(prop, name)
         else
           = prop.value
 
