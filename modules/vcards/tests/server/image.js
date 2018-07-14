@@ -28,7 +28,7 @@ describe('vcard image', function () {
       const headline = document.getElementById('headline');
       assert.equal(headline.textContent, 'vcard');
       const list = document.getElementById('list').getElementsByTagName('li');
-      assert.equal(list.length, 1);
+      assert.equal(list.length, 2);
       assert.equal(list[0].textContent, 'Uwe Gerdes');
       const oldDatasetNameElement = document.getElementById('oldDatasetName');
       oldDatasetName = oldDatasetNameElement.textContent;
@@ -64,7 +64,7 @@ describe('vcard image', function () {
           const headline = document.getElementById('headline');
           assert.equal(headline.textContent, 'vcard');
           const list = document.getElementById('list').getElementsByTagName('li');
-          assert.equal(list.length, 1);
+          assert.equal(list.length, 2);
           assert.equal(list[0].textContent, 'Uwe Gerdes');
           done();
         });
@@ -94,6 +94,9 @@ describe('vcard image', function () {
             'Homepage: http://www.google.com/profiles/108735976046160800643');
           assert.equal(document.getElementById('photo').textContent,
             'Foto:  (jpeg)');
+          assert.equal(document.getElementById('photo').getElementsByTagName('img')[0]
+            .getAttribute('src').indexOf('data:image/jpeg;base64,/9j/4AAQSk'), 0,
+            'Foto:  src');
           done();
         });
     });
