@@ -101,4 +101,23 @@ describe('vcard image', function () {
         });
     });
   });
+  describe('GET /vcards/edit/0/', function () {
+    it('should have checkbox for image', function (done) {
+      chai.request('http://vcards-dev:8080')
+        .get('/vcards/edit/0/')
+        .end(function (err, res) {
+          expect(err).to.be.null;
+          expect(res).to.have.status(200);
+          expect(res).to.be.html;
+          const { document } = (new JSDOM(res.text)).window;
+          const photo = document.querySelectorAll('input[type="checkbox"][name="photo"]');
+          assert.equal(photo.length, 1, 'checkbox photo');
+          const type = document.querySelectorAll('input[type="hidden"][name="photo_type"]');
+          assert.equal(type.length, 1, 'hidden photo_type');
+          const enc = document.querySelectorAll('input[type="hidden"][name="photo_encoding"]');
+          assert.equal(enc.length, 1, 'hidden photo_encoding');
+          done();
+        });
+    });
+  });
 });
