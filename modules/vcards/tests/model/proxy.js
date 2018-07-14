@@ -12,7 +12,7 @@ const model = require('../../server/model.js');
 /* jshint mocha: true */
 /* jscs:disable jsDoc */
 
-describe('vcard testproxy', () => {
+describe('vcard proxy', () => {
   describe('getTestData()', () => {
     let testData = [];
     before(function (done) {

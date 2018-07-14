@@ -37,6 +37,7 @@ gulp:
     puglint:
       - '**/*.pug'
     test-vcards:
+      - 'modules/vcards/tests/model/*.*'
       - 'modules/vcards/tests/server/*.*'
       - 'modules/vcards/views/**/*.*'
       - 'htdocs/css/app.css'
@@ -54,6 +55,7 @@ gulp:
   tests:
     vcards:
       - 'modules/vcards/tests/server/*.js'
+      - 'modules/vcards/tests/model/*.js'
   build:
     jsdoc:
       src:
