@@ -234,7 +234,7 @@ describe('vcard edit', function () {
   describe('GET /vcards/field/email/1', function () {
     it('should render a work type for email', function (done) {
       chai.request('http://vcards-dev:8080')
-        .get('/vcards/field/email/1')
+        .get('/vcards/input/email/1')
         .end(function (err, res) {
           expect(err).to.be.null;
           expect(res).to.have.status(200);

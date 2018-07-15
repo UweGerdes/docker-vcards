@@ -43,8 +43,11 @@ router.get('/list/', controller.list);
 // new type route
 router.get('/type/:field/_:index?/:type/:i?', controller.inputType);
 
+// new input route
+router.get('/input/:field/:index', controller.inputInput);
+
 // new field route
-router.get('/field/:field/:index', controller.inputField);
+router.get('/field/:field/:index?', controller.inputField);
 
 // search vcards
 router.post('/search/:id?', upload.array(), controller.search);

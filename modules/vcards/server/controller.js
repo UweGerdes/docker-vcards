@@ -176,15 +176,32 @@ const inputType = (req, res) => {
 };
 
 /**
- * ### inputField
+ * ### inputInput
  *
  * render the input snippet
  *
  * @param {object} req - request
  * @param {object} res - result
  */
+const inputInput = (req, res) => {
+  res.render(path.join(viewBase, 'input-input.pug'), {
+    field: req.params.field,
+    index: req.params.index,
+    fields: model.fields,
+    types: model.types
+  });
+};
+
+/**
+ * ### inputField
+ *
+ * render the field snippet
+ *
+ * @param {object} req - request
+ * @param {object} res - result
+ */
 const inputField = (req, res) => {
-  res.render(path.join(viewBase, 'input.pug'), {
+  res.render(path.join(viewBase, 'input-field.pug'), {
     field: req.params.field,
     index: req.params.index,
     fields: model.fields,
@@ -248,6 +265,7 @@ module.exports = {
   list: list,
   switchDataset: switchDataset,
   inputType: inputType,
+  inputInput: inputInput,
   inputField: inputField,
   search: search,
   download: download

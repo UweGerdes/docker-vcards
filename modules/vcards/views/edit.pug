@@ -1,14 +1,13 @@
 //- edit.pug
 form#edit.edit(method='POST', action='/vcards/save/' + editId)
   each field in vcard.fields
-    include input.pug
+    include input-field.pug
 
-  #addField.addField
-    select.select&attributes({ name: 'addField', 'data-input-field': '/vcards/input/' })
-      option(value='') Neues Feld
-      each field, name in fields
-        if vcard.fields.indexOf(name) < 0
-          option(value=name)= field.label
+  select#addField.addField.select&attributes({ name: 'addField', 'data-select-xhr': '/vcards/field/' })
+    option(value='') Neues Feld
+    each field, name in fields
+      if vcard.fields.indexOf(name) < 0
+        option(value=name)= field.label
 
   #submit.submit
     input.searchSubmit(type='submit', value='speichern')
