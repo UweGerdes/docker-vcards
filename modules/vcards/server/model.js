@@ -359,6 +359,9 @@ const fields = {
   }
 };
 
+/**
+ * translation for types
+ */
 const types = {
   voice: 'Sprache',
   cell: 'Mobil',

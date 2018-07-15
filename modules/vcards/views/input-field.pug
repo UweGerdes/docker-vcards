@@ -1,0 +1,7 @@
+//- input-field.pug
+div.field(id=field + '_container')
+  label.label(for=field)
+    = fields[field].label
+    = ": "
+  div.itemvalue
+    include input-input.pug
