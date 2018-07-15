@@ -19,9 +19,7 @@ const viewRenderParams = {
   fields: model.fields,
   types: model.types,
   // view helper functions
-  type: type,
-  timestamp: timestamp, // TODO remove
-  unCsv: unCsv
+  type: type
 };
 /**
  * ### init
@@ -60,7 +58,6 @@ const index = (req, res) => {
     sort = req.params.sort;
     res.cookie('sort', sort, { maxAge: 12 * 60 * 60 * 1000, httpOnly: true });
   }
-  let modelData = getModelData(req);
   let vcard = req.params.id ? model.get(parseInt(req.params.id)) : null;
   if (req.params.editId) {
     vcard = model.get(parseInt(req.params.editId));
@@ -72,7 +69,7 @@ const index = (req, res) => {
       vcard2: vcard2
     },
     req.params,
-    modelData,
+    getModelData(req),
     getHostData(req),
     viewRenderParams
   );
@@ -151,8 +148,7 @@ const switchDataset = (req, res) => {
 const list = (req, res) => {
   res.render(path.join(viewBase, 'list.pug'), {
     vcards: model.list(),
-    title: 'vcard',
-    unCsv: unCsv
+    title: 'vcard'
   });
 };
 
@@ -227,8 +223,7 @@ const search = (req, res) => {
     res.render(path.join(viewBase, 'result.pug'), {
       vcards: model.list(req.body),
       id: req.params.id ? req.params.id : '',
-      title: 'vcard',
-      unCsv: unCsv
+      title: 'vcard'
     });
   }
 };
@@ -291,34 +286,6 @@ function type(value) {
     }
   }
   return typelist;
-}
-
-// TODO remove
-/**
- * ### timestamp
- *
- * convert timestamp to local
- *
- * @private
- * @param {string} value - to convert
- */
-function timestamp(value) {
-  const date = new Date(value);
-  return date.toLocaleString();
-}
-
-/**
- * ### unCsv
- *
- * trim ';', replace ';' with ', '
- *
- * @private
- * @param {string} value - to convert
- */
-function unCsv(value) {
-  return value
-    .replace(/^;*(.+?);*$/, '$1')
-    .replace(/;+/g, ', ');
 }
 
 /**
