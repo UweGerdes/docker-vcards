@@ -91,52 +91,66 @@ describe('vcard model', () => {
       })
       .then(done);
     });
-    it('should return vcard equal to testData', () => {
-      const vcard = model.list()[0].vcard;
-      const vcard2 = model.save(0, {
-        version: '2.1',
-        n_Vorname: 'Uwe',
-        n_Nachname: 'Gerdes',
-        fn: 'Uwe Gerdes',
-        tel0: '040 256486',
-        tel0_type: ['work', 'voice'],
-        tel1: '0179 3901008',
-        tel1_type: 'cell',
-        email: 'uwe@uwegerdes.de',
-        email_type: 'pref',
-        url: 'http://www.uwegerdes.de/'
-      });
-      assert.equal(model.list().length, 2);
-      assert.deepEqual(vcard.toJSON(), vcard2.toJSON());
+    it('should return vcard equal to testData[0]', () => {
+      const vcard0 = model.list()[0].vcard.toJSON();
+      vcard0[1][0] = ['version', { }, 'text', '4.0'];
+      const vcard1 = model.save(2, {
+        'version': '2.1',
+        'n_Vorname': 'Uwe',
+        'n_Nachname': 'Gerdes',
+        'fn': 'Uwe Gerdes',
+        'tel0': '040 256486',
+        'tel0_type': [
+          'work',
+          'voice'
+        ],
+        'select_tel0': '',
+        'tel1': '0179 3901008',
+        'tel1_type': 'cell',
+        'select_tel1': '',
+        'email0': 'uwe@uwegerdes.de',
+        'email0_type': 'pref',
+        'select_email0': '',
+        'url': 'http://www.uwegerdes.de/',
+        'select_url': ''
+      }).toJSON();
+      assert.equal(model.list().length, 3);
+      assert.deepEqual(vcard1, vcard0);
     });
     it('should add a new vcard to list', () => {
-      const vcard2 = ['vcard', [
-        ['version', { }, 'text', '2.1'],
+      const vcard0 = ['vcard', [
+        ['version', { }, 'text', '4.0'],
         ['n', { }, 'text', ['Gerdes (test)', 'Uwe Wilhelm', '', 'Dipl. Ing. FH', '']],
         ['fn', { }, 'text', 'Uwe Gerdes neu'],
         ['tel', { 'type': ['work', 'voice'] }, 'text', '040 256486 neu'],
-        ['tel', {}, 'text', '0179 3901008 neu'],
+        ['tel', { 'type': 'home' }, 'text', '040 25178252 neu'],
         ['email', { 'type': 'pref' }, 'text', 'uwe@uwegerdes.de neu']
       ]];
-      model.save(2, {
-        version: '2.1',
-        n_Vorname: 'Uwe Wilhelm',
-        n_Nachname: 'Gerdes (test)',
-        n_Titel: 'Dipl. Ing. FH',
-        fn: 'Uwe Gerdes neu',
-        tel0: '040 256486 neu',
-        tel0_type: ['work', 'voice'],
-        select_tel0: '',
-        tel1: '0179 3901008 neu',
-        select_tel1: '',
-        email: 'uwe@uwegerdes.de neu',
-        email_type: 'pref',
-        select_email: '',
-        select_url: ''
+      const vcard1 = model.save(2, {
+        'version': '2.1',
+        'n_Vorname': 'Uwe Wilhelm',
+        'n_Nachname': 'Gerdes (test)',
+        'n_Titel': 'Dipl. Ing. FH',
+        'n_part3': '',
+        'n_part5': '',
+        'fn': 'Uwe Gerdes neu',
+        'tel0': '040 256486 neu',
+        'tel0_type': [
+          'work',
+          'voice'
+        ],
+        'select_tel0': '',
+        'tel2': '040 25178252 neu',
+        'tel2_type': 'home',
+        'select_tel1': '',
+        'email0': 'uwe@uwegerdes.de neu',
+        'email0_type': 'pref',
+        'select_email0': ''
       });
+      assert.deepEqual(vcard1.toJSON(), vcard0);
       assert.equal(model.list().length, 3);
-      const vcard = model.list()[2].vcard;
-      assert.deepEqual(vcard.toJSON(), vcard2);
+      const vcard2 = model.list()[2].vcard;
+      assert.deepEqual(vcard2.toJSON(), vcard0);
     });
   });
   describe('vcard JSON', () => {
@@ -149,20 +163,31 @@ describe('vcard model', () => {
       .then(done);
     });
     it('should return vcard equal to testData', () => {
-      const vcard = model.list()[0];
-      const vcard2 = model.save(0, {
-        version: '2.1',
-        n: 'Gerdes;Uwe;;;',
-        fn: 'Uwe Gerdes',
-        tel0: '040 256486',
-        tel0_type: ['work', 'voice'],
-        tel1: '0179 3901008',
-        tel1_type: 'cell',
-        email: 'uwe@uwegerdes.de',
-        email_type: 'pref',
-        url: 'http://www.uwegerdes.de/'
+      const vcard0 = model.list()[0];
+      const vcard = model.save(0, {
+        'version': '2.1',
+        'n_Vorname': 'Uwe',
+        'n_Nachname': 'Gerdes',
+        'n_Titel': '',
+        'n_part3': '',
+        'n_part5': '',
+        'fn': 'Uwe Gerdes',
+        'tel0': '040 256486',
+        'tel0_type': [
+          'work',
+          'voice'
+        ],
+        'select_tel0': '',
+        'tel1': '0179 3901008',
+        'tel1_type': 'cell',
+        'select_tel1': '',
+        'email0': 'uwe@uwegerdes.de',
+        'email0_type': 'pref',
+        'select_email0': '',
+        'url': 'http://www.uwegerdes.de/',
+        'select_url': ''
       });
-      assert.deepEqual(vcard.toJSON(), vcard2.toJSON());
+      assert.deepEqual(vcard.toJSON(), vcard0.toJSON());
     });
     it('should return vcards array equal to testData', () => {
       const json = [['vcard', [['version', {  }, 'text', '2.1'], ['n', {  }, 'text',

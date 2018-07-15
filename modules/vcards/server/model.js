@@ -39,7 +39,11 @@ class Vcard {
     this.id = id;
     this.fields = [];
     if (vcard) {
-      this.fields = Object.keys(this.vcard.data);
+      if (vcard.data) {
+        this.fields = Object.keys(this.vcard.data);
+      } else {
+        console.log('cannot set fields for new vcard:', typeof vcard);
+      }
     }
     this.prop = new Proxy({},
       {
@@ -47,6 +51,7 @@ class Vcard {
           let value = this.getValue(name, true);
           let data = this.vcard.get(name);
           let prop;
+          //console.log(name.valueOf());
           if (fields[name].type == 'list') {
             if (!(value instanceof Array)) {
               prop = [{ value: value }];
@@ -445,9 +450,8 @@ module.exports = {
     vcard.version = data.version;
     if (index < list.length) {
       list[index].vcard = vcard;
-      list[index].fields = Object.keys(vcard.data);
     } else {
-      list.push(new Vcard(vcard, list.length));
+      list.push(vcard);
     }
     return list[index].vcard;
   },
@@ -576,7 +580,7 @@ const data2vcard = (data, index) => {
       }
     }
   });
-  const vcard1 = Vcf.fromJSON(['vcard', dataJSON]);
+  //const vcard1 = Vcf.fromJSON(['vcard', dataJSON]);
   const vcard2 = new Vcard(new Vcf(), index);
   Object.keys(fields).forEach((name) => { // jscs:ignore jsDoc
     const field = fields[name];
@@ -589,6 +593,9 @@ const data2vcard = (data, index) => {
           const value = dataValue2(data, name + match[1], field.parts);
           if (value) {
             vcard2.prop[name] = { value: value, params: dataParams(data, name + match[1]) };
+            if (vcard2.fields.indexOf(name) < 0) {
+              vcard2.fields.push(name);
+            }
           }
         }
       });
@@ -596,11 +603,15 @@ const data2vcard = (data, index) => {
       const value = dataValue2(data, name, field.parts);
       if (value) {
         vcard2.prop[name] = { value: value, params: dataParams(data, name) };
-        //console.log(JSON.stringify(data[name]));
+        if (vcard2.fields.indexOf(name) < 0) {
+          vcard2.fields.push(name);
+        }
       }
     }
   });
-  return vcard1;
+  //console.log(JSON.stringify(vcard1.toJSON(), null, 2));
+  //console.log(JSON.stringify(vcard2.toJSON(), null, 2));
+  return vcard2;
 };
 
 /**

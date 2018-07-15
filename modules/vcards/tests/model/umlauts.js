@@ -23,7 +23,7 @@ describe('vcard umlaut', () => {
     })
     .then(done);
   });
-  describe('should proxy prop', () => {
+  describe('should', () => {
     it('get value', () => {
       const vcard = testData[2];
       assert.equal(vcard.get('fn').valueOf(), '=53=63=68=C3=B6=6E=65=77=65=69=C3=9F');
@@ -33,6 +33,7 @@ describe('vcard umlaut', () => {
     it('set value', () => {
       const vcard = testData[0];
       vcard.prop.fn = { value: 'Uwe Gerdes äöü', params: { } };
+      assert.equal(vcard.text.fn, 'Uwe Gerdes äöü');
       assert.deepEqual(vcard.prop.fn, { value: 'Uwe Gerdes äöü', encoding: 'QUOTED-PRINTABLE' });
       assert.equal(vcard.get('fn').valueOf(),
                   '=55=77=65=20=47=65=72=64=65=73=20=C3=A4=C3=B6=C3=BC');
@@ -45,11 +46,13 @@ describe('vcard umlaut', () => {
                       { value: { Nachname: 'Schöneweiß' }, encoding: 'QUOTED-PRINTABLE' });
     });
     it('set parts', () => {
-      const vcard = testData[0];
-      vcard.prop.n = { value: { Nachname: 'Gerdes', Vorname: 'Uwe', part3: 'Home' },
+      const vcard = testData[2];
+      vcard.prop.n = { value: { Nachname: 'Schöneweiß', Vorname: 'Herbert' },
                         params: { } };
-      assert.deepEqual(vcard.text.n, { Nachname: 'Gerdes', Vorname: 'Uwe', part3: 'Home' });
-      assert.equal(vcard.get('n').valueOf(), 'Gerdes;Uwe;Home;;');
+      assert.deepEqual(vcard.text.n, { Nachname: 'Schöneweiß', Vorname: 'Herbert' });
+      assert.deepEqual(vcard.prop.n, { value: { Nachname: 'Schöneweiß', Vorname: 'Herbert' },
+                                        encoding: 'QUOTED-PRINTABLE' });
+      assert.equal(vcard.get('n').valueOf(), '=53=63=68=C3=B6=6E=65=77=65=69=C3=9F;Herbert;;;');
     });
     it('should proxy prop add list', () => {
       const vcard = testData[0];
