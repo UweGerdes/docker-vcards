@@ -1,12 +1,14 @@
 //- edit.pug
 form#edit.edit(method='POST', action='/vcards/save/' + editId)
   each field in vcard.fields
-    div.field(id=field + '_container')
-      label.label(for=field)
-        = fields[field].label
-        = ": "
-      div.itemvalue
-        include input.pug
+    include input.pug
+
+  #addField.addField
+    select.select&attributes({ name: 'addField', 'data-input-field': '/vcards/input/' })
+      option(value='') Neues Feld
+      each field, name in fields
+        if vcard.fields.indexOf(name) < 0
+          option(value=name)= field.label
 
   #submit.submit
     input.searchSubmit(type='submit', value='speichern')
