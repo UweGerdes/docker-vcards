@@ -218,7 +218,11 @@ class Vcard {
    * @returns {string} - data
    */
   toVCF() {
-    return this.vcard.toString('4.0');
+    if (this.vcard.toString() == '[object Object]') {
+      console.log('[object Object]', Object.keys(this.vcard));
+    } else {
+      return this.vcard.toString();
+    }
   }
 }
 
@@ -462,7 +466,7 @@ module.exports = {
     const vcard = data2vcard(data, index);
     vcard.version = data.version;
     if (index < list.length) {
-      list[index].vcard = vcard;
+      list[index] = vcard;
     } else {
       list.push(vcard);
     }
@@ -601,6 +605,9 @@ const data2vcard = (data, index) => {
       }
     }
   });
+  if (data.version) {
+    vcard.vcard.version = data.version;
+  }
   return vcard;
 };
 

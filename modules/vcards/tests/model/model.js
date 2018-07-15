@@ -93,7 +93,6 @@ describe('vcard model', () => {
     });
     it('should return vcard equal to testData[0]', () => {
       const vcard0 = model.list()[0].vcard.toJSON();
-      vcard0[1][0] = ['version', { }, 'text', '4.0'];
       const vcard1 = model.save(2, {
         'version': '2.1',
         'n_Vorname': 'Uwe',
@@ -119,7 +118,7 @@ describe('vcard model', () => {
     });
     it('should add a new vcard to list', () => {
       const vcard0 = ['vcard', [
-        ['version', { }, 'text', '4.0'],
+        ['version', { }, 'text', '2.1'],
         ['n', { }, 'text', ['Gerdes (test)', 'Uwe Wilhelm', '', 'Dipl. Ing. FH', '']],
         ['fn', { }, 'text', 'Uwe Gerdes neu'],
         ['tel', { 'type': ['work', 'voice'] }, 'text', '040 256486 neu'],
@@ -219,7 +218,7 @@ describe('vcard model', () => {
     });
     it('should return vcards VCF equal to testData', () => {
       const vcf = 'BEGIN:VCARD\n' +
-                  'VERSION:4.0\n' +
+                  'VERSION:2.1\n' +
                   'N:Gerdes;Uwe;;;\n' +
                   'FN:Uwe Gerdes\n' +
                   'TEL;TYPE=work,voice:040 256486\n' +
@@ -228,7 +227,7 @@ describe('vcard model', () => {
                   'URL:http://www.uwegerdes.de/\n' +
                   'END:VCARD\n' +
                   'BEGIN:VCARD\n' +
-                  'VERSION:4.0\n' +
+                  'VERSION:3.0\n' +
                   'N:Gerdes;Uwe\n' +
                   'FN:Uwe Gerdes\n' +
                   'TEL;TYPE=work,voice:+49 40 25178252\n' +
@@ -237,6 +236,7 @@ describe('vcard model', () => {
                   'EMAIL;TYPE=pref,internet:entwicklung@uwegerdes.de\n' +
                   'REV:2014-08-24T18:50:00Z\n' +
                   'END:VCARD\n';
+      console.log(model.toVCF().replace(/\n/g, '\\n'));
       assert.equal(model.toVCF(), vcf);
     });
   });
