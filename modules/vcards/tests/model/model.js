@@ -236,7 +236,6 @@ describe('vcard model', () => {
                   'EMAIL;TYPE=pref,internet:entwicklung@uwegerdes.de\n' +
                   'REV:2014-08-24T18:50:00Z\n' +
                   'END:VCARD\n';
-      console.log(model.toVCF().replace(/\n/g, '\\n'));
       assert.equal(model.toVCF(), vcf);
     });
   });

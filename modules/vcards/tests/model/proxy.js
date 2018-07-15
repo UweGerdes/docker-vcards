@@ -77,7 +77,8 @@ describe('vcard proxy', () => {
       const vcard = testData[0];
       vcard.prop.fn = { value: 'Uwe äöüÄÖÜß.', params: { } };
       assert.equal(vcard.text.fn, 'Uwe äöüÄÖÜß.');
-      assert.deepEqual(vcard.prop.fn, { value: 'Uwe äöüÄÖÜß.', encoding: 'QUOTED-PRINTABLE' });
+      assert.deepEqual(vcard.prop.fn,
+                      { value: 'Uwe äöüÄÖÜß.', encoding: 'QUOTED-PRINTABLE', charset: 'UTF-8' });
       assert.equal(vcard.get('fn').valueOf(),
                   '=55=77=65=20=C3=A4=C3=B6=C3=BC=C3=84=C3=96=C3=9C=C3=9F=2E');
     });

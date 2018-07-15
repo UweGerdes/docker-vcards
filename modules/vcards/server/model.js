@@ -72,6 +72,9 @@ class Vcard {
               if (data.encoding) {
                 prop.encoding = data.encoding;
               }
+              if (data.charset) {
+                prop.charset = data.charset;
+              }
             }
           }
           return prop;
@@ -88,6 +91,7 @@ class Vcard {
             if (v.join('')) {
               if (!/^[\x00-\x7F]*$/.test(v.join(''))) {
                 params.encoding = 'QUOTED-PRINTABLE';
+                params.charset = 'UTF-8';
                 value = v.map(p => encodeQP(p)).join(';'); // jscs:ignore jsDoc
               } else {
                 value = v.join(';');
@@ -97,6 +101,7 @@ class Vcard {
             value = new Date(value).toISOString().replace(/\.0+Z/, 'Z');
           } else if (typeof value == 'string' && !/^[\x00-\x7F]*$/.test(value)) {
             params.encoding = 'QUOTED-PRINTABLE';
+            params.charset = 'UTF-8';
             value = encodeQP(value);
           }
           //if (fields[name].type == 'image') {
@@ -159,10 +164,22 @@ class Vcard {
       } else {
         let result = [];
         value.forEach((entry) => { // jscs:ignore jsDoc
-          result.push({
-            type: entry.type,
+          let prop = {
             value: entry.valueOf()
-          });
+          };
+          if (entry.type) {
+            prop.type = entry.type;
+          }
+          if (entry.charset) {
+            prop.charset = entry.charset;
+          }
+          if (entry.encoding) {
+            prop.encoding = entry.encoding;
+            if (entry.encoding == 'QUOTED-PRINTABLE') {
+              prop.value = libqp.decode(entry.valueOf()).toString();
+            }
+          }
+          result.push(prop);
         });
         return result;
       }
@@ -650,6 +667,10 @@ const dataParams = (data, name) => {
   }
   if (data[name + '_encoding']) {
     params.encoding = data[name + '_encoding'];
+    params.charset = 'UTF-8';
+  }
+  if (data[name + '_charset']) {
+    params.charset = data[name + '_charset'];
   }
   return params;
 };

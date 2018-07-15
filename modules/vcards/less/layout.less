@@ -44,21 +44,6 @@
     .field {
       margin: 0 0 1em;
 
-      .add {
-        border: 1px solid #cccccc;
-        border-radius: 3px;
-        cursor: pointer;
-        display: block;
-        float: right;
-        font-size: 1.2em;
-        margin: -43px 1% 0 0.2em;
-        padding: 2px 8px;
-
-        &:hover {
-          border: 1px solid #666666;
-        }
-      }
-
       .types {
         margin: 0.5em 0 1em;
         padding: 0.2em 0 0;
@@ -70,6 +55,25 @@
 
       .type {
         margin: 0 1em 0 0;
+      }
+
+      .add {
+        border: 1px solid #cccccc;
+        border-radius: 3px;
+        cursor: pointer;
+        display: block;
+        float: right;
+        font-size: 1.2em;
+        margin: 10px 1% 0 0.2em;
+        padding: 2px 8px;
+
+        &:hover {
+          border: 1px solid #666666;
+        }
+      }
+
+      .types + .add {
+        margin: -43px 1% 0 0.2em;
       }
     }
 

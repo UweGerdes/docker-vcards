@@ -28,13 +28,15 @@ describe('vcard umlaut', () => {
       const vcard = testData[2];
       assert.equal(vcard.get('fn').valueOf(), '=53=63=68=C3=B6=6E=65=77=65=69=C3=9F');
       assert.equal(vcard.text.fn, 'Schöneweiß');
-      assert.deepEqual(vcard.prop.fn, { value: 'Schöneweiß', encoding: 'QUOTED-PRINTABLE' });
+      assert.deepEqual(vcard.prop.fn,
+                      { value: 'Schöneweiß', encoding: 'QUOTED-PRINTABLE', charset: 'UTF-8' });
     });
     it('set value', () => {
       const vcard = testData[0];
       vcard.prop.fn = { value: 'Uwe Gerdes äöü', params: { } };
       assert.equal(vcard.text.fn, 'Uwe Gerdes äöü');
-      assert.deepEqual(vcard.prop.fn, { value: 'Uwe Gerdes äöü', encoding: 'QUOTED-PRINTABLE' });
+      assert.deepEqual(vcard.prop.fn,
+                      { value: 'Uwe Gerdes äöü', encoding: 'QUOTED-PRINTABLE', charset: 'UTF-8' });
       assert.equal(vcard.get('fn').valueOf(),
                   '=55=77=65=20=47=65=72=64=65=73=20=C3=A4=C3=B6=C3=BC');
     });
@@ -43,7 +45,7 @@ describe('vcard umlaut', () => {
       assert.equal(vcard.get('n').valueOf(), '=53=63=68=C3=B6=6E=65=77=65=69=C3=9F;;;;');
       assert.deepEqual(vcard.text.n, { Nachname: 'Schöneweiß' });
       assert.deepEqual(vcard.prop.n,
-                      { value: { Nachname: 'Schöneweiß' }, encoding: 'QUOTED-PRINTABLE' });
+            { value: { Nachname: 'Schöneweiß' }, encoding: 'QUOTED-PRINTABLE', charset: 'UTF-8' });
     });
     it('set parts', () => {
       const vcard = testData[2];
@@ -51,42 +53,31 @@ describe('vcard umlaut', () => {
                         params: { } };
       assert.deepEqual(vcard.text.n, { Nachname: 'Schöneweiß', Vorname: 'Herbert' });
       assert.deepEqual(vcard.prop.n, { value: { Nachname: 'Schöneweiß', Vorname: 'Herbert' },
-                                        encoding: 'QUOTED-PRINTABLE' });
+                                        encoding: 'QUOTED-PRINTABLE', charset: 'UTF-8' });
       assert.equal(vcard.get('n').valueOf(),
                   '=53=63=68=C3=B6=6E=65=77=65=69=C3=9F;=48=65=72=62=65=72=74;;;');
     });
     it('should proxy prop add list', () => {
-      const vcard = testData[0];
-      vcard.prop.tel = { value: '040 25178252', params: { type: 'voice' } };
-      assert.deepEqual(vcard.text.tel,
-            ['040 256486 (work, voice)', '0179 3901008 (cell)', '040 25178252 (voice)']);
-    });
-    it('should proxy prop add to empty list with parts', () => {
-      const vcard = testData[0];
-      vcard.prop.adr = { value: { 'Straße': 'Klaus-Groth-Str. 22', 'Ort': 'Hamburg',
-                                  'PLZ': '20535', 'Land': 'Germany' },
-                        params: { } };
-      assert.deepEqual(vcard.text.adr, [{ 'Straße': 'Klaus-Groth-Str. 22', Ort: 'Hamburg',
-                                          PLZ: '20535', Land: 'Germany' }]);
-      assert.equal(vcard.get('adr').valueOf(), ';;Klaus-Groth-Str. 22;Hamburg;;20535;Germany');
-    });
-    it('should proxy prop set timestamp', () => {
-      const vcard = testData[0];
-      vcard.prop.rev = { value: '2014-8-24 20:50:00', params: { } };
-      assert.deepEqual(vcard.prop.rev, { value: '2014-8-24 20:50:00' });
-      assert.equal(vcard.get('rev').valueOf(), '2014-08-24T18:50:00Z');
+      const vcard = testData[2];
+      vcard.prop.xGroupMembership = { value: 'Hühnerhaufen', params: { } };
+      assert.deepEqual(vcard.text.xGroupMembership,
+            ['Vermittler', 'My Contacts', 'Hühnerhaufen']);
+      assert.deepEqual(vcard.prop.xGroupMembership,
+             [{ 'value': 'Vermittler' }, { 'value': 'My Contacts' },
+             { 'value': 'Hühnerhaufen', 'charset': 'UTF-8', 'encoding': 'QUOTED-PRINTABLE' }]);
+      assert.equal(vcard.get('xGroupMembership').valueOf()[2].encoding, 'QUOTED-PRINTABLE');
+      assert.equal(vcard.get('xGroupMembership').valueOf()[2].charset, 'UTF-8');
+      assert.equal(vcard.get('xGroupMembership').valueOf()[2].valueOf(),
+                  '=48=C3=BC=68=6E=65=72=68=61=75=66=65=6E');
     });
     it('should proxy prop set value encoded', () => {
       const vcard = testData[0];
       vcard.prop.fn = { value: 'Uwe äöüÄÖÜß.', params: { } };
       assert.equal(vcard.text.fn, 'Uwe äöüÄÖÜß.');
-      assert.deepEqual(vcard.prop.fn, { value: 'Uwe äöüÄÖÜß.', encoding: 'QUOTED-PRINTABLE' });
+      assert.deepEqual(vcard.prop.fn,
+                      { value: 'Uwe äöüÄÖÜß.', encoding: 'QUOTED-PRINTABLE', charset: 'UTF-8' });
       assert.equal(vcard.get('fn').valueOf(),
                   '=55=77=65=20=C3=A4=C3=B6=C3=BC=C3=84=C3=96=C3=9C=C3=9F=2E');
-    });
-    it('should proxy fields list', () => {
-      const vcard = testData[0];
-      assert.deepEqual(vcard.fields, ['version', 'n', 'fn', 'tel', 'email', 'url', 'adr', 'rev']);
     });
   });
 });
