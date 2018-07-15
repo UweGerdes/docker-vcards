@@ -553,14 +553,14 @@ function openFile(filename) {
 }
 
 /**
- * make vcard object from jcard
+ * make vcard object from form data
  *
  * @param {object} data - data for new vcard
  * @param {object} index - in list
  */
 const data2vcard = (data, index) => {
   const dataKeys = Object.keys(data);
-  let dataJSON = [];
+  const vcard = new Vcard(new Vcf(), index);
   Object.keys(fields).forEach((name) => { // jscs:ignore jsDoc
     const field = fields[name];
     if (field.type == 'list') {
@@ -569,49 +569,26 @@ const data2vcard = (data, index) => {
       dataKeys.forEach(key => { // jscs:ignore jsDoc
         const match = re.exec(key);
         if (match) {
-          dataJSON.push([name, dataParams(data, name + match[1]), 'text',
-                        dataValue(data, name + match[1], field.parts)]);
-        }
-      });
-    } else {
-      const value = dataValue(data, name, field.parts);
-      if (value) {
-        dataJSON.push([name, dataParams(data, name), 'text', value]);
-      }
-    }
-  });
-  //const vcard1 = Vcf.fromJSON(['vcard', dataJSON]);
-  const vcard2 = new Vcard(new Vcf(), index);
-  Object.keys(fields).forEach((name) => { // jscs:ignore jsDoc
-    const field = fields[name];
-    if (field.type == 'list') {
-      const re = new RegExp('^' + name + '([0-9]*)(' +
-                            (field.parts ? '_' + field.parts_order[0] : '') + ')?$');
-      dataKeys.forEach(key => { // jscs:ignore jsDoc
-        const match = re.exec(key);
-        if (match) {
-          const value = dataValue2(data, name + match[1], field.parts);
+          const value = dataValue(data, name + match[1], field.parts);
           if (value) {
-            vcard2.prop[name] = { value: value, params: dataParams(data, name + match[1]) };
-            if (vcard2.fields.indexOf(name) < 0) {
-              vcard2.fields.push(name);
+            vcard.prop[name] = { value: value, params: dataParams(data, name + match[1]) };
+            if (vcard.fields.indexOf(name) < 0) {
+              vcard.fields.push(name);
             }
           }
         }
       });
     } else {
-      const value = dataValue2(data, name, field.parts);
+      const value = dataValue(data, name, field.parts);
       if (value) {
-        vcard2.prop[name] = { value: value, params: dataParams(data, name) };
-        if (vcard2.fields.indexOf(name) < 0) {
-          vcard2.fields.push(name);
+        vcard.prop[name] = { value: value, params: dataParams(data, name) };
+        if (vcard.fields.indexOf(name) < 0) {
+          vcard.fields.push(name);
         }
       }
     }
   });
-  //console.log(JSON.stringify(vcard1.toJSON(), null, 2));
-  //console.log(JSON.stringify(vcard2.toJSON(), null, 2));
-  return vcard2;
+  return vcard;
 };
 
 /**
@@ -621,7 +598,7 @@ const data2vcard = (data, index) => {
  * @param {string} name - fieldname
  * @param {object} parts - parts for entry
  */
-const dataValue2 = (data, name, parts) => {
+const dataValue = (data, name, parts) => {
   let value;
   if (parts) {
     if (data[name] && data[name].indexOf('{') == 0) {
@@ -655,32 +632,4 @@ const dataParams = (data, name) => {
     params.encoding = data[name + '_encoding'];
   }
   return params;
-};
-
-/**
- * get value from form data
- *
- * @param {object} data - data for new vcard
- * @param {string} name - fieldname
- * @param {object} parts - parts for entry
- */
-const dataValue = (data, name, parts) => {
-  let value;
-  if (parts) {
-    if (data[name] && data[name].indexOf('{') == 0) {
-      const map = JSON.parse(data[name]);
-      const v = parts.map(part => map[part] || ''); // jscs:ignore jsDoc
-      if (v.join('')) {
-        value = v;
-      }
-    } else {
-      const v = parts.map(part => data[name + '_' + part] || ''); // jscs:ignore jsDoc
-      if (v.join('')) {
-        value = v;
-      }
-    }
-  } else {
-    value = data[name];
-  }
-  return value;
 };
