@@ -124,6 +124,8 @@ describe('vcard model', () => {
         ['fn', { }, 'text', 'Uwe Gerdes neu'],
         ['tel', { 'type': ['work', 'voice'] }, 'text', '040 256486 neu'],
         ['tel', { 'type': 'home' }, 'text', '040 25178252 neu'],
+        ['adr', { 'type': 'home' }, 'text',
+                ['', '', 'Klaus-Groth-Str. 22', 'Hamburg', '', '20535', 'Germany']],
         ['email', { 'type': 'pref' }, 'text', 'uwe@uwegerdes.de neu']
       ]];
       const vcard1 = model.save(2, {
@@ -145,7 +147,9 @@ describe('vcard model', () => {
         'select_tel1': '',
         'email0': 'uwe@uwegerdes.de neu',
         'email0_type': 'pref',
-        'select_email0': ''
+        'select_email0': '',
+        'adr0': '{"Straße":"Klaus-Groth-Str. 22","Ort":"Hamburg","PLZ":"20535","Land":"Germany"}',
+        'adr0_type': 'home',
       });
       assert.deepEqual(vcard1.toJSON(), vcard0);
       assert.equal(model.list().length, 3);
