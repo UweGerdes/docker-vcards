@@ -52,7 +52,8 @@ describe('vcard umlaut', () => {
       assert.deepEqual(vcard.text.n, { Nachname: 'Schöneweiß', Vorname: 'Herbert' });
       assert.deepEqual(vcard.prop.n, { value: { Nachname: 'Schöneweiß', Vorname: 'Herbert' },
                                         encoding: 'QUOTED-PRINTABLE' });
-      assert.equal(vcard.get('n').valueOf(), '=53=63=68=C3=B6=6E=65=77=65=69=C3=9F;Herbert;;;');
+      assert.equal(vcard.get('n').valueOf(),
+                  '=53=63=68=C3=B6=6E=65=77=65=69=C3=9F;=48=65=72=62=65=72=74;;;');
     });
     it('should proxy prop add list', () => {
       const vcard = testData[0];

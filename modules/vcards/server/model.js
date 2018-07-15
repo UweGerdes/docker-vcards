@@ -86,22 +86,18 @@ class Vcard {
           if (fields[name].parts) {
             const v = fields[name].parts.map(part => value[part] || ''); // jscs:ignore jsDoc
             if (v.join('')) {
-              value = v.join(';');
+              if (!/^[\x00-\x7F]*$/.test(v.join(''))) {
+                params.encoding = 'QUOTED-PRINTABLE';
+                value = v.map(p => encodeQP(p)).join(';'); // jscs:ignore jsDoc
+              } else {
+                value = v.join(';');
+              }
             }
           } else if (fields[name].type == 'timestamp') {
             value = new Date(value).toISOString().replace(/\.0+Z/, 'Z');
-          }
-          if (typeof value == 'string' && !/^[\x00-\x7F]*$/.test(value)) {
+          } else if (typeof value == 'string' && !/^[\x00-\x7F]*$/.test(value)) {
             params.encoding = 'QUOTED-PRINTABLE';
-            const a = Array.prototype.map.call(value, x => { // jscs:ignore jsDoc
-              const c = x.charCodeAt(0);
-              if (c <= 127) {
-                return '=' + ('0' + (Number(c).toString(16))).slice(-2).toUpperCase();
-              } else {
-                return libqp.encode(x);
-              }
-            });
-            value = a.join('');
+            value = encodeQP(value);
           }
           //if (fields[name].type == 'image') {
           //  console.log('prepared', name, value, params);
@@ -255,6 +251,23 @@ function propToString(prop, field) {
     }
   }
   return result;
+}
+
+/**
+ * encodeQP
+ *
+ * @param {string} value - to convert
+ * @returns {string} - quoted printable string
+ */
+function encodeQP(value) {
+  return Array.prototype.map.call(value, x => { // jscs:ignore jsDoc
+    const c = x.charCodeAt(0);
+    if (c <= 127) {
+      return '=' + ('0' + (Number(c).toString(16))).slice(-2).toUpperCase();
+    } else {
+      return libqp.encode(x);
+    }
+  }).join('');
 }
 
 const fields = {
