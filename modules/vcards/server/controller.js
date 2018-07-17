@@ -267,12 +267,10 @@ module.exports = {
 };
 
 /**
- * ### split types
- *
- * make readable types
+ * ### translate types
  *
  * @private
- * @param {string} value - to convert
+ * @param {object} value - string or list to translate
  */
 function type(value) {
   let typelist = [];
