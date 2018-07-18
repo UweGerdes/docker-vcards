@@ -5,7 +5,7 @@
 
 const express = require('express'),
   multer  = require('multer'),
-  upload = multer(),
+  upload = multer({ storage: multer.memoryStorage() }),
   path = require('path'),
   router = express.Router();
 
@@ -53,6 +53,6 @@ router.get('/field/:field/:index?', controller.inputField);
 router.post('/search/:id?', upload.array(), controller.search);
 
 // save vcard
-router.post('/save/:id/:delId?', upload.array(), controller.save);
+router.post('/save/:id/:delId?', upload.any(), controller.save);
 
 module.exports = router;

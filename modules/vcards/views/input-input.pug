@@ -15,23 +15,29 @@ mixin types(field, index, typeList)
     + moreTypes(field, index, typeList)
 
 mixin input-image(name, prop)
-  input(
-    type='checkbox',
-    id=name,
-    name=name,
-    value=prop.value,
-    checked)
-  input(
-    type='hidden',
-    id=name + '_type',
-    name=name + '_type',
-    value=prop.type)
-  input(
-    type='hidden',
-    id=name + '_encoding',
-    name=name + '_encoding',
-    value=prop.encoding)
-  img(src='data:image/' + prop.type + ';' + prop.encoding.toLowerCase() + ',' + prop.value)
+  if prop.value
+    input(
+      type='checkbox',
+      id=name,
+      name=name,
+      value=prop.value,
+      checked)
+    input(
+      type='hidden',
+      id=name + '_type',
+      name=name + '_type',
+      value=prop.type)
+    input(
+      type='hidden',
+      id=name + '_encoding',
+      name=name + '_encoding',
+      value=prop.encoding)
+    img(src='data:image/' + prop.type + ';' + prop.encoding.toLowerCase() + ',' + prop.value)
+  else
+    input(
+      type='file',
+      id=name,
+      name=name)
 
 mixin input-value(field, value, index, part)
   input(

@@ -85,7 +85,7 @@ const index = (req, res) => {
  * @param {object} res - result
  */
 const save = (req, res) => {
-  model.save(parseInt(req.params.id), req.body);
+  model.save(parseInt(req.params.id), req.body, req.files);
   res.render(path.join(viewBase, 'index.pug'),
       Object.assign({
       title: 'vcard',

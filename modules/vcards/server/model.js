@@ -481,9 +481,10 @@ module.exports = {
    *
    * @param {int} index - item id to save
    * @param {object} data - map with data
+   * @param {object} files - list with files
    */
-  save: (index, data) => {
-    const vcard = data2vcard(data, index);
+  save: (index, data, files) => {
+    const vcard = data2vcard(index, data, files);
     vcard.version = data.version;
     if (index < list.length) {
       list[index] = vcard;
@@ -589,18 +590,31 @@ function openFile(filename) {
   });
 }
 
+/*
+  [{
+    fieldname: 'photo9',
+    originalname: '20151025.jpg',
+    encoding: '7bit',
+    mimetype: 'image/jpeg',
+    buffer: <Buffer ff d8 ff e0 00 10 4a 46 49 ... >,
+    size: 184679
+  }]
+ */
 /**
  * make vcard object from form data
  *
- * @param {object} data - data for new vcard
  * @param {object} index - in list
+ * @param {object} data - data for new vcard
+ * @param {object} files - list with files
  */
-const data2vcard = (data, index) => {
+const data2vcard = (index, data, files) => {
   const dataKeys = Object.keys(data);
   const vcard = new Vcard(new Vcf(), index);
   Object.keys(fields).forEach((name) => { // jscs:ignore jsDoc
     const field = fields[name];
-    if (field.type == 'list') {
+    if (field.type == 'image') {
+      console.log(files);
+    } else if (field.type == 'list') {
       const re = new RegExp('^' + name + '([0-9]*)(' +
                             (field.parts ? '_' + field.parts_order[0] : '') + ')?$');
       dataKeys.forEach(key => { // jscs:ignore jsDoc
