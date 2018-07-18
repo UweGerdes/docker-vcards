@@ -133,6 +133,24 @@ module.exports = {
             '//form[@id="edit"]',
           ],
         },
+        'edit form for add timestamp': {
+          title: 'Webserver - vcard',
+          click: '#editButton',
+          elements: {
+            '//*[@id="headline"]': 'vcard Uwe Gerdes Test bearbeiten',
+            '//form[@id="edit"]': '',
+            '//form[@id="edit"]//*[@id="tel_container"]//*[@class="add"]': '+',
+          },
+        },
+        'add timestamp field': {
+          title: 'Webserver - vcard',
+          click: '//form[@id="edit"]//select[@name="addField"]/option[@value="rev"]',
+          elements: {
+            '//*[@id="headline"]': 'vcard Uwe Gerdes Test bearbeiten',
+            '//form[@id="edit"]': '',
+            '//form[@id="edit"]//*[@id="rev_container"]//input[@type="text"][@name="rev"]': '',
+          },
+        },
       }
     }
   }
