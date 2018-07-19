@@ -80,3 +80,5 @@ if vcard
   .error(id=field + '-error')
 else
   +input-group(field, { value: '' }, index)
+  if fields[field].type == 'list'
+    span.add&attributes({ 'data-click-xhr': '/vcards/input/' + field + '/' })= '+'

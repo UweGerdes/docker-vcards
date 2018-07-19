@@ -5,12 +5,12 @@
 
 /* jshint browser: true */
 
-let handlers = [];
+let handler = {};
 
 /**
  * toggle element by id
  */
-handlers.push({
+handler['data-toggle'] = {
   elements: [window],
   event: 'load',
   func: () => { // jscs:ignore jsDoc
@@ -36,12 +36,12 @@ handlers.push({
       });
     });
   }
-});
+};
 
 /**
  * searchSubmit
  */
-handlers.push({
+handler['searchForm-submit'] = {
   elements: document.querySelectorAll('#searchForm'),
   event: 'submit',
   func: (event) => { // jscs:ignore jsDoc
@@ -76,41 +76,42 @@ handlers.push({
     xhttp.open('POST', form.action, true);
     xhttp.send(formData);
   }
-});
+};
 
 /**
  * new type
  *
  * @param {Event} event - triggered event
  */
-function newType(event) {
-  const element = event.target;
-  if (element.value != '') {
-    const xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () { // jscs:ignore jsDoc
-      if (this.readyState == 4) {
-        if (this.status == 200) {
-          element.insertAdjacentHTML('beforebegin', this.responseText);
-          element.remove(element.selectedIndex);
-          element.selectedIndex = 0;
-        }
-      }
-    };
-    const i = element.parentNode.getElementsByClassName('type').length + element.selectedIndex - 1;
-    xhttp.open('GET', element.getAttribute('data-select-xhr') + element.value + '/' + i, true);
-    xhttp.send();
-  }
-}
-handlers.push({
+handler['data-select-xhr'] = {
   elements: document.querySelectorAll('select[data-select-xhr]'),
   event: 'change',
-  func: newType
-});
+  func: (event) => { // jscs:ignore jsDoc
+    const element = event.target;
+    if (element.value != '') {
+      const xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function () { // jscs:ignore jsDoc
+        if (this.readyState == 4) {
+          if (this.status == 200) {
+            element.insertAdjacentHTML('beforebegin', this.responseText);
+            element.remove(element.selectedIndex);
+            element.selectedIndex = 0;
+            const clickButton = element.parentElement.querySelectorAll('select[data-click-xhr]');
+            attachEventHandler(clickButton[0], 'click', handler['data-click-xhr'].func);
+          }
+        }
+      };
+      let i = element.parentNode.getElementsByClassName('type').length + element.selectedIndex - 1;
+      xhttp.open('GET', element.getAttribute('data-select-xhr') + element.value + '/' + i, true);
+      xhttp.send();
+    }
+  }
+};
 
 /**
  * new input
  */
-handlers.push({
+handler['data-click-xhr'] = {
   elements: document.querySelectorAll('[data-click-xhr]'),
   event: 'click',
   func: function (event) { // jscs:ignore jsDoc
@@ -121,7 +122,8 @@ handlers.push({
         if (this.status == 200) {
           element.parentElement.insertAdjacentHTML('beforeend', this.responseText);
           const selects = element.parentElement.querySelectorAll('select[data-select-xhr]');
-          attachEventHandler(selects[selects.length - 1], 'change', newType);
+          attachEventHandler(selects[selects.length - 1], 'change',
+            handler['data-select-xhr'].func);
         }
       }
     };
@@ -129,12 +131,12 @@ handlers.push({
     xhttp.open('GET', element.getAttribute('data-click-xhr') + newIndex, true);
     xhttp.send();
   }
-});
+};
 
 /**
  * open url from selection
  */
-handlers.push({
+handler['data-select-url'] = {
   elements: document.querySelectorAll('[data-select-url]'),
   event: 'change',
   func: function (event) { // jscs:ignore jsDoc
@@ -143,12 +145,12 @@ handlers.push({
     console.log('open', element.getAttribute('data-select-url') + value);
     document.location.href = element.getAttribute('data-select-url') + value;
   }
-});
+};
 
 /**
  * open url from selection
  */
-handlers.push({
+handler['data-open-url'] = {
   elements: document.querySelectorAll('[data-open-url]'),
   event: 'click',
   func: function (event) { // jscs:ignore jsDoc
@@ -156,7 +158,7 @@ handlers.push({
     console.log('open', element.getAttribute('data-open-url'));
     document.location.href = element.getAttribute('data-open-url');
   }
-});
+};
 
 /**
  * attach event to elements
@@ -178,7 +180,7 @@ function attachEventHandler(element, event, handler) {
 /**
  * attach event handlers
  */
-handlers.forEach((handler) => { // jscs:ignore jsDoc
+Object.values(handler).forEach((handler) => { // jscs:ignore jsDoc
   handler.elements.forEach((element) => { // jscs:ignore jsDoc
     attachEventHandler(element, handler.event, handler.func);
   });

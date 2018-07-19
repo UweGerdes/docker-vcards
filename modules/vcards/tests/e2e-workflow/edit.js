@@ -139,7 +139,7 @@ module.exports = {
           elements: {
             '//*[@id="headline"]': 'vcard Uwe Gerdes Test bearbeiten',
             '//form[@id="edit"]': '',
-            '//form[@id="edit"]//*[@id="tel_container"]//*[@class="add"]': '+',
+            '//form[@id="edit"]//select[@name="addField"]': '',
           },
         },
         'add org field': {

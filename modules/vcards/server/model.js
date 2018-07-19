@@ -612,9 +612,10 @@ const data2vcard = (index, data, files) => {
   const vcard = new Vcard(new Vcf(), index);
   Object.keys(fields).forEach((name) => { // jscs:ignore jsDoc
     const field = fields[name];
-    if (field.type == 'image') {
-      console.log(files);
-    } else if (field.type == 'list') {
+    if (files && files.length) {
+      console.log('files', files);
+    }
+    if (field.type == 'list') {
       const re = new RegExp('^' + name + '([0-9]*)(' +
                             (field.parts ? '_' + field.parts_order[0] : '') + ')?$');
       dataKeys.forEach(key => { // jscs:ignore jsDoc
