@@ -133,7 +133,7 @@ module.exports = {
             '//form[@id="edit"]',
           ],
         },
-        'edit form for add timestamp': {
+        'edit form for adding fields': {
           title: 'Webserver - vcard',
           click: '#editButton',
           elements: {
@@ -142,13 +142,35 @@ module.exports = {
             '//form[@id="edit"]//*[@id="tel_container"]//*[@class="add"]': '+',
           },
         },
-        'add timestamp field': {
+        'add org field': {
+          title: 'Webserver - vcard',
+          click: '//form[@id="edit"]//select[@name="addField"]/option[@value="org"]',
+          elements: {
+            '//form[@id="edit"]//*[@id="org_container"]//input[@type="text"][@name="org"]': '',
+          },
+        },
+        'add rev field': {
           title: 'Webserver - vcard',
           click: '//form[@id="edit"]//select[@name="addField"]/option[@value="rev"]',
           elements: {
-            '//*[@id="headline"]': 'vcard Uwe Gerdes Test bearbeiten',
-            '//form[@id="edit"]': '',
             '//form[@id="edit"]//*[@id="rev_container"]//input[@type="text"][@name="rev"]': '',
+          },
+        },
+        'add xGroupMembership field': {
+          title: 'Webserver - vcard',
+          click: '//form[@id="edit"]//select[@name="addField"]/option[@value="xGroupMembership"]',
+          elements: {
+            '//*[@id="headline"]': 'vcard Uwe Gerdes Test bearbeiten',
+            '//form[@id="edit"]//input[@type="text"][@name="xGroupMembership0"]': '',
+          },
+        },
+        'add adr field': {
+          title: 'Webserver - vcard',
+          click: '//form[@id="edit"]//select[@name="addField"]/option[@value="adr"]',
+          elements: {
+            '//*[@id="headline"]': 'vcard Uwe Gerdes Test bearbeiten',
+            '//form[@id="edit"]//*[@id="adr_container"]//input[@type="text"][@name="adr0_PLZ"]': '',
+            '//form[@id="edit"]//*[@id="adr_container"]//select[@name="select_adr0"]': '',
           },
         },
       }

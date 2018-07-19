@@ -199,7 +199,7 @@ const inputInput = (req, res) => {
 const inputField = (req, res) => {
   res.render(path.join(viewBase, 'input-field.pug'), {
     field: req.params.field,
-    index: '',
+    index: model.fields[req.params.field].type == 'list' ? '0' : '',
     fields: model.fields,
     types: model.types
   });
