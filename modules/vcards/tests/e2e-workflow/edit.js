@@ -173,6 +173,29 @@ module.exports = {
             '//form[@id="edit"]//*[@id="adr_container"]//select[@name="select_adr0"]': '',
           },
         },
+        'input data and check result': {
+          title: 'Webserver - vcard',
+          input: {
+            '//input[@name="org"]': 'Freiberufler',
+            '//input[@name="rev"]': '2018-7-19 20:10:00',
+            '//input[@name="xGroupMembership0"]': 'ICH',
+            '//input[@name="adr0_Straße"]': 'Klaus-Groth-Str. 22',
+            '//input[@name="adr0_PLZ"]': '20535',
+            '//input[@name="adr0_Ort"]': 'Hamburg',
+            '//select[@name="select_adr0"]/option[@value="home"]': true,
+          },
+          click: '//form[@id="edit"]//input[@type="submit"]',
+          elements: {
+            '//*[@id="headline"]': 'vcard Uwe Gerdes Test',
+            '//*[@id="org"]//*[@class="itemvalue"]': 'Freiberufler',
+            '//*[@id="rev"]//*[@class="itemvalue"]': '2018-7-19 20:10:00',
+            '//*[@id="xGroupMembership"]//*[@class="itemvalue"]': 'ICH',
+            '//*[@id="adr"]//*[@class="itemvalue"]': 'Klaus-Groth-Str. 22, Hamburg, 20535',
+          },
+          elementsNotExist: [
+            '//form[@id="edit"]',
+          ],
+        },
       }
     }
   }
