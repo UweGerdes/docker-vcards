@@ -96,8 +96,11 @@ handler['data-select-xhr'] = {
             element.insertAdjacentHTML('beforebegin', this.responseText);
             element.remove(element.selectedIndex);
             element.selectedIndex = 0;
-            const clickButton = element.parentElement.querySelectorAll('select[data-click-xhr]');
-            attachEventHandler(clickButton[0], 'click', handler['data-click-xhr'].func);
+            const clickButton = element.previousSibling.querySelectorAll('span[data-click-xhr]');
+            if (clickButton.length) {
+              console.log(clickButton[0]);
+              attachEventHandler(clickButton[0], 'click', handler['data-click-xhr'].func);
+            }
           }
         }
       };
@@ -122,8 +125,10 @@ handler['data-click-xhr'] = {
         if (this.status == 200) {
           element.parentElement.insertAdjacentHTML('beforeend', this.responseText);
           const selects = element.parentElement.querySelectorAll('select[data-select-xhr]');
-          attachEventHandler(selects[selects.length - 1], 'change',
-            handler['data-select-xhr'].func);
+          if (selects.length) {
+            attachEventHandler(selects[selects.length - 1], 'change',
+              handler['data-select-xhr'].func);
+          }
         }
       }
     };
