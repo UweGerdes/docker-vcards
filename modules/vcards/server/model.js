@@ -612,9 +612,6 @@ const data2vcard = (index, data, files) => {
   const vcard = new Vcard(new Vcf(), index);
   Object.keys(fields).forEach((name) => { // jscs:ignore jsDoc
     const field = fields[name];
-    if (files && files.length) {
-      console.log('files', files);
-    }
     if (field.type == 'list') {
       const re = new RegExp('^' + name + '([0-9]*)(' +
                             (field.parts ? '_' + field.parts_order[0] : '') + ')?$');
@@ -628,6 +625,14 @@ const data2vcard = (index, data, files) => {
               vcard.fields.push(name);
             }
           }
+        }
+      });
+    } else if (field.type == 'image' && files && files.length) {
+      files.forEach(file => { // jscs:ignore jsDoc
+        if (file.fieldname == name) {
+          vcard.prop[name] = { value: file.buffer.toString('base64'),
+            params: { encoding: 'BASE64', type: file.mimetype.replace(/^.+\//, '') }
+          };
         }
       });
     } else {
