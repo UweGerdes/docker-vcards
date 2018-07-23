@@ -34,10 +34,13 @@ mixin input-image(name, prop)
       value=prop.encoding)
     img(src='data:image/' + prop.type + ';' + prop.encoding.toLowerCase() + ',' + prop.value)
   else
-    input(
-      type='file',
-      id=name,
-      name=name)
+    .upload
+      label.label(for=name) Datei hochladen
+        input(
+          type='file',
+          id=name,
+          class='file',
+          name=name)
 
 mixin input-value(field, value, index, part)
   input(
