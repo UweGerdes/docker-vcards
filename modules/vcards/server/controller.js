@@ -266,44 +266,32 @@ const upload = (req, res) => {
     });
   } else {
     const oldDatasetName = model.datasetName();
-    console.log('switch from ' + oldDatasetName + ' to ', req.file);
-    res.render(path.join(viewBase, 'index.pug'),
-        Object.assign({
-        title: 'vcard',
-      },
-      getModelData(req),
-      getHostData(req),
-      viewRenderParams)
-    );
-    /*
-    model.switchDataset(req.params.name)
-    .then(() => { // jscs:ignore jsDoc
-      res.cookie('datasetName', req.params.name, { maxAge: 900000, httpOnly: true })
-        .render(path.join(viewBase, 'index.pug'),
-          Object.assign({
+    model.upload(req.file)
+      .then(() => { // jscs:ignore jsDoc
+        res.cookie('datasetName', path.basename(req.file.originalname),
+          { maxAge: 900000, httpOnly: true })
+          .render(path.join(viewBase, 'index.pug'),
+            Object.assign({
             title: 'vcard',
             oldDatasetName: oldDatasetName
           },
           getModelData(req),
           getHostData(req),
           viewRenderParams)
-        )
-      ;
-    })
-    .catch((error) => { // jscs:ignore jsDoc
-      console.log('switchDataset error:', error);
-      res.clearCookie('datasetName').
-        render(path.join(viewBase, 'index.pug'),
+        );
+      })
+      .catch((error) => { // jscs:ignore jsDoc
+        console.log('switchDataset error:', error);
+        res.render(path.join(viewBase, 'index.pug'),
           Object.assign({
-            title: 'vcard - file not found error'
+            title: 'vcard - file upload error'
           },
           getModelData(req),
           getHostData(req),
           viewRenderParams)
-        )
-      ;
-    });
-    */
+        );
+      })
+    ;
   }
 };
 

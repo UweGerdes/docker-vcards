@@ -414,13 +414,12 @@ module.exports = {
   },
   /**
    * read vcf file
-   *
-   * @param {string} filename - file to open
-   * @returns {Promise} data if resolved, err if rejected
    */
-  open: (filename) => {
-    return openFile(filename);
-  },
+  open: openFile,
+  /**
+   * upload vcf file
+   */
+  upload: uploadFile,
   /**
    * switch data set
    *
@@ -549,9 +548,11 @@ module.exports = {
    */
   datasetFiles: () => {
     let paths = glob.sync(path.join(path.dirname(__dirname), 'data', '*.vcf'));
-    paths.map((p, i, paths) => { // jscs:ignore jsDoc
-      paths[i] = path.basename(p, path.extname(p));
-    });
+    paths
+      .map((p, i, paths) => { // jscs:ignore jsDoc
+        paths[i] = path.basename(p, path.extname(p));
+      })
+    ;
     return paths;
   },
   fields: fields,
@@ -561,7 +562,7 @@ module.exports = {
 /**
  * open file
  *
- * @param {object} filename - to open
+ * @param {string} filename - to open
  * @returns {Promise} with parsed buffer // TODO buffer not needed?
  */
 function openFile(filename) {
@@ -590,16 +591,32 @@ function openFile(filename) {
   });
 }
 
-/*
-  [{
-    fieldname: 'photo9',
-    originalname: '20151025.jpg',
-    encoding: '7bit',
-    mimetype: 'image/jpeg',
-    buffer: <Buffer ff d8 ff e0 00 10 4a 46 49 ... >,
-    size: 184679
-  }]
+/**
+ * upload file
+ *
+ * @param {object} file - to open
+ * @returns {Promise} with parsed buffer // TODO buffer not needed?
  */
+function uploadFile(file) {
+  const oldDatasetName = datasetName;
+  return new Promise(function (resolve, reject) {
+    try {
+      const name = path.basename(file.originalname);
+      list = [];
+      lists[name] = [];
+      data = Vcf.parse(file.buffer);
+      data.forEach((item, id) => { // jscs:ignore jsDoc
+        list.push(new Vcard(item, id));
+        lists[name].push(new Vcard(item, id));
+      });
+      datasetName = name;
+      resolve(oldDatasetName);
+    } catch (err) {
+      reject(err);
+    }
+  });
+}
+
 /**
  * make vcard object from form data
  *

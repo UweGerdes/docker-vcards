@@ -1,15 +1,16 @@
 //- dataset-select.pug
-//-if datasetNames.indexOf('testdata') >= 0
-//-  each name in datasetNames
-//-    if name != datasetName
-//-      a.button.datasetName(href='/vcards/dataset/' + name)= name
+each name in datasetNames
+  if name.indexOf('.vcf') >= 0
+    a.button.datasetName(href='/vcards/dataset/' + name)= name
 if oldDatasetName
   span#oldDatasetName.hidden= oldDatasetName
 span#datasetName.hidden= datasetName
 if datasetFiles
   select#datasetFiles.select&attributes({ name: 'datasetFiles', 'data-select-url': '/vcards/dataset/' })
+    option(value='') wählen...
     each name in datasetFiles
-      option(value=name, selected=(name == datasetName))= name
+      if name.match(/^[a-z]+$/)
+        option(value=name, selected=(name == datasetName))= name
     option(value='testdata', selected=(datasetName == 'testdata')) testdata
     option(value='testimage', selected=(datasetName == 'testimage')) testimage
     option(value='testumlauts', selected=(datasetName == 'testumlauts')) testumlauts
