@@ -14,6 +14,7 @@ block content
     #headlineButtons.headlineButtons
       #searchButton.button.searchButton&attributes({'data-toggle': '#searchLayer'}) suchen
       #downloadButton.button.downloadButton&attributes({'data-open-url': '/vcards/download/'}) Download
+      #uploadButton.button.uploadButton&attributes({'data-toggle': '#uploadLayer'}) Upload
       if vcard && !vcard2
         a#editButton.button.editButton&attributes({'href': '/vcards/edit/' + vcard.id + '/'}) ändern
         if delId
@@ -33,6 +34,10 @@ block content
     #searchLayer.searchLayer.hidden
       .searchLayerContent
         include search.pug
+
+    #uploadLayer.uploadLayer.hidden
+      .uploadLayerContent
+        include upload.pug
 
 append footer
   script(src='/js/vcards/script.js')

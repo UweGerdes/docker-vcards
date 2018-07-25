@@ -1,0 +1,17 @@
+//- upload.pug
+h2.uploadHeadline VCF-Datei laden
+form#uploadForm.uploadForm(
+  name='uploadForm',
+  method='POST',
+  action='/vcards/upload/',
+  enctype="multipart/form-data")
+
+  .uploadFileContainer.upload
+    label.label(for=upload) .vcf Datei wählen
+      input(
+        type='file',
+        id='uploadFile',
+        class='file',
+        name='vcfFile',
+        accept='.vcf')
+    input.uploadSubmit(type='submit', value='hochladen')

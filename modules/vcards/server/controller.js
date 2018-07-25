@@ -250,6 +250,63 @@ const download = (req, res) => {
   res.send(content);
 };
 
+/**
+ * ### upload
+ *
+ * upload .vcf file
+ *
+ * @param {object} req - request
+ * @param {object} res - result
+ */
+const upload = (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    res.status(404).render(path.join(viewBase, 'errors.pug'), { // jscs:ignore jsDoc
+      errors: errors.array()
+    });
+  } else {
+    const oldDatasetName = model.datasetName();
+    console.log('switch from ' + oldDatasetName + ' to ', req.file);
+    res.render(path.join(viewBase, 'index.pug'),
+        Object.assign({
+        title: 'vcard',
+      },
+      getModelData(req),
+      getHostData(req),
+      viewRenderParams)
+    );
+    /*
+    model.switchDataset(req.params.name)
+    .then(() => { // jscs:ignore jsDoc
+      res.cookie('datasetName', req.params.name, { maxAge: 900000, httpOnly: true })
+        .render(path.join(viewBase, 'index.pug'),
+          Object.assign({
+            title: 'vcard',
+            oldDatasetName: oldDatasetName
+          },
+          getModelData(req),
+          getHostData(req),
+          viewRenderParams)
+        )
+      ;
+    })
+    .catch((error) => { // jscs:ignore jsDoc
+      console.log('switchDataset error:', error);
+      res.clearCookie('datasetName').
+        render(path.join(viewBase, 'index.pug'),
+          Object.assign({
+            title: 'vcard - file not found error'
+          },
+          getModelData(req),
+          getHostData(req),
+          viewRenderParams)
+        )
+      ;
+    });
+    */
+  }
+};
+
 module.exports = {
   init: init,
   index: index,
@@ -263,7 +320,8 @@ module.exports = {
   inputInput: inputInput,
   inputField: inputField,
   search: search,
-  download: download
+  download: download,
+  upload: upload
 };
 
 /**

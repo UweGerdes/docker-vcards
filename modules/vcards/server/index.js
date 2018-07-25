@@ -55,4 +55,7 @@ router.post('/search/:id?', upload.array(), controller.search);
 // save vcard
 router.post('/save/:id/:delId?', upload.any(), controller.save);
 
+// upload vcf file
+router.post('/upload/', upload.single('vcfFile'), controller.upload);
+
 module.exports = router;
