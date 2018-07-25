@@ -146,13 +146,14 @@ module.exports = {
           title: 'Webserver - vcard',
           click: '//form[@id="edit"]//select[@name="addField"]/option[@value="org"]',
           elements: {
-            '//form[@id="edit"]//*[@id="org_container"]//input[@type="text"][@name="org"]': '',
+            '//form[@id="edit"]//select[@name="addField"]': '',
           },
         },
         'add rev field': {
           title: 'Webserver - vcard',
           click: '//form[@id="edit"]//select[@name="addField"]/option[@value="rev"]',
           elements: {
+            '//form[@id="edit"]//*[@id="org_container"]//input[@type="text"][@name="org"]': '',
             '//form[@id="edit"]//*[@id="rev_container"]//input[@type="text"][@name="rev"]': '',
           },
         },
