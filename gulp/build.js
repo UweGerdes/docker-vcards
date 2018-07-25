@@ -37,6 +37,7 @@ const tasks = {
   'build': (callback) => {
     sequence(
       'less',
+      'js',
       'jsdoc',
       callback
     );
