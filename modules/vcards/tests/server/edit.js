@@ -371,4 +371,22 @@ describe('vcard edit', function () {
         });
     });
   });
+  describe('GET /vcards/edit/0/', function () {
+    it('should have timestamp and status fields', function (done) {
+      chai.request('http://vcards-dev:8080')
+        .get('/vcards/edit/0/')
+        .end(function (err, res) {
+          expect(err).to.be.null;
+          expect(res).to.have.status(200);
+          expect(res).to.be.html;
+          const { document } = (new JSDOM(res.text)).window;
+          const xTimestamp = document.querySelectorAll('input[type="text"][name="xTimestamp"]');
+          assert.equal(xTimestamp.length, 1);
+          const xStatus = document.querySelectorAll('input[type="text"][name="xStatus"]');
+          assert.equal(xStatus.length, 1);
+          assert.equal(xStatus[0].getAttribute('value'), 'edit');
+          done();
+        });
+    });
+  });
 });

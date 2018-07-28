@@ -9,5 +9,13 @@ form#edit.edit(method='POST', action='/vcards/save/' + editId, enctype="multipar
       if vcard.fields.indexOf(name) < 0
         option(value=name)= field.label
 
+  - var vcardFields = vcard.fields
+  each field in ['xTimestamp', 'xStatus']
+    - var vcard = null
+    - var index = ''
+    - var defaultValue = 'edit'
+    if vcardFields.indexOf(field) < 0
+      include input-field.pug
+
   #submit.submit
     input.searchSubmit(type='submit', value='speichern')

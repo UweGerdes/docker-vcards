@@ -360,7 +360,8 @@ const fields = {
   xStatus: {
     label: 'Status',
     type: 'text',
-    size: 30
+    size: 30,
+    default: (defaultValue) => { return defaultValue || ''; } // jscs:ignore jsDoc
   },
   xTimestamp: {
     label: 'Timestamp',
