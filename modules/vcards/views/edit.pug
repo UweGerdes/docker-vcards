@@ -1,4 +1,7 @@
 //- edit.pug
+
+- var status = (vcard.prop.xStatus.value ? vcard.prop.xStatus.value + ', ' : '') + 'edit'
+
 form#edit.edit(method='POST', action='/vcards/save/' + editId, enctype="multipart/form-data")
   each field in vcard.fields
     include input-field.pug
@@ -13,7 +16,6 @@ form#edit.edit(method='POST', action='/vcards/save/' + editId, enctype="multipar
   each field in ['xTimestamp', 'xStatus']
     - var vcard = null
     - var index = ''
-    - var defaultValue = 'edit'
     if vcardFields.indexOf(field) < 0
       include input-field.pug
 

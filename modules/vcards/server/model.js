@@ -361,7 +361,9 @@ const fields = {
     label: 'Status',
     type: 'text',
     size: 30,
-    default: (defaultValue) => { return defaultValue || ''; } // jscs:ignore jsDoc
+    default: (status) => { // jscs:ignore jsDoc
+      return status || '';
+    }
   },
   xTimestamp: {
     label: 'Timestamp',
