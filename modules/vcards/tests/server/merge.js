@@ -95,6 +95,7 @@ describe('vcard merge', function () {
           for (let current = e.next(); !current.done; current = e.next()) {
             formData[current.value[0]] = current.value[1];
           }
+          formDataCompare.xTimestamp = formData.xTimestamp;
           assert.deepEqual(formData, formDataCompare);
           done();
         });
@@ -120,5 +121,6 @@ const formDataCompare = { version: '2.1',
   url: 'http://www.uwegerdes.de/',
   adr20: '{"Straße":"Klaus-Groth-Str. 22","Ort":"Hamburg","PLZ":"20535","Land":"Germany"}',
   adr20_type: 'home',
-  rev: '2014-8-24 20:50:00'
+  rev: '2014-8-24 20:50:00',
+  xStatus: 'merge'
 };
