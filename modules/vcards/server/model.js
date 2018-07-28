@@ -184,7 +184,7 @@ class Vcard {
         return result;
       }
     } else {
-      return null;
+      return '';
     }
   }
 

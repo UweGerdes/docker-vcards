@@ -1,6 +1,6 @@
 //- edit.pug
 
-- var status = (vcard.prop.xStatus.value ? vcard.prop.xStatus.value + ', ' : '') + 'edit'
+- var status = (vcard.text.xStatus ? vcard.text.xStatus + ', ' : '') + 'edit'
 
 form#edit.edit(method='POST', action='/vcards/save/' + editId, enctype="multipart/form-data")
   each field in vcard.fields
