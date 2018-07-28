@@ -2,6 +2,9 @@
 
 ## latest
 
+0.1.1
+adding X-STATUS and X-TIMESTAMP for better overview on edited vcards
+
 0.1.0
 use variable proxy for vcard
 test server for e2e-workflow tests
