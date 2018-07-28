@@ -353,6 +353,16 @@ const fields = {
     types: ['jpeg', 'gif', 'png']
   },
   rev: {
+    label: 'Revision',
+    type: 'timestamp',
+    size: 30
+  },
+  xStatus: {
+    label: 'Status',
+    type: 'text',
+    size: 30
+  },
+  xTimestamp: {
     label: 'Timestamp',
     type: 'timestamp',
     size: 30
