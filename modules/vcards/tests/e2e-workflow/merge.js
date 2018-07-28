@@ -92,6 +92,7 @@ module.exports = {
             '//*[@id="list"]/li[2]',
           ],
         },
+        // TODO: add test for X-STATUS and X-TIMESTAMP
       }
     }
   }

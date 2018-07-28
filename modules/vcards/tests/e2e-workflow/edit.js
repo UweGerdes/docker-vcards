@@ -197,6 +197,7 @@ module.exports = {
             '//form[@id="edit"]',
           ],
         },
+        // TODO: add test for X-STATUS and X-TIMESTAMP
       }
     }
   }
