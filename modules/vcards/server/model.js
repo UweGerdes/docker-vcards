@@ -365,7 +365,8 @@ const fields = {
   xTimestamp: {
     label: 'Timestamp',
     type: 'timestamp',
-    size: 30
+    size: 30,
+    default: () => { return new Date().toLocaleString(); } // jscs:ignore jsDoc
   }
 };
 

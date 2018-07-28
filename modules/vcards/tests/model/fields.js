@@ -18,4 +18,11 @@ describe('vcard fields', () => {
       'xGroupMembership', 'photo', 'rev', 'xStatus', 'xTimestamp'];
     assert.deepEqual(Object.keys(model.fields), keylist);
   });
+  it('should have xTimestamp with default function', () => {
+    assert.equal(Object.keys(model.fields.xTimestamp).length > 0, true, 'xTimestamp.length > 0');
+    const keylist = ['label', 'type', 'size', 'default'];
+    assert.deepEqual(Object.keys(model.fields.xTimestamp), keylist);
+    assert.ok(model.fields.xTimestamp.default instanceof Function,
+      'xTimestamp.default instanceof Function');
+  });
 });
