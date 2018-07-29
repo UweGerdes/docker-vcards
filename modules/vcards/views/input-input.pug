@@ -35,7 +35,8 @@ mixin input-image(name, prop)
     img(src='data:image/' + prop.type + ';' + prop.encoding.toLowerCase() + ',' + prop.value)
   else
     .upload
-      label.label(for=name) Datei hochladen
+      label.label(for=name)
+        span&attributes({ 'data-filename-from': name }) Datei hochladen
         input(
           type='file',
           id=name,

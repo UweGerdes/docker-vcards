@@ -98,8 +98,14 @@ handler['data-select-xhr'] = {
             element.selectedIndex = 0;
             const clickButton = element.previousSibling.querySelectorAll('span[data-click-xhr]');
             if (clickButton.length) {
-              console.log(clickButton[0]);
               attachEventHandler(clickButton[0], 'click', handler['data-click-xhr'].func);
+            }
+            const fileInputLabel = element.previousSibling.querySelectorAll('[data-filename-from]');
+            if (fileInputLabel.length) {
+              console.log(fileInputLabel[0]);
+              attachEventHandler(element.previousSibling.querySelectorAll('input[type="file"]')[0],
+                handler['data-filename-from'].event,
+                handler['data-filename-from'].func);
             }
           }
         }
@@ -160,8 +166,25 @@ handler['data-open-url'] = {
   event: 'click',
   func: function (event) { // jscs:ignore jsDoc
     const element = event.target;
-    console.log('open', element.getAttribute('data-open-url'));
     document.location.href = element.getAttribute('data-open-url');
+  }
+};
+
+/**
+ * open url from selection
+ */
+handler['data-filename-from'] = {
+  elements: document.querySelectorAll('input[type="file"]'),
+  event: 'change',
+  func: function (event) { // jscs:ignore jsDoc
+    const element = event.target;
+    if (element.id) {
+      const filename = element.value.replace(/^.*(\\|\/)/, '');
+      const labelElements = document.querySelectorAll('[data-filename-from="' + element.id + '"]');
+      labelElements.forEach(el => { // jscs:ignore jsDoc
+        el.innerText = 'Datei: ' + filename;
+      });
+    }
   }
 };
 

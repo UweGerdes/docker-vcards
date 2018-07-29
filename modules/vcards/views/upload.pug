@@ -7,7 +7,8 @@ form#uploadForm.uploadForm(
   enctype="multipart/form-data")
 
   .uploadFileContainer.upload
-    label.label(for=upload) .vcf Datei wählen
+    label.label(for=upload)
+      span&attributes({ 'data-filename-from': 'uploadFile' }) .vcf Datei wählen
       input(
         type='file',
         id='uploadFile',
