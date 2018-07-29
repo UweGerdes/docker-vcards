@@ -23,7 +23,6 @@ const testData = 'BEGIN:VCARD\n' +
 
 let data,
   datasetName,
-  list = [],
   lists = { }
   ;
 
@@ -409,7 +408,7 @@ module.exports = {
    * @returns {array} vcard item
    */
   get: (id) => {
-    return list[id];
+    return lists[datasetName][id];
   },
   /**
    * get testData list
@@ -439,7 +438,6 @@ module.exports = {
       return openFile(path.join(path.dirname(__dirname), 'tests', 'data', name + '.vcf'));
     } else {
       if (lists[name]) {
-        list = lists[name];
         datasetName = name;
         return new Promise(function (resolve) {
           resolve(name);
@@ -459,13 +457,13 @@ module.exports = {
   list: (selection, sort) => {
     let result = [];
     if (selection) {
-      list.forEach((item) => { // jscs:ignore jsDoc
+      lists[datasetName].forEach((item) => { // jscs:ignore jsDoc
         if (item.matches(selection)) {
           result.push(item);
         }
       });
     } else {
-      result = list;
+      result = lists[datasetName].slice(0);
     }
     if (sort) {
       result.sort(
@@ -493,12 +491,8 @@ module.exports = {
   save: (index, data, files) => {
     const vcard = data2vcard(index, data, files);
     vcard.version = data.version;
-    if (index < list.length) {
-      list[index] = vcard;
-    } else {
-      list.push(vcard);
-    }
-    return list[index].vcard;
+    lists[datasetName][index] = vcard;
+    return lists[datasetName][index].vcard;
   },
   /**
    * save vcard object
@@ -507,8 +501,8 @@ module.exports = {
    * @param {object} data - map with data
    */
   del: (index) => {
-    if (index < list.length) {
-      list.splice(index, 1);
+    if (index < lists[datasetName].length) {
+      lists[datasetName].splice(index, 1);
     }
   },
   /**
@@ -518,7 +512,7 @@ module.exports = {
    */
   toJSON: () => {
     let result = [];
-    list.forEach((item) => { // jscs:ignore jsDoc
+    lists[datasetName].forEach((item) => { // jscs:ignore jsDoc
       result.push(item.toJSON());
     });
     return result;
@@ -530,7 +524,7 @@ module.exports = {
    */
   toVCF: () => {
     let result = [];
-    list.forEach((item) => { // jscs:ignore jsDoc
+    lists[datasetName].forEach((item) => { // jscs:ignore jsDoc
       result.push(item.toVCF());
     });
     return result.join('\n') + '\n';
@@ -586,9 +580,8 @@ function openFile(filename) {
           data = Vcf.parse(buffer);
           data.forEach((item, id) => { // jscs:ignore jsDoc
             const vcard = new Vcard(item, id);
-            lists[name].push(vcard);
+            lists[name][id] = vcard;
           });
-          list = lists[name];
           datasetName = name;
           resolve(oldDatasetName);
         }
@@ -614,9 +607,8 @@ function uploadFile(file) {
       data = Vcf.parse(file.buffer);
       data.forEach((item, id) => { // jscs:ignore jsDoc
         const vcard = new Vcard(item, id);
-        lists[name].push(vcard);
+        lists[name][id] = vcard;
       });
-      list = lists[name];
       datasetName = name;
       resolve(oldDatasetName);
     } catch (err) {
