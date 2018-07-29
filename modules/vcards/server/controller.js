@@ -45,7 +45,6 @@ const init = (filename) => {
  */
 const index = (req, res) => {
   if (req.params.delId && req.params.delId.match(/^[0-9]+$/)) {
-    console.log('delete:', req.params.delId);
     model.del(parseInt(req.params.delId));
   }
   let sort = '';

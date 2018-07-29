@@ -409,13 +409,7 @@ module.exports = {
    * @returns {array} vcard item
    */
   get: (id) => {
-    let result = null;
-    list.forEach((vcard) => { // jscs:ignore jsDoc
-      if (vcard.id == id) {
-        result = vcard;
-      }
-    });
-    return result;
+    return list[id];
   },
   /**
    * get testData list
@@ -588,13 +582,13 @@ function openFile(filename) {
         if (err) {
           reject(err);
         } else {
-          list = [];
           lists[name] = [];
           data = Vcf.parse(buffer);
           data.forEach((item, id) => { // jscs:ignore jsDoc
-            list.push(new Vcard(item, id));
-            lists[name].push(new Vcard(item, id));
+            const vcard = new Vcard(item, id);
+            lists[name].push(vcard);
           });
+          list = lists[name];
           datasetName = name;
           resolve(oldDatasetName);
         }
@@ -616,13 +610,13 @@ function uploadFile(file) {
   return new Promise(function (resolve, reject) {
     try {
       const name = path.basename(file.originalname);
-      list = [];
       lists[name] = [];
       data = Vcf.parse(file.buffer);
       data.forEach((item, id) => { // jscs:ignore jsDoc
-        list.push(new Vcard(item, id));
-        lists[name].push(new Vcard(item, id));
+        const vcard = new Vcard(item, id);
+        lists[name].push(vcard);
       });
+      list = lists[name];
       datasetName = name;
       resolve(oldDatasetName);
     } catch (err) {
