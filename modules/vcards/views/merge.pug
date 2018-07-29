@@ -61,7 +61,8 @@ mixin value2(prop, other, name, id)
     if fields[name].type == 'list'
       + list2(prop, other, name, id)
     else
-      + choice2(prop, other, name, id)
+      if prop.value
+        + choice2(prop, other, name, id)
   else
     | !{'&nbsp;'}
 

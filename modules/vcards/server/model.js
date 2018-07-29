@@ -61,7 +61,11 @@ class Vcard {
               prop = value;
             }
           } else if (fields[name].type == 'timestamp') {
-            prop = { value: new Date(value).toLocaleString() };
+            if (value) {
+              prop = { value: new Date(value).toLocaleString() };
+            } else {
+              prop = { };
+            }
           } else {
             prop = { value: value };
             if (data) {
