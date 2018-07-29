@@ -461,13 +461,13 @@ module.exports = {
   list: (selection, sort) => {
     let result = [];
     if (selection) {
-      lists[datasetName].forEach((item) => { // jscs:ignore jsDoc
+      Object.values(lists[datasetName]).forEach((item) => { // jscs:ignore jsDoc
         if (item.matches(selection)) {
           result.push(item);
         }
       });
     } else {
-      result = lists[datasetName].slice(0);
+      result = Object.values(lists[datasetName]);
     }
     if (sort) {
       result.sort(
@@ -505,8 +505,8 @@ module.exports = {
    * @param {object} data - map with data
    */
   del: (index) => {
-    if (index < lists[datasetName].length) {
-      lists[datasetName].splice(index, 1);
+    if (lists[datasetName][index]) {
+      delete lists[datasetName][index];
     }
   },
   /**
@@ -516,7 +516,7 @@ module.exports = {
    */
   toJSON: () => {
     let result = [];
-    lists[datasetName].forEach((item) => { // jscs:ignore jsDoc
+    Object.values(lists[datasetName]).forEach((item) => { // jscs:ignore jsDoc
       result.push(item.toJSON());
     });
     return result;
@@ -528,7 +528,7 @@ module.exports = {
    */
   toVCF: () => {
     let result = [];
-    lists[datasetName].forEach((item) => { // jscs:ignore jsDoc
+    Object.values(lists[datasetName]).forEach((item) => { // jscs:ignore jsDoc
       result.push(item.toVCF());
     });
     return result.join('\n') + '\n';
@@ -580,7 +580,7 @@ function openFile(filename) {
         if (err) {
           reject(err);
         } else {
-          lists[name] = [];
+          lists[name] = {};
           data = Vcf.parse(buffer);
           data.forEach((item, id) => { // jscs:ignore jsDoc
             const vcard = new Vcard(item, id);
@@ -607,7 +607,7 @@ function uploadFile(file) {
   return new Promise(function (resolve, reject) {
     try {
       const name = path.basename(file.originalname);
-      lists[name] = [];
+      lists[name] = {};
       data = Vcf.parse(file.buffer);
       data.forEach((item, id) => { // jscs:ignore jsDoc
         const vcard = new Vcard(item, id);
