@@ -47,7 +47,7 @@ class Vcard {
     this.prop = new Proxy({},
       {
         get: (obj, name) => { // jscs:ignore jsDoc
-          let value = this.getValue(name, true);
+          let value = getValue(this.vcard, name);
           let data = this.vcard.get(name);
           let prop;
           //console.log(name.valueOf());
@@ -135,63 +135,6 @@ class Vcard {
   }
 
   /**
-   * get the field value
-   *
-   * @param {string} name - name of field
-   * @returns {string} - value
-   */
-  getValue(name) {
-    if (this.vcard.get(name)) {
-      let value = this.vcard.get(name).valueOf();
-      let data = this.vcard.get(name);
-      if (typeof value == 'string') {
-        if (fields[name] && fields[name].parts) {
-          const parts = value.split(/;/);
-          let map = {};
-          fields[name].parts.forEach((part, i) => { // jscs:ignore jsDoc
-            if (parts[i]) {
-              if (data.encoding && data.encoding == 'QUOTED-PRINTABLE') {
-                map[part] = libqp.decode(parts[i]).toString();
-              } else {
-                map[part] = parts[i];
-              }
-            }
-          });
-          return map;
-        } else {
-          if (data.encoding && data.encoding == 'QUOTED-PRINTABLE') {
-            value = libqp.decode(value).toString();
-          }
-          return value;
-        }
-      } else {
-        let result = [];
-        value.forEach((entry) => { // jscs:ignore jsDoc
-          let prop = {
-            value: entry.valueOf()
-          };
-          if (entry.type) {
-            prop.type = entry.type;
-          }
-          if (entry.charset) {
-            prop.charset = entry.charset;
-          }
-          if (entry.encoding) {
-            prop.encoding = entry.encoding;
-            if (entry.encoding == 'QUOTED-PRINTABLE') {
-              prop.value = libqp.decode(entry.valueOf()).toString();
-            }
-          }
-          result.push(prop);
-        });
-        return result;
-      }
-    } else {
-      return '';
-    }
-  }
-
-  /**
    * get the vcard field
    *
    * @param {string} field - name of field
@@ -215,8 +158,7 @@ class Vcard {
         searchFields = [searchFields];
       }
       searchFields.forEach((field) => { // jscs:ignore jsDoc
-        hit = hit || this.getValue(field) &&
-          this.vcard.get(field).valueOf().indexOf(selection.searchString) >= 0;
+        hit = hit || this.text[field].indexOf(selection.searchString) >= 0;
       });
       return hit;
     }
@@ -247,6 +189,64 @@ class Vcard {
 }
 
 /**
+ * get the field value
+ *
+ * @param {Vcard} vcard - to find the field
+ * @param {string} name - name of field
+ * @returns {string} - value
+ */
+function getValue(vcard, name) {
+  if (vcard.get(name)) {
+    let value = vcard.get(name).valueOf();
+    let data = vcard.get(name);
+    if (typeof value == 'string') {
+      if (fields[name] && fields[name].parts) {
+        const parts = value.split(/;/);
+        let map = {};
+        fields[name].parts.forEach((part, i) => { // jscs:ignore jsDoc
+          if (parts[i]) {
+            if (data.encoding && data.encoding == 'QUOTED-PRINTABLE') {
+              map[part] = libqp.decode(parts[i]).toString();
+            } else {
+              map[part] = parts[i];
+            }
+          }
+        });
+        return map;
+      } else {
+        if (data.encoding && data.encoding == 'QUOTED-PRINTABLE') {
+          value = libqp.decode(value).toString();
+        }
+        return value;
+      }
+    } else {
+      let result = [];
+      value.forEach((entry) => { // jscs:ignore jsDoc
+        let prop = {
+          value: entry.valueOf()
+        };
+        if (entry.type) {
+          prop.type = entry.type;
+        }
+        if (entry.charset) {
+          prop.charset = entry.charset;
+        }
+        if (entry.encoding) {
+          prop.encoding = entry.encoding;
+          if (entry.encoding == 'QUOTED-PRINTABLE') {
+            prop.value = libqp.decode(entry.valueOf()).toString();
+          }
+        }
+        result.push(prop);
+      });
+      return result;
+    }
+  } else {
+    return '';
+  }
+}
+
+/**
  * propToString
  *
  * @param {object} prop - to convert
@@ -256,14 +256,15 @@ class Vcard {
 function propToString(prop, field) {
   let result;
   if (prop instanceof Array) {
-    result = [];
+    let list = [];
     prop.forEach((p) => { // jscs:ignore jsDoc
-      result.push(propToString(p, field));
+      list.push(propToString(p, field));
     });
+    result = list.join('\n');
   } else {
     let value = prop.value;
     if (value instanceof Object) {
-      result = value;
+      result = Object.values(value).join(', ');
     } else {
       let type = '';
       if (prop.type && fields[field]) {

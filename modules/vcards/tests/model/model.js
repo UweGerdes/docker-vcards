@@ -60,20 +60,20 @@ describe('vcard model', () => {
     describe('get data', () => {
       it('should return map for n', () => {
         assert.equal(testData[0].get('n').valueOf(), 'Gerdes;Uwe;;;');
-        assert.deepEqual(testData[0].getValue('n'), { Nachname: 'Gerdes', Vorname: 'Uwe' });
+        assert.deepEqual(testData[0].prop.n.value, { Nachname: 'Gerdes', Vorname: 'Uwe' });
         assert.equal(testData[1].get('n').valueOf(), 'Gerdes;Uwe');
-        assert.deepEqual(testData[1].getValue('n'), { Nachname: 'Gerdes', Vorname: 'Uwe' });
+        assert.deepEqual(testData[1].prop.n.value, { Nachname: 'Gerdes', Vorname: 'Uwe' });
       });
     });
     describe('get data', () => {
       it('should return Array for tel', () => {
-        assert.deepEqual(testData[0].getValue('tel'),
+        assert.deepEqual(testData[0].prop.tel,
           [
             { type: ['work', 'voice'], value: '040 256486' },
             { type: 'cell', value: '0179 3901008' }
           ]
         );
-        assert.deepEqual(testData[1].getValue('tel'),
+        assert.deepEqual(testData[1].prop.tel,
           [
             { type: ['work', 'voice'], value: '+49 40 25178252' },
             { type: 'cell', value: '01793901008' }

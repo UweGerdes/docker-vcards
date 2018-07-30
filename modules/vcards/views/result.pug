@@ -3,10 +3,7 @@ ul#list.result-list
   each vcard, i in vcards
     li.list-item
       span.list-item-value
-        if typeof vcard.text.n == 'string'
-         = vcard.text.n
-        else
-          = Object.values(vcard.text.n).join(', ')
+        = vcard.text.n
       a.button.open(href='/vcards/' + vcard.id + '/') öffnen
       if id >= 0 && id != vcard.id
         a.button.merge(href='/vcards/merge/' + id + '/' + vcard.id + '/') merge

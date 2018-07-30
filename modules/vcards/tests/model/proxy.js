@@ -27,16 +27,16 @@ describe('vcard proxy', () => {
     it('prop get', () => {
       const vcard = testData[0];
       assert.equal(vcard.get('n').valueOf(), 'Gerdes;Uwe;;;');
-      assert.deepEqual(vcard.text.n, { Nachname: 'Gerdes', Vorname: 'Uwe' });
+      assert.equal(vcard.text.n, 'Gerdes, Uwe');
       assert.deepEqual(vcard.prop.n, { value: { Nachname: 'Gerdes', Vorname: 'Uwe' } });
-      assert.deepEqual(vcard.text.tel, ['040 256486 (work, voice)', '0179 3901008 (cell)']);
+      assert.equal(vcard.text.tel, '040 256486 (work, voice)\n0179 3901008 (cell)');
       assert.deepEqual(vcard.prop.tel,
         [
           { type: ['work', 'voice'], value: '040 256486' },
           { type: 'cell', value: '0179 3901008' }
         ]
       );
-      assert.deepEqual(vcard.text.email, ['uwe@uwegerdes.de (pref)']);
+      assert.deepEqual(vcard.text.email, 'uwe@uwegerdes.de (pref)');
       assert.deepEqual(vcard.prop.email, [{ type: 'pref', value: 'uwe@uwegerdes.de' }]);
     });
     it('prop set value', () => {
@@ -49,22 +49,31 @@ describe('vcard proxy', () => {
       const vcard = testData[0];
       vcard.prop.n = { value: { Nachname: 'Gerdes', Vorname: 'Uwe', part3: 'Home' },
                         params: { } };
-      assert.deepEqual(vcard.text.n, { Nachname: 'Gerdes', Vorname: 'Uwe', part3: 'Home' });
+      assert.equal(vcard.text.n, 'Gerdes, Uwe, Home');
+      assert.deepEqual(vcard.prop.n.value, { Nachname: 'Gerdes', Vorname: 'Uwe', part3: 'Home' });
       assert.equal(vcard.get('n').valueOf(), 'Gerdes;Uwe;Home;;');
     });
     it('prop add list', () => {
       const vcard = testData[0];
       vcard.prop.tel = { value: '040 25178252', params: { type: 'voice' } };
-      assert.deepEqual(vcard.text.tel,
-            ['040 256486 (work, voice)', '0179 3901008 (cell)', '040 25178252 (voice)']);
+      assert.equal(vcard.text.n, 'Gerdes, Uwe, Home');
+      assert.equal(vcard.text.tel,
+            '040 256486 (work, voice)\n0179 3901008 (cell)\n040 25178252 (voice)');
+      assert.deepEqual(vcard.prop.tel, [
+              { value: '040 256486', type: ['work', 'voice'] },
+              { value: '0179 3901008', type: 'cell' },
+              { value: '040 25178252', type: 'voice' }
+            ]
+      );
     });
     it('prop add to empty list with parts', () => {
       const vcard = testData[0];
       vcard.prop.adr = { value: { 'Straße': 'Klaus-Groth-Str. 22', 'Ort': 'Hamburg',
                                   'PLZ': '20535', 'Land': 'Germany' },
                         params: { } };
-      assert.deepEqual(vcard.text.adr, [{ 'Straße': 'Klaus-Groth-Str. 22', Ort: 'Hamburg',
-                                          PLZ: '20535', Land: 'Germany' }]);
+      assert.equal(vcard.text.adr, 'Klaus-Groth-Str. 22, Hamburg, 20535, Germany');
+      assert.deepEqual(vcard.prop.adr[0].value, { 'Straße': 'Klaus-Groth-Str. 22', Ort: 'Hamburg',
+                                          PLZ: '20535', Land: 'Germany' });
       assert.equal(vcard.get('adr').valueOf(), ';;Klaus-Groth-Str. 22;Hamburg;;20535;Germany');
     });
     it('prop set timestamp', () => {
