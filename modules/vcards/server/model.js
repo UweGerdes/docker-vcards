@@ -21,8 +21,7 @@ const testData = 'BEGIN:VCARD\n' +
   'URL:http://www.uwegerdes.de/\n' +
   'END:VCARD';
 
-let data,
-  datasetName,
+let datasetName,
   lists = { }
   ;
 
@@ -581,7 +580,7 @@ function openFile(filename) {
           reject(err);
         } else {
           lists[name] = {};
-          data = Vcf.parse(buffer);
+          const data = Vcf.parse(buffer);
           data.forEach((item, id) => { // jscs:ignore jsDoc
             const vcard = new Vcard(item, id);
             lists[name][id] = vcard;
@@ -608,7 +607,7 @@ function uploadFile(file) {
     try {
       const name = path.basename(file.originalname);
       lists[name] = {};
-      data = Vcf.parse(file.buffer);
+      const data = Vcf.parse(file.buffer);
       data.forEach((item, id) => { // jscs:ignore jsDoc
         const vcard = new Vcard(item, id);
         lists[name][id] = vcard;
