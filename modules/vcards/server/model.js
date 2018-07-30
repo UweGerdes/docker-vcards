@@ -473,16 +473,15 @@ module.exports = {
     if (sort) {
       result.sort(
         function (a, b) {
-          if (a.get(sort).valueOf() > b.get(sort).valueOf()) {
+          if (a.text[sort] > b.text[sort]) {
             return 1;
           }
-          if (a.get(sort).valueOf() < b.get(sort).valueOf()) {
+          if (a.text[sort] < b.text[sort]) {
             return -1;
           }
           return 0;
         }
       );
-      throw('sort');
     }
     return result;
   },

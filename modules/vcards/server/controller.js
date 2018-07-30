@@ -359,19 +359,19 @@ function getModelData(req) {
     } else {
       list.sort(
         function (a, b) {
-          if (!a.get(sort) && !b.get(sort)) {
+          if (!a.text[sort] && !b.text[sort]) { // TODO Umbau auf text
             return 0;
           } else
-          if (a.get(sort) && !b.get(sort)) {
+          if (a.text[sort] && !b.text[sort]) {
             return -1;
           } else
-          if (!a.get(sort) && b.get(sort)) {
+          if (!a.text[sort] && b.text[sort]) {
             return 1;
           } else
-          if (a.get(sort).valueOf() > b.get(sort).valueOf()) {
+          if (a.text[sort] > b.text[sort]) {
             return 1;
           } else
-          if (a.get(sort).valueOf() < b.get(sort).valueOf()) {
+          if (a.text[sort] < b.text[sort]) {
             return -1;
           }
           return 0;
