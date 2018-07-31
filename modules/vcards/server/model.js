@@ -579,12 +579,7 @@ function openFile(filename) {
         if (err) {
           reject(err);
         } else {
-          lists[name] = {};
-          const data = Vcf.parse(buffer);
-          data.forEach((item, id) => { // jscs:ignore jsDoc
-            const vcard = new Vcard(item, id);
-            lists[name][id] = vcard;
-          });
+          lists[name] = parseVcfBuffer(buffer);
           datasetName = name;
           resolve(oldDatasetName);
         }
@@ -606,18 +601,29 @@ function uploadFile(file) {
   return new Promise(function (resolve, reject) {
     try {
       const name = path.basename(file.originalname);
-      lists[name] = {};
-      const data = Vcf.parse(file.buffer);
-      data.forEach((item, id) => { // jscs:ignore jsDoc
-        const vcard = new Vcard(item, id);
-        lists[name][id] = vcard;
-      });
+      lists[name] = parseVcfBuffer(file.buffer);
       datasetName = name;
       resolve(oldDatasetName);
     } catch (err) {
       reject(err);
     }
   });
+}
+
+/**
+ * parse vcf buffer
+ *
+ * @param {Buffer} buffer - to parse
+ * @returns {Array} with parsed vcards
+ */
+function parseVcfBuffer(buffer) {
+  let vcards = {};
+  const data = Vcf.parse(buffer);
+  data.forEach((item, id) => { // jscs:ignore jsDoc
+    const vcard = new Vcard(item, id);
+    vcards[id] = vcard;
+  });
+  return vcards;
 }
 
 /**
