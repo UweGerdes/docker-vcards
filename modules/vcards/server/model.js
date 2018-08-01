@@ -61,7 +61,10 @@ class Vcard {
             }
           } else if (fields[name].type == 'timestamp') {
             if (value) {
-              prop = { value: new Date(value).toLocaleString() };
+              prop = {
+                value: new Date(value.
+                      replace(/(.{4})(.{2})(.{2})T(.{2})(.{2})(.{2})Z/, '$1-$2-$3T$4:$5:$6Z')
+                    ).toLocaleString() };
             } else {
               prop = { };
             }
@@ -100,7 +103,7 @@ class Vcard {
               }
             }
           } else if (fields[name].type == 'timestamp') {
-            value = new Date(value).toISOString().replace(/\.0+Z/, 'Z');
+            value = new Date(value).toISOString().replace(/\.0+Z/, 'Z').replace(/[:-]/g, '');
           } else if (typeof value == 'string' && !/^[\x00-\x7F]*$/.test(value)) {
             params.encoding = 'QUOTED-PRINTABLE';
             params.charset = 'UTF-8';

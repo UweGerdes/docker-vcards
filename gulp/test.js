@@ -14,6 +14,9 @@ const fs = require('fs'),
   loadTasks = require('./lib/load-tasks')
   ;
 
+// execute only one test file if one has changed in recentTime, otherwise all
+const recentTime = 60; // * 60;
+
 const tasks = {
   /**
    * ### test
@@ -105,9 +108,17 @@ function getRecentFile(files) {
       bestTime = fileTime;
     }
   }
-  return new Promise((resolve) => { // jscs:ignore jsDoc
-    resolve(newest);
-  });
+  const now = new Date();
+  console.log('bestTime', (now.getTime() - bestTime));
+  if (now.getTime() - bestTime < recentTime * 1000) {
+    return new Promise((resolve) => { // jscs:ignore jsDoc
+      resolve([newest]);
+    });
+  } else {
+    return new Promise((resolve) => { // jscs:ignore jsDoc
+      resolve(files);
+    });
+  }
 }
 
 /**

@@ -203,7 +203,7 @@ describe('vcard model', () => {
         '+49 40 25178252'], ['tel', { 'type': 'cell' }, 'text', '01793901008'], ['adr', { 'type':
         'home' }, 'text', ['', '', 'Klaus-Groth-Str. 22', 'Hamburg', '', '20535', 'Germany']],
         ['email', { 'type': ['pref', 'internet'] }, 'text', 'entwicklung@uwegerdes.de'],
-        ['rev', {  }, 'text', '2014-08-24T18:50:00Z']]]];
+        ['rev', {  }, 'text', '20140824T185000Z']]]];
       assert.deepEqual(model.toJSON(), json);
     });
   });
@@ -234,7 +234,7 @@ describe('vcard model', () => {
                   'TEL;TYPE=cell:01793901008\n' +
                   'ADR;TYPE=home:;;Klaus-Groth-Str. 22;Hamburg;;20535;Germany\n' +
                   'EMAIL;TYPE=pref,internet:entwicklung@uwegerdes.de\n' +
-                  'REV:2014-08-24T18:50:00Z\n' +
+                  'REV:20140824T185000Z\n' +
                   'END:VCARD\n';
       assert.equal(model.toVCF(), vcf);
     });
