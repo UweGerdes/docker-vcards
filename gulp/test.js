@@ -36,59 +36,45 @@ const tasks = {
    *
    * @task test-vcards
    * @namespace tasks
+   * @param {function} callback - gulp callback
    */
-  'test-vcards': [['jshint'], () => {
-      const _this = gulp.src(config.gulp.tests.vcards, { read: false })
+  'test-vcards': [['jshint'], (callback) => {
+      Promise.all(config.gulp.tests.vcards.map(getFilenames))
+      .then((filenames) => [].concat(...filenames)) // jscs:ignore jsDoc
+      .then(getRecentFiles)
+      .then((filenames) => { // jscs:ignore jsDoc
+        const self = gulp.src(filenames, { read: false })
         // `gulp-mocha` needs filepaths so you can't have any plugins before it
         .pipe(mocha({ reporter: 'tap', timeout: 4000 })) // timeout for Raspberry Pi 3
         .on('error', function () { // jscs:ignore jsDoc
-          _this.emit('end');
-        })
+          self.emit('end');
+        });
+        return self;
+      })
+      .then(() => { // jscs:ignore jsDoc
+        callback();
+      })
+      .catch(err => console.log(err)) // jscs:ignore jsDoc
       ;
-      return _this;
+
     }
   ],
-  /**
-   * ### test-compare-layouts
-   *
-   * @task test-compare-layouts
-   * @namespace tasks
-   * @param {function} callback - gulp callback
-   */
-  'test-compare-layouts': (callback) => {
-    getFilenames(config.gulp.watch['test-compare-layouts'])
-    .then(getRecentFile)
-    .then((filename) => { // jscs:ignore jsDoc
-      console.log('filename', filename);
-      return filename;
-    })
-    .then(getRequest)
-    .then((result) => { // jscs:ignore jsDoc
-      return result;
-    })
-    .then(() => { // jscs:ignore jsDoc
-      callback();
-    })
-    ;
-  }
 };
 
 /**
  * get list of files for glob pattern
  *
  * @private
- * @param {function} paths - patterns for paths
+ * @param {function} path - patterns for paths
  */
-const getFilenames = (paths) => {
+const getFilenames = (path) => {
   return new Promise((resolve, reject) => { // jscs:ignore jsDoc
-    paths.forEach((path) => { // jscs:ignore jsDoc
-      glob(path, (error, files) => { // jscs:ignore jsDoc
-        if (error) {
-          reject(error);
-        } else {
-          resolve(files);
-        }
-      });
+    glob(path, (error, files) => { // jscs:ignore jsDoc
+      if (error) {
+        reject(error);
+      } else {
+        resolve(files);
+      }
     });
   });
 };
@@ -98,9 +84,10 @@ const getFilenames = (paths) => {
  *
  * @param {array} files - list with glob paths
  */
-function getRecentFile(files) {
+function getRecentFiles(files) {
   let newest = null;
   let bestTime = 0;
+  console.log(files[0]);
   for (let i = 0; i < files.length; i++) {
     const fileTime = fs.statSync(files[i]).mtime.getTime();
     if (fileTime > bestTime) {
@@ -109,7 +96,6 @@ function getRecentFile(files) {
     }
   }
   const now = new Date();
-  console.log('bestTime', (now.getTime() - bestTime));
   if (now.getTime() - bestTime < recentTime * 1000) {
     return new Promise((resolve) => { // jscs:ignore jsDoc
       resolve([newest]);
@@ -119,23 +105,6 @@ function getRecentFile(files) {
       resolve(files);
     });
   }
-}
-
-/**
- * get request with
- *
- * @param {array} file - list with glob paths
- */
-function getRequest(file) {
-  return new Promise((resolve) => { // jscs:ignore jsDoc
-    const testPath = file.replace(/(.+)\/views\/.+/, '$1');
-    /*
-     request('http://vcard-compare-layouts:8080/run/default',
-      (error, response, body) => { // jscs:ignore jsDoc
-      });
-    */
-    resolve(testPath);
-  });
 }
 
 if (process.env.NODE_ENV == 'development') {
