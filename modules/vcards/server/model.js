@@ -456,37 +456,8 @@ module.exports = {
   },
   /**
    * get list of vcard objects
-   *
-   * @param {string} selection - to reduce list, optional
-   * @param {string} sort - to sort list
-   * @returns {array} vcard list
    */
-  list: (selection, sort) => {
-    let result = [];
-    if (selection) {
-      Object.values(lists[datasetName]).forEach((item) => { // jscs:ignore jsDoc
-        if (item.matches(selection)) {
-          result.push(item);
-        }
-      });
-    } else {
-      result = Object.values(lists[datasetName]);
-    }
-    if (sort) {
-      result.sort(
-        function (a, b) {
-          if (a.text[sort] > b.text[sort]) {
-            return 1;
-          }
-          if (a.text[sort] < b.text[sort]) {
-            return -1;
-          }
-          return 0;
-        }
-      );
-    }
-    return result;
-  },
+  list: list,
   /**
    * save vcard object
    *
@@ -526,11 +497,13 @@ module.exports = {
   /**
    * vcards to VCF
    *
+   * @param {string} selection - to reduce list, optional
+   * @param {string} sort - to sort list
    * @param {object} data - array with data
    */
-  toVCF: () => {
+  toVCF: (selection, sort) => {
     let result = [];
-    Object.values(lists[datasetName]).forEach((item) => { // jscs:ignore jsDoc
+    list(selection, sort).forEach((item) => { // jscs:ignore jsDoc
       result.push(item.toVCF());
     });
     return result.join('\n') + '\n';
@@ -566,6 +539,43 @@ module.exports = {
   fields: fields,
   types: types
 };
+
+/**
+ * get list of vcard objects
+ *
+ * @param {string} selection - to reduce list, optional
+ * @param {string} sort - to sort list
+ * @returns {array} vcard list
+ */
+function list(selection, sort) {
+  let result = [];
+  if (selection) {
+    Object.values(lists[datasetName]).forEach((item) => { // jscs:ignore jsDoc
+      if (item.matches(selection)) {
+        result.push(item);
+      }
+    });
+  } else {
+    result = Object.values(lists[datasetName]);
+  }
+  if (sort) {
+    result.sort(
+      function (a, b) {
+        if (a.text.xStatus != '' && b.text.xStatus == '') {
+          return 1;
+        }
+        if (a.text[sort] > b.text[sort]) {
+          return 1;
+        }
+        if (a.text[sort] < b.text[sort]) {
+          return -1;
+        }
+        return 0;
+      }
+    );
+  }
+  return result;
+}
 
 /**
  * open file

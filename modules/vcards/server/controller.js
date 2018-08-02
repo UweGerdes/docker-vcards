@@ -237,6 +237,12 @@ const search = (req, res) => {
  */
 const download = (req, res) => {
   let content;
+  let sort = '';
+  if (req.params.sort) {
+    sort = req.params.sort;
+  } else if (req.cookies && req.cookies.sort) {
+    sort = req.cookies.sort;
+  }
   if (req.params.type == 'json') {
     res.set('Content-disposition', 'attachment; filename=vcards.json');
     res.set('Content-Type', 'application/json');
@@ -244,7 +250,7 @@ const download = (req, res) => {
   } else {
     res.set('Content-disposition', 'attachment; filename=vcards.vcf');
     res.set('Content-Type', 'text/vcard');
-    content = model.toVCF();
+    content = model.toVCF(null, sort);
   }
   res.send(content);
 };
@@ -338,47 +344,13 @@ function type(value) {
  * @param {object} req - request
  */
 function getModelData(req) {
-  let list = model.list();
   let sort = '';
   if (req.params.sort) {
     sort = req.params.sort;
   } else if (req.cookies && req.cookies.sort) {
     sort = req.cookies.sort;
   }
-  if (sort) {
-    if (sort == 'id') {
-      list.sort(
-        function (a, b) {
-          if (a.id > b.id) {
-            return 1;
-          } else {
-            return -1;
-          }
-        }
-      );
-    } else {
-      list.sort(
-        function (a, b) {
-          if (!a.text[sort] && !b.text[sort]) { // TODO Umbau auf text
-            return 0;
-          } else
-          if (a.text[sort] && !b.text[sort]) {
-            return -1;
-          } else
-          if (!a.text[sort] && b.text[sort]) {
-            return 1;
-          } else
-          if (a.text[sort] > b.text[sort]) {
-            return 1;
-          } else
-          if (a.text[sort] < b.text[sort]) {
-            return -1;
-          }
-          return 0;
-        }
-      );
-    }
-  }
+  let list = model.list(null, sort);
   return {
     vcards: list,
     datasetNames: model.datasetNames(),
