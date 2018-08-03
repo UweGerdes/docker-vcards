@@ -16,12 +16,12 @@ describe('vcard umlaut', () => {
   let testData = [];
   before(function (done) {
     model.open(path.join(__dirname, '..', 'data', 'testumlauts.vcf'))
-    .then(function (data) {
+    .then(function () {
       testData = model.list();
-      assert.equal(data, 'testdata');
       assert.equal(testData.length, 3);
     })
-    .then(done);
+    .then(done)
+    .catch(error => console.log(error));
   });
   describe('should', () => {
     it('get value', () => {

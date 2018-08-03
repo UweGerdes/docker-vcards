@@ -22,7 +22,8 @@ const testData = 'BEGIN:VCARD\n' +
   'END:VCARD';
 
 let datasetName,
-  lists = { }
+  lists = { },
+  selections = { }
   ;
 
 class Vcard {
@@ -301,6 +302,7 @@ const fields = {
   version: {
     label: 'Version',
     type: 'text',
+    selection: true,
     size: 5
   },
   n: {
@@ -350,6 +352,7 @@ const fields = {
   xGroupMembership: {
     label: 'Gruppen',
     type: 'list',
+    selection: true,
     size: 30
   },
   photo: {
@@ -537,7 +540,8 @@ module.exports = {
     return paths;
   },
   fields: fields,
-  types: types
+  types: types,
+  selections: selections
 };
 
 /**
@@ -635,6 +639,7 @@ function parseVcfBuffer(buffer) {
   data.forEach((item, id) => { // jscs:ignore jsDoc
     const vcard = new Vcard(item, id);
     vcards[id] = vcard;
+    updateGlobals(vcard);
   });
   return vcards;
 }
@@ -687,7 +692,36 @@ const data2vcard = (index, data, files) => {
   if (data.version) {
     vcard.vcard.version = data.version;
   }
+  updateGlobals(vcard);
   return vcard;
+};
+
+/**
+ * get global values from vcard
+ *
+ * @param {object} vcard - data for new vcard
+ */
+const updateGlobals = (vcard) => {
+  vcard.fields.forEach(name => { // jscs:ignore jsDoc
+    if (fields[name].selection) {
+      if (selections[name] == undefined) {
+        selections[name] = [];
+      }
+      if (fields[name].type == 'list') {
+        vcard.prop[name].forEach(prop => { // jscs:ignore jsDoc
+          const value = prop.value;
+          if (selections[name].indexOf(value) < 0) {
+            selections[name].push(value);
+          }
+        });
+      } else {
+        const value = vcard.prop[name].value;
+        if (selections[name].indexOf(value) < 0) {
+          selections[name].push(value);
+        }
+      }
+    }
+  });
 };
 
 /**

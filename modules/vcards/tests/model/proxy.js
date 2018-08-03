@@ -16,12 +16,12 @@ describe('vcard proxy', () => {
   let testData = [];
   before(function (done) {
     model.open(path.join(__dirname, '..', 'data', 'testdata.vcf'))
-    .then(function (data) {
+    .then(function () {
       testData = model.list();
-      assert.equal(data, 'testdata');
       assert.equal(testData.length > 0, true);
     })
-    .then(done);
+    .then(done)
+    .catch(error => console.log(error));
   });
   describe('should proxy', () => {
     it('prop get', () => {
@@ -93,7 +93,8 @@ describe('vcard proxy', () => {
     });
     it('fields list', () => {
       const vcard = testData[0];
-      assert.deepEqual(vcard.fields, ['version', 'n', 'fn', 'tel', 'email', 'url', 'adr', 'rev']);
+      assert.deepEqual(vcard.fields,
+          ['version', 'n', 'fn', 'tel', 'email', 'url', 'xGroupMembership', 'adr', 'rev']);
     });
   });
 });
