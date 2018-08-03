@@ -87,7 +87,6 @@ const getFilenames = (path) => {
 function getRecentFiles(files) {
   let newest = null;
   let bestTime = 0;
-  console.log(files[0]);
   for (let i = 0; i < files.length; i++) {
     const fileTime = fs.statSync(files[i]).mtime.getTime();
     if (fileTime > bestTime) {
