@@ -159,10 +159,10 @@ module.exports = {
         },
         'add xGroupMembership field': {
           title: 'Webserver - vcard',
-          click: '//form[@id="edit"]//select[@name="addField"]/option[@value="xGroupMembership"]',
+          click: '//form[@id="edit"]//*[@id="xGroupMembership_container"]//*[@class="add"]',
           elements: {
             '//*[@id="headline"]': 'vcard Uwe Gerdes Test bearbeiten',
-            '//form[@id="edit"]//input[@type="text"][@name="xGroupMembership0"]': '',
+            '//form[@id="edit"]//input[@type="text"][@name="xGroupMembership2"]': '',
           },
         },
         'add adr field': {
@@ -190,7 +190,7 @@ module.exports = {
             '//*[@id="headline"]': 'vcard Uwe Gerdes Test',
             '//*[@id="org"]//*[@class="itemvalue"]': 'Freiberufler',
             '//*[@id="rev"]//*[@class="itemvalue"]': '2018-7-19 20:10:00',
-            '//*[@id="xGroupMembership"]//*[@class="itemvalue"]': 'ICH',
+            '//*[@id="xGroupMembership"]//*[@class="itemvalue"]': 'ICH\nUwe',
             '//*[@id="adr"]//*[@class="itemvalue"]': 'Klaus-Groth-Str. 22, Hamburg, 20535',
           },
           elementsNotExist: [
