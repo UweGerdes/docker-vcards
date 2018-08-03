@@ -7,5 +7,10 @@
         option(value=field, selected=field==sort)= data.label
   ul#list.list
     each vcard in vcards
-      li.list-item
-        a(href='/vcards/' + vcard.id + '/')= vcard.text.fn
+      if vcard.text.xStatus == ''
+        li.list-item
+          a(href='/vcards/' + vcard.id + '/')= vcard.text.fn
+    each vcard in vcards
+      if vcard.text.xStatus != ''
+        li.list-item
+          a(href='/vcards/' + vcard.id + '/')= '+ ' + vcard.text.fn

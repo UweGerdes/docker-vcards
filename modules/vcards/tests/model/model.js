@@ -267,7 +267,7 @@ describe('vcard model', () => {
     });
   });
   describe('collections', () => {
-    it('should have collection xGroupMembership', () => {
+    it('should have selections', () => {
       assert.deepEqual(model.selections,
         {
           version: ['2.1', '3.0'],

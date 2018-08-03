@@ -2,6 +2,8 @@
 ul#list.result-list
   each vcard, i in vcards
     li.list-item
+      if vcard.text.xStatus != ''
+        = '+ '
       span.list-item-value
         = vcard.text.n
       a.button.open(href='/vcards/' + vcard.id + '/') öffnen

@@ -565,9 +565,6 @@ function list(selection, sort) {
   if (sort) {
     result.sort(
       function (a, b) {
-        if (a.text.xStatus != '' && b.text.xStatus == '') {
-          return 1;
-        }
         if (a.text[sort] > b.text[sort]) {
           return 1;
         }
