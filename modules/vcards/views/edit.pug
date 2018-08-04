@@ -4,7 +4,7 @@
 
 form#edit.edit(method='POST', action='/vcards/save/' + editId, enctype="multipart/form-data")
   each field in vcard.fields
-    include input-field.pug
+    include edit/field.pug
 
   select#addField.addField.select&attributes({ name: 'addField', 'data-select-xhr': '/vcards/field/' })
     option(value='') Neues Feld
@@ -17,7 +17,7 @@ form#edit.edit(method='POST', action='/vcards/save/' + editId, enctype="multipar
     - var vcard = null
     - var index = ''
     if vcardFields.indexOf(field) < 0
-      include input-field.pug
+      include edit/field.pug
 
   #submit.submit
     input.searchSubmit(type='submit', value='speichern')

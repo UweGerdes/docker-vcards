@@ -11,7 +11,7 @@ mixin types(field, index, typeList)
     if typeof typeList == 'string'
       - typeList = [typeList]
     each type, i in typeList
-      include input-type.pug
+      include type.pug
     + moreTypes(field, index, typeList)
 
 mixin input-image(name, prop)

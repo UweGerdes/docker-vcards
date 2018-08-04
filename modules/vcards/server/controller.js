@@ -145,7 +145,7 @@ const switchDataset = (req, res) => {
  * @param {object} res - result
  */
 const list = (req, res) => {
-  res.render(path.join(viewBase, 'list.pug'), {
+  res.render(path.join(viewBase, 'parts', 'list.pug'), {
     vcards: model.list(),
     title: 'vcard'
   });
@@ -160,7 +160,7 @@ const list = (req, res) => {
  * @param {object} res - result
  */
 const inputType = (req, res) => {
-  res.render(path.join(viewBase, 'input-type.pug'), {
+  res.render(path.join(viewBase, 'edit', 'type.pug'), {
     field: req.params.field,
     index: req.params.index || '',
     i: req.params.i || '0',
@@ -179,7 +179,7 @@ const inputType = (req, res) => {
  * @param {object} res - result
  */
 const inputInput = (req, res) => {
-  res.render(path.join(viewBase, 'input-input.pug'), {
+  res.render(path.join(viewBase, 'edit', 'input.pug'), {
     field: req.params.field,
     index: req.params.index,
     fields: model.fields,
@@ -196,7 +196,7 @@ const inputInput = (req, res) => {
  * @param {object} res - result
  */
 const inputField = (req, res) => {
-  res.render(path.join(viewBase, 'input-field.pug'), {
+  res.render(path.join(viewBase, 'edit', 'field.pug'), {
     field: req.params.field,
     index: model.fields[req.params.field].type == 'list' ? '0' : '',
     fields: model.fields,

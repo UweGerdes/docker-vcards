@@ -90,7 +90,7 @@ mixin field2(prop1, prop2, name)
     each field in ['xTimestamp', 'xStatus']
       - var vcard = null
       - var index = ''
-      include input-field.pug
+      include edit/field.pug
 
     #submit.submit
       input.searchSubmit(type='submit', value='speichern')
