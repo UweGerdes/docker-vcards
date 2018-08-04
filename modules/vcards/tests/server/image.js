@@ -144,7 +144,7 @@ describe('vcard image', function () {
           const { document } = (new JSDOM(res.text)).window;
           const form = document.querySelectorAll('form#merge')[0];
           assert.equal(form.getAttribute('action'), '/vcards/save/0/1');
-          const mergeFieldList = document.querySelectorAll('#mergeView #fieldList > .list-item');
+          const mergeFieldList = document.querySelectorAll('#merge #fieldList > .list-item');
           assert.equal(mergeFieldList.length, 8);
           assert.equal(mergeFieldList[0].childNodes.length, 3);
           assert.equal(mergeFieldList[0].childNodes[0].textContent.trim(), 'Version:');

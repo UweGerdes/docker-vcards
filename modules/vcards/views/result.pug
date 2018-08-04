@@ -8,4 +8,4 @@ ul#list.result-list
         = vcard.text.n
       a.button.open(href='/vcards/' + vcard.id + '/') öffnen
       if id >= 0 && id != vcard.id
-        a.button.merge(href='/vcards/merge/' + id + '/' + vcard.id + '/') merge
+        a.button.merge-button(href='/vcards/merge/' + id + '/' + vcard.id + '/') merge

@@ -75,7 +75,7 @@ mixin field2(prop1, prop2, name)
       div.itemvalue.i2
         + value2(prop2, prop1, name, name + '2')
 
-#mergeView.mergeView
+#merge.merge
   - var names1 = vcard.fields
   - var names2 = vcard2.fields
   form#merge.merge(method='POST', action='/vcards/save/' + id + '/' + id2)

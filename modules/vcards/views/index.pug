@@ -11,7 +11,7 @@ block content
       if editId
         = " bearbeiten"
 
-    #headlineButtons.headlineButtons
+    #headline-buttons.headline-buttons
       #searchButton.button.searchButton&attributes({'data-toggle': '#searchLayer'}) suchen
       #downloadButton.button.downloadButton&attributes({'data-open-url': '/vcards/download/'}) Download
       #uploadButton.button.uploadButton&attributes({'data-toggle': '#uploadLayer'}) Upload
@@ -31,8 +31,8 @@ block content
         else
           include item.pug
 
-    #searchLayer.searchLayer.hidden
-      .searchLayerContent
+    #searchLayer.layer.search-layer.hidden
+      .layer-content.search-layer-content
         include search.pug
 
     #uploadLayer.uploadLayer.hidden
