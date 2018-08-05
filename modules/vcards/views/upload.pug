@@ -1,18 +1,22 @@
 //- upload.pug
-h2.uploadHeadline VCF-Datei laden
-form#uploadForm.uploadForm(
-  name='uploadForm',
-  method='POST',
-  action='/vcards/upload/',
-  enctype="multipart/form-data")
+#uploadLayer.layer.upload-layer.hidden
+  .layer-content.upload-layer-content
 
-  .uploadFileContainer.upload
-    label.label(for=upload)
-      span&attributes({ 'data-filename-from': 'uploadFile' }) .vcf Datei wählen
-      input(
-        type='file',
-        id='uploadFile',
-        class='file',
-        name='vcfFile',
-        accept='.vcf')
-    input.uploadSubmit(type='submit', value='hochladen')
+    h2.uploadHeadline VCF-Datei laden
+
+    form#uploadForm.uploadForm(
+      name='uploadForm',
+      method='POST',
+      action='/vcards/upload/',
+      enctype="multipart/form-data")
+
+      .file-container.upload-file-container
+        label.label(for=upload)
+          span&attributes({ 'data-filename-from': 'uploadFile' }) .vcf Datei wählen
+          input(
+            type='file',
+            id='uploadFile',
+            class='file',
+            name='vcfFile',
+            accept='.vcf')
+        input.uploadSubmit(type='submit', value='hochladen')
