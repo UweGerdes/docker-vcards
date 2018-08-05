@@ -1,0 +1,26 @@
+.vcard {
+  .result {
+    clear: both;
+    padding: 1px 0 0;
+
+    &::after {
+      clear: both;
+      content: '';
+      display: block;
+    }
+
+    .result-list {
+      width: 100%;
+    }
+
+    .list-item {
+      height: 2em;
+
+      &-value {
+        border-top: 1px solid transparent;
+        display: inline-block;
+        padding-top: 0.3em;
+      }
+    }
+  }
+}

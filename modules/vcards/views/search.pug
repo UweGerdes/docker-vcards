@@ -1,18 +1,18 @@
 //- search.pug
 #searchLayer.layer.search-layer.hidden
   .layer-content.search-layer-content
-    h2.searchHeadline Suchen
-    #searchAgain.searchAgain.button.hidden&attributes({'data-toggle': '#searchForm, #searchResult, #searchInfo, #searchAgain'}) neue Suche
-    #searchInfo.searchInfo
-    form#searchForm.searchForm(name='searchForm', method='POST', action='/vcards/search/' + id)
-      .searchFieldsContainer
+    h2.search-headline Suchen
+    #searchAgain.search-again.button.hidden&attributes({'data-toggle': '#searchForm, #searchResult, #searchInfo, #searchAgain'}) neue Suche
+    #searchInfo.search-info
+    form#searchForm.search-form(name='searchForm', method='POST', action='/vcards/search/' + id)
+      .search-fields-container
         each field, name in fields
-          div.checkboxContainer
+          div.search-field
             input.checkbox(type='checkbox', name='searchFields', value=name, id='search_' + name)
             label(for='search_' + name)
               = field.label
-      .searchStringContainer
-        input.searchString(type='text', name='searchString', placeholder='Suchwort', value='')
+      .search-string-container
+        input.search-string(type='text', name='searchString', placeholder='Suchwort', value='')
         #searchErrors.search-errors
-        input.searchSubmit(type='submit', value='suchen...')
-    #searchResult.searchResult
+        input.search-submit(type='submit', value='suchen...')
+    #searchResult.result
