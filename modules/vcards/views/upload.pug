@@ -10,8 +10,8 @@
       action='/vcards/upload/',
       enctype="multipart/form-data")
 
-      .file-container.upload-file-container
-        label.label(for=upload)
+      .file-container.upload-file-container.upload
+        label.label(for='uploadFile')
           span&attributes({ 'data-filename-from': 'uploadFile' }) .vcf Datei wählen
           input(
             type='file',
@@ -19,4 +19,4 @@
             class='file',
             name='vcfFile',
             accept='.vcf')
-        input.uploadSubmit(type='submit', value='hochladen')
+        input.upload-submit(type='submit', value='hochladen')
