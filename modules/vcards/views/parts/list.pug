@@ -1,6 +1,6 @@
 //- list.pug
 .list-container
-  #sort.sort
+  #list-sort.list-sort
     select.select&attributes({ name: 'sort', 'data-select-url': '/vcards/sort/' })
       option(value='id')= 'Sortierung'
       each data, field in fields

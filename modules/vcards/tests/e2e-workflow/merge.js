@@ -51,12 +51,12 @@ module.exports = {
           elements: {
             '//*[@id="searchLayer"]/div/h2': 'Suchen',
             '//*[@id="searchLayer"]//a[@href="/vcards/0/"]': '',
-            '//a[@class="button merge"]': 'merge',
+            '//a[@class="button merge-button"]': 'merge',
           },
         },
         'merge form': {
           title: 'Webserver - vcard',
-          click: '//a[@class="button merge"]',
+          click: '//a[@class="button merge-button"]',
           elements: {
             '//*[@id="headline"]': 'vcard Uwe Gerdes',
             '//form[@id="merge"]': '',
@@ -90,6 +90,7 @@ module.exports = {
           },
           elementsNotExist: [
             '//*[@id="list"]/li[2]',
+            '//a[@id="delButton"]',
           ],
         },
         // TODO: add test for X-STATUS and X-TIMESTAMP

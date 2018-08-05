@@ -1,0 +1,35 @@
+.vcard {
+  .field {
+    clear: both;
+
+    &::after {
+      clear: both;
+      content: '';
+      display: block;
+    }
+  }
+
+  .label {
+    float:left;
+    width: 8em;
+  }
+
+  .itemvalue {
+    float:left;
+    width: 30em;
+  }
+
+  .values {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    &-item {
+      margin: 0 0 5px;
+
+      &:last-child {
+        margin: 0;
+      }
+    }
+  }
+}

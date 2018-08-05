@@ -90,7 +90,7 @@ module.exports = {
           elements: {
             '//*[@id="searchLayer"]/div/h2': 'Suchen',
             '//a[@class="button open"]': 'öffnen',
-            '//a[@class="button merge"]': 'merge',
+            '//a[@class="button merge-button"]': 'merge',
             '//a[@href="/vcards/merge/0/1/"]': 'merge',
           },
           elementsNotExist: [

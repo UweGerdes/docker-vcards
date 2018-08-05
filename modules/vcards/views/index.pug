@@ -15,14 +15,12 @@ block content
       #searchButton.button.searchButton&attributes({'data-toggle': '#searchLayer'}) suchen
       #downloadButton.button.downloadButton&attributes({'data-open-url': '/vcards/download/'}) Download
       #uploadButton.button.uploadButton&attributes({'data-toggle': '#uploadLayer'}) Upload
-      if vcard && !vcard2
-        a#editButton.button.editButton&attributes({'href': '/vcards/edit/' + vcard.id + '/'}) ändern
-        if delId
-          a#delButton.button.delButton&attributes({'href': '/vcards/' + vcard.id + '/del/' + delId})= 'Vcard ' + delId + ' löschen'
       include parts/dataset-select.pug
 
     #content.content
+
       include parts/list.pug
+
       if vcard
         if editId
           include edit.pug
@@ -31,9 +29,13 @@ block content
         else
           include item.pug
 
-    #searchLayer.layer.search-layer.hidden
-      .layer-content.search-layer-content
-        include search.pug
+        if vcard && !vcard2
+          #item-buttons.item-buttons
+            a#editButton.button.editButton&attributes({'href': '/vcards/edit/' + vcard.id + '/'}) ändern
+            if delId
+              a#delButton.button.delButton&attributes({'href': '/vcards/' + vcard.id + '/del/' + delId})= 'Vcard ' + delId + ' löschen'
+
+    include search.pug
 
     #uploadLayer.uploadLayer.hidden
       .uploadLayerContent

@@ -1,16 +1,18 @@
 //- search.pug
-h2.searchHeadline Suchen
-#searchAgain.searchAgain.button.hidden&attributes({'data-toggle': '#searchForm, #searchResult, #searchInfo, #searchAgain'}) neue Suche
-#searchInfo.searchInfo
-form#searchForm.searchForm(name='searchForm', method='POST', action='/vcards/search/' + id)
-  .searchFieldsContainer
-    each field, name in fields
-      div.checkboxContainer
-        input.checkbox(type='checkbox', name='searchFields', value=name, id='search_' + name)
-        label(for='search_' + name)
-          = field.label
-  .searchStringContainer
-    input.searchString(type='text', name='searchString', placeholder='Suchwort', value='')
-    #searchErrors.search-errors
-    input.searchSubmit(type='submit', value='suchen...')
-#searchResult.searchResult
+#searchLayer.layer.search-layer.hidden
+  .layer-content.search-layer-content
+    h2.searchHeadline Suchen
+    #searchAgain.searchAgain.button.hidden&attributes({'data-toggle': '#searchForm, #searchResult, #searchInfo, #searchAgain'}) neue Suche
+    #searchInfo.searchInfo
+    form#searchForm.searchForm(name='searchForm', method='POST', action='/vcards/search/' + id)
+      .searchFieldsContainer
+        each field, name in fields
+          div.checkboxContainer
+            input.checkbox(type='checkbox', name='searchFields', value=name, id='search_' + name)
+            label(for='search_' + name)
+              = field.label
+      .searchStringContainer
+        input.searchString(type='text', name='searchString', placeholder='Suchwort', value='')
+        #searchErrors.search-errors
+        input.searchSubmit(type='submit', value='suchen...')
+    #searchResult.searchResult

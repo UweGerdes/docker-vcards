@@ -46,6 +46,7 @@ const init = (filename) => {
 const index = (req, res) => {
   if (req.params.delId && req.params.delId.match(/^[0-9]+$/)) {
     model.del(parseInt(req.params.delId));
+    req.params.delId = null;
   }
   let sort = '';
   if (req.cookies) {
