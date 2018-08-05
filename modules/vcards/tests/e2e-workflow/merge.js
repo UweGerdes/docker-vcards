@@ -39,7 +39,7 @@ module.exports = {
           title: 'Webserver - vcard',
           click: '#searchButton',
           elements: {
-            '//*[@class="searchHeadline"]': 'Suchen',
+            '//*[@class="search-headline"]': 'Suchen',
             '//form[@name="searchForm"]': '',
             '//form[@name="searchForm"]//*[@id="search_version"]': '',
             '//form[@name="searchForm"]//*[@for="search_version"]': 'Version',

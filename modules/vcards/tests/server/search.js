@@ -69,7 +69,7 @@ describe('vcard search', function () {
           const searchLayer = document.getElementById('searchLayer');
           assert.equal(searchLayer.getAttribute('class'), 'layer search-layer hidden');
           const searchInfo = document.getElementById('searchInfo');
-          assert.equal(searchInfo.getAttribute('class'), 'searchInfo');
+          assert.equal(searchInfo.getAttribute('class'), 'search-info');
           assert.equal(searchInfo.textContent, '');
           done();
         });
