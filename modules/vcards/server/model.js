@@ -349,6 +349,21 @@ const fields = {
     type: 'text',
     size: 30
   },
+  bday: {
+    label: 'Geburtstag',
+    type: 'text',
+    size: 10
+  },
+  note: {
+    label: 'Notiz',
+    type: 'text',
+    size: 30
+  },
+  title: {
+    label: 'Titel',
+    type: 'text',
+    size: 30
+  },
   xGroupMembership: {
     label: 'Gruppen',
     type: 'list',
@@ -700,23 +715,28 @@ const data2vcard = (index, data, files) => {
  */
 const updateGlobals = (vcard) => {
   vcard.fields.forEach(name => { // jscs:ignore jsDoc
-    if (fields[name].selection) {
-      if (selections[name] == undefined) {
-        selections[name] = [];
-      }
-      if (fields[name].type == 'list') {
-        vcard.prop[name].forEach(prop => { // jscs:ignore jsDoc
-          const value = prop.value;
+    if (fields[name]) {
+      if (fields[name].selection) {
+        if (selections[name] == undefined) {
+          selections[name] = [];
+        }
+        if (fields[name].type == 'list') {
+          vcard.prop[name].forEach(prop => { // jscs:ignore jsDoc
+            const value = prop.value;
+            if (selections[name].indexOf(value) < 0) {
+              selections[name].push(value);
+            }
+          });
+        } else {
+          const value = vcard.prop[name].value;
           if (selections[name].indexOf(value) < 0) {
             selections[name].push(value);
           }
-        });
-      } else {
-        const value = vcard.prop[name].value;
-        if (selections[name].indexOf(value) < 0) {
-          selections[name].push(value);
         }
       }
+    } else {
+      console.log('undefined field', name, vcard.get('fn').valueOf(), vcard.get(name).valueOf(),
+        vcard.get(name));
     }
   });
 };
