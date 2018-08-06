@@ -93,9 +93,14 @@ handler['data-select-xhr'] = {
       xhttp.onreadystatechange = function () { // jscs:ignore jsDoc
         if (this.readyState == 4) {
           if (this.status == 200) {
-            element.insertAdjacentHTML('beforebegin', this.responseText);
+            element.insertAdjacentHTML('beforeBegin', this.responseText);
             element.remove(element.selectedIndex);
             element.selectedIndex = 0;
+            const selects = element.previousSibling.querySelectorAll('select[data-select-xhr]');
+            if (selects.length) {
+              attachEventHandler(selects[selects.length - 1], 'change',
+                handler['data-select-xhr'].func);
+            }
             const clickButton = element.previousSibling.querySelectorAll('span[data-click-xhr]');
             if (clickButton.length) {
               attachEventHandler(clickButton[0], 'click', handler['data-click-xhr'].func);
@@ -129,8 +134,8 @@ handler['data-click-xhr'] = {
     xhttp.onreadystatechange = function () { // jscs:ignore jsDoc
       if (this.readyState == 4) {
         if (this.status == 200) {
-          element.parentElement.insertAdjacentHTML('beforeend', this.responseText);
-          const selects = element.parentElement.querySelectorAll('select[data-select-xhr]');
+          element.insertAdjacentHTML('beforeBegin', this.responseText);
+          const selects = element.previousSibling.querySelectorAll('select[data-select-xhr]');
           if (selects.length) {
             attachEventHandler(selects[selects.length - 1], 'change',
               handler['data-select-xhr'].func);

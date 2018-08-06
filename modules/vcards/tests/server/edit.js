@@ -122,6 +122,16 @@ describe('vcard edit', function () {
           assert.equal(inputTel1[0].getAttribute('size'), 30);
           assert.equal(inputTel1[0].getAttribute('value'), '0179 3901008');
 
+          const inputGroups0 = document.querySelectorAll('form#edit #xGroupMembership0');
+          assert.equal(inputGroups0.length, 1, 'input field xGroupMembership0');
+          assert.equal(inputGroups0[0].getAttribute('size'), 30);
+          assert.equal(inputGroups0[0].getAttribute('value'), 'Ich');
+
+          const inputGroups1 = document.querySelectorAll('form#edit #xGroupMembership1');
+          assert.equal(inputGroups1.length, 1, 'input field xGroupMembership1');
+          assert.equal(inputGroups1[0].getAttribute('size'), 30);
+          assert.equal(inputGroups1[0].getAttribute('value'), 'Uwe');
+
           done();
         });
     });
@@ -243,6 +253,22 @@ describe('vcard edit', function () {
           const input = document.querySelectorAll('input[type="text"]');
           assert.equal(input.length, 1);
           assert.equal(input[0].name, 'email1');
+          done();
+        });
+    });
+  });
+  describe('GET /vcards/field/xGroupMembership/2', function () {
+    it('should render a work type for email', function (done) {
+      chai.request('http://vcards-dev:8080')
+        .get('/vcards/input/xGroupMembership/2')
+        .end(function (err, res) {
+          expect(err).to.be.null;
+          expect(res).to.have.status(200);
+          expect(res).to.be.html;
+          const { document } = (new JSDOM(res.text)).window;
+          const input = document.querySelectorAll('input[type="text"]');
+          assert.equal(input.length, 1);
+          assert.equal(input[0].name, 'xGroupMembership2');
           done();
         });
     });
