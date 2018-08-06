@@ -4,12 +4,13 @@
   "hexLength": {
     "style": "long"
   },
+  "idSelector": false,
   "spaceAfterPropertyColon": {
     "enabled": true,
     "style": "one_space"
   },
   "zeroUnit": {
-    "style": "keep_unit"
+    "style": "no_unit"
   }
 }
 
