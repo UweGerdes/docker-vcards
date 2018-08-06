@@ -9,7 +9,7 @@ const gulp = require('gulp'),
   mocha = require('gulp-mocha'),
   sequence = require('gulp-sequence'),
   config = require('../lib/config'),
-  files = require('./lib/files-promises'),
+  filePromises = require('./lib/files-promises'),
   loadTasks = require('./lib/load-tasks')
   ;
 
@@ -35,9 +35,9 @@ const tasks = {
    * @param {function} callback - gulp callback
    */
   'test-vcards': [['jshint'], (callback) => {
-      Promise.all(config.gulp.tests.vcards.map(files.getFilenames))
+      Promise.all(config.gulp.tests.vcards.map(filePromises.getFilenames))
       .then((filenames) => [].concat(...filenames)) // jscs:ignore jsDoc
-      .then(files.getRecentFiles)
+      .then(filePromises.getRecentFiles)
       .then((filenames) => { // jscs:ignore jsDoc
         const self = gulp.src(filenames, { read: false })
         // `gulp-mocha` needs filepaths so you can't have any plugins before it

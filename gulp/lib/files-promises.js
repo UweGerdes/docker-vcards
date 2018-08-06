@@ -56,7 +56,26 @@ function getRecentFiles(files) {
   }
 }
 
+/**
+ * Get the file content
+ *
+ * @private
+ * @param {function} filename - to open
+ */
+const getFileContent = (filename) => {
+  return new Promise((resolve, reject) => { // jscs:ignore jsDoc
+    fs.readFile(filename, (error, data) => { // jscs:ignore jsDoc
+      if (error) {
+        reject(error);
+      } else {
+        resolve({ filename: filename, content: data.toString() });
+      }
+    });
+  });
+};
+
 module.exports = {
   getFilenames: getFilenames,
-  getRecentFiles: getRecentFiles
+  getRecentFiles: getRecentFiles,
+  getFileContent: getFileContent
 };

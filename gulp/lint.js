@@ -4,7 +4,6 @@
 'use strict';
 
 const fs = require('fs'),
-  glob = require('glob'),
   gulp = require('gulp'),
   changedInPlace = require('gulp-changed-in-place'),
   jscs = require('gulp-jscs'),
@@ -17,6 +16,7 @@ const fs = require('fs'),
   yamlValidate = require('gulp-yaml-validate'),
   jshint = require('jshint').JSHINT,
   config = require('../lib/config'),
+  filePromises = require('./lib/files-promises'),
   loadTasks = require('./lib/load-tasks')
   ;
 
@@ -132,10 +132,11 @@ const tasks = {
    * @param {function} callback - gulp callback
    */
   'ejslint': (callback) => {
-    getFilenames(config.gulp.watch.ejslint)
+    Promise.all(config.gulp.watch.ejslint.map(filePromises.getFilenames))
+    .then((filenames) => [].concat(...filenames)) // jscs:ignore jsDoc
     .then((filenames) => { // jscs:ignore jsDoc
       return Promise.all(
-        filenames.map(getFileContent)
+        filenames.map(filePromises.getFileContent)
       );
     })
     .then((files) => { // jscs:ignore jsDoc
@@ -166,44 +167,6 @@ const tasks = {
 };
 
 // some Promises for ejslint
-
-/**
- * get list of files for glob pattern
- *
- * @private
- * @param {function} paths - patterns for paths
- */
-const getFilenames = (paths) => {
-  return new Promise((resolve, reject) => { // jscs:ignore jsDoc
-    paths.forEach((path) => { // jscs:ignore jsDoc
-      glob(path, (error, filenames) => { // jscs:ignore jsDoc
-        if (error) {
-          reject(error);
-        } else {
-          resolve(filenames);
-        }
-      });
-    });
-  });
-};
-
-/**
- * Get the file content
- *
- * @private
- * @param {function} filename - to open
- */
-const getFileContent = (filename) => {
-  return new Promise((resolve, reject) => { // jscs:ignore jsDoc
-    fs.readFile(filename, (error, data) => { // jscs:ignore jsDoc
-      if (error) {
-        reject(error);
-      } else {
-        resolve({ filename: filename, content: data.toString() });
-      }
-    });
-  });
-};
 
 /**
  * Replace expression output tags
@@ -278,5 +241,5 @@ const report = (file) => {
 if (process.env.NODE_ENV == 'development') {
   loadTasks.importTasks(tasks);
 } else {
-  loadTasks.importTasks({ jshint: () => { } });
+  loadTasks.importTasks({ jshint: () => { } }); // jscs:ignore jsDoc
 }
