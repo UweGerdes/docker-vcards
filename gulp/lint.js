@@ -3,14 +3,14 @@
  */
 'use strict';
 
-const fs = require('fs'),
-  gulp = require('gulp'),
+const gulp = require('gulp'),
   changedInPlace = require('gulp-changed-in-place'),
   jscs = require('gulp-jscs'),
   jscsStylish = require('gulp-jscs-stylish'),
   gulpJshint = require('gulp-jshint'),
   jsonlint = require('gulp-jsonlint'),
   lesshint = require('gulp-lesshint'),
+  notify = require('gulp-notify'),
   pugLinter = require('gulp-pug-linter'),
   sequence = require('gulp-sequence'),
   yamlValidate = require('gulp-yaml-validate'),
@@ -19,6 +19,16 @@ const fs = require('fs'),
   filePromises = require('./lib/files-promises'),
   loadTasks = require('./lib/load-tasks')
   ;
+
+/**
+ * log only to console, not GUI
+ *
+ * @param {pbject} options - setting options
+ * @param {function} callback - gulp callback
+ */
+const log = notify.withReporter((options, callback) => {
+  callback();
+});
 
 const tasks = {
   /**
@@ -50,12 +60,13 @@ const tasks = {
   'jshint': () => {
     return gulp.src(config.gulp.watch.jshint)
       .pipe(changedInPlace({ howToDetermineDifference: 'modification-time' }))
+      .pipe(log({ message: 'linted: <%= file.path %>', title: 'Gulp jshint' }))
       .pipe(gulpJshint())
       .pipe(jscs())
       .pipe(jscsStylish.combineWithHintResults())
       .pipe(gulpJshint.reporter('default'))
       .pipe(gulpJshint.reporter('fail'))
-//      .pipe(gulpJshint.reporter('jshint-stylish'))
+      //.pipe(gulpJshint.reporter('jshint-stylish'))
       ;
   },
   /**

@@ -7,11 +7,22 @@
 
 const gulp = require('gulp'),
   mocha = require('gulp-mocha'),
+  notify = require('gulp-notify'),
   sequence = require('gulp-sequence'),
   config = require('../lib/config'),
   filePromises = require('./lib/files-promises'),
   loadTasks = require('./lib/load-tasks')
   ;
+
+/**
+ * log only to console, not GUI
+ *
+ * @param {pbject} options - setting options
+ * @param {function} callback - gulp callback
+ */
+const log = notify.withReporter((options, callback) => {
+  callback();
+});
 
 const tasks = {
   /**
@@ -44,7 +55,8 @@ const tasks = {
         .pipe(mocha({ reporter: 'tap', timeout: 4000 })) // timeout for Raspberry Pi 3
         .on('error', function () { // jscs:ignore jsDoc
           self.emit('end');
-        });
+        })
+        .pipe(log({ message: 'tested: <%= file.path %>', title: 'Gulp test-vcards' }));
         return self;
       })
       .then(() => { // jscs:ignore jsDoc
@@ -52,7 +64,6 @@ const tasks = {
       })
       .catch(err => console.log(err)) // jscs:ignore jsDoc
       ;
-
     }
   ],
 };
