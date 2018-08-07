@@ -191,7 +191,7 @@ module.exports = {
             '//*[@id="org"]//*[@class="itemvalue"]': 'Freiberufler',
             '//*[@id="rev"]//*[@class="itemvalue"]': '2018-7-19 20:10:00',
             '//*[@id="xGroupMembership"]//*[@class="itemvalue"]': 'ICH\nUwe',
-            '//*[@id="adr"]//*[@class="itemvalue"]': 'Klaus-Groth-Str. 22, Hamburg, 20535',
+            '//*[@id="adr"]//*[@class="itemvalue"]': 'Klaus-Groth-Str. 22, Hamburg, 20535 (privat)',
           },
           elementsNotExist: [
             '//form[@id="edit"]',
