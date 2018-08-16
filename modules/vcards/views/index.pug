@@ -4,18 +4,19 @@ extends ../../index.pug
 block content
   div#vcard.vcard
 
-    h1#headline.headline= title
-      if vcard
-        = " "
-        = vcard.text.fn
-      if editId
-        = " bearbeiten"
+    #head.head
+      h1#headline.headline= title
+        if vcard
+          = " "
+          = vcard.text.fn
+        if editId
+          = " bearbeiten"
 
-    #headline-buttons.headline-buttons
-      #searchButton.button.searchButton&attributes({'data-toggle': '#searchLayer'}) suchen
-      #downloadButton.button.downloadButton&attributes({'data-open-url': '/vcards/download/'}) Download
-      #uploadButton.button.uploadButton&attributes({'data-toggle': '#uploadLayer'}) Upload
-      include parts/dataset-select.pug
+      #headline-buttons.headline-buttons
+        #searchButton.button.searchButton&attributes({'data-toggle': '#searchLayer'}) suchen
+        #downloadButton.button.downloadButton&attributes({'data-open-url': '/vcards/download/'}) Download
+        #uploadButton.button.uploadButton&attributes({'data-toggle': '#uploadLayer'}) Upload
+        include parts/dataset-select.pug
 
     #content.content
 
