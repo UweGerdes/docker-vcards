@@ -74,3 +74,18 @@ $ docker run -it \
 	--volume $(pwd)/tests/dev/compare-layouts:/home/node/app/config \
 	uwegerdes/compare-layouts bash
 ```
+
+#### responsive-check
+
+Run a container from the image `uwegerdes/responsive-check` and connect to your environment (with the localhost ports of responsive-check on 5381, gulp livereload on 5382 and a running webserver docker container, the hostname `webserver` is used in test configs).
+
+```bash
+$ docker run -it \
+	--name responsive-check \
+	-v $(pwd)/../docker-responsive-check:/home/node/app \
+	-v $(pwd)/modules:/home/node/app/config/modules \
+	-p 5381:8080 \
+	-p 5382:8081 \
+	--network="$(docker inspect --format='{{.HostConfig.NetworkMode}}' vcards-dev)" \
+	uwegerdes/responsive-check bash
+```
