@@ -7,11 +7,11 @@
 const domain = 'http://vcards-e2e:8080';
 
 module.exports = {
-  name: 'default e2e workflow test',
+  name: 'index + search',
   dumpDir: './results/modules/vcards/',
   viewportSize: { width: 1500, height: 1024 },
   testCases: {
-    'vcards': {
+    'index': {
       uri: domain + '/vcards/dataset/testdata',
       steps: {
         'start': {
