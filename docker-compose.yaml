@@ -9,8 +9,6 @@ services:
     image: uwegerdes/vcards
     environment:
       - NODE_ENV=development
-    networks:
-      - vcards-bridge
     ports:
       - 51280:8080
       - 51281:8081
@@ -27,8 +25,6 @@ services:
     image: uwegerdes/vcards
     environment:
       - NODE_ENV=production
-    networks:
-      - vcards-bridge
     ports:
       - 51285:8080
       - 51286:8081
@@ -36,8 +32,3 @@ services:
     - .:/home/node/app
 #    command: gulp --silent
     command: npm run dev
-
-networks:
-  vcards-bridge:
-    driver: bridge
-    name: vcards-bridge
