@@ -1,0 +1,66 @@
+# To execute this docker-compose yml file use docker-compose -f <file_name> up
+# Add the "-d" flag at the end for deattached execution
+version: "3.5"
+
+services:
+
+  vcards-e2e:
+    build:
+      context: .
+    container_name: vcards-e2e
+    hostname: vcards-e2e
+    image: uwegerdes/vcards
+    environment:
+      - NODE_ENV=staging
+    ports:
+      - 51285:8080
+      - 51286:8081
+    volumes:
+    - .:/home/node/app
+    command: npm run dev
+
+  vcards-e2e-hub:
+    image: selenium/hub:3.12.0-boron
+    container_name: vcards-e2e-hub
+    hostname: vcards-e2e-hub
+
+  vcards-e2e-chrome:
+    image: selenium/node-chrome:3.12.0-boron
+    container_name: vcards-e2e-chrome
+    depends_on:
+      - vcards-e2e-hub
+    environment:
+      - HUB_HOST=vcards-e2e-hub
+      - HUB_PORT=4444
+      - E2E_HOST=vcards-e2e-workflow
+      - JAVA_OPTS=-Dselenium.LOGGER.level=WARNING
+
+  vcards-e2e-firefox:
+    image: selenium/node-firefox:3.12.0-boron
+    container_name: vcards-e2e-firefox
+    depends_on:
+      - vcards-e2e-hub
+    environment:
+      - HUB_HOST=vcards-e2e-hub
+      - HUB_PORT=4444
+      - E2E_HOST=vcards-e2e-workflow
+      - JAVA_OPTS=-Dselenium.LOGGER.level=WARNING
+
+  vcards-e2e-workflow:
+    image: uwegerdes/e2e-workflow
+    container_name: vcards-e2e-workflow
+    hostname: vcards-e2e-workflow
+    ports:
+      - 51287:8080
+      - 51388:8081
+    depends_on:
+      - vcards-e2e-hub
+    environment:
+      - HUB_HOST=vcards-e2e-hub
+      - HUB_PORT=4444
+      - NODE_ENV=staging
+    volumes:
+      - ../docker-e2e-workflow:/home/node/app
+      - ./modules:/home/node/app/config/modules
+#    command: npm start
+    command: npm run dev

@@ -17,6 +17,7 @@ gulp:
       - 'gulp/**/*.js'
       - 'lib/**/*.js'
       - 'modules/**/*.js'
+      - '!modules/**/tests/e2e-workflow/*.js'
       - 'src/**/*.js'
     jsonlint:
       - '**/*.json'
