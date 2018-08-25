@@ -66,12 +66,12 @@ Will be copied to `htdocs/js/[module]/`.
 
 ### More Docker
 
-### e2e-workflow
+#### e2e-workflow
 
-Start the docker-e2e-workflow tests dockers together with the vcards container:
+Start the docker-e2e-workflow test dockers in your project directory (in another terminal to separate the vcards and e2e-workflow test output):
 
 ```bash
-$ docker-compose -f docker-compose.yaml -f docker-compose-e2e-workflow.yaml up
+$ docker-compose -f docker-compose-e2e-workflow.yaml up
 ```
 
 #### compare-layouts
