@@ -30,11 +30,13 @@ block content
         else
           include item.pug
 
-        if vcard && !vcard2
+        if vcard && !vcard2 && !editId
           #item-buttons.item-buttons
             a#editButton.button.editButton&attributes({'href': '/vcards/edit/' + vcard.id + '/'}) ändern
             if delId
               a#delButton.button.delButton&attributes({'href': '/vcards/' + vcard.id + '/del/' + delId})= 'Vcard ' + delId + ' löschen'
+            else
+              a#delButton.button.delButton&attributes({'href': '/vcards/0/del/' + vcard.id})= 'löschen'
 
     include search.pug
 
