@@ -7,7 +7,7 @@
 const domain = 'http://vcards-e2e:8080'
 
 module.exports = {
-  name: 'default e2e workflow test',
+  name: 'merge',
   viewportSize: { width: 1500, height: 1024 },
   testCases: {
     'merge': {

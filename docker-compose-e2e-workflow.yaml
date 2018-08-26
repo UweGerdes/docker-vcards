@@ -52,7 +52,7 @@ services:
     hostname: vcards-e2e-workflow
     ports:
       - 51287:8080
-      - 51388:8081
+      - 51288:8081
     depends_on:
       - vcards-e2e-hub
     environment:
