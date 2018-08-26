@@ -7,10 +7,11 @@
 const domain = 'http://vcards-e2e:8080'
 
 module.exports = {
-  name: 'index + search',
+  group: 'vCards E2E Test',
+  name: 'Index + Suche',
   viewportSize: { width: 1500, height: 1024 },
   testCases: {
-    'index': {
+    'Index': {
       uri: domain + '/vcards/dataset/testdata',
       steps: {
         'start': {
@@ -37,6 +38,17 @@ module.exports = {
           },
           click: 'a[href="/vcards/1/"]'
         },
+        'vcard 1': {
+          title: 'Webserver - vcard',
+          elements: {
+            '//*[@id="version"]//*[@class="itemvalue"]': '3.0'
+          }
+        }
+      }
+    },
+    'Suche': {
+      uri: domain + '/vcards/1/',
+      steps: {
         'vcard 1': {
           title: 'Webserver - vcard',
           elements: {

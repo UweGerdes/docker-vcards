@@ -7,7 +7,8 @@
 const domain = 'http://vcards-e2e:8080'
 
 module.exports = {
-  name: 'edit',
+  group: 'vCards E2E Test',
+  name: 'Edit vCard',
   viewportSize: { width: 1500, height: 1024 },
   testCases: {
     'edit': {
