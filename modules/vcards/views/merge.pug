@@ -22,9 +22,9 @@ mixin list2(prop, other, name, id)
       li.field-values-item
         if item.value && otherValues.indexOf(JSON.stringify(item.value) + JSON.stringify(item.type)) < 0
           input(type='checkbox', name=id + i, value=item.value, checked, id=id + '_' + i)
-          label(for=id + '_' + i)
+          label.field-value-label(for=id + '_' + i)
             if fields[name].parts_order
-              label(for=id)
+              label.field-value-label(for=id)
                 + parts(item.value, name)
             else
               = item.value
