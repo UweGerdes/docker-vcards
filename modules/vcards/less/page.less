@@ -1,36 +1,35 @@
 .vcard {
-  height: 93%;
 
   .headline {
+    flex: none;
     float: left;
 
     &-buttons {
       float: right;
       font-size: 1.2em;
       margin: 2em 0 0 0;
+
+      .select {
+        padding: 0.25em 0.25em 0.25em;
+      }
     }
   }
 
   .content {
+    display: flex;
     clear: both;
     font-size: 1.2em;
   }
 
   .list-container {
-    border: 1px solid #cccccc;
-    float: left;
-    height: 80%;
+    flex-grow: 1;
     overflow: auto;
-    width: 15em;
   }
 
   .vcard-container {
-    border: 1px solid #cccccc;
-    float: left;
-    height: 80%;
+    flex-grow: 3;
     margin: 0 0 1em 2em;
     overflow: auto;
     padding: 0;
-    width: 35em;
   }
 }
