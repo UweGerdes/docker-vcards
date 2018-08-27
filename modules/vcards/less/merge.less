@@ -1,12 +1,16 @@
 .vcard {
   .merge {
-    float: left;
     list-style: none;
-    margin: 0 0 1em 2em;
+    margin: 0;
     padding: 0;
 
-    .itemvalue {
-      width: 20em;
+    .field-value {
+      width: 15em;
+
+      &-label {
+        width: 13em;
+        word-wrap: break-word;
+      }
     }
 
     .submit {

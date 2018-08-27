@@ -17,9 +17,9 @@ mixin list2(prop, other, name, id)
   - var otherValues = []
   if other
     - otherValues = other.map(elem => JSON.stringify(elem.value) + JSON.stringify(elem.type))
-  ul.values
+  ul.field-values
     each item, i in prop
-      li.values-item
+      li.field-values-item
         if item.value && otherValues.indexOf(JSON.stringify(item.value) + JSON.stringify(item.type)) < 0
           input(type='checkbox', name=id + i, value=item.value, checked, id=id + '_' + i)
           label(for=id + '_' + i)
@@ -48,7 +48,7 @@ mixin choice2(prop, other, name, id)
   span.choice
     if prop.value && (!other || JSON.stringify(prop.value) != JSON.stringify(other.value))
       input(type='radio', name=name, value=prop.value, checked=!other, id=id)
-      label(for=id)
+      label.field-value-label(for=id)
         if fields[name].parts
           + parts(prop.value, name)
         else if fields[name].type == 'image'
@@ -68,18 +68,18 @@ mixin value2(prop, other, name, id)
 
 mixin field2(prop1, prop2, name)
   if ['xTimestamp', 'xStatus'].indexOf(name) < 0
-    li.list-item
-      div(id=name).fielddiv.label= fields[name].label + ":"
-      div.itemvalue.i1
+    li.props-item
+      div(id=name).fielddiv.field-label= fields[name].label + ":"
+      div.field-value.i1
         + value2(prop1, null, name, name + '1')
-      div.itemvalue.i2
+      div.field-value.i2
         + value2(prop2, prop1, name, name + '2')
 
 #merge.merge
   - var names1 = vcard.fields
   - var names2 = vcard2.fields
   form#merge-form.merge-form(method='POST', action='/vcards/save/' + id + '/' + id2)
-    ul#fieldList.item-list
+    ul#fieldList.props-list
       each name in names1
         + field2(vcard.prop[name], vcard2.prop[name], name)
       each name in names2

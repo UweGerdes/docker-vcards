@@ -20,18 +20,20 @@ block content
 
     #content.content
 
-      include parts/list.pug
+      #list-container.list-container
+        include parts/list.pug
 
       if vcard
-        if editId
-          include edit.pug
-        else if vcard2
-          include merge.pug
-        else
-          include item.pug
+        #vcard-container.vcard-container
+          if editId
+            include edit.pug
+          else if vcard2
+            include merge.pug
+          else
+            include item.pug
 
         if vcard && !vcard2 && !editId
-          #item-buttons.item-buttons
+          #vcard-buttons.vcard-buttons
             a#editButton.button.editButton&attributes({'href': '/vcards/edit/' + vcard.id + '/'}) ändern
             if delId
               a#delButton.button.delButton&attributes({'href': '/vcards/' + vcard.id + '/del/' + delId})= 'Vcard ' + delId + ' löschen'

@@ -1,16 +1,15 @@
 //- list.pug
-.list-container
-  #list-sort.list-sort
-    select.select&attributes({ name: 'sort', 'data-select-url': '/vcards/sort/' })
-      option(value='id')= 'Sortierung'
-      each data, field in fields
-        option(value=field, selected=field==sort)= data.label
-  ul#list.list
-    each vcard in vcards
-      if vcard.text.xStatus == ''
-        li.list-item
-          a(href='/vcards/' + vcard.id + '/')= vcard.text.fn
-    each vcard in vcards
-      if vcard.text.xStatus != ''
-        li.list-item
-          a(href='/vcards/' + vcard.id + '/')= '+ ' + vcard.text.fn
+#list-sort.list-sort
+  select.select&attributes({ name: 'sort', 'data-select-url': '/vcards/sort/' })
+    option(value='id')= 'Sortierung'
+    each data, field in fields
+      option(value=field, selected=field==sort)= data.label
+ul#list.list
+  each vcard in vcards
+    if vcard.text.xStatus == ''
+      li.list-item
+        a(href='/vcards/' + vcard.id + '/')= vcard.text.fn
+  each vcard in vcards
+    if vcard.text.xStatus != ''
+      li.list-item
+        a(href='/vcards/' + vcard.id + '/')= '+ ' + vcard.text.fn

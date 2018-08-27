@@ -18,19 +18,19 @@ mixin itemvalue(prop, field)
       if prop.type
         = ' (' + type(prop.type).join(', ') + ')'
 
-ul#item.item-list
+ul#item.props-list
   each field in vcard.fields
-    li.list-item
-      div(id=field).field
-        div.label
+    li.props-item
+      .field(id=field)
+        .field-label
           = (fields[field] ? fields[field].label : field) + ": "
-        div.itemvalue
+        .field-value
           span.value
             if fields[field]
               if fields[field].type == 'list'
-                ul.values
+                ul.field-values
                   each prop in vcard.prop[field]
-                    li.values-item
+                    li.field-values-item
                       + itemvalue(prop, field)
               else
                 + itemvalue(vcard.prop[field], field)
