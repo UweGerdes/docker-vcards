@@ -2,9 +2,9 @@
 extends ../../index.pug
 
 block content
-  div#vcard.vcard
+  div#vcard.vcard.flex-wrapper
 
-    #head.head
+    #head.flex-block.flex-header
       h1#headline.headline= title
         if vcard
           = " "
@@ -13,32 +13,30 @@ block content
           = " bearbeiten"
 
       #headline-buttons.headline-buttons
-        #searchButton.button.searchButton&attributes({'data-toggle': '#searchLayer'}) suchen
         #downloadButton.button.downloadButton&attributes({'data-open-url': '/vcards/download/'}) Download
         #uploadButton.button.uploadButton&attributes({'data-toggle': '#uploadLayer'}) Upload
         include parts/dataset-select.pug
 
-    #content.content
-
-      #list-container.list-container
-        include parts/list.pug
-
+    #vcard-container.vcard-container.flex-block.flex-center
       if vcard
-        #vcard-container.vcard-container
-          if editId
-            include edit.pug
-          else if vcard2
-            include merge.pug
-          else
-            include item.pug
+        if editId
+          include edit.pug
+        else if vcard2
+          include merge.pug
+        else
+          include item.pug
 
-      #vcard-buttons.vcard-buttons
-        if vcard && !vcard2 && !editId
-          a#editButton.button.editButton&attributes({'href': '/vcards/edit/' + vcard.id + '/'}) ändern
-          if delId
-            a#delButton.button.delButton&attributes({'href': '/vcards/' + vcard.id + '/del/' + delId})= 'Vcard ' + delId + ' löschen'
-          else
-            a#delButton.button.delButton&attributes({'href': '/vcards/0/del/' + vcard.id})= 'löschen'
+    #list-container.list-container.flex-block.flex-left
+      include parts/list.pug
+
+    #vcard-buttons.vcard-buttons.flex-block.flex-right
+      #searchButton.button.searchButton&attributes({'data-toggle': '#searchLayer'}) suchen
+      if vcard && !vcard2 && !editId
+        a#editButton.button.editButton&attributes({'href': '/vcards/edit/' + vcard.id + '/'}) ändern
+        if delId
+          a#delButton.button.delButton&attributes({'href': '/vcards/' + vcard.id + '/del/' + delId})= 'Vcard ' + delId + ' löschen'
+        else
+          a#delButton.button.delButton&attributes({'href': '/vcards/0/del/' + vcard.id})= 'löschen'
 
     include search.pug
 

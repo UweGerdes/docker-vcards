@@ -1,8 +1,13 @@
 .vcard {
 
   .headline {
-    flex: none;
     float: left;
+
+    &::after {
+      clear: both;
+      content: '';
+      display: block;
+    }
 
     &-buttons {
       float: right;
@@ -20,25 +25,19 @@
     }
   }
 
-  .content {
-    display: flex;
-    clear: both;
-    font-size: 1.2em;
-  }
-
   .list-container {
-    flex-grow: 2;
+    font-size: 1.2em;
     overflow: auto;
   }
 
   .vcard-container {
-    flex-grow: 6;
+    font-size: 1.2em;
     margin: 0 0 1em 2em;
     overflow: auto;
     padding: 0;
   }
 
   .vcard-buttons {
-    flex-grow: 1;
+    font-size: 1.2em;
   }
 }
