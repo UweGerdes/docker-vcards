@@ -9,6 +9,11 @@
       font-size: 1.2em;
       margin: 2em 0 0 0;
 
+      .button {
+        float: right;
+        margin-left: 1em;
+      }
+
       .select {
         padding: 0.25em 0.25em 0.25em;
       }
@@ -22,14 +27,18 @@
   }
 
   .list-container {
-    flex-grow: 1;
+    flex-grow: 2;
     overflow: auto;
   }
 
   .vcard-container {
-    flex-grow: 3;
+    flex-grow: 6;
     margin: 0 0 1em 2em;
     overflow: auto;
     padding: 0;
+  }
+
+  .vcard-buttons {
+    flex-grow: 1;
   }
 }

@@ -32,13 +32,13 @@ block content
           else
             include item.pug
 
+      #vcard-buttons.vcard-buttons
         if vcard && !vcard2 && !editId
-          #vcard-buttons.vcard-buttons
-            a#editButton.button.editButton&attributes({'href': '/vcards/edit/' + vcard.id + '/'}) ändern
-            if delId
-              a#delButton.button.delButton&attributes({'href': '/vcards/' + vcard.id + '/del/' + delId})= 'Vcard ' + delId + ' löschen'
-            else
-              a#delButton.button.delButton&attributes({'href': '/vcards/0/del/' + vcard.id})= 'löschen'
+          a#editButton.button.editButton&attributes({'href': '/vcards/edit/' + vcard.id + '/'}) ändern
+          if delId
+            a#delButton.button.delButton&attributes({'href': '/vcards/' + vcard.id + '/del/' + delId})= 'Vcard ' + delId + ' löschen'
+          else
+            a#delButton.button.delButton&attributes({'href': '/vcards/0/del/' + vcard.id})= 'löschen'
 
     include search.pug
 
