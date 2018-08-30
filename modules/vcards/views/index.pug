@@ -5,17 +5,18 @@ block content
   div#vcard.vcard.flex-wrapper
 
     #head.flex-block.flex-header
-      h1#headline.headline= title
-        if vcard
-          = " "
-          = vcard.text.fn
-        if editId
-          = " bearbeiten"
+      #header-wrapper.flex-wrapper
+        h1#headline.headline.flex-block.flex-left= title
+          if vcard
+            = " "
+            = vcard.text.fn
+          if editId
+            = " bearbeiten"
 
-      #headline-buttons.headline-buttons
-        #downloadButton.button.downloadButton&attributes({'data-open-url': '/vcards/download/'}) Download
-        #uploadButton.button.uploadButton&attributes({'data-toggle': '#uploadLayer'}) Upload
-        include parts/dataset-select.pug
+        #headline-buttons.headline-buttons.flex-block.flex-right
+          include parts/dataset-select.pug
+          #uploadButton.button.uploadButton&attributes({'data-toggle': '#uploadLayer'}) Upload
+          #downloadButton.button.downloadButton&attributes({'data-open-url': '/vcards/download/'}) Download
 
     #vcard-container.vcard-container.flex-block.flex-center
       if vcard

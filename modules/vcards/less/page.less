@@ -1,26 +1,35 @@
 .vcard {
+  min-height: 94%;
 
-  .headline {
-    float: left;
+  .header {
+    align-content: flex-start;
+    display: flex;
+    flex-flow: row wrap;
 
-    &::after {
-      clear: both;
-      content: '';
-      display: block;
+    &-block {
+      flex: 1 100%;
     }
 
+    @media all and (min-width: 600px) {
+      &-block {
+        flex: 1 auto;
+      }
+    }
+  }
+
+  .headline {
     &-buttons {
-      float: right;
       font-size: 1.2em;
       margin: 2em 0 0 0;
+      text-align: right;
 
       .button {
-        float: right;
+        display: inline-block;
         margin-left: 1em;
       }
 
       .select {
-        padding: 0.25em 0.25em 0.25em;
+        padding: 0.25em 0.25em 0.25em 2em;
       }
     }
   }
