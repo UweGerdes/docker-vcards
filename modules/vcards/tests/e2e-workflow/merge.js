@@ -9,15 +9,19 @@ const domain = 'http://vcards-e2e:8080'
 module.exports = {
   group: 'vCards E2E Test',
   name: 'Merge vCard',
-  viewportSize: { width: 1500, height: 1024 },
+  viewports: {
+    'Mobile': { width: 320, height: 568 },
+    'Tablet Portrait': { width: 768, height: 1024 },
+    'Desktop': { width: 1200, height: 900 }
+  },
   testCases: {
-    'merge': {
+    'Merge': {
       uri: domain + '/vcards/dataset/testdata',
       steps: {
         'start': {
           title: 'Webserver - vcard',
           elements: {
-            '//h1[@class="headline"]': 'vcard',
+            '//h1[@id="headline"]': 'vcard',
             '//*[@id="list"]/li[1]/a': 'Uwe Gerdes',
             '//*[@id="list"]/li[2]/a': 'Uwe Gerdes',
             '//*[@id="searchButton"]': 'suchen'
@@ -30,8 +34,8 @@ module.exports = {
         'vcard 0': {
           title: 'Webserver - vcard',
           elements: {
-            '//*[@id="version"]//*[@class="itemvalue"]': '2.1',
-            '//*[@id="fn"]//*[@class="itemvalue"]': 'Uwe Gerdes',
+            '//*[@id="version"]//*[@class="field-value"]': '2.1',
+            '//*[@id="fn"]//*[@class="field-value"]': 'Uwe Gerdes',
             '//a[@id="editButton"]': ''
           },
           click: '#searchButton'
@@ -59,38 +63,38 @@ module.exports = {
           title: 'Webserver - vcard',
           elements: {
             '//*[@id="headline"]': 'vcard Uwe Gerdes',
-            '//form[@id="merge"]': '',
-            '//form[@id="merge"]//*[@name="version"][@value="2.1"]': '',
-            '//form[@id="merge"]//*[@name="version"][@value="3.0"]': ''
+            '//form[@id="merge-form"]': '',
+            '//form[@id="merge-form"]//*[@name="version"][@value="2.1"]': '',
+            '//form[@id="merge-form"]//*[@name="version"][@value="3.0"]': ''
           },
-          click: '//form[@id="merge"]//input[@type="submit"]'
+          click: '//form[@id="merge-form"]//input[@type="submit"]'
         },
         'merge save': {
           title: 'Webserver - vcard',
           elements: {
-            '//*[@id="version"]//*[@class="itemvalue"]': '2.1',
-            '//*[@id="n"]//*[@class="itemvalue"]': 'Gerdes, Uwe',
-            '//*[@id="fn"]//*[@class="itemvalue"]': 'Uwe Gerdes',
-            '//*[@id="tel"]//*[@class="itemvalue"]':
+            '//*[@id="version"]//*[@class="field-value"]': '2.1',
+            '//*[@id="n"]//*[@class="field-value"]': 'Gerdes, Uwe',
+            '//*[@id="fn"]//*[@class="field-value"]': 'Uwe Gerdes',
+            '//*[@id="tel"]//*[@class="field-value"]':
                   '040 256486 (Arbeit, Sprache)\n0179 3901008 (Mobil)\n' +
                   '+49 40 25178252 (Arbeit, Sprache)\n01793901008 (Mobil)',
-            '//*[@id="adr"]//*[@class="itemvalue"]':
+            '//*[@id="adr"]//*[@class="field-value"]':
                   'Klaus-Groth-Str. 22, Hamburg, 20535, Germany (privat)'
           },
-          click: '//a[@id="delButton"]'
+          click: '//a[@id="delButton"][@href="/vcards/0/del/1"]'
         },
         'delete merged': {
           title: 'Webserver - vcard',
           elements: {
-            '//*[@id="version"]//*[@class="itemvalue"]': '2.1',
-            '//*[@id="fn"]//*[@class="itemvalue"]': 'Uwe Gerdes',
-            '//*[@id="tel"]//*[@class="itemvalue"]':
+            '//*[@id="version"]//*[@class="field-value"]': '2.1',
+            '//*[@id="fn"]//*[@class="field-value"]': 'Uwe Gerdes',
+            '//*[@id="tel"]//*[@class="field-value"]':
                   '040 256486 (Arbeit, Sprache)\n0179 3901008 (Mobil)\n' +
                   '+49 40 25178252 (Arbeit, Sprache)\n01793901008 (Mobil)'
           },
           elementsNotExist: [
             '//*[@id="list"]/li[2]',
-            '//a[@id="delButton"]'
+            '//a[@id="delButton"][@href="/vcards/0/del/1"]'
           ]
         }
         // TODO: add test for X-STATUS and X-TIMESTAMP

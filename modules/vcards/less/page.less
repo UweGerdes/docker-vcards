@@ -1,26 +1,11 @@
 .vcard {
   min-height: 94%;
 
-  .header {
-    align-content: flex-start;
-    display: flex;
-    flex-flow: row wrap;
-
-    &-block {
-      flex: 1 100%;
-    }
-
-    @media all and (min-width: 600px) {
-      &-block {
-        flex: 1 auto;
-      }
-    }
-  }
-
   .headline {
+    margin: 0.5em 0;
+
     &-buttons {
-      font-size: 1.2em;
-      margin: 2em 0 0 0;
+      margin: 0.5em 0;
       text-align: right;
 
       .button {
@@ -29,7 +14,7 @@
       }
 
       .select {
-        padding: 0.25em 0.25em 0.25em 2em;
+        font-size: 1.2em;
       }
     }
   }
@@ -41,12 +26,22 @@
 
   .vcard-container {
     font-size: 1.2em;
-    margin: 0 0 1em 2em;
+    margin: 0 0 1em;
     overflow: auto;
     padding: 0;
   }
 
   .vcard-buttons {
     font-size: 1.2em;
+  }
+
+  @media all and (min-width: 768px) {
+    .headline {
+      margin: 1em 0;
+
+      &-buttons {
+        margin: 1.5em 0;
+      }
+    }
   }
 }

@@ -9,7 +9,11 @@ const domain = 'http://vcards-e2e:8080'
 module.exports = {
   group: 'vCards E2E Test',
   name: 'Index + Suche',
-  viewportSize: { width: 1500, height: 1024 },
+  viewports: {
+    'Mobile': { width: 320, height: 568 },
+    'Tablet Portrait': { width: 768, height: 1024 },
+    'Desktop': { width: 1200, height: 900 }
+  },
   testCases: {
     'Index': {
       uri: domain + '/vcards/dataset/testdata',
@@ -17,7 +21,7 @@ module.exports = {
         'start': {
           title: 'Webserver - vcard',
           elements: {
-            '//h1[@class="headline"]': 'vcard',
+            '//h1[@id="headline"]': 'vcard',
             '//*[@id="list"]/li[1]/a': 'Uwe Gerdes',
             '//*[@id="list"]/li[2]/a': 'Uwe Gerdes',
             '//*[@id="searchButton"]': 'suchen'
@@ -30,9 +34,9 @@ module.exports = {
         'vcard 0': {
           title: 'Webserver - vcard',
           elements: {
-            '//*[@id="version"]//*[@class="itemvalue"]': '2.1',
-            '//*[@id="fn"]//*[@class="itemvalue"]': 'Uwe Gerdes',
-            '//*[@id="tel"]//*[@class="itemvalue"]':
+            '//*[@id="version"]//*[@class="field-value"]': '2.1',
+            '//*[@id="fn"]//*[@class="field-value"]': 'Uwe Gerdes',
+            '//*[@id="tel"]//*[@class="field-value"]':
               '040 256486 (Arbeit, Sprache)\n0179 3901008 (Mobil)',
             '//a[@id="editButton"]': ''
           },
@@ -41,7 +45,7 @@ module.exports = {
         'vcard 1': {
           title: 'Webserver - vcard',
           elements: {
-            '//*[@id="version"]//*[@class="itemvalue"]': '3.0'
+            '//*[@id="version"]//*[@class="field-value"]': '3.0'
           }
         }
       }
@@ -52,7 +56,7 @@ module.exports = {
         'vcard 1': {
           title: 'Webserver - vcard',
           elements: {
-            '//*[@id="version"]//*[@class="itemvalue"]': '3.0'
+            '//*[@id="version"]//*[@class="field-value"]': '3.0'
           },
           click: '#searchButton'
         },
@@ -78,7 +82,7 @@ module.exports = {
         'search result: click vcard 0': {
           title: 'Webserver - vcard',
           elements: {
-            '//*[@id="version"]//*[@class="itemvalue"]': '2.1'
+            '//*[@id="version"]//*[@class="field-value"]': '2.1'
           },
           click: '#searchButton'
         },

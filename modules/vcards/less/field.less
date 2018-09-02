@@ -1,6 +1,8 @@
 .vcard {
   .field {
-    clear: both;
+    align-content: flex-start;
+    display: flex;
+    flex-flow: row wrap;
 
     &::after {
       clear: both;
@@ -9,13 +11,23 @@
     }
 
     &-label {
-      float: left;
-      width: 8em;
+      flex: 1 100%;
     }
 
     &-value {
-      float: left;
-      width: 25em;
+      flex: 1 100%;
+    }
+
+    @media all and (min-width: 768px) {
+      &-label {
+        flex: 1 20%;
+        text-align: right;
+      }
+
+      &-value {
+        flex: 1 79%;
+        padding-left: 1%;
+      }
     }
 
     &-values {
