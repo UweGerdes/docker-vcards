@@ -19,5 +19,7 @@ form#edit.edit(method='POST', action='/vcards/save/' + editId, enctype="multipar
     if vcardFields.indexOf(field) < 0
       include edit/field.pug
 
-  #submit.submit
-    input.searchSubmit.button(type='submit', value='speichern')
+  #submit.submit.field
+    label.field-label= " "
+    .field-value
+      input.searchSubmit.button(type='submit', value='speichern')
