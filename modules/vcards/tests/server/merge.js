@@ -77,8 +77,9 @@ describe('vcard merge', function () {
           const { document } = (new JSDOM(res.text)).window;
           const form = document.querySelectorAll('form#merge-form')[0];
           assert.equal(form.getAttribute('action'), '/vcards/save/0/1');
-          const mergeFieldList = document.querySelectorAll('#merge-form .props-list > .props-item');
-          assert.equal(mergeFieldList.length, 9);
+          const mergeFieldList =
+            document.querySelectorAll('#merge-form .props-list > .props-item .field');
+          assert.equal(mergeFieldList.length, 11);
           assert.equal(mergeFieldList[0].childNodes.length, 3);
           assert.equal(mergeFieldList[0].childNodes[0].textContent.trim(), 'Version:');
           assert.equal(mergeFieldList[0].childNodes[1].textContent.trim(), '2.1');
