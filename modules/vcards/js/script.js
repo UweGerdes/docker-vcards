@@ -39,6 +39,41 @@ handler['data-toggle'] = {
 };
 
 /**
+ * open modal
+ */
+handler['data-modal'] = {
+  elements: [window],
+  event: 'load',
+  func: () => { // jscs:ignore jsDoc
+    const elements = document.querySelectorAll('[data-modal]');
+    elements.forEach((element) => { // jscs:ignore jsDoc
+      const toggleList = document.querySelectorAll(element.dataset.modal);
+      element.addEventListener('click', () => { // jscs:ignore jsDoc
+        toggleList.forEach((toggled) => { // jscs:ignore jsDoc
+          toggled.classList.remove('hidden');
+        });
+        document.getElementById('footer').classList.add('hidden');
+        document.getElementById('page').classList.add('modalOpen');
+      });
+      toggleList.forEach((toggled) => { // jscs:ignore jsDoc
+        if (toggled != element) {
+          toggled.addEventListener('click', () => { // jscs:ignore jsDoc
+            toggled.classList.add('hidden');
+            document.getElementById('footer').classList.remove('hidden');
+            document.getElementById('page').classList.remove('modalOpen');
+          });
+          toggled.childNodes.forEach((child) => { // jscs:ignore jsDoc
+            child.addEventListener('click', (event) => { // jscs:ignore jsDoc
+              event.stopPropagation();
+            });
+          });
+        }
+      });
+    });
+  }
+};
+
+/**
  * searchSubmit
  */
 handler['searchForm-submit'] = {

@@ -15,7 +15,7 @@ block content
 
         #headline-buttons.headline-buttons.flex-block.flex-right
           include parts/dataset-select.pug
-          #uploadButton.button.uploadButton&attributes({'data-toggle': '#uploadLayer'}) Upload
+          #uploadButton.button.uploadButton&attributes({'data-modal': '#uploadLayer'}) Upload
           #downloadButton.button.downloadButton&attributes({'data-open-url': '/vcards/download/'}) Download
 
     #vcard-container.vcard-container.flex-block.flex-center
@@ -31,7 +31,7 @@ block content
       include parts/list.pug
 
     #vcard-buttons.vcard-buttons.flex-block.flex-right
-      #searchButton.button.searchButton&attributes({'data-toggle': '#searchLayer'}) suchen
+      #searchButton.button.searchButton&attributes({'data-modal': '#searchLayer'}) suchen
       if vcard && !vcard2 && !editId
         a#editButton.button.editButton&attributes({'href': '/vcards/edit/' + vcard.id + '/'}) ändern
         if delId

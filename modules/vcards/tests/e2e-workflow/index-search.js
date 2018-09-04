@@ -53,7 +53,7 @@ module.exports = {
     'Suche': {
       uri: domain + '/vcards/1/',
       steps: {
-        'vcard 1': {
+        'open vcard 1': {
           title: 'Webserver - vcard',
           elements: {
             '//*[@id="version"]//*[@class="field-value"]': '3.0'

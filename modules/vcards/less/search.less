@@ -1,9 +1,7 @@
 .vcard {
   .search {
     &-layer-content {
-      height: 70%;
-      overflow: auto;
-      width: 35em;
+      max-width: 31em;
     }
 
     &-headline {
@@ -25,7 +23,7 @@
     &-fields-container {
       clear: both;
       float: left;
-      padding: 0 3em 0 0;
+      padding: 0 3em 1em 0;
 
       &::after {
         clear: both;
@@ -40,7 +38,8 @@
 
     &-string-container {
       float: left;
-      width: 20em;
+      max-width: 20em;
+      width: 100%;
     }
 
     &-string {
