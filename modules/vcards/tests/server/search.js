@@ -65,7 +65,7 @@ describe('vcard search', function () {
           const searchButton = document.getElementById('searchButton');
           assert.equal(searchButton.textContent, 'suchen');
           assert.equal(searchButton.getAttribute('class'), 'button searchButton');
-          assert.equal(searchButton.getAttribute('data-toggle'), '#searchLayer');
+          assert.equal(searchButton.getAttribute('data-modal'), '#searchLayer');
           const searchLayer = document.getElementById('searchLayer');
           assert.equal(searchLayer.getAttribute('class'), 'layer search-layer hidden');
           const searchInfo = document.getElementById('searchInfo');

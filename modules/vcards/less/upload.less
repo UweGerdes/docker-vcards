@@ -1,10 +1,5 @@
 .vcard {
   .upload {
-
-    &-file-container {
-      width: 80%;
-    }
-
     .label {
       border: 1px solid #999999;
       border-radius: 3px;
@@ -15,7 +10,7 @@
       padding: 4px 0.5em;
       position: relative;
       text-align: left;
-      width: 23em;
+      width: ~'calc(100% - 1em)';
     }
 
     .file {
@@ -32,14 +27,13 @@
       &-content {
         margin-top: 10%;
         min-height: 40%;
-        width: 30em;
       }
     }
 
     &-submit {
       font-size: 1.2em;
       padding: 4px 0.5em;
-      width: 24em;
+      width: 100%;
     }
   }
 }
