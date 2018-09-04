@@ -4,7 +4,8 @@
     margin: 0;
     padding: 0;
 
-    .field-value {
+    .i1,
+    .i2 {
       flex: 1 39%;
 
       &-label {
@@ -15,12 +16,31 @@
     }
 
     .submit {
-      margin: 0 0 0 9.7em;
-      width: 20em;
+      margin: 0;
+      width: 100%;
 
       .button {
-        float: none;
-        margin: 0 0 0 0.5em;
+        margin: 0;
+        width: 100%;
+      }
+    }
+  }
+
+  @media all and (min-width: 768px) {
+    .merge {
+      .i1,
+      .i2 {
+        flex: 1 39%;
+      }
+
+      .submit {
+        margin: 0 0 0 9.7em;
+        width: 20em;
+
+        .button {
+          float: none;
+          margin: 0 0 0 0.5em;
+        }
       }
     }
   }
