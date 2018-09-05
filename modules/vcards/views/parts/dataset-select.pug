@@ -1,7 +1,4 @@
 //- dataset-select.pug
-each name in datasetNames
-  if name.indexOf('.vcf') >= 0
-    a.button.datasetName(href='/vcards/dataset/' + name)= name
 if oldDatasetName
   span#oldDatasetName.hidden= oldDatasetName
 span#datasetName.hidden= datasetName
@@ -14,3 +11,6 @@ if datasetFiles
     option(value='testdata', selected=(datasetName == 'testdata')) testdata
     option(value='testimage', selected=(datasetName == 'testimage')) testimage
     option(value='testumlauts', selected=(datasetName == 'testumlauts')) testumlauts
+each name in datasetNames
+  if name.indexOf('.vcf') >= 0
+    a.button.datasetName(href='/vcards/dataset/' + name)= name
