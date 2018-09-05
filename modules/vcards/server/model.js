@@ -148,20 +148,20 @@ class Vcard {
   }
 
   /**
-   * check if vcard matches this selection
+   * check if vcard matches this filter
    *
-   * @param {object} selection - searchFields and searchString
+   * @param {object} filter - searchFields and searchString
    * @returns {boolean} - match result
    */
-  matches(selection) {
-    if (selection && selection.searchString && selection.searchString.length > 0) {
+  matches(filter) {
+    if (filter && filter.searchString && filter.searchString.length > 0) {
       let hit = false;
-      let searchFields = selection.searchFields || ['fn'];
+      let searchFields = filter.searchFields || ['fn'];
       if (typeof searchFields == 'string') {
         searchFields = [searchFields];
       }
       searchFields.forEach((field) => { // jscs:ignore jsDoc
-        hit = hit || this.text[field].indexOf(selection.searchString) >= 0;
+        hit = hit || this.text[field].indexOf(filter.searchString) >= 0;
       });
       return hit;
     }
@@ -515,13 +515,13 @@ module.exports = {
   /**
    * vcards to VCF
    *
-   * @param {string} selection - to reduce list, optional
+   * @param {string} filter - to reduce list, optional
    * @param {string} sort - to sort list
    * @param {object} data - array with data
    */
-  toVCF: (selection, sort) => {
+  toVCF: (filter, sort) => {
     let result = [];
-    list(selection, sort).forEach((item) => { // jscs:ignore jsDoc
+    list(filter, sort).forEach((item) => { // jscs:ignore jsDoc
       result.push(item.toVCF());
     });
     return result.join('\n') + '\n';
@@ -562,15 +562,15 @@ module.exports = {
 /**
  * get list of vcard objects
  *
- * @param {string} selection - to reduce list, optional
+ * @param {string} filter - to reduce list, optional
  * @param {string} sort - to sort list
  * @returns {array} vcard list
  */
-function list(selection, sort) {
+function list(filter, sort) {
   let result = [];
-  if (selection) {
+  if (filter) {
     Object.values(lists[datasetName]).forEach((item) => { // jscs:ignore jsDoc
-      if (item.matches(selection)) {
+      if (item.matches(filter)) {
         result.push(item);
       }
     });
