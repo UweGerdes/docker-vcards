@@ -11,7 +11,7 @@ const express = require('express'),
 
 const controller = require('./controller.js');
 
-controller.init(path.join(path.dirname(__dirname), 'data', 'userdata.vcf'));
+controller.init(path.join(path.dirname(__dirname), 'tests', 'data', 'testdata.vcf'));
 
 // vcard overview
 router.get('/', controller.index);
