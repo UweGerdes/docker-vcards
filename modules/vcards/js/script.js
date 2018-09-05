@@ -178,7 +178,7 @@ handler['data-click-xhr'] = {
         }
       }
     };
-    const newIndex = element.parentElement.querySelectorAll('.input-text').length;
+    const newIndex = element.parentElement.querySelectorAll(':scope > input').length;
     xhttp.open('GET', element.getAttribute('data-click-xhr') + newIndex, true);
     xhttp.send();
   }

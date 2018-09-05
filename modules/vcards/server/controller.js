@@ -182,6 +182,7 @@ const inputType = (req, res) => {
 const inputInput = (req, res) => {
   res.render(path.join(viewBase, 'edit', 'input.pug'), {
     field: req.params.field,
+    value: req.params.value,
     index: req.params.index,
     fields: model.fields,
     types: model.types

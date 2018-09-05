@@ -46,6 +46,9 @@ router.get('/type/:field/_:index?/:type/:i?', controller.inputType);
 // new input route
 router.get('/input/:field/:index', controller.inputInput);
 
+// new input route
+router.get('/input/:field/:value/:index', controller.inputInput);
+
 // new field route
 router.get('/field/:field/:index?', controller.inputField);
 

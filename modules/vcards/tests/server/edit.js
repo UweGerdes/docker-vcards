@@ -106,8 +106,9 @@ describe('vcard edit', function () {
 
           const inputVersion = document.querySelectorAll('form#edit #version');
           assert.equal(inputVersion.length, 1, 'input field version');
-          assert.equal(inputVersion[0].getAttribute('size'), 5);
-          assert.equal(inputVersion[0].getAttribute('value'), '2.1');
+          assert.equal(inputVersion[0].options.length, 2);
+          assert.equal(inputVersion[0].selectedIndex, 0);
+          assert.equal(inputVersion[0].options[0].value, '2.1');
 
           const inputN = document.querySelectorAll('form#edit #n_container .input-text');
           assert.equal(inputN.length, 5, 'input field n');
@@ -126,12 +127,10 @@ describe('vcard edit', function () {
 
           const inputGroups0 = document.querySelectorAll('form#edit #xGroupMembership0');
           assert.equal(inputGroups0.length, 1, 'input field xGroupMembership0');
-          assert.equal(inputGroups0[0].getAttribute('size'), 30);
           assert.equal(inputGroups0[0].getAttribute('value'), 'Ich');
 
           const inputGroups1 = document.querySelectorAll('form#edit #xGroupMembership1');
           assert.equal(inputGroups1.length, 1, 'input field xGroupMembership1');
-          assert.equal(inputGroups1[0].getAttribute('size'), 30);
           assert.equal(inputGroups1[0].getAttribute('value'), 'Uwe');
 
           done();
@@ -157,8 +156,9 @@ describe('vcard edit', function () {
 
           const inputVersion = document.querySelectorAll('form#edit #version');
           assert.equal(inputVersion.length, 1, 'input field version');
-          assert.equal(inputVersion[0].getAttribute('size'), 5);
-          assert.equal(inputVersion[0].getAttribute('value'), '3.0');
+          assert.equal(inputVersion[0].options.length, 2);
+          assert.equal(inputVersion[0].selectedIndex, 1);
+          assert.equal(inputVersion[0].options[1].value, '3.0');
 
           const inputN = document.querySelectorAll('form#edit #n_container .input-text');
           assert.equal(inputN.length, 5, 'input field n');
