@@ -357,7 +357,8 @@ function getModelData(req) {
     datasetNames: model.datasetNames(),
     datasetName: model.datasetName(),
     datasetFiles: model.datasetFiles(),
-    sort: sort
+    sort: sort,
+    selections: model.selections
   };
 }
 
