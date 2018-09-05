@@ -16,7 +16,7 @@ const chai = require('chai'),
 chai.use(chaiHttp);
 
 describe('vcard edit', function () {
-  let oldDatasetName;
+  let oldDatasetName = '';
   before(function (done) {
     chai.request('http://vcards-dev:8080')
     .get('/vcards/dataset/testdata')
@@ -32,7 +32,9 @@ describe('vcard edit', function () {
       assert.equal(list[0].textContent, 'Uwe Gerdes');
       assert.equal(list[1].textContent, 'Uwe Gerdes');
       const oldDatasetNameElement = document.getElementById('oldDatasetName');
-      oldDatasetName = oldDatasetNameElement.textContent;
+      if (oldDatasetNameElement) {
+        oldDatasetName = oldDatasetNameElement.textContent;
+      }
       done();
     });
   });
