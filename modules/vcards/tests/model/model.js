@@ -241,7 +241,7 @@ describe('vcard model', () => {
     });
     it('should return vcards VCF equal to testData', () => {
       const vcf = 'BEGIN:VCARD\n' +
-                  'VERSION:2.1\n' +
+                  'VERSION:4.0\n' +
                   'N:Gerdes;Uwe;;;\n' +
                   'FN:Uwe Gerdes\n' +
                   'TEL;TYPE=work,voice:040 256486\n' +
@@ -252,7 +252,7 @@ describe('vcard model', () => {
                   'X-GROUP-MEMBERSHIP:Uwe\n' +
                   'END:VCARD\n' +
                   'BEGIN:VCARD\n' +
-                  'VERSION:3.0\n' +
+                  'VERSION:4.0\n' +
                   'N:Gerdes;Uwe\n' +
                   'FN:Uwe Gerdes\n' +
                   'TEL;TYPE=work,voice:+49 40 25178252\n' +
