@@ -184,8 +184,7 @@ const inputInput = (req, res) => {
     value: req.params.value,
     index: req.params.index,
     fields: model.fields,
-    types: model.types,
-    selections: model.selections
+    types: model.types
   });
 };
 
@@ -202,7 +201,8 @@ const inputField = (req, res) => {
     field: req.params.field,
     index: model.fields[req.params.field].type == 'list' ? '0' : '',
     fields: model.fields,
-    types: model.types
+    types: model.types,
+    selections: model.selections
   });
 };
 
