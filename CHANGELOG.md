@@ -2,6 +2,9 @@
 
 ## latest
 
+0.1.2
+responsive layout, better output, remove duplicate tel entries
+
 0.1.1
 adding X-STATUS and X-TIMESTAMP for better overview on edited vcards
 
