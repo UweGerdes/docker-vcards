@@ -112,8 +112,8 @@ describe('vcard edit', function () {
 
           const inputN = document.querySelectorAll('form#edit #n_container .input-text');
           assert.equal(inputN.length, 5, 'input field n');
-          assert.equal(inputN[0].getAttribute('title'), 'Vorname');
-          assert.equal(inputN[0].getAttribute('value'), 'Uwe');
+          assert.equal(inputN[1].getAttribute('title'), 'Vorname');
+          assert.equal(inputN[1].getAttribute('value'), 'Uwe');
 
           const inputTel0 = document.querySelectorAll('form#edit #tel0');
           assert.equal(inputTel0.length, 1, 'input field tel0');
@@ -162,10 +162,10 @@ describe('vcard edit', function () {
 
           const inputN = document.querySelectorAll('form#edit #n_container .input-text');
           assert.equal(inputN.length, 5, 'input field n');
-          assert.equal(inputN[0].getAttribute('title'), 'Vorname');
-          assert.equal(inputN[0].getAttribute('value'), 'Uwe');
-          assert.equal(inputN[1].getAttribute('title'), 'Nachname');
-          assert.equal(inputN[1].getAttribute('value'), 'Gerdes');
+          assert.equal(inputN[1].getAttribute('title'), 'Vorname');
+          assert.equal(inputN[1].getAttribute('value'), 'Uwe');
+          assert.equal(inputN[3].getAttribute('title'), 'Nachname');
+          assert.equal(inputN[3].getAttribute('value'), 'Gerdes');
 
           const inputAdr = document.querySelectorAll('form#edit #adr_container .input-text');
           assert.equal(inputAdr.length, 7, 'input field adr');

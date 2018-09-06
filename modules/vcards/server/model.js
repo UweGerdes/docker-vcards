@@ -76,7 +76,13 @@ class Vcard {
               prop = {
                 value: new Date(value.
                       replace(/(.{4})(.{2})(.{2})T(.{2})(.{2})(.{2})Z/, '$1-$2-$3T$4:$5:$6Z')
-                    ).toLocaleString() };
+                    ).toLocaleString('de-DE', { timeZone: 'Europe/Berlin' }) };
+            } else {
+              prop = { };
+            }
+          } else if (fields[name].type == 'date') {
+            if (value) {
+              prop = { value: value.replace(/([0-9]+)-([0-9]+)-([0-9]+)/, '$3.$2.$1') };
             } else {
               prop = { };
             }
@@ -116,6 +122,8 @@ class Vcard {
             }
           } else if (fields[name].type == 'timestamp') {
             value = new Date(value).toISOString().replace(/\.0+Z/, 'Z').replace(/[:-]/g, '');
+          } else if (fields[name].type == 'date') {
+            value = value.replace(/([0-9]+)\.([0-9]+)\.([0-9]+)/, '$3-$2-$1');
           } else if (typeof value == 'string' && !/^[\x00-\x7F]*$/.test(value)) {
             params.encoding = 'QUOTED-PRINTABLE';
             params.charset = 'UTF-8';
@@ -320,8 +328,8 @@ const fields = {
     label: 'Name',
     type: 'text',
     size: 30,
-    parts: ['Nachname', 'Vorname', 'part3', 'Titel', 'part5'],
-    parts_order: ['Vorname', 'Nachname', 'Titel', 'part3', 'part5'],
+    parts: ['Nachname', 'Vorname', 'VN2', 'Titel', 'Zusatz'],
+    parts_order: ['Titel', 'Vorname', 'VN2', 'Nachname', 'Zusatz'],
   },
   fn: {
     label: 'Anzeigename',
@@ -404,7 +412,9 @@ const fields = {
     label: 'Timestamp',
     type: 'timestamp',
     size: 30,
-    default: () => { return new Date().toLocaleString(); } // jscs:ignore jsDoc
+    default: () => { // jscs:ignore jsDoc
+      return new Date().toLocaleString('de-DE', { timeZone: 'Europe/Berlin' });
+    }
   }
 };
 

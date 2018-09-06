@@ -47,11 +47,11 @@ describe('vcard proxy', () => {
     });
     it('prop set parts', () => {
       const vcard = testData[0];
-      vcard.prop.n = { value: { Nachname: 'Gerdes', Vorname: 'Uwe', part3: 'Home' },
+      vcard.prop.n = { value: { Nachname: 'Gerdes', Vorname: 'Uwe', Zusatz: 'Home' },
                         params: { } };
       assert.equal(vcard.text.n, 'Gerdes, Uwe, Home');
-      assert.deepEqual(vcard.prop.n.value, { Nachname: 'Gerdes', Vorname: 'Uwe', part3: 'Home' });
-      assert.equal(vcard.get('n').valueOf(), 'Gerdes;Uwe;Home;;');
+      assert.deepEqual(vcard.prop.n.value, { Nachname: 'Gerdes', Vorname: 'Uwe', Zusatz: 'Home' });
+      assert.equal(vcard.get('n').valueOf(), 'Gerdes;Uwe;;;Home');
     });
     it('prop add list', () => {
       const vcard = testData[0];
