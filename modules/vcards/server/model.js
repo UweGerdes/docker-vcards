@@ -462,13 +462,16 @@ module.exports = {
     if (name.indexOf('test') == 0) {
       return openFile(path.join(path.dirname(__dirname), 'tests', 'data', name + '.vcf'));
     } else {
+      name = name.replace(/\.vcf$/, '');
       if (lists[name]) {
         datasetName = name;
         return new Promise(function (resolve) {
           resolve(name);
         });
       } else {
-        return openFile(path.join(path.dirname(__dirname), 'data', name + '.vcf'));
+        console.log('loading:', name);
+        return openFile(path.join(path.dirname(__dirname), 'data',
+          name + '.vcf'));
       }
     }
   },
@@ -608,8 +611,8 @@ function openFile(filename) {
         if (err) {
           reject(err);
         } else {
-          lists[name] = parseVcfBuffer(buffer);
-          datasetName = name;
+          datasetName = name.replace(/\.vcf$/, '');
+          lists[datasetName] = parseVcfBuffer(buffer);
           resolve(oldDatasetName);
         }
       });
@@ -629,9 +632,8 @@ function uploadFile(file) {
   const oldDatasetName = datasetName;
   return new Promise(function (resolve, reject) {
     try {
-      const name = path.basename(file.originalname);
-      lists[name] = parseVcfBuffer(file.buffer);
-      datasetName = name;
+      datasetName = path.basename(file.originalname).replace(/\.vcf$/, '');
+      lists[datasetName] = parseVcfBuffer(file.buffer);
       resolve(oldDatasetName);
     } catch (err) {
       reject(err);

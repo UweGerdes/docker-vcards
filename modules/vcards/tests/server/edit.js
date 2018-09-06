@@ -268,9 +268,9 @@ describe('vcard edit', function () {
           expect(res).to.have.status(200);
           expect(res).to.be.html;
           const { document } = (new JSDOM(res.text)).window;
-          const input = document.querySelectorAll('input[type="text"]');
+          const input = document.querySelectorAll('select');
           assert.equal(input.length, 1);
-          assert.equal(input[0].name, 'xGroupMembership2');
+          assert.equal(input[0].name, 'select_xGroupMembership');
           done();
         });
     });

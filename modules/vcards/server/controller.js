@@ -107,7 +107,6 @@ const save = (req, res) => {
  */
 const switchDataset = (req, res) => {
   const oldDatasetName = model.datasetName();
-  // console.log('switch from ' + oldDatasetName + ' to ' + req.params.name);
   model.switchDataset(req.params.name)
   .then(() => { // jscs:ignore jsDoc
     res.cookie('datasetName', req.params.name, { maxAge: 900000, httpOnly: true })
@@ -185,7 +184,8 @@ const inputInput = (req, res) => {
     value: req.params.value,
     index: req.params.index,
     fields: model.fields,
-    types: model.types
+    types: model.types,
+    selections: model.selections
   });
 };
 
@@ -376,6 +376,7 @@ function getHostData(req) {
     livereloadPort = parseInt(host.split(':')[1]) + 1;
   }
   return {
+    environment: process.env.NODE_ENV,
     hostname: req.hostname,
     livereloadPort: livereloadPort
   };
