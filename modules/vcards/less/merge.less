@@ -7,10 +7,13 @@
     .i1,
     .i2 {
       flex: 1 39%;
+    }
 
+    .field-value {
       &-label {
         display: inline-block;
         vertical-align: top;
+        width: 80%;
         word-wrap: break-word;
       }
     }
@@ -28,19 +31,26 @@
 
   @media all and (min-width: 768px) {
     .merge {
+      .field-label {
+        flex: 1 20%;
+      }
+
+      .field-value {
+        flex: 4 79%;
+
+        &-label {
+          width: 90%;
+        }
+      }
+
       .i1,
       .i2 {
-        flex: 1 39%;
+        flex: 2 39%;
       }
 
       .submit {
-        margin: 0 0 0 9.7em;
+        margin: 0 0 0 21%;
         width: 20em;
-
-        .button {
-          float: none;
-          margin: 0 0 0 0.5em;
-        }
       }
     }
   }

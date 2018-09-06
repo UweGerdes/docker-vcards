@@ -27,9 +27,6 @@ block content
         else
           include item.pug
 
-    #list-container.list-container.flex-block.flex-left
-      include parts/list.pug
-
     #vcard-buttons.vcard-buttons.flex-block.flex-right
       #searchButton.button.searchButton&attributes({'data-modal': '#searchLayer'}) suchen
       if vcard && !vcard2 && !editId
@@ -38,6 +35,9 @@ block content
           a#delButton.button.delButton&attributes({'href': '/vcards/' + vcard.id + '/del/' + delId})= 'Vcard ' + delId + ' löschen'
         else
           a#delButton.button.delButton&attributes({'href': '/vcards/0/del/' + vcard.id})= 'löschen'
+
+    #list-container.list-container.flex-block.flex-left
+      include parts/list.pug
 
     include search.pug
 
