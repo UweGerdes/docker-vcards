@@ -574,7 +574,7 @@ function list(filter, sort) {
         result.push(item);
       }
     });
-  } else {
+  } else if (lists[datasetName]) {
     result = Object.values(lists[datasetName]);
   }
   if (sort) {

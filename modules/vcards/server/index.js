@@ -6,12 +6,9 @@
 const express = require('express'),
   multer  = require('multer'),
   upload = multer({ storage: multer.memoryStorage() }),
-  path = require('path'),
   router = express.Router();
 
 const controller = require('./controller.js');
-
-controller.init(path.join(path.dirname(__dirname), 'tests', 'data', 'testdata.vcf'));
 
 // vcard overview
 router.get('/', controller.index);
