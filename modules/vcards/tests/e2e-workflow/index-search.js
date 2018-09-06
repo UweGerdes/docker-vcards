@@ -127,7 +127,7 @@ module.exports = {
           },
           click: 'input[type="submit"]'
         },
-        'search result for name=XXX empty': {
+        'search for name=XXX': {
           title: 'Webserver - vcard',
           elements: {
             '//*[@id="searchLayer"]/div/h2': 'Suchen'

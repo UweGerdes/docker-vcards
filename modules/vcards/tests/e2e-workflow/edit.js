@@ -100,7 +100,7 @@ module.exports = {
           ],
           click: '#editButton'
         },
-        'edit form for add phone number': {
+        'add phone number': {
           title: 'Webserver - vcard',
           elements: {
             '//*[@id="headline"]': 'vcard Uwe Gerdes Test bearbeiten',
