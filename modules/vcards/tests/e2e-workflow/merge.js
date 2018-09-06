@@ -77,7 +77,7 @@ module.exports = {
             '//*[@id="fn"]//*[@class="field-value"]': 'Uwe Gerdes',
             '//*[@id="tel"]//*[@class="field-value"]':
                   '040 256486 (Arbeit, Sprache)\n0179 3901008 (Mobil)\n' +
-                  '+49 40 25178252 (Arbeit, Sprache)\n01793901008 (Mobil)',
+                  '+49 40 25178252 (Arbeit, Sprache)',
             '//*[@id="adr"]//*[@class="field-value"]':
                   'Klaus-Groth-Str. 22, Hamburg, 20535, Germany (privat)'
           },
@@ -90,7 +90,7 @@ module.exports = {
             '//*[@id="fn"]//*[@class="field-value"]': 'Uwe Gerdes',
             '//*[@id="tel"]//*[@class="field-value"]':
                   '040 256486 (Arbeit, Sprache)\n0179 3901008 (Mobil)\n' +
-                  '+49 40 25178252 (Arbeit, Sprache)\n01793901008 (Mobil)'
+                  '+49 40 25178252 (Arbeit, Sprache)'
           },
           elementsNotExist: [
             '//*[@id="list"]/li[2]',
