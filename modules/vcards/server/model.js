@@ -370,7 +370,7 @@ const fields = {
   },
   bday: {
     label: 'Geburtstag',
-    type: 'text',
+    type: 'date',
     size: 10
   },
   note: {
