@@ -45,12 +45,12 @@ module.exports = {
           elements: {
             '//*[@id="headline"]': 'vcard Uwe Gerdes bearbeiten',
             '//form[@id="edit"]': '',
-            '//form[@id="edit"]//input[@name="version"][@value="2.1"]': '',
+            '//form[@id="edit"]//select[@name="version"]': '',
             '//form[@id="edit"]//input[@name="n_Nachname"][@value="Gerdes"]': '',
             '//form[@id="edit"]//input[@name="n_Vorname"][@value="Uwe"]': ''
           },
           input: {
-            '//input[@name="version"]': '2.2',
+            '//select[@name="version"]/option[@value="3.0"]': true,
             '//input[@name="fn"]': 'Uwe Gerdes Test'
           },
           click: '//form[@id="edit"]//input[@type="submit"]'
@@ -59,7 +59,7 @@ module.exports = {
           title: 'Webserver - vcard',
           elements: {
             '//*[@id="headline"]': 'vcard Uwe Gerdes Test',
-            '//*[@id="version"]//*[@class="field-value"]': '2.2',
+            '//*[@id="version"]//*[@class="field-value"]': '3.0',
             '//*[@id="fn"]//*[@class="field-value"]': 'Uwe Gerdes Test',
             '//*[@id="tel"]//*[@class="field-value"]':
                   '040 256486 (Arbeit, Sprache)\n0179 3901008 (Mobil)',
@@ -72,7 +72,6 @@ module.exports = {
           elements: {
             '//*[@id="headline"]': 'vcard Uwe Gerdes Test bearbeiten',
             '//form[@id="edit"]': '',
-            '//form[@id="edit"]//input[@name="version"][@value="2.2"]': '',
             '//form[@id="edit"]//input[@name="n_Nachname"][@value="Gerdes"]': '',
             '//form[@id="edit"]//input[@name="n_Vorname"][@value="Uwe"]': '',
             '//form[@id="edit"]//input[@name="fn"][@value="Uwe Gerdes Test"]': '',
@@ -90,7 +89,7 @@ module.exports = {
           title: 'Webserver - vcard',
           elements: {
             '//*[@id="headline"]': 'vcard Uwe Gerdes Test',
-            '//*[@id="version"]//*[@class="field-value"]': '2.2',
+            '//*[@id="version"]//*[@class="field-value"]': '3.0',
             '//*[@id="fn"]//*[@class="field-value"]': 'Uwe Gerdes Test',
             '//*[@id="tel"]//*[@class="field-value"]':
                   '040 256486 (Arbeit, privat)\n0179 3901008 (Mobil)',
@@ -166,7 +165,7 @@ module.exports = {
           title: 'Webserver - vcard',
           elements: {
             '//*[@id="headline"]': 'vcard Uwe Gerdes Test bearbeiten',
-            '//form[@id="edit"]//input[@type="text"][@name="xGroupMembership2"]': ''
+            '//form[@id="edit"]//select[@name="select_xGroupMembership"]': ''
           },
           click: '//form[@id="edit"]//select[@name="addField"]/option[@value="adr"]'
         },
@@ -180,7 +179,6 @@ module.exports = {
           input: {
             '//input[@name="org"]': 'Freiberufler',
             '//input[@name="rev"]': '2018-7-19 20:10:00',
-            '//input[@name="xGroupMembership0"]': 'ICH',
             '//input[@name="adr0_Straße"]': 'Klaus-Groth-Str. 22',
             '//input[@name="adr0_PLZ"]': '20535',
             '//input[@name="adr0_Ort"]': 'Hamburg',
@@ -194,7 +192,7 @@ module.exports = {
             '//*[@id="headline"]': 'vcard Uwe Gerdes Test',
             '//*[@id="org"]//*[@class="field-value"]': 'Freiberufler',
             '//*[@id="rev"]//*[@class="field-value"]': '2018-7-19 20:10:00',
-            '//*[@id="xGroupMembership"]//*[@class="field-value"]': 'ICH\nUwe',
+            '//*[@id="xGroupMembership"]//*[@class="field-value"]': 'Uwe',
             '//*[@id="adr"]//*[@class="field-value"]': 'Klaus-Groth-Str. 22, Hamburg, 20535 (privat)'
           },
           elementsNotExist: [
