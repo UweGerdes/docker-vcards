@@ -262,7 +262,7 @@ describe('vcard edit', function () {
   describe('GET /vcards/field/xGroupMembership/2', function () {
     it('should render a work type for email', function (done) {
       chai.request('http://vcards-dev:8080')
-        .get('/vcards/input/xGroupMembership/2')
+        .get('/vcards/field/xGroupMembership/2')
         .end(function (err, res) {
           expect(err).to.be.null;
           expect(res).to.have.status(200);
