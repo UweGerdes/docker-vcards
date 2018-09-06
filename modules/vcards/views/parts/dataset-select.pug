@@ -5,12 +5,12 @@ span#datasetName.hidden= datasetName
 if datasetFiles
   select#datasetFiles.select&attributes({ name: 'datasetFiles', 'data-select-url': '/vcards/dataset/' })
     option(value='') wählen...
+    each name in datasetNames
+      if name.indexOf('.vcf') >= 0
+        option(value=name, selected=(name == datasetName))= name
     each name in datasetFiles
       if name.match(/^[a-z]+$/)
         option(value=name, selected=(name == datasetName))= name
     option(value='testdata', selected=(datasetName == 'testdata')) testdata
     option(value='testimage', selected=(datasetName == 'testimage')) testimage
     option(value='testumlauts', selected=(datasetName == 'testumlauts')) testumlauts
-each name in datasetNames
-  if name.indexOf('.vcf') >= 0
-    a.button.datasetName(href='/vcards/dataset/' + name)= name
