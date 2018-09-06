@@ -50,7 +50,6 @@ class Vcard {
           let value = getValue(this.vcard, name);
           let data = this.vcard.get(name);
           let prop;
-          //console.log(name.valueOf());
           if (fields[name].type == 'list') {
             if (!(value instanceof Array)) {
               prop = [{ value: value }];
@@ -59,6 +58,18 @@ class Vcard {
               }
             } else {
               prop = value;
+            }
+            if (fields[name].clean) {
+              let values = [];
+              let propList = [];
+              prop.forEach((entry) => { // jscs:ignore jsDoc
+                const cleanValue = fields[name].clean(entry.value);
+                if (values.indexOf(cleanValue) < 0) {
+                  values.push(cleanValue);
+                  propList.push(entry);
+                }
+              });
+              prop = propList;
             }
           } else if (fields[name].type == 'timestamp') {
             if (value) {
