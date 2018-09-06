@@ -205,6 +205,8 @@ class Vcard {
     if (this.vcard.toString() == '[object Object]') {
       console.log('[object Object]', Object.keys(this.vcard));
     } else {
+      this.prop.version = { value: '4.0' };
+      this.vcard.version = '4.0';
       return this.vcard.toString();
     }
   }
