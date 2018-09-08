@@ -409,7 +409,13 @@ const fields = {
   rev: {
     label: 'Revision',
     type: 'timestamp',
-    size: 30
+    size: 30,
+    default: () => { // jscs:ignore jsDoc
+      return (new Date()).toLocaleString('de-DE',
+        { day: '2-digit', month: '2-digit', year: 'numeric',
+          hour: '2-digit',  minute: '2-digit', second: '2-digit', hour12: false,
+          timeZone: 'Europe/Berlin' });
+    }
   },
   xStatus: {
     label: 'Status',

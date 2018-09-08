@@ -13,7 +13,7 @@ form#edit.edit(method='POST', action='/vcards/save/' + editId, enctype="multipar
         option(value=name)= field.label
 
   - var vcardFields = vcard.fields
-  each field in ['xTimestamp', 'xStatus']
+  each field in ['rev', 'xStatus']
     - var vcard = null
     - var index = ''
     if vcardFields.indexOf(field) < 0

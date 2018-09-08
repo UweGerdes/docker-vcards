@@ -408,8 +408,8 @@ describe('vcard edit', function () {
           expect(res).to.have.status(200);
           expect(res).to.be.html;
           const { document } = (new JSDOM(res.text)).window;
-          const xTimestamp = document.querySelectorAll('input[type="text"][name="xTimestamp"]');
-          assert.equal(xTimestamp.length, 1);
+          const rev = document.querySelectorAll('input[type="text"][name="rev"]');
+          assert.equal(rev.length, 1);
           const xStatus = document.querySelectorAll('input[type="text"][name="xStatus"]');
           assert.equal(xStatus.length, 1);
           assert.equal(xStatus[0].getAttribute('value'), 'edit');

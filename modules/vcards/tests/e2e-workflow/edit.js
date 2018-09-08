@@ -146,22 +146,15 @@ module.exports = {
           },
           click: '//form[@id="edit"]//select[@name="addField"]/option[@value="org"]'
         },
-        'add org field': {
+        'added org field': {
           title: 'Webserver - vcard',
           elements: {
-            '//form[@id="edit"]//select[@name="addField"]': ''
-          },
-          click: '//form[@id="edit"]//select[@name="addField"]/option[@value="rev"]'
-        },
-        'add rev field': {
-          title: 'Webserver - vcard',
-          elements: {
-            '//form[@id="edit"]//*[@id="org_container"]//input[@type="text"][@name="org"]': '',
-            '//form[@id="edit"]//*[@id="rev_container"]//input[@type="text"][@name="rev"]': ''
+            '//form[@id="edit"]//select[@name="addField"]': '',
+            '//form[@id="edit"]//*[@id="org_container"]//input[@type="text"][@name="org"]': ''
           },
           click: '//form[@id="edit"]//*[@id="xGroupMembership_container"]//*[@class="add"]'
         },
-        'add xGroupMembership field': {
+        'added xGroupMembership field': {
           title: 'Webserver - vcard',
           elements: {
             '//*[@id="headline"]': 'vcard Uwe Gerdes Test bearbeiten',
@@ -169,7 +162,7 @@ module.exports = {
           },
           click: '//form[@id="edit"]//select[@name="addField"]/option[@value="adr"]'
         },
-        'add adr field': {
+        'added adr field': {
           title: 'Webserver - vcard',
           elements: {
             '//*[@id="headline"]': 'vcard Uwe Gerdes Test bearbeiten',
@@ -191,7 +184,6 @@ module.exports = {
           elements: {
             '//*[@id="headline"]': 'vcard Uwe Gerdes Test',
             '//*[@id="org"]//*[@class="field-value"]': 'Freiberufler',
-            '//*[@id="rev"]//*[@class="field-value"]': '2018-7-19 20:10:00',
             '//*[@id="xGroupMembership"]//*[@class="field-value"]': 'Uwe',
             '//*[@id="adr"]//*[@class="field-value"]': 'Klaus-Groth-Str. 22, Hamburg, 20535 (privat)'
           },
