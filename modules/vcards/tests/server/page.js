@@ -46,7 +46,7 @@ describe('vcard page', function () {
           assert.equal(searchButton.getAttribute('class'), 'button searchButton');
           assert.equal(searchButton.getAttribute('data-modal'), '#searchLayer');
           const downloadButton = document.getElementById('downloadButton');
-          assert.equal(downloadButton.textContent, 'Download');
+          assert.equal(downloadButton.textContent, 'speichern...');
           assert.equal(downloadButton.getAttribute('class'), 'button downloadButton');
           assert.equal(downloadButton.getAttribute('data-open-url'), '/vcards/download/');
           done();
