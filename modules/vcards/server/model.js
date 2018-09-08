@@ -74,9 +74,17 @@ class Vcard {
           } else if (fields[name].type == 'timestamp') {
             if (value) {
               prop = {
-                value: new Date(value.
+                value: (new Date(value.
                       replace(/(.{4})(.{2})(.{2})T(.{2})(.{2})(.{2})Z/, '$1-$2-$3T$4:$5:$6Z')
-                    ).toLocaleString('de-DE', { timeZone: 'Europe/Berlin' }) };
+                    )).toLocaleString(
+                      'de-DE', { day: '2-digit', month: '2-digit', year: 'numeric',
+                      hour: '2-digit',  minute: '2-digit', second: '2-digit', hour12: false,
+                      timeZone: 'Europe/Berlin' }
+                    )
+              };
+              // console.log(value, new Date(value.
+              //         replace(/(.{4})(.{2})(.{2})T(.{2})(.{2})(.{2})Z/, '$1-$2-$3T$4:$5:$6Z')
+              //       ), prop.value);
             } else {
               prop = { };
             }
@@ -121,7 +129,8 @@ class Vcard {
               }
             }
           } else if (fields[name].type == 'timestamp') {
-            value = new Date(value).toISOString().replace(/\.0+Z/, 'Z').replace(/[:-]/g, '');
+            value = (new Date(value.replace(/^([0-9]+)\.([0-9]+)\./, '$2.$1.')))
+              .toISOString().replace(/\.0+Z/, 'Z').replace(/[:-]/g, '');
           } else if (fields[name].type == 'date') {
             value = value.replace(/([0-9]+)\.([0-9]+)\.([0-9]+)/, '$3-$2-$1');
           } else if (typeof value == 'string' && !/^[\x00-\x7F]*$/.test(value)) {
@@ -415,7 +424,10 @@ const fields = {
     type: 'timestamp',
     size: 30,
     default: () => { // jscs:ignore jsDoc
-      return new Date().toLocaleString('de-DE', { timeZone: 'Europe/Berlin' });
+      return (new Date()).toLocaleString('de-DE',
+        { day: '2-digit', month: '2-digit', year: 'numeric',
+          hour: '2-digit',  minute: '2-digit', second: '2-digit', hour12: false,
+          timeZone: 'Europe/Berlin' });
     }
   }
 };

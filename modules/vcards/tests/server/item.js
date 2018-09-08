@@ -117,7 +117,7 @@ describe('vcard item', function () {
           assert.equal(document.getElementById('adr').textContent,
             'Adresse: Klaus-Groth-Str. 22, Hamburg, 20535, Germany (privat)');
           assert.equal(document.getElementById('rev').textContent,
-            'Revision: 2014-8-24 20:50:00');
+            'Revision: 2014-08-24 20:50:00');
           done();
         });
     });

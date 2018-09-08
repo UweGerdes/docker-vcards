@@ -93,7 +93,7 @@ describe('vcard merge', function () {
                         'Klaus-Groth-Str. 22 20535 Hamburg Germany  (privat)');
           assert.equal(mergeFieldList[8].childNodes.length, 3);
           assert.equal(mergeFieldList[8].childNodes[0].textContent.trim(), 'Revision:');
-          assert.equal(mergeFieldList[8].childNodes[2].textContent.trim(), '2014-8-24 20:50:00');
+          assert.equal(mergeFieldList[8].childNodes[2].textContent.trim(), '2014-08-24 20:50:00');
           let formData = {};
           const fd = new document.defaultView.FormData(form);
           let e = fd.entries();
@@ -126,7 +126,7 @@ const formDataCompare = { version: '2.1',
   url: 'http://www.uwegerdes.de/',
   adr20: '{"Straße":"Klaus-Groth-Str. 22","Ort":"Hamburg","PLZ":"20535","Land":"Germany"}',
   adr20_type: 'home',
-  rev: '2014-8-24 20:50:00',
+  rev: '2014-08-24 20:50:00',
   xGroupMembership10: 'Ich',
   xGroupMembership11: 'Uwe',
   xGroupMembership21: 'Entwickler',

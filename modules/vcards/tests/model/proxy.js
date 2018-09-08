@@ -78,8 +78,8 @@ describe('vcard proxy', () => {
     });
     it('prop set timestamp', () => {
       const vcard = testData[0];
-      vcard.prop.rev = { value: '2014-8-24 20:50:00', params: { } };
-      assert.deepEqual(vcard.prop.rev, { value: '2014-8-24 20:50:00' });
+      vcard.prop.rev = { value: '2014-08-24 20:50:00', params: { } };
+      assert.deepEqual(vcard.prop.rev, { value: '2014-08-24 20:50:00' });
       assert.equal(vcard.get('rev').valueOf(), '20140824T185000Z');
     });
     it('prop set value encoded', () => {
