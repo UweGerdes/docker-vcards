@@ -221,6 +221,7 @@ class Vcard {
         .replace(/TYPE=([a-z;]+):/g, function (v) { // jscs:ignore jsDoc
           return v.replace(/TYPE=([a-z;]+):/, '$1:').toUpperCase();
         })
+        .replace(/\r?\n /g, '')
         .replace(/X-STATUS:[^\n]+\n/g, '');
       return vcardString;
     }
