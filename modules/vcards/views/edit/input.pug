@@ -90,12 +90,12 @@ mixin input-selection(field, prop)
             - values.push(p.value)
       select.select&attributes({ name: 'select_' + field, 'data-select-xhr': '/vcards/input/' + field + '/' })
         option(value='')= '- weitere Gruppen -'
-        each selection in selections[field]
+        each selection in selections[field].sort()
           if (values.indexOf(selection) < 0)
             option(value=selection, selected=(selection == prop.value))= selection
     else if selections[field]
       select.select(name=field, id=field)
-        each selection in selections[field]
+        each selection in selections[field].sort()
           option(value=selection, selected=(selection == prop.value))= selection
     else
       + input-group(field, { value: '' }, index)
