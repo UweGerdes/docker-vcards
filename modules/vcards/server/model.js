@@ -214,9 +214,15 @@ class Vcard {
     if (this.vcard.toString() == '[object Object]') {
       console.log('[object Object]', Object.keys(this.vcard));
     } else {
-      this.prop.version = { value: '4.0' };
-      this.vcard.version = '4.0';
-      return this.vcard.toString();
+      let vcardString = this.vcard.toString()
+        .replace(/VERSION:.\.0/g, 'VERSION:2.1')
+        .replace(/TYPE=([a-z]+),/g, 'TYPE=$1;')
+        .replace(/TYPE=([a-z;]+),/g, 'TYPE=$1;')
+        .replace(/TYPE=([a-z;]+):/g, function (v) { // jscs:ignore jsDoc
+          return v.replace(/TYPE=([a-z;]+):/, '$1:').toUpperCase();
+        })
+        .replace(/X-STATUS:[^\n]+\n/g, '');
+      return vcardString;
     }
   }
 }
