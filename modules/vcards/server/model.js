@@ -90,7 +90,7 @@ class Vcard {
             }
           } else if (fields[name].type == 'date') {
             if (value) {
-              prop = { value: value.replace(/([0-9]+)-([0-9]+)-([0-9]+)/, '$3.$2.$1') };
+              prop = { value: value.replace(/([0-9]{4})-?([0-9]{2})-?([0-9]{2})/, '$3.$2.$1') };
             } else {
               prop = { };
             }
@@ -221,8 +221,12 @@ class Vcard {
         .replace(/TYPE=([a-z;]+):/g, function (v) { // jscs:ignore jsDoc
           return v.replace(/TYPE=([a-z;]+):/, '$1:').toUpperCase();
         })
+        .replace(/TEL.+$/g, function (v) { // jscs:ignore jsDoc
+          return v.replace(/[^a-zA-Z0-9.;:]/g, '').toUpperCase();
+        })
         .replace(/\r?\n /g, '')
-        .replace(/X-STATUS:[^\n]+\n/g, '');
+        .replace(/X-STATUS:[^\n]+\n/g, '')
+        ;
       return vcardString;
     }
   }
@@ -481,7 +485,9 @@ module.exports = {
    * @returns {array} vcard item
    */
   get: (id) => {
-    return lists[datasetName][id];
+    if (lists[datasetName]) {
+      return lists[datasetName][id];
+    }
   },
   /**
    * get testData list
