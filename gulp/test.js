@@ -52,7 +52,7 @@ const tasks = {
       .then((filenames) => { // jscs:ignore jsDoc
         const self = gulp.src(filenames, { read: false })
         // `gulp-mocha` needs filepaths so you can't have any plugins before it
-        .pipe(mocha({ reporter: 'tap', timeout: 4000 })) // timeout for Raspberry Pi 3
+        .pipe(mocha({ reporter: 'tap', timeout: 10000 })) // timeout for Raspberry Pi 3
         .on('error', function () { // jscs:ignore jsDoc
           self.emit('end');
         })
