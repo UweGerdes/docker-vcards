@@ -30,7 +30,8 @@ const gulp = require('gulp'),
  */
 gulp.task('default', (callback) => {
   if (process.env.NODE_ENV == 'development') {
-    sequence('lint',
+    sequence(
+      'lint',
       'build',
       'watch',
       'livereload-start',
@@ -39,6 +40,7 @@ gulp.task('default', (callback) => {
       callback);
   } else {
     sequence(
+      'build',
       'watch',
       'livereload-start',
       'server-start',

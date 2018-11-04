@@ -48,6 +48,23 @@ Each module contains everything for itself - views (templates, styles, scripts, 
 
 Perhaps you might want to restart the development container if something goes really wrong. Mostly the parts will trigger the needed restart but there have been cases...
 
+## Production
+
+Build the image (perhaps add a tag) and start the container with:
+
+```bash
+$ docker build -t uwegerdes/vcards:1.0 \
+	--no-cache \
+	.
+$ docker run -d \
+	--name vcards-prod \
+	--hostname vcards \
+	-e "NODE_ENV=production" \
+	-p 61280:8080 \
+	-p 61281:8081 \
+	uwegerdes/vcards:1.0
+```
+
 ### Templates: HTML / EJS / [Pug](https://pugjs.org/)
 
 You may combine different template languages.
