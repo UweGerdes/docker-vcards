@@ -2,6 +2,9 @@
 
 ## latest
 
+0.2.0
+rebase on docker-expressjs-boilerplate
+
 0.1.2
 responsive layout, better output, remove duplicate tel entries
 

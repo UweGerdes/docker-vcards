@@ -1,6 +1,7 @@
 /**
  * Test for vCard page elements
  */
+
 'use strict';
 
 /* jshint expr: true, mocha: true, browser: true */
@@ -10,9 +11,7 @@ const chai = require('chai'),
   jsdom = require('jsdom'),
   assert = chai.assert,
   expect = chai.expect,
-  { JSDOM } = jsdom
-  ;
-
+  { JSDOM } = jsdom;
 chai.use(chaiHttp);
 
 describe('vcard page', function () {
@@ -29,7 +28,8 @@ describe('vcard page', function () {
           assert.equal(document.head.getElementsByTagName('link').length, 1);
           assert.equal(
             document.head.getElementsByTagName('link')[0].attributes.href.nodeValue,
-            '/css/app.css');
+            '/css/app.css'
+          );
           done();
         });
     });
@@ -64,7 +64,8 @@ describe('vcard page', function () {
           assert.equal(footer.textContent, '© 2018 Uwe Gerdes');
           assert.equal(
             document.body.getElementsByTagName('script')[0].attributes.src.nodeValue,
-            'http://vcards-dev:8081/livereload.js');
+            'http://vcards-dev:8081/livereload.js'
+          );
           done();
         });
     });
@@ -79,11 +80,15 @@ describe('vcard page', function () {
           const list = document.getElementById('list').getElementsByTagName('li');
           assert.equal(list.length, 2);
           assert.equal(list[0].textContent, 'Uwe Gerdes');
-          assert.equal(list[0].getElementsByTagName('a')[0].attributes.href.nodeValue,
-            '/vcards/0/');
+          assert.equal(
+            list[0].getElementsByTagName('a')[0].attributes.href.nodeValue,
+            '/vcards/0/'
+          );
           assert.equal(list[1].textContent, 'Uwe Gerdes');
-          assert.equal(list[1].getElementsByTagName('a')[0].attributes.href.nodeValue,
-            '/vcards/1/');
+          assert.equal(
+            list[1].getElementsByTagName('a')[0].attributes.href.nodeValue,
+            '/vcards/1/'
+          );
           done();
         });
     });
@@ -98,11 +103,15 @@ describe('vcard page', function () {
           const list = document.getElementById('list').getElementsByTagName('li');
           assert.equal(list.length, 2);
           assert.equal(list[0].textContent, 'Uwe Gerdes');
-          assert.equal(list[0].getElementsByTagName('a')[0].attributes.href.nodeValue,
-            '/vcards/1/');
+          assert.equal(
+            list[0].getElementsByTagName('a')[0].attributes.href.nodeValue,
+            '/vcards/1/'
+          );
           assert.equal(list[1].textContent, 'Uwe Gerdes');
-          assert.equal(list[1].getElementsByTagName('a')[0].attributes.href.nodeValue,
-            '/vcards/0/');
+          assert.equal(
+            list[1].getElementsByTagName('a')[0].attributes.href.nodeValue,
+            '/vcards/0/'
+          );
           done();
         });
     });
@@ -118,11 +127,15 @@ describe('vcard page', function () {
           const list = document.getElementById('list').getElementsByTagName('li');
           assert.equal(list.length, 2);
           assert.equal(list[0].textContent, 'Uwe Gerdes');
-          assert.equal(list[0].getElementsByTagName('a')[0].attributes.href.nodeValue,
-            '/vcards/0/');
+          assert.equal(
+            list[0].getElementsByTagName('a')[0].attributes.href.nodeValue,
+            '/vcards/0/'
+          );
           assert.equal(list[1].textContent, 'Uwe Gerdes');
-          assert.equal(list[1].getElementsByTagName('a')[0].attributes.href.nodeValue,
-            '/vcards/1/');
+          assert.equal(
+            list[1].getElementsByTagName('a')[0].attributes.href.nodeValue,
+            '/vcards/1/'
+          );
           done();
         });
     });

@@ -1,6 +1,7 @@
 /**
  * scripts for vcard
  */
+
 'use strict';
 
 /* jshint browser: true */
@@ -23,7 +24,7 @@ handler['data-toggle'] = {
         });
       });
       toggleList.forEach((toggled) => { // jscs:ignore jsDoc
-        if (toggled != element) {
+        if (toggled !== element) {
           toggled.addEventListener('click', () => { // jscs:ignore jsDoc
             toggled.classList.toggle('hidden');
           });
@@ -56,7 +57,7 @@ handler['data-modal'] = {
         document.getElementById('page').classList.add('modalOpen');
       });
       toggleList.forEach((toggled) => { // jscs:ignore jsDoc
-        if (toggled != element) {
+        if (toggled !== element) {
           toggled.addEventListener('click', () => { // jscs:ignore jsDoc
             toggled.classList.add('hidden');
             document.getElementById('footer').classList.remove('hidden');
@@ -85,15 +86,15 @@ handler['searchForm-submit'] = {
     const formData = new FormData(form);
     const xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () { // jscs:ignore jsDoc
-      if (this.readyState == 4) {
+      if (this.readyState === 4) {
         document.getElementById('searchResult').innerHTML = '';
         document.getElementById('searchErrors').innerHTML = '';
-        if (this.status == 200) {
+        if (this.status === 200) {
           document.getElementById('searchResult').innerHTML = this.responseText;
           document.getElementById('searchResult').classList.remove('hidden');
           form.classList.add('hidden');
         }
-        if (this.status == 404) {
+        if (this.status === 404) {
           document.getElementById('searchErrors').innerHTML = this.responseText;
         }
       }
@@ -123,18 +124,21 @@ handler['data-select-xhr'] = {
   event: 'change',
   func: (event) => { // jscs:ignore jsDoc
     const element = event.target;
-    if (element.value != '') {
+    if (element.value !== '') {
       const xhttp = new XMLHttpRequest();
       xhttp.onreadystatechange = function () { // jscs:ignore jsDoc
-        if (this.readyState == 4) {
-          if (this.status == 200) {
+        if (this.readyState === 4) {
+          if (this.status === 200) {
             element.insertAdjacentHTML('beforeBegin', this.responseText);
             element.remove(element.selectedIndex);
             element.selectedIndex = 0;
             const selects = element.previousSibling.querySelectorAll('select[data-select-xhr]');
             if (selects.length) {
-              attachEventHandler(selects[selects.length - 1], 'change',
-                handler['data-select-xhr'].func);
+              attachEventHandler(
+                selects[selects.length - 1],
+                'change',
+                handler['data-select-xhr'].func
+              );
             }
             const clickButton = element.previousSibling.querySelectorAll('span[data-click-xhr]');
             if (clickButton.length) {
@@ -143,9 +147,11 @@ handler['data-select-xhr'] = {
             const fileInputLabel = element.previousSibling.querySelectorAll('[data-filename-from]');
             if (fileInputLabel.length) {
               console.log(fileInputLabel[0]);
-              attachEventHandler(element.previousSibling.querySelectorAll('input[type="file"]')[0],
+              attachEventHandler(
+                element.previousSibling.querySelectorAll('input[type="file"]')[0],
                 handler['data-filename-from'].event,
-                handler['data-filename-from'].func);
+                handler['data-filename-from'].func
+              );
             }
           }
         }
@@ -167,13 +173,16 @@ handler['data-click-xhr'] = {
     const element = event.target;
     const xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () { // jscs:ignore jsDoc
-      if (this.readyState == 4) {
-        if (this.status == 200) {
+      if (this.readyState === 4) {
+        if (this.status === 200) {
           element.insertAdjacentHTML('beforeBegin', this.responseText);
           const selects = element.previousSibling.querySelectorAll('select[data-select-xhr]');
           if (selects.length) {
-            attachEventHandler(selects[selects.length - 1], 'change',
-              handler['data-select-xhr'].func);
+            attachEventHandler(
+              selects[selects.length - 1],
+              'change',
+              handler['data-select-xhr'].func
+            );
           }
         }
       }

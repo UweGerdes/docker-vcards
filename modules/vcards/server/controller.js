@@ -3,15 +3,14 @@
  *
  * @module vcards/controller
  */
+
 'use strict';
 
 const { body, validationResult } = require('express-validator/check'),
   { sanitizeBody } = require('express-validator/filter'),
   path = require('path'),
   config = require('../../../lib/config'),
-  model = require('./model.js')
-  ;
-
+  model = require('./model.js');
 const viewBase = path.join(path.dirname(__dirname), 'views');
 
 const viewRenderParams = {
@@ -30,9 +29,9 @@ const viewRenderParams = {
  */
 const init = (filename) => {
   model.open(filename)
-  .then(function (data) {
-    return data;
-  });
+    .then(function (data) {
+      return data;
+    });
 };
 
 /**
@@ -45,7 +44,7 @@ const init = (filename) => {
  */
 const index = (req, res) => {
   if (req.params.delId && req.params.delId.match(/^[0-9]+$/)) {
-    model.del(parseInt(req.params.delId));
+    model.del(parseInt(req.params.delId, 10));
     req.params.delId = null;
   }
   let sort = '';
@@ -58,12 +57,13 @@ const index = (req, res) => {
     sort = req.params.sort;
     res.cookie('sort', sort, { maxAge: 12 * 60 * 60 * 1000, httpOnly: true });
   }
-  let vcard = req.params.id ? model.get(parseInt(req.params.id)) : null;
+  let vcard = req.params.id ? model.get(parseInt(req.params.id, 10)) : null;
   if (req.params.editId) {
-    vcard = model.get(parseInt(req.params.editId));
+    vcard = model.get(parseInt(req.params.editId, 10));
   }
-  let vcard2 = req.params.id2 ? model.get(parseInt(req.params.id2)) : null;
-  let data = Object.assign({
+  let vcard2 = req.params.id2 ? model.get(parseInt(req.params.id2, 10)) : null;
+  let data = Object.assign(
+    {
       title: 'vcard',
       vcard: vcard,
       vcard2: vcard2
@@ -85,17 +85,20 @@ const index = (req, res) => {
  * @param {object} res - result
  */
 const save = (req, res) => {
-  model.save(parseInt(req.params.id), req.body, req.files);
-  res.render(path.join(viewBase, 'index.pug'),
-      Object.assign({
-      title: 'vcard',
-      id: req.params.id,
-      delId: req.params.delId ? req.params.delId : '',
-      vcard: req.params.id ? model.get(parseInt(req.params.id)) : null
-    },
-    getModelData(req),
-    getHostData(req),
-    viewRenderParams)
+  model.save(parseInt(req.params.id, 10), req.body, req.files);
+  res.render(
+    path.join(viewBase, 'index.pug'),
+    Object.assign(
+      {
+        title: 'vcard',
+        id: req.params.id,
+        delId: req.params.delId ? req.params.delId : '',
+        vcard: req.params.id ? model.get(parseInt(req.params.id, 10)) : null
+      },
+      getModelData(req),
+      getHostData(req),
+      viewRenderParams
+    )
   );
 };
 
@@ -108,32 +111,36 @@ const save = (req, res) => {
 const switchDataset = (req, res) => {
   const oldDatasetName = model.datasetName();
   model.switchDataset(req.params.name)
-  .then(() => { // jscs:ignore jsDoc
-    res.cookie('datasetName', req.params.name, { maxAge: 900000, httpOnly: true })
-      .render(path.join(viewBase, 'index.pug'),
-        Object.assign({
-          title: 'vcard',
-          oldDatasetName: oldDatasetName
-        },
-        getModelData(req),
-        getHostData(req),
-        viewRenderParams)
-      )
-    ;
-  })
-  .catch((error) => { // jscs:ignore jsDoc
-    console.log('switchDataset error:', error);
-    res.clearCookie('datasetName').
-      render(path.join(viewBase, 'index.pug'),
-        Object.assign({
-          title: 'vcard - file not found error'
-        },
-        getModelData(req),
-        getHostData(req),
-        viewRenderParams)
-      )
-    ;
-  });
+    .then(() => { // jscs:ignore jsDoc
+      res.cookie('datasetName', req.params.name, { maxAge: 900000, httpOnly: true })
+        .render(
+          path.join(viewBase, 'index.pug'),
+          Object.assign(
+            {
+              title: 'vcard',
+              oldDatasetName: oldDatasetName
+            },
+            getModelData(req),
+            getHostData(req),
+            viewRenderParams
+          )
+        );
+    })
+    .catch((error) => { // jscs:ignore jsDoc
+      console.log('switchDataset error:', error);
+      res.clearCookie('datasetName')
+        .render(
+          path.join(viewBase, 'index.pug'),
+          Object.assign(
+            {
+              title: 'vcard - file not found error'
+            },
+            getModelData(req),
+            getHostData(req),
+            viewRenderParams
+          )
+        );
+    });
 };
 
 /**
@@ -199,7 +206,7 @@ const inputInput = (req, res) => {
 const inputField = (req, res) => {
   res.render(path.join(viewBase, 'edit', 'field.pug'), {
     field: req.params.field,
-    index: model.fields[req.params.field].type == 'list' ? '0' : '',
+    index: model.fields[req.params.field].type === 'list' ? '0' : '',
     fields: model.fields,
     types: model.types,
     selections: model.selections
@@ -245,7 +252,7 @@ const download = (req, res) => {
   } else if (req.cookies && req.cookies.sort) {
     sort = req.cookies.sort;
   }
-  if (req.params.type == 'json') {
+  if (req.params.type === 'json') {
     res.set('Content-disposition', 'attachment; filename=vcards.json');
     res.set('Content-Type', 'application/json');
     content = model.toJSON();
@@ -275,30 +282,38 @@ const upload = (req, res) => {
     const oldDatasetName = model.datasetName();
     model.upload(req.file)
       .then(() => { // jscs:ignore jsDoc
-        res.cookie('datasetName', path.basename(req.file.originalname),
-          { maxAge: 900000, httpOnly: true })
-          .render(path.join(viewBase, 'index.pug'),
-            Object.assign({
-            title: 'vcard',
-            oldDatasetName: oldDatasetName
-          },
-          getModelData(req),
-          getHostData(req),
-          viewRenderParams)
-        );
+        res.cookie(
+          'datasetName',
+          path.basename(req.file.originalname),
+          { maxAge: 900000, httpOnly: true }
+        )
+          .render(
+            path.join(viewBase, 'index.pug'),
+            Object.assign(
+              {
+                title: 'vcard',
+                oldDatasetName: oldDatasetName
+              },
+              getModelData(req),
+              getHostData(req),
+              viewRenderParams
+            )
+          );
       })
       .catch((error) => { // jscs:ignore jsDoc
         console.log('switchDataset error:', error);
-        res.render(path.join(viewBase, 'index.pug'),
-          Object.assign({
-            title: 'vcard - file upload error'
-          },
-          getModelData(req),
-          getHostData(req),
-          viewRenderParams)
+        res.render(
+          path.join(viewBase, 'index.pug'),
+          Object.assign(
+            {
+              title: 'vcard - file upload error'
+            },
+            getModelData(req),
+            getHostData(req),
+            viewRenderParams
+          )
         );
-      })
-    ;
+      });
   }
 };
 
@@ -328,7 +343,7 @@ module.exports = {
 function type(value) {
   let typelist = [];
   if (value) {
-    if (typeof value == 'string' && value.length > 0) {
+    if (typeof value === 'string' && value.length > 0) {
       typelist.push(model.types[value] || value);
     } else {
       value.forEach((item) => { // jscs:ignore jsDoc
@@ -373,7 +388,7 @@ function getHostData(req) {
   let livereloadPort = config.server.livereloadPort;
   const host = req.get('Host');
   if (host.indexOf(':') > 0) {
-    livereloadPort = parseInt(host.split(':')[1]) + 1;
+    livereloadPort = parseInt(host.split(':')[1], 10) + 1;
   }
   return {
     environment: process.env.NODE_ENV,

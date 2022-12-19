@@ -1,13 +1,9 @@
 {
   "name": "vCard",
   "description": "Gulp and other packages for vCard webapp development and testing",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "keywords": [
-    "gulp",
-    "frontend",
-    "development",
-    "livereload",
-    "test"
+    "vcard"
   ],
   "license": "MIT",
   "author": {
@@ -15,49 +11,22 @@
     "email": "entwicklung@uwegerdes.de"
   },
   "engines": {
-    "node": ">=8.11.0"
-  },
-  "devDependencies": {
-    "chai": "^4.1.2",
-    "chai-http": "^4.0.0",
-    "glob": "^7.1.2",
-    "gulp": "^3.9.1",
-    "gulp-autoprefixer": "^6.0.0",
-    "gulp-changed-in-place": "^2.3.0",
-    "gulp-develop-server": "^0.5.2",
-    "gulp-jscs": "^4.1.0",
-    "gulp-jscs-stylish": "^1.4.0",
-    "gulp-jsdoc3": "^2.0.0",
-    "gulp-jshint": "^2.0.4",
-    "gulp-jsonlint": "^1.2.1",
-    "gulp-less": "^3.5.0",
-    "gulp-lesshint": "^5.0.0",
-    "gulp-livereload": "^3.8.1",
-    "gulp-mocha": "^5.0.0",
-    "gulp-notify": "^3.0.0",
-    "gulp-pug-linter": "^0.5.1",
-    "gulp-rename": "^1.2.2",
-    "gulp-sequence": "^1.0.0",
-    "gulp-yaml-validate": "^1.0.2",
-    "jsdom": "11.10.0",
-    "jshint": "^2.9.5",
-    "less-plugin-glob": "^2.0.2",
-    "stream-combiner2": "^1.1.1"
+    "node": ">=10.10.0"
   },
   "dependencies": {
-    "body-parser": "^1.17.2",
-    "chalk": "^2.3.2",
-    "cookie-parser": "^1.4.3",
-    "dateformat": "^3.0.3",
-    "ejs": "^2.5.7",
-    "express": "^4.15.3",
     "express-validator": "^5.2.0",
-    "js-yaml": "^3.11.0",
     "libqp": "^1.1.0",
-    "morgan": "^1.8.2",
     "multer": "^1.3.0",
-    "pug": "^2.0.3",
     "vcf": "^2.0.1"
+  },
+  "devDependencies": {
+    "glob": "^7.1.2",
+    "gulp-jscs": "^4.1.0",
+    "gulp-jscs-stylish": "^1.4.0",
+    "gulp-jshint": "^2.0.4",
+    "gulp-sequence": "^1.0.0",
+    "jshint": "^2.9.5",
+    "stream-combiner2": "^1.1.1"
   },
   "repository": {
     "type": "git",

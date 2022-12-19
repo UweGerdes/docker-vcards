@@ -1,12 +1,12 @@
 /**
  * Routes for vCard
  */
+
 'use strict';
 
-const express = require('express'),
-  multer  = require('multer'),
+const multer = require('multer'),
   upload = multer({ storage: multer.memoryStorage() }),
-  router = express.Router();
+  router = require('express').Router(); // eslint-disable-line new-cap
 
 const controller = require('./controller.js');
 

@@ -16,19 +16,3 @@ services:
     - .:/home/node/app
 #    command: gulp --silent
     command: npm run dev
-
-  vcards-staging:
-    build:
-      context: .
-    container_name: vcards-staging
-    hostname: vcards-staging
-    image: uwegerdes/vcards
-    environment:
-      - NODE_ENV=staging
-    ports:
-      - 51282:8080
-      - 51283:8081
-    volumes:
-    - .:/home/node/app
-#    command: gulp --silent
-    command: npm run dev

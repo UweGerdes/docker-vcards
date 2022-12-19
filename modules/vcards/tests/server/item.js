@@ -1,6 +1,7 @@
 /**
  * Test for vCard item view
  */
+
 'use strict';
 
 /* jshint expr: true, mocha: true, browser: true */
@@ -10,31 +11,29 @@ const chai = require('chai'),
   jsdom = require('jsdom'),
   assert = chai.assert,
   expect = chai.expect,
-  { JSDOM } = jsdom
-  ;
-
+  { JSDOM } = jsdom;
 chai.use(chaiHttp);
 
 describe('vcard item', function () {
   let oldDatasetName;
   before(function (done) {
     chai.request('http://vcards-dev:8080')
-    .get('/vcards/dataset/testdata')
-    .end(function (err, res) {
-      expect(err).to.be.null;
-      expect(res).to.have.status(200);
-      expect(res).to.be.html;
-      const { document } = (new JSDOM(res.text)).window;
-      const headline = document.getElementById('headline');
-      assert.equal(headline.textContent, 'vcard');
-      const list = document.getElementById('list').getElementsByTagName('li');
-      assert.equal(list.length, 2);
-      assert.equal(list[0].textContent, 'Uwe Gerdes');
-      assert.equal(list[1].textContent, 'Uwe Gerdes');
-      const oldDatasetNameElement = document.getElementById('oldDatasetName');
-      oldDatasetName = oldDatasetNameElement.textContent;
-      done();
-    });
+      .get('/vcards/dataset/testdata')
+      .end(function (err, res) {
+        expect(err).to.be.null;
+        expect(res).to.have.status(200);
+        expect(res).to.be.html;
+        const { document } = (new JSDOM(res.text)).window;
+        const headline = document.getElementById('headline');
+        assert.equal(headline.textContent, 'vcard');
+        const list = document.getElementById('list').getElementsByTagName('li');
+        assert.equal(list.length, 2);
+        assert.equal(list[0].textContent, 'Uwe Gerdes');
+        assert.equal(list[1].textContent, 'Uwe Gerdes');
+        const oldDatasetNameElement = document.getElementById('oldDatasetName');
+        oldDatasetName = oldDatasetNameElement.textContent;
+        done();
+      });
   });
   after(function (done) {
     let resetName = 'testdata';
@@ -42,16 +41,16 @@ describe('vcard item', function () {
       resetName = oldDatasetName;
     }
     chai.request('http://vcards-dev:8080')
-    .get('/vcards/dataset/' + resetName)
-    .end(function (err, res) {
-      expect(err).to.be.null;
-      expect(res).to.have.status(200);
-      expect(res).to.be.html;
-      const { document } = (new JSDOM(res.text)).window;
-      const headline = document.getElementById('headline');
-      assert.equal(headline.textContent, 'vcard');
-      done();
-    });
+      .get('/vcards/dataset/' + resetName)
+      .end(function (err, res) {
+        expect(err).to.be.null;
+        expect(res).to.have.status(200);
+        expect(res).to.be.html;
+        const { document } = (new JSDOM(res.text)).window;
+        const headline = document.getElementById('headline');
+        assert.equal(headline.textContent, 'vcard');
+        done();
+      });
   });
   describe('GET /vcards/', function () {
     it('should list ALL vcards', function (done) {
@@ -92,8 +91,10 @@ describe('vcard item', function () {
           assert.equal(nameParts[0].textContent, 'Gerdes');
           assert.equal(nameParts[1].textContent, ', ');
           assert.equal(nameParts[2].textContent, 'Uwe');
-          assert.equal(document.getElementById('tel').textContent,
-            'Telefon: 040 256486 (Arbeit, Sprache)0179 3901008 (Mobil)');
+          assert.equal(
+            document.getElementById('tel').textContent,
+            'Telefon: 040 256486 (Arbeit, Sprache)0179 3901008 (Mobil)'
+          );
           done();
         });
     });
@@ -112,12 +113,18 @@ describe('vcard item', function () {
           const item = document.getElementById('item').getElementsByTagName('li');
           assert.equal(item.length, 14);
           assert.equal(document.getElementById('n').textContent, 'Name: Gerdes, Uwe');
-          assert.equal(document.getElementById('tel').textContent,
-            'Telefon: +49 40 25178252 (Arbeit, Sprache)01793901008 (Mobil)');
-          assert.equal(document.getElementById('adr').textContent,
-            'Adresse: Klaus-Groth-Str. 22, Hamburg, 20535, Germany (privat)');
-          assert.equal(document.getElementById('rev').textContent,
-            'Revision: 2014-08-24 20:50:00');
+          assert.equal(
+            document.getElementById('tel').textContent,
+            'Telefon: +49 40 25178252 (Arbeit, Sprache)01793901008 (Mobil)'
+          );
+          assert.equal(
+            document.getElementById('adr').textContent,
+            'Adresse: Klaus-Groth-Str. 22, Hamburg, 20535, Germany (privat)'
+          );
+          assert.equal(
+            document.getElementById('rev').textContent,
+            'Revision: 2014-08-24 20:50:00'
+          );
           done();
         });
     });

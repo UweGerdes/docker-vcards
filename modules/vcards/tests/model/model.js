@@ -1,6 +1,7 @@
 /**
  * Test for vCard data model
  */
+
 'use strict';
 
 const assert = require('assert'),
@@ -30,11 +31,11 @@ describe('vcard model', () => {
     let testData;
     before(function (done) {
       model.open(path.join(__dirname, '..', 'data', 'testdata.vcf'))
-      .then(function (data) {
-        testData = model.list();
-        assert.equal(data, undefined);
-      })
-      .then(done);
+        .then(function (data) {
+          testData = model.list();
+          assert.equal(data, undefined);
+        })
+        .then(done);
     });
     it('should return Array with at least two entries', () => {
       assert.equal(testData.length > 1, true);
@@ -44,18 +45,22 @@ describe('vcard model', () => {
     let testData = [];
     before(function (done) {
       model.open(path.join(__dirname, '..', 'data', 'testdata.vcf'))
-      .then(function (data) {
-        testData = model.list();
-        assert.equal(data, 'testdata');
-      })
-      .then(done);
+        .then(function (data) {
+          testData = model.list();
+          assert.equal(data, 'testdata');
+        })
+        .then(done);
     });
     describe('get fields', () => {
       it('should return Array with field names', () => {
-        assert.deepEqual(testData[0].fields,
-          ['version', 'n', 'fn', 'tel', 'email', 'url', 'xGroupMembership']);
-        assert.deepEqual(testData[1].fields,
-          ['version', 'n', 'fn', 'tel', 'adr', 'email', 'rev', 'xGroupMembership']);
+        assert.deepEqual(
+          testData[0].fields,
+          ['version', 'n', 'fn', 'tel', 'email', 'url', 'xGroupMembership']
+        );
+        assert.deepEqual(
+          testData[1].fields,
+          ['version', 'n', 'fn', 'tel', 'adr', 'email', 'rev', 'xGroupMembership']
+        );
       });
     });
     describe('get data', () => {
@@ -68,13 +73,15 @@ describe('vcard model', () => {
     });
     describe('get data', () => {
       it('should return Array for tel', () => {
-        assert.deepEqual(testData[0].prop.tel,
+        assert.deepEqual(
+          testData[0].prop.tel,
           [
             { type: ['work', 'voice'], value: '040 256486' },
             { type: 'cell', value: '0179 3901008' }
           ]
         );
-        assert.deepEqual(testData[1].prop.tel,
+        assert.deepEqual(
+          testData[1].prop.tel,
           [
             { type: ['work', 'voice'], value: '+49 40 25178252' },
             { type: 'cell', value: '01793901008' }
@@ -84,14 +91,6 @@ describe('vcard model', () => {
     });
   });
   describe('build vcard from data', () => {
-    let testData = [];
-    beforeEach(function (done) {
-      model.open(path.join(__dirname, '..', 'data', 'testdata.vcf'))
-      .then(function () {
-        testData = model.list();
-      })
-      .then(done);
-    });
     it('should return vcard equal to testData[0]', () => {
       const vcard0 = model.list()[0].vcard.toJSON();
       const vcard2 = model.save(2, {
@@ -127,7 +126,7 @@ describe('vcard model', () => {
         ['tel', { type: ['work', 'voice'] }, 'text', '040 256486 neu'],
         ['tel', { type: 'home' }, 'text', '040 25178252 neu'],
         ['adr', { type: 'home' }, 'text',
-                ['', '', 'Klaus-Groth-Str. 22', 'Hamburg', '', '20535', 'Germany']],
+          ['', '', 'Klaus-Groth-Str. 22', 'Hamburg', '', '20535', 'Germany']],
         ['email', { type: 'pref' }, 'text', 'uwe@uwegerdes.de neu'],
         ['xGroupMembership', { }, 'text', 'new vcard test']
       ]];
@@ -153,7 +152,7 @@ describe('vcard model', () => {
         select_email0: '',
         adr0: '{"Straße":"Klaus-Groth-Str. 22","Ort":"Hamburg","PLZ":"20535","Land":"Germany"}',
         adr0_type: 'home',
-        xGroupMembership0: 'new vcard test',
+        xGroupMembership0: 'new vcard test'
       });
       assert.deepEqual(vcard1.toJSON(), vcard0);
       assert.equal(model.list().length, 3);
@@ -162,14 +161,6 @@ describe('vcard model', () => {
     });
   });
   describe('vcard JSON', () => {
-    let testData = [];
-    beforeEach(function (done) {
-      model.open(path.join(__dirname, '..', 'data', 'testdata.vcf'))
-      .then(function () {
-        testData = model.list();
-      })
-      .then(done);
-    });
     it('should return vcard equal to testData', () => {
       const vcard0 = model.list()[0];
       const vcard1 = model.save(0, {
@@ -231,14 +222,6 @@ describe('vcard model', () => {
     });
   });
   describe('vcard VCF', () => {
-    let testData = [];
-    beforeEach(function (done) {
-      model.open(path.join(__dirname, '..', 'data', 'testdata.vcf'))
-      .then(function () {
-        testData = model.list();
-      })
-      .then(done);
-    });
     it('should return vcards VCF equal to testData', () => {
       const vcf = 'BEGIN:VCARD\n' +
                   'VERSION:2.1\n' +
@@ -268,7 +251,8 @@ describe('vcard model', () => {
   });
   describe('collections', () => {
     it('should have selections', () => {
-      assert.deepEqual(model.selections,
+      assert.deepEqual(
+        model.selections,
         {
           version: ['2.1', '3.0'],
           xGroupMembership: ['Ich', 'Uwe', 'Entwickler', 'new vcard test']

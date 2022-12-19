@@ -1,6 +1,7 @@
 /**
  * Test for vCard edit
  */
+
 'use strict';
 
 /* jshint expr: true, mocha: true, browser: true */
@@ -10,33 +11,31 @@ const chai = require('chai'),
   jsdom = require('jsdom'),
   assert = chai.assert,
   expect = chai.expect,
-  { JSDOM } = jsdom
-  ;
-
+  { JSDOM } = jsdom;
 chai.use(chaiHttp);
 
 describe('vcard edit', function () {
   let oldDatasetName = '';
   before(function (done) {
     chai.request('http://vcards-dev:8080')
-    .get('/vcards/dataset/testdata')
-    .end(function (err, res) {
-      expect(err).to.be.null;
-      expect(res).to.have.status(200);
-      expect(res).to.be.html;
-      const { document } = (new JSDOM(res.text)).window;
-      const headline = document.getElementById('headline');
-      assert.equal(headline.textContent, 'vcard');
-      const list = document.getElementById('list').getElementsByTagName('li');
-      assert.equal(list.length, 2);
-      assert.equal(list[0].textContent, 'Uwe Gerdes');
-      assert.equal(list[1].textContent, 'Uwe Gerdes');
-      const oldDatasetNameElement = document.getElementById('oldDatasetName');
-      if (oldDatasetNameElement) {
-        oldDatasetName = oldDatasetNameElement.textContent;
-      }
-      done();
-    });
+      .get('/vcards/dataset/testdata')
+      .end(function (err, res) {
+        expect(err).to.be.null;
+        expect(res).to.have.status(200);
+        expect(res).to.be.html;
+        const { document } = (new JSDOM(res.text)).window;
+        const headline = document.getElementById('headline');
+        assert.equal(headline.textContent, 'vcard');
+        const list = document.getElementById('list').getElementsByTagName('li');
+        assert.equal(list.length, 2);
+        assert.equal(list[0].textContent, 'Uwe Gerdes');
+        assert.equal(list[1].textContent, 'Uwe Gerdes');
+        const oldDatasetNameElement = document.getElementById('oldDatasetName');
+        if (oldDatasetNameElement) {
+          oldDatasetName = oldDatasetNameElement.textContent;
+        }
+        done();
+      });
   });
   after(function (done) {
     let resetName = 'testdata';
@@ -44,16 +43,16 @@ describe('vcard edit', function () {
       resetName = oldDatasetName;
     }
     chai.request('http://vcards-dev:8080')
-    .get('/vcards/dataset/' + resetName)
-    .end(function (err, res) {
-      expect(err).to.be.null;
-      expect(res).to.have.status(200);
-      expect(res).to.be.html;
-      const { document } = (new JSDOM(res.text)).window;
-      const headline = document.getElementById('headline');
-      assert.equal(headline.textContent, 'vcard');
-      done();
-    });
+      .get('/vcards/dataset/' + resetName)
+      .end(function (err, res) {
+        expect(err).to.be.null;
+        expect(res).to.have.status(200);
+        expect(res).to.be.html;
+        const { document } = (new JSDOM(res.text)).window;
+        const headline = document.getElementById('headline');
+        assert.equal(headline.textContent, 'vcard');
+        done();
+      });
   });
   describe('GET /vcards/', function () {
     it('should not have edit button', function (done) {
@@ -342,8 +341,10 @@ describe('vcard edit', function () {
           assert.equal(nameParts[3].textContent, ', ');
           assert.equal(nameParts[4].textContent, 'Dipl. Ing. FH');
           const adr = document.getElementById('adr');
-          assert.equal(adr.textContent,
-              'Adresse: Klaus-Groth-Str. 22, Hamburg, 20535, Germany (privat)');
+          assert.equal(
+            adr.textContent,
+            'Adresse: Klaus-Groth-Str. 22, Hamburg, 20535, Germany (privat)'
+          );
           const adrParts = adr.getElementsByClassName('parts')[0].childNodes;
           assert.equal(adrParts.length, 8);
           assert.equal(adrParts[0].textContent, 'Klaus-Groth-Str. 22');

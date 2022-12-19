@@ -4,7 +4,7 @@
  * (c) Uwe Gerdes, entwicklung@uwegerdes.de
  */
 
-const domain = 'http://vcards-e2e:8080'
+const domain = 'http://vcards-e2e:8080';
 
 module.exports = {
   group: 'vCards E2E Test',
@@ -142,4 +142,4 @@ module.exports = {
       }
     }
   }
-}
+};

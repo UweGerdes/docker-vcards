@@ -3,6 +3,7 @@
  *
  * @module vcards/model
  */
+
 'use strict';
 
 const fs = require('fs'),
@@ -23,9 +24,7 @@ const testData = 'BEGIN:VCARD\n' +
 
 let datasetName,
   lists = { },
-  selections = { }
-  ;
-
+  selections = { };
 class Vcard {
   /**
    * build a vcard
@@ -44,13 +43,14 @@ class Vcard {
         console.log('cannot set fields for new vcard:', typeof vcard);
       }
     }
-    this.prop = new Proxy({},
+    this.prop = new Proxy(
+      {},
       {
         get: (obj, name) => { // jscs:ignore jsDoc
           let value = getValue(this.vcard, name);
           let data = this.vcard.get(name);
           let prop;
-          if (fields[name].type == 'list') {
+          if (fields[name].type === 'list') {
             if (!(value instanceof Array)) {
               prop = [{ value: value }];
               if (data && data.type) {
@@ -71,16 +71,20 @@ class Vcard {
               });
               prop = propList;
             }
-          } else if (fields[name].type == 'timestamp') {
+          } else if (fields[name].type === 'timestamp') {
             if (value) {
               prop = {
-                value: (new Date(value.
-                      replace(/(.{4})(.{2})(.{2})T(.{2})(.{2})(.{2})Z/, '$1-$2-$3T$4:$5:$6Z')
-                    )).toLocaleString(
-                      'de-DE', { day: '2-digit', month: '2-digit', year: 'numeric',
-                      hour: '2-digit',  minute: '2-digit', second: '2-digit', hour12: false,
-                      timeZone: 'Europe/Berlin' }
-                    )
+                value: (new Date(value
+                  .replace(/(.{4})(.{2})(.{2})T(.{2})(.{2})(.{2})Z/, '$1-$2-$3T$4:$5:$6Z'))).toLocaleString('de-DE', {
+                  day: '2-digit',
+                  month: '2-digit',
+                  year: 'numeric',
+                  hour: '2-digit',
+                  minute: '2-digit',
+                  second: '2-digit',
+                  hour12: false,
+                  timeZone: 'Europe/Berlin'
+                })
               };
               // console.log(value, new Date(value.
               //         replace(/(.{4})(.{2})(.{2})T(.{2})(.{2})(.{2})Z/, '$1-$2-$3T$4:$5:$6Z')
@@ -88,7 +92,7 @@ class Vcard {
             } else {
               prop = { };
             }
-          } else if (fields[name].type == 'date') {
+          } else if (fields[name].type === 'date') {
             if (value) {
               prop = { value: value.replace(/([0-9]{4})-?([0-9]{2})-?([0-9]{2})/, '$3.$2.$1') };
             } else {
@@ -111,16 +115,16 @@ class Vcard {
           return prop;
         },
         set: (obj, name, data) => { // jscs:ignore jsDoc
-          //console.log('set', name, data);
+          // console.log('set', name, data);
           let value = data.value;
           const params = data.params;
-          //if (fields[name].type == 'image') {
+          // if (fields[name].type === 'image') {
           //  console.log('set', name, data);
-          //}
+          // }
           if (fields[name].parts) {
             const v = fields[name].parts.map(part => value[part] || ''); // jscs:ignore jsDoc
             if (v.join('')) {
-              if (!/^[\x00-\x7F]*$/.test(v.join(''))) {
+              if (!/^[\x00-\x7F]*$/.test(v.join(''))) { // eslint-disable-line no-control-regex
                 params.encoding = 'QUOTED-PRINTABLE';
                 params.charset = 'UTF-8';
                 value = v.map(p => encodeQP(p)).join(';'); // jscs:ignore jsDoc
@@ -128,21 +132,21 @@ class Vcard {
                 value = v.join(';');
               }
             }
-          } else if (fields[name].type == 'timestamp') {
+          } else if (fields[name].type === 'timestamp') {
             value = (new Date(value.replace(/^([0-9]+)\.([0-9]+)\./, '$2.$1.')))
               .toISOString().replace(/\.0+Z/, 'Z').replace(/[:-]/g, '');
-          } else if (fields[name].type == 'date') {
+          } else if (fields[name].type === 'date') {
             value = value.replace(/([0-9]+)\.([0-9]+)\.([0-9]+)/, '$3-$2-$1');
-          } else if (typeof value == 'string' && !/^[\x00-\x7F]*$/.test(value)) {
+          } else if (typeof value === 'string' && !/^[\x00-\x7F]*$/.test(value)) { // eslint-disable-line no-control-regex
             params.encoding = 'QUOTED-PRINTABLE';
             params.charset = 'UTF-8';
             value = encodeQP(value);
           }
-          //if (fields[name].type == 'image') {
+          // if (fields[name].type === 'image') {
           //  console.log('prepared', name, value, params);
-          //}
+          // }
           if (value) {
-            if (fields[name].type == 'list' && this.vcard.get(name)) {
+            if (fields[name].type === 'list' && this.vcard.get(name)) {
               this.vcard.add(name, value, params);
             } else {
               this.vcard.set(name, value, params);
@@ -156,7 +160,8 @@ class Vcard {
       }
     );
 
-    this.text = new Proxy({},
+    this.text = new Proxy(
+      {},
       {
         get: (obj, name) => { // jscs:ignore jsDoc
           return propToString(this.prop[name], name);
@@ -185,7 +190,7 @@ class Vcard {
     if (filter && filter.searchString && filter.searchString.length > 0) {
       let hit = false;
       let searchFields = filter.searchFields || ['fn'];
-      if (typeof searchFields == 'string') {
+      if (typeof searchFields === 'string') {
         searchFields = [searchFields];
       }
       searchFields.forEach((field) => { // jscs:ignore jsDoc
@@ -211,7 +216,7 @@ class Vcard {
    * @returns {string} - data
    */
   toVCF() {
-    if (this.vcard.toString() == '[object Object]') {
+    if (this.vcard.toString() === '[object Object]') {
       console.log('[object Object]', Object.keys(this.vcard));
     } else {
       let vcardString = this.vcard.toString()
@@ -225,8 +230,7 @@ class Vcard {
           return v.replace(/[^a-zA-Z0-9.;:]/g, '').toUpperCase();
         })
         .replace(/\r?\n /g, '')
-        .replace(/X-STATUS:[^\n]+\n/g, '')
-        ;
+        .replace(/X-STATUS:[^\n]+\n/g, '');
       return vcardString;
     }
   }
@@ -243,13 +247,13 @@ function getValue(vcard, name) {
   if (vcard.get(name)) {
     let value = vcard.get(name).valueOf();
     let data = vcard.get(name);
-    if (typeof value == 'string') {
+    if (typeof value === 'string') {
       if (fields[name] && fields[name].parts) {
         const parts = value.split(/;/);
         let map = {};
         fields[name].parts.forEach((part, i) => { // jscs:ignore jsDoc
           if (parts[i]) {
-            if (data.encoding && data.encoding == 'QUOTED-PRINTABLE') {
+            if (data.encoding && data.encoding === 'QUOTED-PRINTABLE') {
               map[part] = libqp.decode(parts[i]).toString();
             } else {
               map[part] = parts[i];
@@ -258,7 +262,7 @@ function getValue(vcard, name) {
         });
         return map;
       } else {
-        if (data.encoding && data.encoding == 'QUOTED-PRINTABLE') {
+        if (data.encoding && data.encoding === 'QUOTED-PRINTABLE') {
           value = libqp.decode(value).toString();
         }
         return value;
@@ -277,7 +281,7 @@ function getValue(vcard, name) {
         }
         if (entry.encoding) {
           prop.encoding = entry.encoding;
-          if (entry.encoding == 'QUOTED-PRINTABLE') {
+          if (entry.encoding === 'QUOTED-PRINTABLE') {
             prop.value = libqp.decode(entry.valueOf()).toString();
           }
         }
@@ -312,7 +316,7 @@ function propToString(prop, field) {
     } else {
       let type = '';
       if (prop.type && fields[field]) {
-        if (fields[field].type != 'image') {
+        if (fields[field].type !== 'image') {
           type = ' (' + (prop.type instanceof Array ? prop.type.join(', ') : prop.type) + ')';
         }
       }
@@ -351,7 +355,7 @@ const fields = {
     type: 'text',
     size: 30,
     parts: ['Nachname', 'Vorname', 'VN2', 'Titel', 'Zusatz'],
-    parts_order: ['Titel', 'Vorname', 'VN2', 'Nachname', 'Zusatz'],
+    parts_order: ['Titel', 'Vorname', 'VN2', 'Nachname', 'Zusatz']
   },
   fn: {
     label: 'Anzeigename',
@@ -422,10 +426,19 @@ const fields = {
     type: 'timestamp',
     size: 30,
     default: () => { // jscs:ignore jsDoc
-      return (new Date()).toLocaleString('de-DE',
-        { day: '2-digit', month: '2-digit', year: 'numeric',
-          hour: '2-digit',  minute: '2-digit', second: '2-digit', hour12: false,
-          timeZone: 'Europe/Berlin' });
+      return (new Date()).toLocaleString(
+        'de-DE',
+        {
+          day: '2-digit',
+          month: '2-digit',
+          year: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+          hour12: false,
+          timeZone: 'Europe/Berlin'
+        }
+      );
     }
   },
   xStatus: {
@@ -441,10 +454,19 @@ const fields = {
     type: 'timestamp',
     size: 30,
     default: () => { // jscs:ignore jsDoc
-      return (new Date()).toLocaleString('de-DE',
-        { day: '2-digit', month: '2-digit', year: 'numeric',
-          hour: '2-digit',  minute: '2-digit', second: '2-digit', hour12: false,
-          timeZone: 'Europe/Berlin' });
+      return (new Date()).toLocaleString(
+        'de-DE',
+        {
+          day: '2-digit',
+          month: '2-digit',
+          year: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+          hour12: false,
+          timeZone: 'Europe/Berlin'
+        }
+      );
     }
   }
 };
@@ -513,7 +535,7 @@ module.exports = {
    * @returns {Promise} with vcard list
    */
   switchDataset: (name) => {
-    if (name.indexOf('test') == 0) {
+    if (name.indexOf('test') === 0) {
       return openFile(path.join(path.dirname(__dirname), 'tests', 'data', name + '.vcf'));
     } else {
       name = name.replace(/\.vcf$/, '');
@@ -524,8 +546,11 @@ module.exports = {
         });
       } else {
         console.log('loading:', name);
-        return openFile(path.join(path.dirname(__dirname), 'data',
-          name + '.vcf'));
+        return openFile(path.join(
+          path.dirname(__dirname),
+          'data',
+          name + '.vcf'
+        ));
       }
     }
   },
@@ -605,10 +630,9 @@ module.exports = {
   datasetFiles: () => {
     let paths = glob.sync(path.join(path.dirname(__dirname), 'data', '*.vcf'));
     paths
-      .map((p, i, paths) => { // jscs:ignore jsDoc
+      .forEach((p, i, paths) => { // jscs:ignore jsDoc
         paths[i] = path.basename(p, path.extname(p));
-      })
-    ;
+      });
     return paths;
   },
   fields: fields,
@@ -724,7 +748,7 @@ const data2vcard = (index, data, files) => {
   const vcard = new Vcard(new Vcf(), index);
   Object.keys(fields).forEach((name) => { // jscs:ignore jsDoc
     const field = fields[name];
-    if (field.type == 'list') {
+    if (field.type === 'list') {
       const re = new RegExp('^' + name + '([0-9]*)(' +
                             (field.parts ? '_' + field.parts_order[0] : '') + ')?$');
       dataKeys.forEach(key => { // jscs:ignore jsDoc
@@ -739,10 +763,11 @@ const data2vcard = (index, data, files) => {
           }
         }
       });
-    } else if (field.type == 'image' && files && files.length) {
+    } else if (field.type === 'image' && files && files.length) {
       files.forEach(file => { // jscs:ignore jsDoc
-        if (file.fieldname == name) {
-          vcard.prop[name] = { value: file.buffer.toString('base64'),
+        if (file.fieldname === name) {
+          vcard.prop[name] = {
+            value: file.buffer.toString('base64'),
             params: { encoding: 'BASE64', type: file.mimetype.replace(/^.+\//, '') }
           };
         }
@@ -773,10 +798,10 @@ const updateGlobals = (vcard) => {
   vcard.fields.forEach(name => { // jscs:ignore jsDoc
     if (fields[name]) {
       if (fields[name].selection) {
-        if (selections[name] == undefined) {
+        if (selections[name] === undefined) {
           selections[name] = [];
         }
-        if (fields[name].type == 'list') {
+        if (fields[name].type === 'list') {
           vcard.prop[name].forEach(prop => { // jscs:ignore jsDoc
             const value = prop.value;
             if (selections[name].indexOf(value) < 0) {
@@ -791,8 +816,13 @@ const updateGlobals = (vcard) => {
         }
       }
     } else {
-      console.log('undefined field', name, vcard.get('fn').valueOf(), vcard.get(name).valueOf(),
-        vcard.get(name));
+      console.log(
+        'undefined field',
+        name,
+        vcard.get('fn').valueOf(),
+        vcard.get(name).valueOf(),
+        vcard.get(name)
+      );
     }
   });
 };
@@ -807,7 +837,7 @@ const updateGlobals = (vcard) => {
 const dataValue = (data, name, parts) => {
   let value;
   if (parts) {
-    if (data[name] && data[name].indexOf('{') == 0) {
+    if (data[name] && data[name].indexOf('{') === 0) {
       value = JSON.parse(data[name]);
     } else {
       value = {};
