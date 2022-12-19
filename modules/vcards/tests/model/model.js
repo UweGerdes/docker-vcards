@@ -12,7 +12,7 @@ const model = require('../../server/model.js');
 /* jshint mocha: true */
 /* jscs:disable jsDoc */
 
-describe('vcard model', () => {
+describe('tests/model/model', () => {
   describe('getTestData()', () => {
     it('should dive into the data structure', () => {
       const vcard = model.getTestData()[0];
@@ -192,60 +192,287 @@ describe('vcard model', () => {
     });
     it('should return vcards array equal to testData', () => {
       const json = [
-        ['vcard', [
-          ['version', { }, 'text', '2.1'],
-          ['n', { }, 'text', ['Gerdes', 'Uwe', '', '', '']],
-          ['fn', { }, 'text', 'Uwe Gerdes'],
-          ['tel', { type: ['work', 'voice'] }, 'text', '040 256486'],
-          ['tel', { type: 'cell' }, 'text', '0179 3901008'],
-          ['email', { type: 'pref' }, 'text', 'uwe@uwegerdes.de'],
-          ['url', { }, 'text', 'http://www.uwegerdes.de/'],
-          ['xGroupMembership', { }, 'text', 'Ich'],
-          ['xGroupMembership', { }, 'text', 'Uwe']
-        ]],
-        ['vcard', [
-          ['version', { }, 'text', '3.0'],
-          ['n', { }, 'text', ['Gerdes', 'Uwe']],
-          ['fn', { }, 'text', 'Uwe Gerdes'],
-          ['tel', { type: ['work', 'voice'] }, 'text', '+49 40 25178252'],
-          ['tel', { type: 'cell' }, 'text', '01793901008'],
-          ['adr', { type: 'home' }, 'text',
-            ['', '', 'Klaus-Groth-Str. 22', 'Hamburg', '', '20535', 'Germany']
-          ],
-          ['email', { type: ['pref', 'internet'] }, 'text', 'entwicklung@uwegerdes.de'],
-          ['rev', { }, 'text', '20140824T185000Z'],
-          ['xGroupMembership', { }, 'text', 'Ich'],
-          ['xGroupMembership', { }, 'text', 'Entwickler']
-        ]]
+        [
+          'vcard',
+          [
+            [
+              'version',
+              {},
+              'text',
+              '2.1'
+            ],
+            [
+              'n',
+              {},
+              'text',
+              [
+                'Gerdes',
+                'Uwe',
+                '',
+                '',
+                ''
+              ]
+            ],
+            [
+              'fn',
+              {},
+              'text',
+              'Uwe Gerdes'
+            ],
+            [
+              'tel',
+              {
+                'type': [
+                  'work',
+                  'voice'
+                ]
+              },
+              'text',
+              '040 256486'
+            ],
+            [
+              'tel',
+              {
+                'type': 'cell'
+              },
+              'text',
+              '0179 3901008'
+            ],
+            [
+              'email',
+              {
+                'type': 'pref'
+              },
+              'text',
+              'uwe@uwegerdes.de'
+            ],
+            [
+              'url',
+              {},
+              'text',
+              'http://www.uwegerdes.de/'
+            ],
+            [
+              'xGroupMembership',
+              {},
+              'text',
+              'Ich'
+            ],
+            [
+              'xGroupMembership',
+              {},
+              'text',
+              'Uwe'
+            ]
+          ]
+        ],
+        [
+          'vcard',
+          [
+            [
+              'version',
+              {},
+              'text',
+              '3.0'
+            ],
+            [
+              'n',
+              {},
+              'text',
+              [
+                'Gerdes',
+                'Uwe'
+              ]
+            ],
+            [
+              'fn',
+              {},
+              'text',
+              'Uwe Gerdes'
+            ],
+            [
+              'tel',
+              {
+                'type': [
+                  'work',
+                  'voice'
+                ]
+              },
+              'text',
+              '+49 40 25178252'
+            ],
+            [
+              'tel',
+              {
+                'type': 'cell'
+              },
+              'text',
+              '01793901008'
+            ],
+            [
+              'adr',
+              {
+                'type': 'home'
+              },
+              'text',
+              [
+                '',
+                '',
+                'Klaus-Groth-Str. 22',
+                'Hamburg',
+                '',
+                '20535',
+                'Germany'
+              ]
+            ],
+            [
+              'email',
+              {
+                'type': [
+                  'pref',
+                  'internet'
+                ]
+              },
+              'text',
+              'entwicklung@uwegerdes.de'
+            ],
+            [
+              'rev',
+              {},
+              'text',
+              '20140824T185000Z'
+            ],
+            [
+              'xGroupMembership',
+              {},
+              'text',
+              'Ich'
+            ],
+            [
+              'xGroupMembership',
+              {},
+              'text',
+              'Entwickler'
+            ]
+          ]
+        ],
+        [
+          'vcard',
+          [
+            [
+              'version',
+              {},
+              'text',
+              '2.1'
+            ],
+            [
+              'n',
+              {},
+              'text',
+              [
+                'Gerdes (test)',
+                'Uwe Wilhelm',
+                '',
+                'Dipl. Ing. FH',
+                ''
+              ]
+            ],
+            [
+              'fn',
+              {},
+              'text',
+              'Uwe Gerdes neu'
+            ],
+            [
+              'tel',
+              {
+                'type': [
+                  'work',
+                  'voice'
+                ]
+              },
+              'text',
+              '040 256486 neu'
+            ],
+            [
+              'tel',
+              {
+                'type': 'home'
+              },
+              'text',
+              '040 25178252 neu'
+            ],
+            [
+              'adr',
+              {
+                'type': 'home'
+              },
+              'text',
+              [
+                '',
+                '',
+                'Klaus-Groth-Str. 22',
+                'Hamburg',
+                '',
+                '20535',
+                'Germany'
+              ]
+            ],
+            [
+              'email',
+              {
+                'type': 'pref'
+              },
+              'text',
+              'uwe@uwegerdes.de neu'
+            ],
+            [
+              'xGroupMembership',
+              {},
+              'text',
+              'new vcard test'
+            ]
+          ]
+        ]
       ];
       assert.deepEqual(model.toJSON(), json);
     });
   });
   describe('vcard VCF', () => {
     it('should return vcards VCF equal to testData', () => {
-      const vcf = 'BEGIN:VCARD\n' +
-                  'VERSION:2.1\n' +
-                  'N:Gerdes;Uwe;;;\n' +
-                  'FN:Uwe Gerdes\n' +
-                  'TEL;WORK;VOICE:040 256486\n' +
-                  'TEL;CELL:0179 3901008\n' +
-                  'EMAIL;PREF:uwe@uwegerdes.de\n' +
-                  'URL:http://www.uwegerdes.de/\n' +
-                  'X-GROUP-MEMBERSHIP:Ich\n' +
-                  'X-GROUP-MEMBERSHIP:Uwe\n' +
-                  'END:VCARD\n' +
-                  'BEGIN:VCARD\n' +
-                  'VERSION:2.1\n' +
-                  'N:Gerdes;Uwe\n' +
-                  'FN:Uwe Gerdes\n' +
-                  'TEL;WORK;VOICE:+49 40 25178252\n' +
-                  'TEL;CELL:01793901008\n' +
-                  'ADR;HOME:;;Klaus-Groth-Str. 22;Hamburg;;20535;Germany\n' +
-                  'EMAIL;PREF;INTERNET:entwicklung@uwegerdes.de\n' +
-                  'REV:20140824T185000Z\n' +
-                  'X-GROUP-MEMBERSHIP:Ich\n' +
-                  'X-GROUP-MEMBERSHIP:Entwickler\n' +
-                  'END:VCARD\n';
+      const vcf = 'BEGIN:VCARD\r\n' +
+                  'VERSION:2.1\r\n' +
+                  'N:Gerdes;Uwe;;;\r\n' +
+                  'FN:Uwe Gerdes\r\n' +
+                  'TEL;WORK;VOICE:040 256486\r\n' +
+                  'TEL;CELL:0179 3901008\r\n' +
+                  'EMAIL;PREF:uwe@uwegerdes.de\r\n' +
+                  'URL:http://www.uwegerdes.de/\r\n' +
+                  'X-GROUP-MEMBERSHIP:Ich\r\n' +
+                  'X-GROUP-MEMBERSHIP:Uwe\r\n' +
+                  'END:VCARD\r\n' +
+                  'BEGIN:VCARD\r\n' +
+                  'VERSION:2.1\r\n' +
+                  'N:Gerdes;Uwe\r\n' +
+                  'FN:Uwe Gerdes\r\n' +
+                  'TEL;TYPE=WORK,VOICE:+49 40 25178252\r\n' +
+                  'TEL;TYPE=CELL:01793901008\r\n' +
+                  'ADR;TYPE=HOME:;;Klaus-Groth-Str. 22;Hamburg;;20535;Germany\r\n' +
+                  'EMAIL;TYPE=PREF,INTERNET:entwicklung@uwegerdes.de\r\n' +
+                  'REV:20140824T185000Z\r\n' +
+                  'X-GROUP-MEMBERSHIP:Ich\r\n' +
+                  'X-GROUP-MEMBERSHIP:Entwickler\r\n' +
+                  'END:VCARD\r\n' +
+                  'BEGIN:VCARD\r\n' +
+                  'VERSION:2.1\r\n' +
+                  'N:Gerdes (test);Uwe Wilhelm;;Dipl. Ing. FH;\r\n' +
+                  'FN:Uwe Gerdes neu\r\n' +
+                  'TEL;WORK;VOICE:040 256486 neu\r\n' +
+                  'TEL;HOME:040 25178252 neu\r\n' +
+                  'ADR;HOME:;;Klaus-Groth-Str. 22;Hamburg;;20535;Germany\r\n' +
+                  'EMAIL;PREF:uwe@uwegerdes.de neu\r\n' +
+                  'X-GROUP-MEMBERSHIP:new vcard test\r\n' +
+                  'END:VCARD\r\n';
       assert.equal(model.toVCF(), vcf);
     });
   });

@@ -58,4 +58,6 @@ router.post('/save/:id/:delId?', upload.any(), controller.save);
 // upload vcf file
 router.post('/upload/', upload.single('vcfFile'), controller.upload);
 
-module.exports = router;
+module.exports = {
+  router: router
+};

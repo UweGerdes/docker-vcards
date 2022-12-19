@@ -10,7 +10,7 @@ const model = require('../../server/model.js');
 /* jshint mocha: true */
 /* jscs:disable jsDoc */
 
-describe('vcard fields', () => {
+describe('tests/model/fields', () => {
   it('should have fields', () => {
     assert.equal(Object.keys(model.fields).length > 0, true, 'fields.length > 0');
     const keylist = ['version', 'n', 'fn', 'tel', 'adr', 'email', 'url', 'org', 'bday', 'note',

@@ -10,7 +10,7 @@ if datasetFiles
         option(value=name, selected=(name == datasetName))= name
     if environment == 'development'
       each name in datasetFiles
-        if name.match(/^[a-z]+$/) && datasetNames.indexOf(name) < 0
+        if name.match(/^[a-z0-9]+$/) && datasetNames.indexOf(name) < 0
           option(value=name, selected=(name == datasetName))= name
       option(value='testdata', selected=(datasetName == 'testdata')) testdata
       option(value='testimage', selected=(datasetName == 'testimage')) testimage

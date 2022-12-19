@@ -12,19 +12,20 @@ const fs = require('fs'),
   path = require('path'),
   Vcf = require('vcf');
 
-const testData = 'BEGIN:VCARD\n' +
-  'VERSION:2.1\n' +
-  'N:Gerdes;Uwe;;;\n' +
-  'FN:Uwe Gerdes\n' +
-  'TEL;WORK;VOICE:040/23519934\n' +
-  'TEL;CELL:0151 42537945\n' +
-  'EMAIL;PREF:uwe@uwegerdes.de\n' +
-  'URL:http://www.uwegerdes.de/\n' +
+const testData = 'BEGIN:VCARD\r\n' +
+  'VERSION:2.1\r\n' +
+  'N:Gerdes;Uwe;;;\r\n' +
+  'FN:Uwe Gerdes\r\n' +
+  'TEL;WORK;VOICE:040/23519934\r\n' +
+  'TEL;CELL:0151 42537945\r\n' +
+  'EMAIL;PREF:uwe@uwegerdes.de\r\n' +
+  'URL:http://www.uwegerdes.de/\r\n' +
   'END:VCARD';
 
 let datasetName,
   lists = { },
   selections = { };
+
 class Vcard {
   /**
    * build a vcard
@@ -229,9 +230,8 @@ class Vcard {
         .replace(/TEL.+$/g, function (v) { // jscs:ignore jsDoc
           return v.replace(/[^a-zA-Z0-9.;:]/g, '').toUpperCase();
         })
-        .replace(/\r?\n /g, '')
         .replace(/X-STATUS:[^\n]+\n/g, '');
-      return vcardString;
+      return vcardString + '\r';
     }
   }
 }

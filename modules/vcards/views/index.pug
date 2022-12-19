@@ -1,5 +1,8 @@
 //- index.pug
-extends ../../index.pug
+extends ../../pages/views/page.pug
+
+append head
+  link(rel='stylesheet', href='/'+ modulePath + '/layout.css')
 
 block content
   div#vcard.vcard.flex-wrapper
@@ -44,4 +47,4 @@ block content
     include upload.pug
 
 append footer
-  script(src='/js/vcards/script.js')
+  script(src='/'+ modulePath + '/script.js')

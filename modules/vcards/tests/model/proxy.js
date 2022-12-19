@@ -11,7 +11,7 @@ const model = require('../../server/model.js');
 /* jshint mocha: true */
 /* jscs:disable jsDoc */
 
-describe('vcard proxy', () => {
+describe('tests/model/proxy.js', () => {
   let testData = [];
   before(function (done) {
     model.open(path.join(__dirname, '..', 'data', 'testdata.vcf'))
@@ -91,9 +91,9 @@ describe('vcard proxy', () => {
     });
     it('prop set timestamp', () => {
       const vcard = testData[0];
-      vcard.prop.rev = { value: '2014-08-24 20:50:00', params: { } };
-      assert.deepEqual(vcard.prop.rev, { value: '2014-08-24 20:50:00' });
-      assert.equal(vcard.get('rev').valueOf(), '20140824T185000Z');
+      vcard.prop.rev = { value: '24.08.2015, 20:50:00', params: { } };
+      assert.deepEqual(vcard.prop.rev, { value: '24.08.2015, 20:50:00' });
+      assert.equal(vcard.get('rev').valueOf(), '20150824T185000Z');
     });
     it('prop set value encoded', () => {
       const vcard = testData[0];

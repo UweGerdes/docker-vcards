@@ -14,10 +14,12 @@ const chai = require('chai'),
   { JSDOM } = jsdom;
 chai.use(chaiHttp);
 
-describe('vcard edit', function () {
+const url = 'http://0.0.0.0:8080';
+
+describe('tests/server/edit', function () {
   let oldDatasetName = '';
   before(function (done) {
-    chai.request('http://vcards-dev:8080')
+    chai.request(url)
       .get('/vcards/dataset/testdata')
       .end(function (err, res) {
         expect(err).to.be.null;
@@ -42,7 +44,7 @@ describe('vcard edit', function () {
     if (oldDatasetName) {
       resetName = oldDatasetName;
     }
-    chai.request('http://vcards-dev:8080')
+    chai.request(url)
       .get('/vcards/dataset/' + resetName)
       .end(function (err, res) {
         expect(err).to.be.null;
@@ -56,7 +58,7 @@ describe('vcard edit', function () {
   });
   describe('GET /vcards/', function () {
     it('should not have edit button', function (done) {
-      chai.request('http://vcards-dev:8080')
+      chai.request(url)
         .get('/vcards/')
         .end(function (err, res) {
           expect(err).to.be.null;
@@ -71,7 +73,7 @@ describe('vcard edit', function () {
   });
   describe('GET /vcards/0/', function () {
     it('should have edit button', function (done) {
-      chai.request('http://vcards-dev:8080')
+      chai.request(url)
         .get('/vcards/0/')
         .end(function (err, res) {
           expect(err).to.be.null;
@@ -88,7 +90,7 @@ describe('vcard edit', function () {
   });
   describe('GET /vcards/edit/0/', function () {
     it('should list a SINGLE vcard', function (done) {
-      chai.request('http://vcards-dev:8080')
+      chai.request(url)
         .get('/vcards/edit/0/')
         .end(function (err, res) {
           expect(err).to.be.null;
@@ -138,7 +140,7 @@ describe('vcard edit', function () {
   });
   describe('GET /vcards/edit/1/', function () {
     it('should edit vcard with separated fields n, adr', function (done) {
-      chai.request('http://vcards-dev:8080')
+      chai.request(url)
         .get('/vcards/edit/1/')
         .end(function (err, res) {
           expect(err).to.be.null;
@@ -183,7 +185,7 @@ describe('vcard edit', function () {
   });
   describe('GET /vcards/type/tel/_1/work', function () {
     it('should render a work type for tel0', function (done) {
-      chai.request('http://vcards-dev:8080')
+      chai.request(url)
         .get('/vcards/type/tel/_1/work')
         .end(function (err, res) {
           expect(err).to.be.null;
@@ -203,7 +205,7 @@ describe('vcard edit', function () {
   });
   describe('GET /vcards/type/tel/_1/work', function () {
     it('should render a work type for tel1', function (done) {
-      chai.request('http://vcards-dev:8080')
+      chai.request(url)
         .get('/vcards/type/tel/_1/work')
         .end(function (err, res) {
           expect(err).to.be.null;
@@ -223,7 +225,7 @@ describe('vcard edit', function () {
   });
   describe('GET /vcards/type/email/_/work/2', function () {
     it('should render a work type for email', function (done) {
-      chai.request('http://vcards-dev:8080')
+      chai.request(url)
         .get('/vcards/type/email/_/work/2')
         .end(function (err, res) {
           expect(err).to.be.null;
@@ -244,7 +246,7 @@ describe('vcard edit', function () {
   });
   describe('GET /vcards/field/email/1', function () {
     it('should render a work type for email', function (done) {
-      chai.request('http://vcards-dev:8080')
+      chai.request(url)
         .get('/vcards/input/email/1')
         .end(function (err, res) {
           expect(err).to.be.null;
@@ -260,7 +262,7 @@ describe('vcard edit', function () {
   });
   describe('GET /vcards/field/xGroupMembership/2', function () {
     it('should render a work type for email', function (done) {
-      chai.request('http://vcards-dev:8080')
+      chai.request(url)
         .get('/vcards/field/xGroupMembership/2')
         .end(function (err, res) {
           expect(err).to.be.null;
@@ -276,7 +278,7 @@ describe('vcard edit', function () {
   });
   describe('GET /vcards/edit/0/', function () {
     it('should have select with types for email', function (done) {
-      chai.request('http://vcards-dev:8080')
+      chai.request(url)
         .get('/vcards/edit/0/')
         .end(function (err, res) {
           expect(err).to.be.null;
@@ -296,7 +298,7 @@ describe('vcard edit', function () {
   });
   describe('POST /vcards/save/1', function () {
     it('should save data in model', function (done) {
-      chai.request('http://vcards-dev:8080')
+      chai.request(url)
         .post('/vcards/save/1')
         .type('form')
         .send({
@@ -359,7 +361,7 @@ describe('vcard edit', function () {
         });
     });
     it('should reset data in model', function (done) {
-      chai.request('http://vcards-dev:8080')
+      chai.request(url)
         .post('/vcards/save/1')
         .type('form')
         .send({
@@ -402,7 +404,7 @@ describe('vcard edit', function () {
   });
   describe('GET /vcards/edit/0/', function () {
     it('should have timestamp and status fields', function (done) {
-      chai.request('http://vcards-dev:8080')
+      chai.request(url)
         .get('/vcards/edit/0/')
         .end(function (err, res) {
           expect(err).to.be.null;

@@ -14,10 +14,12 @@ const chai = require('chai'),
   { JSDOM } = jsdom;
 chai.use(chaiHttp);
 
-describe('vcard item', function () {
+const url = 'http://0.0.0.0:8080';
+
+describe('tests/server/item', function () {
   let oldDatasetName;
   before(function (done) {
-    chai.request('http://vcards-dev:8080')
+    chai.request(url)
       .get('/vcards/dataset/testdata')
       .end(function (err, res) {
         expect(err).to.be.null;
@@ -40,7 +42,7 @@ describe('vcard item', function () {
     if (oldDatasetName) {
       resetName = oldDatasetName;
     }
-    chai.request('http://vcards-dev:8080')
+    chai.request(url)
       .get('/vcards/dataset/' + resetName)
       .end(function (err, res) {
         expect(err).to.be.null;
@@ -54,7 +56,7 @@ describe('vcard item', function () {
   });
   describe('GET /vcards/', function () {
     it('should list ALL vcards', function (done) {
-      chai.request('http://vcards-dev:8080')
+      chai.request(url)
         .get('/vcards/')
         .end(function (err, res) {
           expect(err).to.be.null;
@@ -73,7 +75,7 @@ describe('vcard item', function () {
   });
   describe('GET /vcards/0/', function () {
     it('should list a SINGLE vcard', function (done) {
-      chai.request('http://vcards-dev:8080')
+      chai.request(url)
         .get('/vcards/0/')
         .end(function (err, res) {
           expect(err).to.be.null;
@@ -101,7 +103,7 @@ describe('vcard item', function () {
   });
   describe('GET /vcards/1/', function () {
     it('should list a SINGLE vcard', function (done) {
-      chai.request('http://vcards-dev:8080')
+      chai.request(url)
         .get('/vcards/1/')
         .end(function (err, res) {
           expect(err).to.be.null;
@@ -123,7 +125,7 @@ describe('vcard item', function () {
           );
           assert.equal(
             document.getElementById('rev').textContent,
-            'Revision: 2014-08-24 20:50:00'
+            'Revision: 24.08.2014, 20:50:00'
           );
           done();
         });

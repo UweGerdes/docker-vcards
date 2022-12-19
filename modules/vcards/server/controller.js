@@ -71,6 +71,7 @@ const index = (req, res) => {
     req.params,
     getModelData(req),
     getHostData(req),
+    config.getData(req),
     viewRenderParams
   );
   res.render(path.join(viewBase, 'index.pug'), data);
@@ -97,6 +98,7 @@ const save = (req, res) => {
       },
       getModelData(req),
       getHostData(req),
+      config.getData(req),
       viewRenderParams
     )
   );
@@ -122,6 +124,7 @@ const switchDataset = (req, res) => {
             },
             getModelData(req),
             getHostData(req),
+            config.getData(req),
             viewRenderParams
           )
         );
@@ -137,6 +140,7 @@ const switchDataset = (req, res) => {
             },
             getModelData(req),
             getHostData(req),
+            config.getData(req),
             viewRenderParams
           )
         );
@@ -296,6 +300,7 @@ const upload = (req, res) => {
               },
               getModelData(req),
               getHostData(req),
+              config.getData(req),
               viewRenderParams
             )
           );
@@ -310,6 +315,7 @@ const upload = (req, res) => {
             },
             getModelData(req),
             getHostData(req),
+            config.getData(req),
             viewRenderParams
           )
         );

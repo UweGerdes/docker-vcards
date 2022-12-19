@@ -14,10 +14,12 @@ const chai = require('chai'),
   { JSDOM } = jsdom;
 chai.use(chaiHttp);
 
-describe('vcard image', function () {
+const url = 'http://0.0.0.0:8080';
+
+describe('tests/server/image', function () {
   let oldDatasetName;
   before(function (done) {
-    chai.request('http://vcards-dev:8080')
+    chai.request(url)
       .get('/vcards/dataset/testimage')
       .end(function (err, res) {
         expect(err).to.be.null;
@@ -39,7 +41,7 @@ describe('vcard image', function () {
     if (oldDatasetName) {
       resetName = oldDatasetName;
     }
-    chai.request('http://vcards-dev:8080')
+    chai.request(url)
       .get('/vcards/dataset/' + resetName)
       .end(function (err, res) {
         expect(err).to.be.null;
@@ -53,7 +55,7 @@ describe('vcard image', function () {
   });
   describe('GET /vcards/', function () {
     it('should list ALL vcards', function (done) {
-      chai.request('http://vcards-dev:8080')
+      chai.request(url)
         .get('/vcards/')
         .end(function (err, res) {
           expect(err).to.be.null;
@@ -71,7 +73,7 @@ describe('vcard image', function () {
   });
   describe('GET /vcards/0/', function () {
     it('should list a SINGLE vcard', function (done) {
-      chai.request('http://vcards-dev:8080')
+      chai.request(url)
         .get('/vcards/0/')
         .end(function (err, res) {
           expect(err).to.be.null;
@@ -109,7 +111,7 @@ describe('vcard image', function () {
   });
   describe('GET /vcards/edit/0/', function () {
     it('should have checkbox for image', function (done) {
-      chai.request('http://vcards-dev:8080')
+      chai.request(url)
         .get('/vcards/edit/0/')
         .end(function (err, res) {
           expect(err).to.be.null;
@@ -128,7 +130,7 @@ describe('vcard image', function () {
   });
   describe('GET /vcards/merge/0/1/', function () {
     it('should not have edit button', function (done) {
-      chai.request('http://vcards-dev:8080')
+      chai.request(url)
         .get('/vcards/merge/0/1/')
         .end(function (err, res) {
           expect(err).to.be.null;
@@ -141,7 +143,7 @@ describe('vcard image', function () {
         });
     });
     it('should have fields version, email, photo and many values', function (done) {
-      chai.request('http://vcards-dev:8080')
+      chai.request(url)
         .get('/vcards/merge/0/1/')
         .end(function (err, res) {
           expect(err).to.be.null;

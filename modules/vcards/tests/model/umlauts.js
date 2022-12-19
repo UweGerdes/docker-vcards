@@ -11,7 +11,7 @@ const model = require('../../server/model.js');
 /* jshint mocha: true */
 /* jscs:disable jsDoc */
 
-describe('vcard umlaut', () => {
+describe('tests/model/umlaut', () => {
   let testData = [];
   before(function (done) {
     model.open(path.join(__dirname, '..', 'data', 'testumlauts.vcf'))

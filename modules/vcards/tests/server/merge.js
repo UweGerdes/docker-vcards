@@ -14,10 +14,12 @@ const chai = require('chai'),
   { JSDOM } = jsdom;
 chai.use(chaiHttp);
 
-describe('vcard merge', function () {
+const url = 'http://0.0.0.0:8080';
+
+describe('tests/server/merge', function () {
   let oldDatasetName;
   before(function (done) {
-    chai.request('http://vcards-dev:8080')
+    chai.request(url)
       .get('/vcards/dataset/testdata')
       .end(function (err, res) {
         expect(err).to.be.null;
@@ -40,7 +42,7 @@ describe('vcard merge', function () {
     if (oldDatasetName) {
       resetName = oldDatasetName;
     }
-    chai.request('http://vcards-dev:8080')
+    chai.request(url)
       .get('/vcards/dataset/' + resetName)
       .end(function (err, res) {
         expect(err).to.be.null;
@@ -54,7 +56,7 @@ describe('vcard merge', function () {
   });
   describe('GET /vcards/merge/0/1/', function () {
     it('should not have edit button', function (done) {
-      chai.request('http://vcards-dev:8080')
+      chai.request(url)
         .get('/vcards/merge/0/1/')
         .end(function (err, res) {
           expect(err).to.be.null;
@@ -67,7 +69,7 @@ describe('vcard merge', function () {
         });
     });
     it('should have version field with two values', function (done) {
-      chai.request('http://vcards-dev:8080')
+      chai.request(url)
         .get('/vcards/merge/0/1/')
         .end(function (err, res) {
           expect(err).to.be.null;
@@ -94,7 +96,7 @@ describe('vcard merge', function () {
           );
           assert.equal(mergeFieldList[8].childNodes.length, 3);
           assert.equal(mergeFieldList[8].childNodes[0].textContent.trim(), 'Revision:');
-          assert.equal(mergeFieldList[8].childNodes[2].textContent.trim(), '2014-08-24 20:50:00');
+          assert.equal(mergeFieldList[8].childNodes[2].textContent.trim(), '24.08.2014, 20:50:00');
           let formData = {};
           const fd = new document.defaultView.FormData(form);
           let e = fd.entries();
@@ -128,7 +130,7 @@ const formDataCompare = {
   url: 'http://www.uwegerdes.de/',
   adr20: '{"Straße":"Klaus-Groth-Str. 22","Ort":"Hamburg","PLZ":"20535","Land":"Germany"}',
   adr20_type: 'home',
-  rev: '2014-08-24 20:50:00',
+  rev: '24.08.2014, 20:50:00',
   xGroupMembership10: 'Ich',
   xGroupMembership11: 'Uwe',
   xGroupMembership21: 'Entwickler',
