@@ -111,7 +111,6 @@ if vcard
       + input-group(field, p, index)
   if fields[field].type == 'list'
     span.add&attributes({ 'data-click-xhr': '/vcards/input/' + field + '/' })= '+'
-  .error(id=field + '-error')
 else
   if fields[field].selection && value
     input(type='checkbox', id='checkbox_' + field + index, name=field, value=value, checked)

@@ -9,37 +9,6 @@
 let handler = {};
 
 /**
- * toggle element by id
- */
-handler['data-toggle'] = {
-  elements: [window],
-  event: 'load',
-  func: () => { // jscs:ignore jsDoc
-    const elements = document.querySelectorAll('[data-toggle]');
-    elements.forEach((element) => { // jscs:ignore jsDoc
-      const toggleList = document.querySelectorAll(element.dataset.toggle);
-      element.addEventListener('click', () => { // jscs:ignore jsDoc
-        toggleList.forEach((toggled) => { // jscs:ignore jsDoc
-          toggled.classList.toggle('hidden');
-        });
-      });
-      toggleList.forEach((toggled) => { // jscs:ignore jsDoc
-        if (toggled !== element) {
-          toggled.addEventListener('click', () => { // jscs:ignore jsDoc
-            toggled.classList.toggle('hidden');
-          });
-          toggled.childNodes.forEach((child) => { // jscs:ignore jsDoc
-            child.addEventListener('click', (event) => { // jscs:ignore jsDoc
-              event.stopPropagation();
-            });
-          });
-        }
-      });
-    });
-  }
-};
-
-/**
  * open modal
  */
 handler['data-modal'] = {

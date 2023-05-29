@@ -6,7 +6,7 @@ mixin itemvalue(prop, field)
     else
       = prop.value
     if prop.type
-      = ' (' + type(prop.type).join(', ') + ')'
+      = ' (' + type(prop.type).sort().join(', ') + ')'
   else if fields[field].parts
     span.parts
       - var comma = false

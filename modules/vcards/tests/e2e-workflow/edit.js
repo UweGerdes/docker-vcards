@@ -19,7 +19,7 @@ module.exports = {
       uri: domain + '/vcards/dataset/testdata',
       steps: {
         'start': {
-          title: 'Webserver - vcard',
+          title: 'VCard Editor',
           elements: {
             '//h1[@id="headline"]': 'vcard',
             '//*[@id="list"]/li[1]/a': 'Uwe Gerdes',
@@ -32,7 +32,7 @@ module.exports = {
           click: 'a[href="/vcards/0/"]'
         },
         'vcard 0': {
-          title: 'Webserver - vcard',
+          title: 'VCard Editor',
           elements: {
             '//*[@id="version"]//*[@class="field-value"]': '2.1',
             '//*[@id="fn"]//*[@class="field-value"]': 'Uwe Gerdes',
@@ -41,7 +41,7 @@ module.exports = {
           click: '#editButton'
         },
         'edit form': {
-          title: 'Webserver - vcard',
+          title: 'VCard Editor',
           elements: {
             '//*[@id="headline"]': 'vcard Uwe Gerdes bearbeiten',
             '//form[@id="edit"]': '',
@@ -56,7 +56,7 @@ module.exports = {
           click: '//form[@id="edit"]//input[@type="submit"]'
         },
         'change content': {
-          title: 'Webserver - vcard',
+          title: 'VCard Editor',
           elements: {
             '//*[@id="headline"]': 'vcard Uwe Gerdes Test',
             '//*[@id="version"]//*[@class="field-value"]': '3.0',
@@ -68,7 +68,7 @@ module.exports = {
           click: '#editButton'
         },
         'edit form again': {
-          title: 'Webserver - vcard',
+          title: 'VCard Editor',
           elements: {
             '//*[@id="headline"]': 'vcard Uwe Gerdes Test bearbeiten',
             '//form[@id="edit"]': '',
@@ -86,7 +86,7 @@ module.exports = {
           click: '//form[@id="edit"]//input[@type="submit"]'
         },
         'add and remove phone type': {
-          title: 'Webserver - vcard',
+          title: 'VCard Editor',
           elements: {
             '//*[@id="headline"]': 'vcard Uwe Gerdes Test',
             '//*[@id="version"]//*[@class="field-value"]': '3.0',
@@ -101,7 +101,7 @@ module.exports = {
           click: '#editButton'
         },
         'add phone number': {
-          title: 'Webserver - vcard',
+          title: 'VCard Editor',
           elements: {
             '//*[@id="headline"]': 'vcard Uwe Gerdes Test bearbeiten',
             '//form[@id="edit"]': '',
@@ -110,7 +110,7 @@ module.exports = {
           click: '//form[@id="edit"]//*[@id="tel_container"]//*[@class="add"]'
         },
         'add phone number fields': {
-          title: 'Webserver - vcard',
+          title: 'VCard Editor',
           elements: {
             '//*[@id="headline"]': 'vcard Uwe Gerdes Test bearbeiten',
             '//form[@id="edit"]': '',
@@ -126,11 +126,11 @@ module.exports = {
           click: '//form[@id="edit"]//input[@type="submit"]'
         },
         'add phone number input': {
-          title: 'Webserver - vcard',
+          title: 'VCard Editor',
           elements: {
             '//*[@id="headline"]': 'vcard Uwe Gerdes Test',
             '//*[@id="tel"]//*[@class="field-value"]':
-                '040 256486 (Arbeit, privat)\n0179 3901008 (Mobil)\n0123 123456 (privat, Sprache)'
+                '040 256486 (Arbeit, privat)\n0179 3901008 (Mobil)\n0123 123456 (Sprache, privat)'
           },
           elementsNotExist: [
             '//form[@id="edit"]'
@@ -138,7 +138,7 @@ module.exports = {
           click: '#editButton'
         },
         'edit form for adding fields': {
-          title: 'Webserver - vcard',
+          title: 'VCard Editor',
           elements: {
             '//*[@id="headline"]': 'vcard Uwe Gerdes Test bearbeiten',
             '//form[@id="edit"]': '',
@@ -147,7 +147,7 @@ module.exports = {
           click: '//form[@id="edit"]//select[@name="addField"]/option[@value="org"]'
         },
         'added org field': {
-          title: 'Webserver - vcard',
+          title: 'VCard Editor',
           elements: {
             '//form[@id="edit"]//select[@name="addField"]': '',
             '//form[@id="edit"]//*[@id="org_container"]//input[@type="text"][@name="org"]': ''
@@ -155,7 +155,7 @@ module.exports = {
           click: '//form[@id="edit"]//*[@id="xGroupMembership_container"]//*[@class="add"]'
         },
         'added xGroupMembership field': {
-          title: 'Webserver - vcard',
+          title: 'VCard Editor',
           elements: {
             '//*[@id="headline"]': 'vcard Uwe Gerdes Test bearbeiten',
             '//form[@id="edit"]//select[@name="select_xGroupMembership"]': ''
@@ -163,7 +163,7 @@ module.exports = {
           click: '//form[@id="edit"]//select[@name="addField"]/option[@value="adr"]'
         },
         'added adr field': {
-          title: 'Webserver - vcard',
+          title: 'VCard Editor',
           elements: {
             '//*[@id="headline"]': 'vcard Uwe Gerdes Test bearbeiten',
             '//form[@id="edit"]//*[@id="adr_container"]//input[@type="text"][@name="adr0_PLZ"]': '',
@@ -180,7 +180,7 @@ module.exports = {
           click: '//form[@id="edit"]//input[@type="submit"]'
         },
         'input data and check result': {
-          title: 'Webserver - vcard',
+          title: 'VCard Editor',
           elements: {
             '//*[@id="headline"]': 'vcard Uwe Gerdes Test',
             '//*[@id="org"]//*[@class="field-value"]': 'Freiberufler',

@@ -31,6 +31,16 @@ $ docker run -it --rm \
   uwegerdes/vcards \
   bash
 ```
+
+## vcf File Format
+
+vcf files must have CR/LF as line ending, if you edited the file on Linux or Mac make sure to add the CR if missing:
+
+```bash
+CR=$(printf '\r')
+sed -i -r "s/\$/$CR/" file.vcf
+```
+
 #### e2e-workflow
 
 Start the docker-e2e-workflow test dockers in your project directory (in another terminal to separate the vcards and e2e-workflow test output):

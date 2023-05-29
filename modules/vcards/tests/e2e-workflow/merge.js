@@ -19,7 +19,7 @@ module.exports = {
       uri: domain + '/vcards/dataset/testdata',
       steps: {
         'start': {
-          title: 'Webserver - vcard',
+          title: 'VCard Editor',
           elements: {
             '//h1[@id="headline"]': 'vcard',
             '//*[@id="list"]/li[1]/a': 'Uwe Gerdes',
@@ -32,7 +32,7 @@ module.exports = {
           click: 'a[href="/vcards/0/"]'
         },
         'vcard 0': {
-          title: 'Webserver - vcard',
+          title: 'VCard Editor',
           elements: {
             '//*[@id="version"]//*[@class="field-value"]': '2.1',
             '//*[@id="fn"]//*[@class="field-value"]': 'Uwe Gerdes',
@@ -41,7 +41,7 @@ module.exports = {
           click: '#searchButton'
         },
         'search layer': {
-          title: 'Webserver - vcard',
+          title: 'VCard Editor',
           elements: {
             '//*[@class="search-headline"]': 'Suchen',
             '//form[@name="searchForm"]': '',
@@ -51,7 +51,7 @@ module.exports = {
           click: 'input[type="submit"]'
         },
         'search result, no input': {
-          title: 'Webserver - vcard',
+          title: 'VCard Editor',
           elements: {
             '//*[@id="searchLayer"]/div/h2': 'Suchen',
             '//*[@id="searchLayer"]//a[@href="/vcards/0/"]': '',
@@ -60,7 +60,7 @@ module.exports = {
           click: '//a[@class="button merge-button"]'
         },
         'merge form': {
-          title: 'Webserver - vcard',
+          title: 'VCard Editor',
           elements: {
             '//*[@id="headline"]': 'vcard Uwe Gerdes',
             '//form[@id="merge-form"]': '',
@@ -70,7 +70,7 @@ module.exports = {
           click: '//form[@id="merge-form"]//input[@type="submit"]'
         },
         'merge save': {
-          title: 'Webserver - vcard',
+          title: 'VCard Editor',
           elements: {
             '//*[@id="version"]//*[@class="field-value"]': '2.1',
             '//*[@id="n"]//*[@class="field-value"]': 'Gerdes, Uwe',
@@ -84,7 +84,7 @@ module.exports = {
           click: '//a[@id="delButton"][@href="/vcards/0/del/1"]'
         },
         'delete merged': {
-          title: 'Webserver - vcard',
+          title: 'VCard Editor',
           elements: {
             '//*[@id="version"]//*[@class="field-value"]': '2.1',
             '//*[@id="fn"]//*[@class="field-value"]': 'Uwe Gerdes',

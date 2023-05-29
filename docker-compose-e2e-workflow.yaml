@@ -15,52 +15,69 @@ services:
     ports:
       - 51285:8080
       - 51286:8081
+      - 51289:8443
     volumes:
-    - .:/home/node/app
+    - ./modules/vcards:/home/node/app/modules/vcards
+    - ./coverage:/home/node/app/coverage
+    - ./key:/home/node/app/docs
+    - ./fixture:/home/node/app/fixture
+    - ./key:/home/node/app/key
     command: npm run dev
 
   vcards-e2e-hub:
-    image: selenium/hub:3.12.0-boron
+    image: selenium/hub
     container_name: vcards-e2e-hub
     hostname: vcards-e2e-hub
+    ports:
+      - 54442:4442
+      - 54443:4443
+      - 54444:4444
 
   vcards-e2e-chrome:
-    image: selenium/node-chrome:3.12.0-boron
+    image: selenium/node-chrome
     container_name: vcards-e2e-chrome
+    volumes:
+      - /dev/shm:/dev/shm
     depends_on:
       - vcards-e2e-hub
     environment:
-      - HUB_HOST=vcards-e2e-hub
-      - HUB_PORT=4444
-      - E2E_HOST=vcards-e2e-workflow
-      - JAVA_OPTS=-Dselenium.LOGGER.level=WARNING
+      SE_EVENT_BUS_HOST: vcards-e2e-hub
+      SE_EVENT_BUS_PUBLISH_PORT: 4442
+      SE_EVENT_BUS_SUBSCRIBE_PORT: 4443
+      JAVA_OPTS: -Dselenium.LOGGER.level=WARNING
 
   vcards-e2e-firefox:
-    image: selenium/node-firefox:3.12.0-boron
+    image: selenium/node-firefox
     container_name: vcards-e2e-firefox
+    volumes:
+      - /dev/shm:/dev/shm
     depends_on:
       - vcards-e2e-hub
     environment:
-      - HUB_HOST=vcards-e2e-hub
-      - HUB_PORT=4444
-      - E2E_HOST=vcards-e2e-workflow
-      - JAVA_OPTS=-Dselenium.LOGGER.level=WARNING
+      SE_EVENT_BUS_HOST: vcards-e2e-hub
+      SE_EVENT_BUS_PUBLISH_PORT: 4442
+      SE_EVENT_BUS_SUBSCRIBE_PORT: 4443
+      JAVA_OPTS: -Dselenium.LOGGER.level=WARNING
 
-  vcards-e2e-workflow:
+  vcards-e2e-frontend:
     image: uwegerdes/e2e-workflow
-    container_name: vcards-e2e-workflow
-    hostname: vcards-e2e-workflow
+    container_name: vcards-e2e-frontend
+    hostname: vcards-e2e-frontend
     ports:
       - 51287:8080
       - 51288:8081
+      - 51283:8443
     depends_on:
       - vcards-e2e-hub
     environment:
-      - HUB_HOST=vcards-e2e-hub
-      - HUB_PORT=4444
-      - NODE_ENV=staging
+      HUB_HOST: vcards-e2e-hub
+      HUB_PORT: 4444
+      NODE_ENV: staging
+      LIVERELOAD_PORT: 51288
     volumes:
-      - ../docker-e2e-workflow:/home/node/app
       - ./modules:/home/node/app/config/modules
-#    command: npm start
+      - ./results:/home/node/app/results
+      # for e2e development
+      - ../docker-e2e-workflow/modules/e2e:/home/node/app/modules/e2e
+      - ../docker-e2e-workflow/fixture:/home/node/app/fixture
     command: npm run dev

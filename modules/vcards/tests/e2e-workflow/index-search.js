@@ -19,7 +19,7 @@ module.exports = {
       uri: domain + '/vcards/dataset/testdata',
       steps: {
         'start': {
-          title: 'Webserver - vcard',
+          title: 'VCard Editor',
           elements: {
             '//h1[@id="headline"]': 'vcard',
             '//*[@id="list"]/li[1]/a': 'Uwe Gerdes',
@@ -32,7 +32,7 @@ module.exports = {
           click: 'a[href="/vcards/0/"]'
         },
         'vcard 0': {
-          title: 'Webserver - vcard',
+          title: 'VCard Editor',
           elements: {
             '//*[@id="version"]//*[@class="field-value"]': '2.1',
             '//*[@id="fn"]//*[@class="field-value"]': 'Uwe Gerdes',
@@ -43,7 +43,7 @@ module.exports = {
           click: 'a[href="/vcards/1/"]'
         },
         'vcard 1': {
-          title: 'Webserver - vcard',
+          title: 'VCard Editor',
           elements: {
             '//*[@id="version"]//*[@class="field-value"]': '3.0'
           }
@@ -54,14 +54,14 @@ module.exports = {
       uri: domain + '/vcards/1/',
       steps: {
         'open vcard 1': {
-          title: 'Webserver - vcard',
+          title: 'VCard Editor',
           elements: {
             '//*[@id="version"]//*[@class="field-value"]': '3.0'
           },
           click: '#searchButton'
         },
         'search layer': {
-          title: 'Webserver - vcard',
+          title: 'VCard Editor',
           elements: {
             '//*[@class="search-headline"]': 'Suchen',
             '//form[@name="searchForm"]': '',
@@ -71,7 +71,7 @@ module.exports = {
           click: 'input[type="submit"]'
         },
         'search result, no input': {
-          title: 'Webserver - vcard',
+          title: 'VCard Editor',
           elements: {
             '//*[@id="searchLayer"]/div/h2': 'Suchen',
             '//*[@id="searchLayer"]//a[@href="/vcards/0/"]': '',
@@ -80,14 +80,14 @@ module.exports = {
           click: '*[id="searchLayer"] a[href="/vcards/0/"]'
         },
         'search result: click vcard 0': {
-          title: 'Webserver - vcard',
+          title: 'VCard Editor',
           elements: {
             '//*[@id="version"]//*[@class="field-value"]': '2.1'
           },
           click: '#searchButton'
         },
         'search layer open again': {
-          title: 'Webserver - vcard',
+          title: 'VCard Editor',
           elements: {
             '//*[@class="search-headline"]': 'Suchen',
             '//form[@name="searchForm"]': '',
@@ -101,7 +101,7 @@ module.exports = {
           click: 'input[type="submit"]'
         },
         'search result for version=3': {
-          title: 'Webserver - vcard',
+          title: 'VCard Editor',
           elements: {
             '//*[@id="searchLayer"]/div/h2': 'Suchen',
             '//a[@class="button open"]': 'öffnen',
@@ -114,7 +114,7 @@ module.exports = {
           click: '#searchAgain'
         },
         'search again': {
-          title: 'Webserver - vcard',
+          title: 'VCard Editor',
           elements: {
             '//*[@class="search-headline"]': 'Suchen',
             '//form[@name="searchForm"]': '',
@@ -128,7 +128,7 @@ module.exports = {
           click: 'input[type="submit"]'
         },
         'search for name=XXX': {
-          title: 'Webserver - vcard',
+          title: 'VCard Editor',
           elements: {
             '//*[@id="searchLayer"]/div/h2': 'Suchen'
           },
