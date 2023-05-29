@@ -6,8 +6,7 @@
 
 'use strict';
 
-const { body, validationResult } = require('express-validator/check'),
-  { sanitizeBody } = require('express-validator/filter'),
+const { body, validationResult, sanitizeBody } = require('express-validator'),
   path = require('path'),
   config = require('../../../lib/config'),
   model = require('./model.js');
