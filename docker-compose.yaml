@@ -16,7 +16,7 @@ services:
     volumes:
     - ./modules/vcards:/home/node/app/modules/vcards
     - ./coverage:/home/node/app/coverage
-    - ./key:/home/node/app/docs
+    - ./docs:/home/node/app/docs
     - ./fixture:/home/node/app/fixture
     - ./key:/home/node/app/key
 #    command: gulp --silent
