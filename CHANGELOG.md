@@ -2,6 +2,9 @@
 
 ## latest
 
+0.2.1
+refactoring and changes for docker-expressjs-boilerplate
+
 0.2.0
 rebase on docker-expressjs-boilerplate
 
