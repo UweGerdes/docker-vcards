@@ -113,7 +113,7 @@ const save = (req, res) => {
 const switchDataset = (req, res) => {
   const oldDatasetName = model.datasetName();
   model.switchDataset(req.params.name)
-    .then(() => { // jscs:ignore jsDoc
+    .then(() => {
       res.cookie('datasetName', req.params.name, { maxAge: 900000, httpOnly: true })
         .render(
           path.join(viewBase, 'index.pug'),
@@ -129,7 +129,7 @@ const switchDataset = (req, res) => {
           )
         );
     })
-    .catch((error) => { // jscs:ignore jsDoc
+    .catch((error) => {
       console.log('switchDataset error:', error);
       res.clearCookie('datasetName')
         .render(
@@ -228,7 +228,7 @@ const inputField = (req, res) => {
 const search = (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    res.status(404).render(path.join(viewBase, 'errors.pug'), { // jscs:ignore jsDoc
+    res.status(404).render(path.join(viewBase, 'errors.pug'), {
       errors: errors.array()
     });
   } else {
@@ -279,13 +279,13 @@ const download = (req, res) => {
 const upload = (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    res.status(404).render(path.join(viewBase, 'errors.pug'), { // jscs:ignore jsDoc
+    res.status(404).render(path.join(viewBase, 'errors.pug'), {
       errors: errors.array()
     });
   } else {
     const oldDatasetName = model.datasetName();
     model.upload(req.file)
-      .then(() => { // jscs:ignore jsDoc
+      .then(() => {
         res.cookie(
           'datasetName',
           path.basename(req.file.originalname),
@@ -305,7 +305,7 @@ const upload = (req, res) => {
             )
           );
       })
-      .catch((error) => { // jscs:ignore jsDoc
+      .catch((error) => {
         console.log('switchDataset error:', error);
         res.render(
           path.join(viewBase, 'index.pug'),
@@ -352,7 +352,7 @@ function type(value) {
     if (typeof value === 'string' && value.length > 0) {
       typelist.push(model.types[value] || value);
     } else {
-      value.forEach((item) => { // jscs:ignore jsDoc
+      value.forEach((item) => {
         typelist.push(model.types[item] || item);
       });
     }

@@ -4,8 +4,6 @@
 
 'use strict';
 
-/* jshint browser: true */
-
 let handler = {};
 
 /**
@@ -14,26 +12,26 @@ let handler = {};
 handler['data-modal'] = {
   elements: [window],
   event: 'load',
-  func: () => { // jscs:ignore jsDoc
+  func: () => {
     const elements = document.querySelectorAll('[data-modal]');
-    elements.forEach((element) => { // jscs:ignore jsDoc
+    elements.forEach((element) => {
       const toggleList = document.querySelectorAll(element.dataset.modal);
-      element.addEventListener('click', () => { // jscs:ignore jsDoc
-        toggleList.forEach((toggled) => { // jscs:ignore jsDoc
+      element.addEventListener('click', () => {
+        toggleList.forEach((toggled) => {
           toggled.classList.remove('hidden');
         });
         document.getElementById('footer').classList.add('hidden');
         document.getElementById('page').classList.add('modalOpen');
       });
-      toggleList.forEach((toggled) => { // jscs:ignore jsDoc
+      toggleList.forEach((toggled) => {
         if (toggled !== element) {
-          toggled.addEventListener('click', () => { // jscs:ignore jsDoc
+          toggled.addEventListener('click', () => {
             toggled.classList.add('hidden');
             document.getElementById('footer').classList.remove('hidden');
             document.getElementById('page').classList.remove('modalOpen');
           });
-          toggled.childNodes.forEach((child) => { // jscs:ignore jsDoc
-            child.addEventListener('click', (event) => { // jscs:ignore jsDoc
+          toggled.childNodes.forEach((child) => {
+            child.addEventListener('click', (event) => {
               event.stopPropagation();
             });
           });
@@ -49,12 +47,12 @@ handler['data-modal'] = {
 handler['searchForm-submit'] = {
   elements: document.querySelectorAll('#searchForm'),
   event: 'submit',
-  func: (event) => { // jscs:ignore jsDoc
+  func: (event) => {
     event.preventDefault();
     const form = document.getElementById('searchForm');
     const formData = new FormData(form);
     const xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () { // jscs:ignore jsDoc
+    xhttp.onreadystatechange = function () {
       if (this.readyState === 4) {
         document.getElementById('searchResult').innerHTML = '';
         document.getElementById('searchErrors').innerHTML = '';
@@ -69,7 +67,7 @@ handler['searchForm-submit'] = {
       }
     };
     const searchFieldList = [];
-    document.searchForm.searchFields.forEach((field) => { // jscs:ignore jsDoc
+    document.searchForm.searchFields.forEach((field) => {
       if (field.checked) {
         searchFieldList.push(field.nextSibling.textContent);
       }
@@ -91,11 +89,11 @@ handler['searchForm-submit'] = {
 handler['data-select-xhr'] = {
   elements: document.querySelectorAll('select[data-select-xhr]'),
   event: 'change',
-  func: (event) => { // jscs:ignore jsDoc
+  func: (event) => {
     const element = event.target;
     if (element.value !== '') {
       const xhttp = new XMLHttpRequest();
-      xhttp.onreadystatechange = function () { // jscs:ignore jsDoc
+      xhttp.onreadystatechange = function () {
         if (this.readyState === 4) {
           if (this.status === 200) {
             element.insertAdjacentHTML('beforeBegin', this.responseText);
@@ -138,10 +136,10 @@ handler['data-select-xhr'] = {
 handler['data-click-xhr'] = {
   elements: document.querySelectorAll('[data-click-xhr]'),
   event: 'click',
-  func: function (event) { // jscs:ignore jsDoc
+  func: function (event) {
     const element = event.target;
     const xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () { // jscs:ignore jsDoc
+    xhttp.onreadystatechange = function () {
       if (this.readyState === 4) {
         if (this.status === 200) {
           element.insertAdjacentHTML('beforeBegin', this.responseText);
@@ -168,7 +166,7 @@ handler['data-click-xhr'] = {
 handler['data-select-url'] = {
   elements: document.querySelectorAll('[data-select-url]'),
   event: 'change',
-  func: function (event) { // jscs:ignore jsDoc
+  func: function (event) {
     const element = event.target;
     const value = element[element.selectedIndex].value;
     console.log('open', element.getAttribute('data-select-url') + value);
@@ -182,7 +180,7 @@ handler['data-select-url'] = {
 handler['data-open-url'] = {
   elements: document.querySelectorAll('[data-open-url]'),
   event: 'click',
-  func: function (event) { // jscs:ignore jsDoc
+  func: function (event) {
     const element = event.target;
     document.location.href = element.getAttribute('data-open-url');
   }
@@ -194,12 +192,12 @@ handler['data-open-url'] = {
 handler['data-filename-from'] = {
   elements: document.querySelectorAll('input[type="file"]'),
   event: 'change',
-  func: function (event) { // jscs:ignore jsDoc
+  func: function (event) {
     const element = event.target;
     if (element.id) {
       const filename = element.value.replace(/^.*(\\|\/)/, '');
       const labelElements = document.querySelectorAll('[data-filename-from="' + element.id + '"]');
-      labelElements.forEach(el => { // jscs:ignore jsDoc
+      labelElements.forEach(el => {
         el.innerText = 'Datei: ' + filename;
       });
     }
@@ -226,8 +224,8 @@ function attachEventHandler(element, event, handler) {
 /**
  * attach event handlers
  */
-Object.values(handler).forEach((handler) => { // jscs:ignore jsDoc
-  handler.elements.forEach((element) => { // jscs:ignore jsDoc
+Object.values(handler).forEach((handler) => {
+  handler.elements.forEach((element) => {
     attachEventHandler(element, handler.event, handler.func);
   });
 });

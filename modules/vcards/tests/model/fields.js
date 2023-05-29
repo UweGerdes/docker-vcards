@@ -7,9 +7,6 @@
 const assert = require('assert');
 const model = require('../../server/model.js');
 
-/* jshint mocha: true */
-/* jscs:disable jsDoc */
-
 describe('tests/model/fields', () => {
   it('should have fields', () => {
     assert.equal(Object.keys(model.fields).length > 0, true, 'fields.length > 0');

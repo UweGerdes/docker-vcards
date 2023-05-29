@@ -9,9 +9,6 @@ const assert = require('assert'),
 
 const model = require('../../server/model.js');
 
-/* jshint mocha: true */
-/* jscs:disable jsDoc */
-
 describe('tests/model/model', () => {
   describe('getTestData()', () => {
     it('should dive into the data structure', () => {

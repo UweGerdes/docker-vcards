@@ -4,8 +4,6 @@
 
 'use strict';
 
-/* jshint expr: true, mocha: true, browser: true */
-
 const chai = require('chai'),
   chaiHttp = require('chai-http'),
   jsdom = require('jsdom'),
@@ -15,6 +13,32 @@ const chai = require('chai'),
 chai.use(chaiHttp);
 
 const url = 'http://0.0.0.0:8080';
+
+const formDataCompare = {
+  version: '2.1',
+  n: '{"Nachname":"Gerdes","Vorname":"Uwe"}',
+  fn: 'Uwe Gerdes',
+  tel10: '040 256486',
+  tel10_type: 'voice',
+  tel11: '0179 3901008',
+  tel11_type: 'cell',
+  tel20: '+49 40 25178252',
+  tel20_type: 'voice',
+  tel21: '01793901008',
+  tel21_type: 'cell',
+  email10: 'uwe@uwegerdes.de',
+  email10_type: 'pref',
+  email20: 'entwicklung@uwegerdes.de',
+  email20_type: 'internet',
+  url: 'http://www.uwegerdes.de/',
+  adr20: '{"Straße":"Klaus-Groth-Str. 22","Ort":"Hamburg","PLZ":"20535","Land":"Germany"}',
+  adr20_type: 'home',
+  rev: '24.08.2014, 20:50:00',
+  xGroupMembership10: 'Ich',
+  xGroupMembership11: 'Uwe',
+  xGroupMembership21: 'Entwickler',
+  xStatus: 'merge'
+};
 
 describe('tests/server/merge', function () {
   let oldDatasetName;
@@ -110,29 +134,3 @@ describe('tests/server/merge', function () {
     });
   });
 });
-
-const formDataCompare = {
-  version: '2.1',
-  n: '{"Nachname":"Gerdes","Vorname":"Uwe"}',
-  fn: 'Uwe Gerdes',
-  tel10: '040 256486',
-  tel10_type: 'voice',
-  tel11: '0179 3901008',
-  tel11_type: 'cell',
-  tel20: '+49 40 25178252',
-  tel20_type: 'voice',
-  tel21: '01793901008',
-  tel21_type: 'cell',
-  email10: 'uwe@uwegerdes.de',
-  email10_type: 'pref',
-  email20: 'entwicklung@uwegerdes.de',
-  email20_type: 'internet',
-  url: 'http://www.uwegerdes.de/',
-  adr20: '{"Straße":"Klaus-Groth-Str. 22","Ort":"Hamburg","PLZ":"20535","Land":"Germany"}',
-  adr20_type: 'home',
-  rev: '24.08.2014, 20:50:00',
-  xGroupMembership10: 'Ich',
-  xGroupMembership11: 'Uwe',
-  xGroupMembership21: 'Entwickler',
-  xStatus: 'merge'
-};

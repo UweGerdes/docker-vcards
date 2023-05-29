@@ -8,9 +8,6 @@ const assert = require('assert'),
   path = require('path');
 const model = require('../../server/model.js');
 
-/* jshint mocha: true */
-/* jscs:disable jsDoc */
-
 describe('tests/model/umlaut', () => {
   let testData = [];
   before(function (done) {

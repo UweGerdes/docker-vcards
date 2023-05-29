@@ -4,8 +4,6 @@
 
 'use strict';
 
-/* jshint expr: true, mocha: true, browser: true */
-
 const chai = require('chai'),
   chaiHttp = require('chai-http'),
   jsdom = require('jsdom'),
@@ -15,6 +13,21 @@ const chai = require('chai'),
 chai.use(chaiHttp);
 
 const url = 'http://0.0.0.0:8080';
+
+const formDataCompare = {
+  'version': '2.1',
+  'fn': 'Uwe Gerdes',
+  'email10': 'pinkpighh@googlemail.com',
+  'email10_type': 'pref',
+  'email20': 'uwe@uwegerdes.de',
+  'email20_type': 'pref',
+  'url': 'http://www.google.com/profiles/108735976046160800643',
+  'xGroupMembership10': 'My Contacts',
+  'tel20': '040 256486',
+  'tel20_type': 'voice',
+  'tel21': '0179 3901008',
+  'tel21_type': 'cell'
+};
 
 describe('tests/server/image', function () {
   let oldDatasetName;
@@ -172,7 +185,7 @@ describe('tests/server/image', function () {
             formData[current.value[0]] = current.value[1];
           }
           // console.log(JSON.stringify(formData));
-          Object.keys(formDataCompare).forEach(key => { // jscs:ignore jsDoc
+          Object.keys(formDataCompare).forEach(key => {
             assert.equal(
               formData[key],
               formDataCompare[key],
@@ -185,18 +198,3 @@ describe('tests/server/image', function () {
     });
   });
 });
-
-const formDataCompare = {
-  'version': '2.1',
-  'fn': 'Uwe Gerdes',
-  'email10': 'pinkpighh@googlemail.com',
-  'email10_type': 'pref',
-  'email20': 'uwe@uwegerdes.de',
-  'email20_type': 'pref',
-  'url': 'http://www.google.com/profiles/108735976046160800643',
-  'xGroupMembership10': 'My Contacts',
-  'tel20': '040 256486',
-  'tel20_type': 'voice',
-  'tel21': '0179 3901008',
-  'tel21_type': 'cell'
-};

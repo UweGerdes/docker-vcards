@@ -26,323 +26,6 @@ let datasetName,
   lists = { },
   selections = { };
 
-class Vcard {
-  /**
-   * build a vcard
-   *
-   * @param {object} vcard - vcf object
-   * @param {int} id - item id
-   */
-  constructor(vcard, id) {
-    this.vcard = vcard;
-    this.id = id;
-    this.fields = [];
-    if (vcard) {
-      if (vcard.data) {
-        this.fields = Object.keys(this.vcard.data);
-      } else {
-        console.log('cannot set fields for new vcard:', typeof vcard);
-      }
-    }
-    this.prop = new Proxy(
-      {},
-      {
-        get: (obj, name) => { // jscs:ignore jsDoc
-          let value = getValue(this.vcard, name);
-          let data = this.vcard.get(name);
-          let prop;
-          if (fields[name].type === 'list') {
-            if (!(value instanceof Array)) {
-              prop = [{ value: value }];
-              if (data && data.type) {
-                prop[0].type = data.type;
-              }
-            } else {
-              prop = value;
-            }
-            if (fields[name].clean) {
-              let values = [];
-              let propList = [];
-              prop.forEach((entry) => { // jscs:ignore jsDoc
-                const cleanValue = fields[name].clean(entry.value);
-                if (values.indexOf(cleanValue) < 0) {
-                  values.push(cleanValue);
-                  propList.push(entry);
-                }
-              });
-              prop = propList;
-            }
-          } else if (fields[name].type === 'timestamp') {
-            if (value) {
-              prop = {
-                value: (new Date(value
-                  .replace(/(.{4})(.{2})(.{2})T(.{2})(.{2})(.{2})Z/, '$1-$2-$3T$4:$5:$6Z'))).toLocaleString('de-DE', {
-                  day: '2-digit',
-                  month: '2-digit',
-                  year: 'numeric',
-                  hour: '2-digit',
-                  minute: '2-digit',
-                  second: '2-digit',
-                  hour12: false,
-                  timeZone: 'Europe/Berlin'
-                })
-              };
-              // console.log(value, new Date(value.
-              //         replace(/(.{4})(.{2})(.{2})T(.{2})(.{2})(.{2})Z/, '$1-$2-$3T$4:$5:$6Z')
-              //       ), prop.value);
-            } else {
-              prop = { };
-            }
-          } else if (fields[name].type === 'date') {
-            if (value) {
-              prop = { value: value.replace(/([0-9]{4})-?([0-9]{2})-?([0-9]{2})/, '$3.$2.$1') };
-            } else {
-              prop = { };
-            }
-          } else {
-            prop = { value: value };
-            if (data) {
-              if (data.type) {
-                prop.type = data.type;
-              }
-              if (data.encoding) {
-                prop.encoding = data.encoding;
-              }
-              if (data.charset) {
-                prop.charset = data.charset;
-              }
-            }
-          }
-          return prop;
-        },
-        set: (obj, name, data) => { // jscs:ignore jsDoc
-          // console.log('set', name, data);
-          let value = data.value;
-          const params = data.params;
-          // if (fields[name].type === 'image') {
-          //  console.log('set', name, data);
-          // }
-          if (fields[name].parts) {
-            const v = fields[name].parts.map(part => value[part] || ''); // jscs:ignore jsDoc
-            if (v.join('')) {
-              if (!/^[\x00-\x7F]*$/.test(v.join(''))) { // eslint-disable-line no-control-regex
-                params.encoding = 'QUOTED-PRINTABLE';
-                params.charset = 'UTF-8';
-                value = v.map(p => encodeQP(p)).join(';'); // jscs:ignore jsDoc
-              } else {
-                value = v.join(';');
-              }
-            }
-          } else if (fields[name].type === 'timestamp') {
-            value = (new Date(value.replace(/^([0-9]+)\.([0-9]+)\./, '$2.$1.')))
-              .toISOString().replace(/\.0+Z/, 'Z').replace(/[:-]/g, '');
-          } else if (fields[name].type === 'date') {
-            value = value.replace(/([0-9]+)\.([0-9]+)\.([0-9]+)/, '$3-$2-$1');
-          } else if (typeof value === 'string' && !/^[\x00-\x7F]*$/.test(value)) { // eslint-disable-line no-control-regex
-            params.encoding = 'QUOTED-PRINTABLE';
-            params.charset = 'UTF-8';
-            value = encodeQP(value);
-          }
-          // if (fields[name].type === 'image') {
-          //  console.log('prepared', name, value, params);
-          // }
-          if (value) {
-            if (fields[name].type === 'list' && this.vcard.get(name)) {
-              this.vcard.add(name, value, params);
-            } else {
-              this.vcard.set(name, value, params);
-            }
-          }
-          if (this.fields.indexOf(name) < 0) {
-            this.fields.push(name);
-          }
-          return true;
-        }
-      }
-    );
-
-    this.text = new Proxy(
-      {},
-      {
-        get: (obj, name) => { // jscs:ignore jsDoc
-          return propToString(this.prop[name], name);
-        }
-      }
-    );
-  }
-
-  /**
-   * get the vcard field
-   *
-   * @param {string} field - name of field
-   * @returns {map} - data
-   */
-  get(field) {
-    return this.vcard.get(field);
-  }
-
-  /**
-   * check if vcard matches this filter
-   *
-   * @param {object} filter - searchFields and searchString
-   * @returns {boolean} - match result
-   */
-  matches(filter) {
-    if (filter && filter.searchString && filter.searchString.length > 0) {
-      let hit = false;
-      let searchFields = filter.searchFields || ['fn'];
-      if (typeof searchFields === 'string') {
-        searchFields = [searchFields];
-      }
-      searchFields.forEach((field) => { // jscs:ignore jsDoc
-        hit = hit || this.text[field].indexOf(filter.searchString) >= 0;
-      });
-      return hit;
-    }
-    return true;
-  }
-
-  /**
-   * get JSON
-   *
-   * @returns {object} - data
-   */
-  toJSON() {
-    return this.vcard.toJSON();
-  }
-
-  /**
-   * get VCF
-   *
-   * @returns {string} - data
-   */
-  toVCF() {
-    if (this.vcard.toString() === '[object Object]') {
-      console.log('[object Object]', Object.keys(this.vcard));
-    } else {
-      let vcardString = this.vcard.toString()
-        .replace(/VERSION:.\.0/g, 'VERSION:2.1')
-        .replace(/TYPE=([a-z]+),/g, 'TYPE=$1;')
-        .replace(/TYPE=([a-z;]+),/g, 'TYPE=$1;')
-        .replace(/TYPE=([a-z;]+):/g, function (v) { // jscs:ignore jsDoc
-          return v.replace(/TYPE=([a-z;]+):/, '$1:').toUpperCase();
-        })
-        .replace(/TEL.+$/g, function (v) { // jscs:ignore jsDoc
-          return v.replace(/[^a-zA-Z0-9.;:]/g, '').toUpperCase();
-        })
-        .replace(/X-STATUS:[^\n]+\n/g, '');
-      return vcardString + '\r';
-    }
-  }
-}
-
-/**
- * get the field value
- *
- * @param {Vcard} vcard - to find the field
- * @param {string} name - name of field
- * @returns {string} - value
- */
-function getValue(vcard, name) {
-  if (vcard.get(name)) {
-    let value = vcard.get(name).valueOf();
-    let data = vcard.get(name);
-    if (typeof value === 'string') {
-      if (fields[name] && fields[name].parts) {
-        const parts = value.split(/;/);
-        let map = {};
-        fields[name].parts.forEach((part, i) => { // jscs:ignore jsDoc
-          if (parts[i]) {
-            if (data.encoding && data.encoding === 'QUOTED-PRINTABLE') {
-              map[part] = libqp.decode(parts[i]).toString();
-            } else {
-              map[part] = parts[i];
-            }
-          }
-        });
-        return map;
-      } else {
-        if (data.encoding && data.encoding === 'QUOTED-PRINTABLE') {
-          value = libqp.decode(value).toString();
-        }
-        return value;
-      }
-    } else {
-      let result = [];
-      value.forEach((entry) => { // jscs:ignore jsDoc
-        let prop = {
-          value: entry.valueOf()
-        };
-        if (entry.type) {
-          prop.type = entry.type;
-        }
-        if (entry.charset) {
-          prop.charset = entry.charset;
-        }
-        if (entry.encoding) {
-          prop.encoding = entry.encoding;
-          if (entry.encoding === 'QUOTED-PRINTABLE') {
-            prop.value = libqp.decode(entry.valueOf()).toString();
-          }
-        }
-        result.push(prop);
-      });
-      return result;
-    }
-  } else {
-    return '';
-  }
-}
-
-/**
- * propToString
- *
- * @param {object} prop - to convert
- * @param {object} field - name
- * @returns {string} - prop string
- */
-function propToString(prop, field) {
-  let result;
-  if (prop instanceof Array) {
-    let list = [];
-    prop.forEach((p) => { // jscs:ignore jsDoc
-      list.push(propToString(p, field));
-    });
-    result = list.join('\n');
-  } else {
-    let value = prop.value;
-    if (value instanceof Object) {
-      result = Object.values(value).join(', ');
-    } else {
-      let type = '';
-      if (prop.type && fields[field]) {
-        if (fields[field].type !== 'image') {
-          type = ' (' + (prop.type instanceof Array ? prop.type.join(', ') : prop.type) + ')';
-        }
-      }
-      result = value + type;
-    }
-  }
-  return result;
-}
-
-/**
- * encodeQP
- *
- * @param {string} value - to convert
- * @returns {string} - quoted printable string
- */
-function encodeQP(value) {
-  return Array.prototype.map.call(value, x => { // jscs:ignore jsDoc
-    const c = x.charCodeAt(0);
-    if (c <= 127) {
-      return '=' + ('0' + (Number(c).toString(16))).slice(-2).toUpperCase();
-    } else {
-      return libqp.encode(x);
-    }
-  }).join('');
-}
-
 const fields = {
   version: {
     label: 'Version',
@@ -425,7 +108,7 @@ const fields = {
     label: 'Revision',
     type: 'timestamp',
     size: 30,
-    default: () => { // jscs:ignore jsDoc
+    default: () => {
       return (new Date()).toLocaleString(
         'de-DE',
         {
@@ -445,7 +128,7 @@ const fields = {
     label: 'Status',
     type: 'text',
     size: 30,
-    default: (status) => { // jscs:ignore jsDoc
+    default: (status) => {
       return status || '';
     }
   },
@@ -453,7 +136,7 @@ const fields = {
     label: 'Timestamp',
     type: 'timestamp',
     size: 30,
-    default: () => { // jscs:ignore jsDoc
+    default: () => {
       return (new Date()).toLocaleString(
         'de-DE',
         {
@@ -482,6 +165,322 @@ const types = {
   pref: '!',
   internet: 'Web'
 };
+
+class Vcard {
+  /**
+   * build a vcard
+   *
+   * @param {object} vcard - vcf object
+   * @param {int} id - item id
+   */
+  constructor(vcard, id) {
+    this.vcard = vcard;
+    this.id = id;
+    if (vcard) {
+      if (vcard.data) {
+        this.fields = Object.keys(this.vcard.data);
+      } else {
+        console.log('cannot set fields for new vcard:', typeof vcard);
+      }
+    }
+    this.prop = new Proxy(
+      {},
+      {
+        get: (obj, name) => {
+          let value = getValue(this.vcard, name);
+          let data = this.vcard.get(name);
+          let prop;
+          if (fields[name].type === 'list') {
+            if (!(value instanceof Array)) {
+              prop = [{ value: value }];
+              if (data && data.type) {
+                prop[0].type = data.type;
+              }
+            } else {
+              prop = value;
+            }
+            if (fields[name].clean) {
+              let values = [];
+              let propList = [];
+              prop.forEach((entry) => {
+                const cleanValue = fields[name].clean(entry.value);
+                if (values.indexOf(cleanValue) < 0) {
+                  values.push(cleanValue);
+                  propList.push(entry);
+                }
+              });
+              prop = propList;
+            }
+          } else if (fields[name].type === 'timestamp') {
+            if (value) {
+              prop = {
+                value: (new Date(value
+                  .replace(/(.{4})(.{2})(.{2})T(.{2})(.{2})(.{2})Z/, '$1-$2-$3T$4:$5:$6Z'))).toLocaleString('de-DE', {
+                  day: '2-digit',
+                  month: '2-digit',
+                  year: 'numeric',
+                  hour: '2-digit',
+                  minute: '2-digit',
+                  second: '2-digit',
+                  hour12: false,
+                  timeZone: 'Europe/Berlin'
+                })
+              };
+              // console.log(value, new Date(value.
+              //         replace(/(.{4})(.{2})(.{2})T(.{2})(.{2})(.{2})Z/, '$1-$2-$3T$4:$5:$6Z')
+              //       ), prop.value);
+            } else {
+              prop = { };
+            }
+          } else if (fields[name].type === 'date') {
+            if (value) {
+              prop = { value: value.replace(/([0-9]{4})-?([0-9]{2})-?([0-9]{2})/, '$3.$2.$1') };
+            } else {
+              prop = { };
+            }
+          } else {
+            prop = { value: value };
+            if (data) {
+              if (data.type) {
+                prop.type = data.type;
+              }
+              if (data.encoding) {
+                prop.encoding = data.encoding;
+              }
+              if (data.charset) {
+                prop.charset = data.charset;
+              }
+            }
+          }
+          return prop;
+        },
+        set: (obj, name, data) => {
+          // console.log('set', name, data);
+          let value = data.value;
+          const params = data.params;
+          // if (fields[name].type === 'image') {
+          //  console.log('set', name, data);
+          // }
+          if (fields[name].parts) {
+            const v = fields[name].parts.map(part => value[part] || '');
+            if (v.join('')) {
+              if (!/^[\x00-\x7F]*$/.test(v.join(''))) { // eslint-disable-line no-control-regex
+                params.encoding = 'QUOTED-PRINTABLE';
+                params.charset = 'UTF-8';
+                value = v.map(p => encodeQP(p)).join(';');
+              } else {
+                value = v.join(';');
+              }
+            }
+          } else if (fields[name].type === 'timestamp') {
+            value = (new Date(value.replace(/^([0-9]+)\.([0-9]+)\./, '$2.$1.')))
+              .toISOString().replace(/\.0+Z/, 'Z').replace(/[:-]/g, '');
+          } else if (fields[name].type === 'date') {
+            value = value.replace(/([0-9]+)\.([0-9]+)\.([0-9]+)/, '$3-$2-$1');
+          } else if (typeof value === 'string' && !/^[\x00-\x7F]*$/.test(value)) { // eslint-disable-line no-control-regex
+            params.encoding = 'QUOTED-PRINTABLE';
+            params.charset = 'UTF-8';
+            value = encodeQP(value);
+          }
+          // if (fields[name].type === 'image') {
+          //  console.log('prepared', name, value, params);
+          // }
+          if (value) {
+            if (fields[name].type === 'list' && this.vcard.get(name)) {
+              this.vcard.add(name, value, params);
+            } else {
+              this.vcard.set(name, value, params);
+            }
+          }
+          if (this.fields.indexOf(name) < 0) {
+            this.fields.push(name);
+          }
+          return true;
+        }
+      }
+    );
+
+    this.text = new Proxy(
+      {},
+      {
+        get: (obj, name) => {
+          return propToString(this.prop[name], name);
+        }
+      }
+    );
+  }
+
+  /**
+   * get the vcard field
+   *
+   * @param {string} field - name of field
+   * @returns {map} - data
+   */
+  get(field) {
+    return this.vcard.get(field);
+  }
+
+  /**
+   * check if vcard matches this filter
+   *
+   * @param {object} filter - searchFields and searchString
+   * @returns {boolean} - match result
+   */
+  matches(filter) {
+    if (filter && filter.searchString && filter.searchString.length > 0) {
+      let hit = false;
+      let searchFields = filter.searchFields || ['fn'];
+      if (typeof searchFields === 'string') {
+        searchFields = [searchFields];
+      }
+      searchFields.forEach((field) => {
+        hit = hit || this.text[field].indexOf(filter.searchString) >= 0;
+      });
+      return hit;
+    }
+    return true;
+  }
+
+  /**
+   * get JSON
+   *
+   * @returns {object} - data
+   */
+  toJSON() {
+    return this.vcard.toJSON();
+  }
+
+  /**
+   * get VCF
+   *
+   * @returns {string} - data
+   */
+  toVCF() {
+    if (this.vcard.toString() === '[object Object]') {
+      console.log('[object Object]', Object.keys(this.vcard));
+    } else {
+      let vcardString = this.vcard.toString()
+        .replace(/VERSION:.\.0/g, 'VERSION:2.1')
+        .replace(/TYPE=([a-z]+),/g, 'TYPE=$1;')
+        .replace(/TYPE=([a-z;]+),/g, 'TYPE=$1;')
+        .replace(/TYPE=([a-z;]+):/g, function (v) {
+          return v.replace(/TYPE=([a-z;]+):/, '$1:').toUpperCase();
+        })
+        .replace(/TEL.+$/g, function (v) {
+          return v.replace(/[^a-zA-Z0-9.;:]/g, '').toUpperCase();
+        })
+        .replace(/X-STATUS:[^\n]+\n/g, '');
+      return vcardString + '\r';
+    }
+  }
+}
+
+/**
+ * get the field value
+ *
+ * @param {Vcard} vcard - to find the field
+ * @param {string} name - name of field
+ * @returns {string} - value
+ */
+function getValue(vcard, name) {
+  if (vcard.get(name)) {
+    let value = vcard.get(name).valueOf();
+    let data = vcard.get(name);
+    if (typeof value === 'string') {
+      if (fields[name] && fields[name].parts) {
+        const parts = value.split(/;/);
+        let map = {};
+        fields[name].parts.forEach((part, i) => {
+          if (parts[i]) {
+            if (data.encoding && data.encoding === 'QUOTED-PRINTABLE') {
+              map[part] = libqp.decode(parts[i]).toString();
+            } else {
+              map[part] = parts[i];
+            }
+          }
+        });
+        return map;
+      } else {
+        if (data.encoding && data.encoding === 'QUOTED-PRINTABLE') {
+          value = libqp.decode(value).toString();
+        }
+        return value;
+      }
+    } else {
+      let result = [];
+      value.forEach((entry) => {
+        let prop = {
+          value: entry.valueOf()
+        };
+        if (entry.type) {
+          prop.type = entry.type;
+        }
+        if (entry.charset) {
+          prop.charset = entry.charset;
+        }
+        if (entry.encoding) {
+          prop.encoding = entry.encoding;
+          if (entry.encoding === 'QUOTED-PRINTABLE') {
+            prop.value = libqp.decode(entry.valueOf()).toString();
+          }
+        }
+        result.push(prop);
+      });
+      return result;
+    }
+  } else {
+    return '';
+  }
+}
+
+/**
+ * propToString
+ *
+ * @param {object} prop - to convert
+ * @param {object} field - name
+ * @returns {string} - prop string
+ */
+function propToString(prop, field) {
+  let result;
+  if (prop instanceof Array) {
+    let list = [];
+    prop.forEach((p) => {
+      list.push(propToString(p, field));
+    });
+    result = list.join('\n');
+  } else {
+    let value = prop.value;
+    if (value instanceof Object) {
+      result = Object.values(value).join(', ');
+    } else {
+      let type = '';
+      if (prop.type && fields[field]) {
+        if (fields[field].type !== 'image') {
+          type = ' (' + (prop.type instanceof Array ? prop.type.join(', ') : prop.type) + ')';
+        }
+      }
+      result = value + type;
+    }
+  }
+  return result;
+}
+
+/**
+ * encodeQP
+ *
+ * @param {string} value - to convert
+ * @returns {string} - quoted printable string
+ */
+function encodeQP(value) {
+  return Array.prototype.map.call(value, x => {
+    const c = x.charCodeAt(0);
+    if (c <= 127) {
+      return '=' + ('0' + (Number(c).toString(16))).slice(-2).toUpperCase();
+    } else {
+      return libqp.encode(x);
+    }
+  }).join('');
+}
 
 /**
  * get cleaned phone number for comparison
@@ -589,7 +588,7 @@ module.exports = {
    */
   toJSON: () => {
     let result = [];
-    Object.values(lists[datasetName]).forEach((item) => { // jscs:ignore jsDoc
+    Object.values(lists[datasetName]).forEach((item) => {
       result.push(item.toJSON());
     });
     return result;
@@ -603,7 +602,7 @@ module.exports = {
    */
   toVCF: (filter, sort) => {
     let result = [];
-    list(filter, sort).forEach((item) => { // jscs:ignore jsDoc
+    list(filter, sort).forEach((item) => {
       result.push(item.toVCF());
     });
     return result.join('\n') + '\n';
@@ -630,7 +629,7 @@ module.exports = {
   datasetFiles: () => {
     let paths = glob.sync(path.join(path.dirname(__dirname), 'data', '*.vcf'));
     paths
-      .forEach((p, i, paths) => { // jscs:ignore jsDoc
+      .forEach((p, i, paths) => {
         paths[i] = path.basename(p, path.extname(p));
       });
     return paths;
@@ -650,7 +649,7 @@ module.exports = {
 function list(filter, sort) {
   let result = [];
   if (filter) {
-    Object.values(lists[datasetName]).forEach((item) => { // jscs:ignore jsDoc
+    Object.values(lists[datasetName]).forEach((item) => {
       if (item.matches(filter)) {
         result.push(item);
       }
@@ -728,7 +727,7 @@ function uploadFile(file) {
 function parseVcfBuffer(buffer) {
   let vcards = {};
   const data = Vcf.parse(buffer);
-  data.forEach((item, id) => { // jscs:ignore jsDoc
+  data.forEach((item, id) => {
     const vcard = new Vcard(item, id);
     vcards[id] = vcard;
     updateGlobals(vcard);
@@ -743,15 +742,15 @@ function parseVcfBuffer(buffer) {
  * @param {object} data - data for new vcard
  * @param {object} files - list with files
  */
-const data2vcard = (index, data, files) => {
+function data2vcard(index, data, files) {
   const dataKeys = Object.keys(data);
   const vcard = new Vcard(new Vcf(), index);
-  Object.keys(fields).forEach((name) => { // jscs:ignore jsDoc
+  Object.keys(fields).forEach((name) => {
     const field = fields[name];
     if (field.type === 'list') {
       const re = new RegExp('^' + name + '([0-9]*)(' +
                             (field.parts ? '_' + field.parts_order[0] : '') + ')?$');
-      dataKeys.forEach(key => { // jscs:ignore jsDoc
+      dataKeys.forEach(key => {
         const match = re.exec(key);
         if (match) {
           const value = dataValue(data, name + match[1], field.parts);
@@ -764,7 +763,7 @@ const data2vcard = (index, data, files) => {
         }
       });
     } else if (field.type === 'image' && files && files.length) {
-      files.forEach(file => { // jscs:ignore jsDoc
+      files.forEach(file => {
         if (file.fieldname === name) {
           vcard.prop[name] = {
             value: file.buffer.toString('base64'),
@@ -787,22 +786,22 @@ const data2vcard = (index, data, files) => {
   }
   updateGlobals(vcard);
   return vcard;
-};
+}
 
 /**
  * get global values from vcard
  *
  * @param {object} vcard - data for new vcard
  */
-const updateGlobals = (vcard) => {
-  vcard.fields.forEach(name => { // jscs:ignore jsDoc
+function updateGlobals(vcard) {
+  vcard.fields.forEach(name => {
     if (fields[name]) {
       if (fields[name].selection) {
         if (selections[name] === undefined) {
           selections[name] = [];
         }
         if (fields[name].type === 'list') {
-          vcard.prop[name].forEach(prop => { // jscs:ignore jsDoc
+          vcard.prop[name].forEach(prop => {
             const value = prop.value;
             if (selections[name].indexOf(value) < 0) {
               selections[name].push(value);
@@ -825,7 +824,7 @@ const updateGlobals = (vcard) => {
       );
     }
   });
-};
+}
 
 /**
  * get value from form data
@@ -834,14 +833,14 @@ const updateGlobals = (vcard) => {
  * @param {string} name - fieldname
  * @param {object} parts - parts for entry
  */
-const dataValue = (data, name, parts) => {
+function dataValue(data, name, parts) {
   let value;
   if (parts) {
     if (data[name] && data[name].indexOf('{') === 0) {
       value = JSON.parse(data[name]);
     } else {
       value = {};
-      parts.forEach(part => { // jscs:ignore jsDoc
+      parts.forEach(part => {
         if (data[name + '_' + part]) {
           value[part] = data[name + '_' + part] || '';
         }
@@ -851,7 +850,7 @@ const dataValue = (data, name, parts) => {
     value = data[name];
   }
   return value;
-};
+}
 
 /**
  * get params map from form data
@@ -859,7 +858,7 @@ const dataValue = (data, name, parts) => {
  * @param {object} data - data for new vcard
  * @param {string} name - fieldname
  */
-const dataParams = (data, name) => {
+function dataParams(data, name) {
   let params = {};
   if (data[name + '_type']) {
     params.type = data[name + '_type'];
@@ -872,4 +871,4 @@ const dataParams = (data, name) => {
     params.charset = data[name + '_charset'];
   }
   return params;
-};
+}
